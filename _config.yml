@@ -76,6 +76,12 @@ sass:
 gems: 
   - jekyll-sitemap # Create a sitemap using the official Jekyll sitemap gem
   - jekyll-feed # Create an Atom feed using the official Jekyll feed gem
+  - jekyll-polyglot
+
+languages: ["en", "pt"]
+default_lang: "en"
+exclude_from_localization: ["javascript", "images", "css"]
+parallel_localization: true
 
 # Exclude these files from your production _site
 exclude:
