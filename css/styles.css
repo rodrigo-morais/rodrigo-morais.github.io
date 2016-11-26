@@ -256,6 +256,7 @@ nav {
   margin-top: 23px;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 18px;
+  clear: right;
 }
 @media screen and (max-width: 640px) {
   nav {
@@ -277,6 +278,12 @@ nav a {
     margin: 0 10px;
     color: #4183C4;
   }
+}
+
+nav.languages a {
+  margin-left: 10px;
+  margin-right: 10px;
+  text-align: center;
 }
 
 .posts > .post {
