@@ -1,4 +1,92 @@
-<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xml" href="https://rodrigo-morais.github.io/feed.xslt.xml"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.3.1">Jekyll</generator><link href="https://rodrigo-morais.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://rodrigo-morais.github.io/" rel="alternate" type="text/html" /><updated>2016-11-28T21:59:32+01:00</updated><id>https://rodrigo-morais.github.io//</id><title type="html">Rodrigo Morais</title><subtitle>Software Developer</subtitle><entry xml:lang="en"><title type="html">Welcome</title><link href="https://rodrigo-morais.github.io/welcome/" rel="alternate" type="text/html" title="Welcome" /><published>2016-11-28T00:00:00+01:00</published><updated>2016-11-28T00:00:00+01:00</updated><id>https://rodrigo-morais.github.io/welcome.en</id><content type="html" xml:base="https://rodrigo-morais.github.io/welcome/">&lt;p&gt;Hello guys!!!!&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xml" href="https://rodrigo-morais.github.io/feed.xslt.xml"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.3.1">Jekyll</generator><link href="https://rodrigo-morais.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://rodrigo-morais.github.io/" rel="alternate" type="text/html" /><updated>2016-11-29T20:56:34+01:00</updated><id>https://rodrigo-morais.github.io//</id><title type="html">In development</title><subtitle>Software Developer</subtitle><author><name>Rodrigo Morais</name></author><entry xml:lang="en"><title type="html">Using local storage with React and Redux</title><link href="https://rodrigo-morais.github.io/react-redux-local-storage/" rel="alternate" type="text/html" title="Using local storage with React and Redux" /><published>2016-11-29T00:00:00+01:00</published><updated>2016-11-29T00:00:00+01:00</updated><id>https://rodrigo-morais.github.io/react-redux-local-storage.en</id><content type="html" xml:base="https://rodrigo-morais.github.io/react-redux-local-storage/">&lt;p&gt;Usually our application starts &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Redux's&lt;/code&gt;&lt;/em&gt; store with an empty object to show that the application doesn’t have any data when it starts. In the future when users have some interaction or when the application gets some data from the back-end so the store will keep these data. It is the most commom way to use &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Redux&lt;/code&gt;&lt;/em&gt; in a &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;React&lt;/code&gt;&lt;/em&gt; project, at least in the projects which I worked til now, but sometimes we need another approach.
+To create a store with &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Redux&lt;/code&gt;&lt;/em&gt; we have to use a function called &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;createStore&lt;/code&gt;&lt;/em&gt; which receives our &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;reducers&lt;/code&gt;&lt;/em&gt; as parameters and should be imported from &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Redux&lt;/code&gt;&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;Ok, first we can use as an example a &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;reducer&lt;/code&gt;&lt;/em&gt; for a TODO application. Probably we have a file called &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;reducers.js&lt;/code&gt;&lt;/em&gt; to create it.&lt;/p&gt;
+
+&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kr&quot;&gt;export&lt;/span&gt; &lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;todos&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;state&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[],&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;action&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;switch&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;action&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;type&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;case&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;ADD_TODO&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;c1&quot;&gt;// add new todo&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;case&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;REMOV_TODO&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;c1&quot;&gt;// remove todos&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;default&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;nx&quot;&gt;state&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;With this &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;reducer&lt;/code&gt;&lt;/em&gt; we can create a store. To do it we have to import the &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;createStore&lt;/code&gt;&lt;/em&gt; function from &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Redux&lt;/code&gt;&lt;/em&gt; and our &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;reducers&lt;/code&gt;&lt;/em&gt; in the file which we are creating the store, which probably is called &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;app.js&lt;/code&gt;&lt;/em&gt; or something similar.&lt;/p&gt;
+
+&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kr&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;reducers&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'./reducers'&lt;/span&gt;
+&lt;span class=&quot;kr&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;createStore&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'redux'&lt;/span&gt;
+
+&lt;span class=&quot;kr&quot;&gt;export&lt;/span&gt; &lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;store&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;createStore&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;reducers&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Now we have our store with a TODO list which was initialized with empty array ([]).&lt;/p&gt;
+
+&lt;p&gt;Ok, it works pretty well. But in this case every time that our application is reloaded we lose all TODOs which we registered. If we have to keep they we have to save these TODOs in some database or something similar.
+Let’s think a little bit more and say that we have a more complex application which get some data from the back-end and they are not changed soon and we want to keep them when we reload the page. How can we do it?
+One solution to this situation is use the &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;local storage&lt;/code&gt;&lt;/em&gt; which is a small “database” inside our browser.&lt;/p&gt;
+
+&lt;p&gt;Let’s take a look how todo that in our TODO app.&lt;/p&gt;
+
+&lt;p&gt;First we have to create two functions to get data from the local storage and to save data there.
+For it we can create a file called &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;localStorage.js&lt;/code&gt;&lt;/em&gt; where we will have these functions.&lt;/p&gt;
+
+&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kr&quot;&gt;export&lt;/span&gt; &lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;loadState&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;try&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;serializedState&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;localStorage&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;getItem&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'state'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;serializedState&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;===&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;undefined&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;JSON&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;parse&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;serializedState&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;catch&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;err&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;undefined&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;kr&quot;&gt;export&lt;/span&gt; &lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;saveState&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;state&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;try&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;serializedState&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;JSON&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;stringify&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;state&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;localStorage&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;setItem&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'state'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;serializedState&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;catch&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;err&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;// ignore&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;To use the local storage is pretty simple, it works as a list of key-values. When we want get data we call the function &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;getItem&lt;/code&gt;&lt;/em&gt; from the global object called &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;localStorage&lt;/code&gt;&lt;/em&gt; passing the key as a parameter. And to save data we call the function &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;setItem&lt;/code&gt;&lt;/em&gt; from the same global object passing the key and the data.
+The data in local storage have to be always serialized and because of that when we load the data we have to deserialize using &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;JSON.parse&lt;/code&gt;&lt;/em&gt; and when we send data we have to serialize they with &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;JSON.stringify&lt;/code&gt;&lt;/em&gt;.
+Another point is that sometimes the local storage hasn’t permission to be accessed or for other reason we can get an error. Because of that, we have to use a try/catch when call functions from local storage.&lt;/p&gt;
+
+&lt;p&gt;Now we have to use our functions to save and load data from the local storage to our application.
+In our &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;app.js&lt;/code&gt;&lt;/em&gt; file we will import our &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;localStorage.js&lt;/code&gt;&lt;/em&gt; file and use its functions.&lt;/p&gt;
+
+&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kr&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;saveState&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;loadState&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'./localStorage'&lt;/span&gt;
+
+&lt;span class=&quot;kr&quot;&gt;export&lt;/span&gt; &lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;store&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;createStore&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;reducers&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;loadState&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;())&lt;/span&gt;
+
+&lt;span class=&quot;nx&quot;&gt;store&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;subscribe&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;saveState&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;({&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;todos&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;store&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;getState&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;todos&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Now in the function &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;createStore&lt;/code&gt;&lt;/em&gt; we are passing a second parameter which is the return of the function &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;loadSotre&lt;/code&gt;&lt;/em&gt; that we created to get the data from local storage. The function &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;createStore&lt;/code&gt;&lt;/em&gt; from &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Redux&lt;/code&gt;&lt;/em&gt; accepts to receive data to hydrate the store. Take a look in the &lt;a href=&quot;https://github.com/reactjs/redux/blob/master/docs/api/createStore.md&quot;&gt;documentation&lt;/a&gt;.
+To save the data in the local storage we are using a function called &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;subscribe&lt;/code&gt;&lt;/em&gt; from the store, which will be called every time when store is modified. For this function we are passing a function which call the &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;saveState&lt;/code&gt;&lt;/em&gt; function which we created before and it will receive a new state of todos to be save in local storage.&lt;/p&gt;
+
+&lt;p&gt;With this new implementation we can save data in the local storage and reuse data without hit on the back-end every time that we reload our app and still use til we close the browser or browser’s tab.&lt;/p&gt;
+
+&lt;p&gt;If you want test this approach, please, take a look in this &lt;a href=&quot;https://github.com/rodrigo-morais/react-redux-to-do&quot;&gt;repository&lt;/a&gt;.&lt;/p&gt;</content><author><name>Rodrigo Morais</name></author><summary type="html">Usually our application starts Redux's store with an empty object to show that the application doesn’t have any data when it starts. In the future when users have some interaction or when the application gets some data from the back-end so the store will keep these data. It is the most commom way to use Redux in a React project, at least in the projects which I worked til now, but sometimes we need another approach.
+To create a store with Redux we have to use a function called createStore which receives our reducers as parameters and should be imported from Redux.</summary></entry><entry xml:lang="en"><title type="html">Welcome</title><link href="https://rodrigo-morais.github.io/welcome/" rel="alternate" type="text/html" title="Welcome" /><published>2016-11-28T00:00:00+01:00</published><updated>2016-11-28T00:00:00+01:00</updated><id>https://rodrigo-morais.github.io/welcome.en</id><content type="html" xml:base="https://rodrigo-morais.github.io/welcome/">&lt;p&gt;Hello guys!!!!&lt;/p&gt;
 
 &lt;p&gt;Today I’m giving the kick off of my blog.&lt;/p&gt;
 
@@ -10,4 +98,4 @@
 
 &lt;p&gt;My objective here is not just share or teach something that I know or I’m doing, but I’d like to receive feedbacks about what I’m writing to be possible grow up with you learning as much as possible together. Therefore I invite you all to build the posts together participating with comentaries.&lt;/p&gt;
 
-&lt;p&gt;Thank you!&lt;/p&gt;</content><summary type="html">Hello guys!!!!</summary></entry></feed>
+&lt;p&gt;Thank you!&lt;/p&gt;</content><author><name>Rodrigo Morais</name></author><summary type="html">Hello guys!!!!</summary></entry></feed>

@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Using local storage with React and Redux –  – Software Developer</title>
+
+        <meta charset="utf-8" />
+    <meta content='text/html; charset=utf-8' http-equiv='Content-Type'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0'>
+
+    
+    <meta name="description" content="Geralmente nosssas applicações iniciam o Redux's store com um objeto vazio para mostrar que a aplicação não tem nenhum dado ao ser iniciada. No futuro quando usuários tiverem alguma interação ou quando a aplicação receber dados do back-end então o store irá manter esses dados. Essa é uma abordagem muito comum para usar Redux em um projeto React, ao menos em projetos no qual eu trabalhei até agora, mas as vezes nós necessitamos uma outra abordagem.
+
+" />
+    <meta property="og:description" content="Geralmente nosssas applicações iniciam o Redux's store com um objeto vazio para mostrar que a aplicação não tem nenhum dado ao ser iniciada. No futuro quando usuários tiverem alguma interação ou quando a aplicação receber dados do back-end então o store irá manter esses dados. Essa é uma abordagem muito comum para usar Redux em um projeto React, ao menos em projetos no qual eu trabalhei até agora, mas as vezes nós necessitamos uma outra abordagem.
+
+" />
+    
+    <meta name="author" content="" />
+
+    
+    <meta property="og:title" content="Using local storage with React and Redux" />
+    <meta property="twitter:title" content="Using local storage with React and Redux" />
+    
+
+    <!--[if lt IE 9]>
+      <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <link rel="stylesheet" type="text/css" href="/css/styles.css" />
+    <link rel="alternate" type="application/rss+xml" title=" - Software Developer" href="/pt_BR/feed.xml" />
+
+    <!-- Created with Jekyll Now - http://github.com/barryclark/jekyll-now -->
+  </head>
+
+  <body>
+    <div class="wrapper-masthead">
+      <div class="container">
+        <header class="masthead clearfix">
+          <a href="/pt_BR/" class="site-avatar"><img src="https://avatars.githubusercontent.com/rodrigo-morais" /></a>
+
+          <div class="site-info">
+            <h1 class="site-name"><a href="/pt_BR/">In development</a></h1>
+            <h3 class="site-author">Rodrigo Morais</h3>
+            <p class="site-description">Software Developer</p>
+          </div>
+
+          <nav class="languages"> 
+          
+          </nav>
+
+          <nav>
+            <a href="/pt_BR/">Blog</a>
+            <a href="/pt_BR/about">Sobre</a>
+          </nav>
+        </header>
+      </div>
+    </div>
+
+    <div id="main" role="main" class="container">
+      <article class="post">
+  
+    <nav class="languages"> 
+  
+    
+      <a href="https://rodrigo-morais.github.io/react-redux-local-storage/"><img src="https://rodrigo-morais.github.io/images/en-flag.png" /></a>
+    
+  
+    
+    <a href="https://rodrigo-morais.github.io/pt_BR/react-redux-local-storage/"><img src="https://rodrigo-morais.github.io/images/pt_BR-flag.png" /></a>
+    
+  
+</nav>
+
+  
+
+  <h1>Using local storage with React and Redux</h1>
+
+  <div class="entry">
+    <p>Geralmente nosssas applicações iniciam o <em><code class="highlighter-rouge">Redux's</code></em> store com um objeto vazio para mostrar que a aplicação não tem nenhum dado ao ser iniciada. No futuro quando usuários tiverem alguma interação ou quando a aplicação receber dados do back-end então o store irá manter esses dados. Essa é uma abordagem muito comum para usar <em><code class="highlighter-rouge">Redux</code></em> em um projeto <em><code class="highlighter-rouge">React</code></em>, ao menos em projetos no qual eu trabalhei até agora, mas as vezes nós necessitamos uma outra abordagem.</p>
+
+<p>Para criar um store com <em><code class="highlighter-rouge">Redux</code></em> nós temos que usar uma função chamada <em><code class="highlighter-rouge">createStore</code></em> qual nós importamos do <em><code class="highlighter-rouge">Redux</code></em> e passamos como parâmetro os nossos <em><code class="highlighter-rouge">reducers</code></em>.</p>
+
+<p>Ok, primeiro nós podemos usar como um exemplo um <em><code class="highlighter-rouge">reducer</code></em> para uma aplicação TODO. Provavelmente nós temos um arquivo chamado <em><code class="highlighter-rouge">reducers.js</code></em> para cria-lo.</p>
+
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kr">export</span> <span class="kr">const</span> <span class="nx">todos</span> <span class="o">=</span> <span class="p">(</span><span class="nx">state</span> <span class="o">=</span> <span class="p">[],</span> <span class="nx">action</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="k">switch</span> <span class="p">(</span><span class="nx">action</span><span class="p">.</span><span class="nx">type</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">case</span> <span class="na">ADD_TODO</span><span class="p">:</span>
+      <span class="c1">// add new todo</span>
+    <span class="k">case</span> <span class="na">REMOV_TODO</span><span class="p">:</span>
+      <span class="c1">// remove todos</span>
+    <span class="na">default</span><span class="p">:</span>
+      <span class="nx">state</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>Com esse <em><code class="highlighter-rouge">reducer</code></em> nós podemos criar uma store. Para fazer isso nós temos que importar a função <em><code class="highlighter-rouge">createStore</code></em> do <em><code class="highlighter-rouge">Redux</code></em> e nossos <em><code class="highlighter-rouge">reducers</code></em> em um arquivo no qual nós criamos o store, que provavelmente se chama <em><code class="highlighter-rouge">app.js</code></em> or algo similar.</p>
+
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kr">import</span> <span class="nx">reducers</span> <span class="nx">from</span> <span class="s1">'./reducers'</span>
+<span class="kr">import</span> <span class="p">{</span> <span class="nx">createStore</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">'redux'</span>
+
+<span class="kr">export</span> <span class="kr">const</span> <span class="nx">store</span> <span class="o">=</span> <span class="nx">createStore</span><span class="p">(</span><span class="nx">reducers</span><span class="p">)</span>
+</code></pre>
+</div>
+<p>Agora nós temos nossa store com um TODO list qual foi inicializado com um array vazio ([]).</p>
+
+<p>Ok, isso funciona muito bem, Mas nesse caso toda a vez que nossa aplicação é recarregada nós perdemos todos os TODOs que foram cadastrados. Se nós temos que mante-los, nós temos que salva-los em alguma base de dados.
+Vamos pensar um pouco mais e dizer que nós temos uma aplicação mais complexa que busca dados do back-end e eles não serão alterados em um curto espaço de tempo e por isso queremos mante-los quando a página for recarregada. Como podemos fazer isso?
+Uma solução para essa situação é usar <em><code class="highlighter-rouge">local storage</code></em> que é um pequeno “database” dentro do browser.</p>
+
+<p>Vamos ver como fazer isso na nossa TODO app.</p>
+
+<p>Primeiro nós temos que criar duas funções para obter dados do local storage e para salvar os dados lá.
+Para isso nós podemos criar um arquivo chamado <em><code class="highlighter-rouge">localStorage.js</code></em> onde nós teremos essas funções.</p>
+
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kr">export</span> <span class="kr">const</span> <span class="nx">loadState</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="k">try</span> <span class="p">{</span>
+    <span class="kr">const</span> <span class="nx">serializedState</span> <span class="o">=</span> <span class="nx">localStorage</span><span class="p">.</span><span class="nx">getItem</span><span class="p">(</span><span class="s1">'state'</span><span class="p">)</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">serializedState</span> <span class="o">===</span> <span class="kc">null</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="kc">undefined</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">serializedState</span><span class="p">)</span>
+  <span class="p">}</span>
+  <span class="k">catch</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="kc">undefined</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kr">export</span> <span class="kr">const</span> <span class="nx">saveState</span> <span class="o">=</span> <span class="p">(</span><span class="nx">state</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="k">try</span> <span class="p">{</span>
+    <span class="kr">const</span> <span class="nx">serializedState</span> <span class="o">=</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">state</span><span class="p">)</span>
+    <span class="nx">localStorage</span><span class="p">.</span><span class="nx">setItem</span><span class="p">(</span><span class="s1">'state'</span><span class="p">,</span> <span class="nx">serializedState</span><span class="p">)</span>
+  <span class="p">}</span>
+  <span class="k">catch</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// ignore</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>Para usar o local storage é muito simples, ele é uma lista de chave-valor. Quando nós queremos obter dados nós chamamos a função <em><code class="highlighter-rouge">getItem</code></em> do objeto global chamado <em><code class="highlighter-rouge">localStorage</code></em> passando a chave como parâmetro. E para salvar dados nós chamamos a função <em><code class="highlighter-rouge">setItem</code></em> do mesmo objeto global passando a chave e os dados.
+Os dados no local storage devem sempre ser serializados e por causa disso quando carregamos os dados nós temos que deserializa-los usanso <em><code class="highlighter-rouge">JSON.parse</code></em> e quando enviamos dados nós temos que serializa-los com <em><code class="highlighter-rouge">JSON.stringify</code></em>.
+Outro ponto importante é que o local storage pode não ter permissão de acesso ou outro erro pode acontecer ao tentar acessa-lo. Por isso o código de acesso ao local storage deve estar dentro de um bloco try/catch.</p>
+
+<p>Agora nós temos que usar as funções para salvar e carregar dados do local storage na nossa aplicação.
+No nosso arquivo <em><code class="highlighter-rouge">app.js</code></em> nós iremos importar nosso arquivo <em><code class="highlighter-rouge">localStorage.js</code></em> e usar suas funções.</p>
+
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kr">import</span> <span class="p">{</span> <span class="nx">saveState</span><span class="p">,</span> <span class="nx">loadState</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">'./localStorage'</span>
+
+<span class="kr">export</span> <span class="kr">const</span> <span class="nx">store</span> <span class="o">=</span> <span class="nx">createStore</span><span class="p">(</span><span class="nx">reducers</span><span class="p">,</span> <span class="nx">loadState</span><span class="p">())</span>
+
+<span class="nx">store</span><span class="p">.</span><span class="nx">subscribe</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="nx">saveState</span><span class="p">({</span>
+    <span class="na">todos</span><span class="p">:</span> <span class="nx">store</span><span class="p">.</span><span class="nx">getState</span><span class="p">().</span><span class="nx">todos</span>
+  <span class="p">})</span>
+<span class="p">})</span>
+</code></pre>
+</div>
+
+<p>Agora na função <em><code class="highlighter-rouge">createStore</code></em> nós estamos passando um segundo parâmetro que é o retorno da função <em><code class="highlighter-rouge">loadStore</code></em> que criamos para obter dados do local store. A função <em><code class="highlighter-rouge">createStore</code></em> do <em><code class="highlighter-rouge">Redux</code></em> aceita receber dados para hidratar o store. De uma olhada na <a href="https://github.com/reactjs/redux/blob/master/docs/api/createStore.md">documentação</a>.
+Para salvar os dados no local storage nós usamos a função chamada <em><code class="highlighter-rouge">subscribe</code></em> do store, que será chamada toda vez que o store for modificado. Para essa função nós estamos passando uma função que chama a função <em><code class="highlighter-rouge">saveState</code></em> que criamos anteriormente e irá receber o estado dos TODOs para serem salvos no local storage.</p>
+
+<p>Com essa nova implementação nós podemos salvar dados no local storage e reusa-los sem ter que acessar o back-end a todo momento que recarregamos a aplicação até que o browser ou aba sejam fechados.</p>
+
+<p>Se você quiser testar essa abordagem, de uma olhada nesse <a href="https://github.com/rodrigo-morais/react-redux-to-do">repositório</a>.</p>
+
+  </div>
+
+  <div class="date">
+    Written on November 29, 2016
+  </div>
+
+  
+</article>
+
+    </div>
+
+    <div class="wrapper-footer">
+      <div class="container">
+        <footer class="footer">
+          
+<a href="mailto:morais.rm@gmail.com"><i class="svg-icon email"></i></a>
+
+
+<a href="https://github.com/rodrigo-morais"><i class="svg-icon github"></i></a>
+
+<a href="https://www.linkedin.com/in/moraisrm"><i class="svg-icon linkedin"></i></a>
+
+
+<a href="https://www.twitter.com/moraisrm_rs"><i class="svg-icon twitter"></i></a>
+
+
+
+        </footer>
+      </div>
+    </div>
+
+    
+	<!-- Google Analytics -->
+	<script>
+		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+		ga('create', 'UA-87967717-1', 'auto');
+		ga('send', 'pageview', {
+		  'page': '/react-redux-local-storage/',
+		  'title': 'Using local storage with React and Redux'
+		});
+	</script>
+	<!-- End Google Analytics -->
+
+
+  </body>
+</html>
