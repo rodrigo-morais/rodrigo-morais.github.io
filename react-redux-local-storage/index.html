@@ -82,6 +82,8 @@ To create a store with Redux we have to use a function called createStore which 
     <p>Usually our application starts <em><code class="highlighter-rouge">Redux's</code></em> store with an empty object to show that the application doesn’t have any data when it starts. In the future when users have some interaction or when the application gets some data from the back-end so the store will keep these data. It is the most commom way to use <em><code class="highlighter-rouge">Redux</code></em> in a <em><code class="highlighter-rouge">React</code></em> project, at least in the projects which I worked til now, but sometimes we need another approach.
 To create a store with <em><code class="highlighter-rouge">Redux</code></em> we have to use a function called <em><code class="highlighter-rouge">createStore</code></em> which receives our <em><code class="highlighter-rouge">reducers</code></em> as parameters and should be imported from <em><code class="highlighter-rouge">Redux</code></em>.</p>
 
+<!--more-->
+
 <p>Ok, first we can use as an example a <em><code class="highlighter-rouge">reducer</code></em> for a TODO application. Probably we have a file called <em><code class="highlighter-rouge">reducers.js</code></em> to create it.</p>
 
 <div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kr">export</span> <span class="kr">const</span> <span class="nx">todos</span> <span class="o">=</span> <span class="p">(</span><span class="nx">state</span> <span class="o">=</span> <span class="p">[],</span> <span class="nx">action</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
