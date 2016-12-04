@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Maratona de Haskell - Primeiro Dia –  – Software Developer</title>
+
+        <meta charset="utf-8" />
+    <meta content='text/html; charset=utf-8' http-equiv='Content-Type'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0'>
+
+    
+    <meta name="description" content="Hoje foi o primeiro dia da minha maratona de Haskell e eu gostaria de compartilhar com vocês meus aprendizados e entendimentos.
+
+
+
+Configuração
+
+Vamos iniciar com como configurar seu computador para usar Haskell. Você tem que instalar o Haskell compilador que é chamado GHC. Os passo de instalação estão nesse link.
+Minha dica é não instalar o compilador do Haskell em sua máquina, e sim usar uma imagem Docker com Haskell para isso. Se você não tem Docker instalado em seu computador você pode ver como instala-lo aqui. Depois de instalar o Docker você somente necessita inicia-lo e rodar o comando: docker run -ti –rm -v $(pwd):/code haskell:7.10 bash. Agora você tem uma máquina virtual rodando o compilador do Haskell para você. Para iniciar o interpretador do GHC  você tem que executar o comando: ghci.
+
+" />
+    <meta property="og:description" content="Hoje foi o primeiro dia da minha maratona de Haskell e eu gostaria de compartilhar com vocês meus aprendizados e entendimentos.
+
+
+
+Configuração
+
+Vamos iniciar com como configurar seu computador para usar Haskell. Você tem que instalar o Haskell compilador que é chamado GHC. Os passo de instalação estão nesse link.
+Minha dica é não instalar o compilador do Haskell em sua máquina, e sim usar uma imagem Docker com Haskell para isso. Se você não tem Docker instalado em seu computador você pode ver como instala-lo aqui. Depois de instalar o Docker você somente necessita inicia-lo e rodar o comando: docker run -ti –rm -v $(pwd):/code haskell:7.10 bash. Agora você tem uma máquina virtual rodando o compilador do Haskell para você. Para iniciar o interpretador do GHC  você tem que executar o comando: ghci.
+
+" />
+    
+    <meta name="author" content="" />
+
+    
+    <meta property="og:title" content="Maratona de Haskell - Primeiro Dia" />
+    <meta property="twitter:title" content="Maratona de Haskell - Primeiro Dia" />
+    
+
+    <!--[if lt IE 9]>
+      <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <link rel="stylesheet" type="text/css" href="/css/styles.css" />
+    <link rel="alternate" type="application/rss+xml" title=" - Software Developer" href="/pt_BR/feed.xml" />
+
+    <!-- Created with Jekyll Now - http://github.com/barryclark/jekyll-now -->
+  </head>
+
+  <body>
+    <div class="wrapper-masthead">
+      <div class="container">
+        <header class="masthead clearfix">
+          <a href="/pt_BR/" class="site-avatar"><img src="https://avatars.githubusercontent.com/rodrigo-morais" /></a>
+
+          <div class="site-info">
+            <h1 class="site-name"><a href="/pt_BR/">In development</a></h1>
+            <h3 class="site-author">Rodrigo Morais</h3>
+            <p class="site-description">Software Developer</p>
+          </div>
+
+          <nav class="languages"> 
+          
+          </nav>
+
+          <nav>
+            <a href="/pt_BR/">Blog</a>
+            <a href="/pt_BR/about">Sobre</a>
+          </nav>
+        </header>
+      </div>
+    </div>
+
+    <div id="main" role="main" class="container">
+      <article class="post">
+  
+    <nav class="languages"> 
+  
+    
+      <a href="https://rodrigo-morais.github.io/haskell-marathon-day-one/"><img src="https://rodrigo-morais.github.io/images/en-flag.png" /></a>
+    
+  
+    
+    <a href="https://rodrigo-morais.github.io/pt_BR/haskell-marathon-day-one/"><img src="https://rodrigo-morais.github.io/images/pt_BR-flag.png" /></a>
+    
+  
+</nav>
+
+  
+
+  <h1>Maratona de Haskell - Primeiro Dia</h1>
+
+  <div class="entry">
+    <p>Hoje foi o primeiro dia da minha maratona de <em><code class="highlighter-rouge">Haskell</code></em> e eu gostaria de compartilhar com vocês meus aprendizados e entendimentos.</p>
+
+<p><br /></p>
+
+<p><strong>Configuração</strong></p>
+
+<p>Vamos iniciar com como configurar seu computador para usar <em><code class="highlighter-rouge">Haskell</code></em>. Você tem que instalar o <em><code class="highlighter-rouge">Haskell</code></em> compilador que é chamado <em><code class="highlighter-rouge">GHC</code></em>. Os passo de instalação estão nesse <a href="https://www.haskell.org/platform/">link</a>.
+Minha dica é não instalar o compilador do <em><code class="highlighter-rouge">Haskell</code></em> em sua máquina, e sim usar uma imagem <em><code class="highlighter-rouge">Docker</code></em> com <em><code class="highlighter-rouge">Haskell</code></em> para isso. Se você não tem <em><code class="highlighter-rouge">Docker</code></em> instalado em seu computador você pode ver como instala-lo <a href="https://www.docker.com/products/overview">aqui</a>. Depois de instalar o <em><code class="highlighter-rouge">Docker</code></em> você somente necessita inicia-lo e rodar o comando: <strong>docker run -ti –rm -v $(pwd):/code haskell:7.10 bash</strong>. Agora você tem uma máquina virtual rodando o compilador do <em><code class="highlighter-rouge">Haskell</code></em> para você. Para iniciar o interpretador do <em><code class="highlighter-rouge">GHC</code></em>  você tem que executar o comando: <strong>ghci</strong>.</p>
+
+<!--more-->
+
+<p><br /></p>
+
+<p><strong>Imutabilidade</strong></p>
+
+<p><em><code class="highlighter-rouge">Haskell</code></em>, como uma linguagem de funcional pura, trabalha com imutabilidade. Isso significa que você não tem variaveis e quando um valor é setado para uma container de dados é impossível muda-lo. <em><code class="highlighter-rouge">Haskell</code></em> não possue side effects e isso nos da mais segurança que sempre que chamamos uma função com um valor o resultado será o mesmo. Essa característica aumenta a testabilidade do <em><code class="highlighter-rouge">Haskell</code></em> e nós não temos que procurar onde a variavél foi modificada e porque esta afetando os funcionamento de uma função.</p>
+
+<p><br /></p>
+
+<p><strong>Lazy</strong></p>
+
+<p><em><code class="highlighter-rouge">Haskell</code></em> é <em><code class="highlighter-rouge">lazy</code></em>. Isso significa que <em><code class="highlighter-rouge">Haskell</code></em> somente faz a computação que é necessária e espera até o último momento para executar as funções e retornar os resultados.
+Por exemplo, vamos dizer que temos uma lista com 1000 números que queremos converter em uma lista de módulos e obter o primeiro valor, para fazer isso <em><code class="highlighter-rouge">Haskell</code></em> irá processar a lista de módulo até encontrar o primeiro valor e irá parar.</p>
+<div class="language-haskell highlighter-rouge"><pre class="highlight"><code><span class="kr">let</span> <span class="n">xs</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="o">..</span><span class="mi">999999</span><span class="p">]</span>
+<span class="n">xs</span>
+<span class="n">map</span> <span class="p">(</span><span class="nf">\</span><span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="p">`</span><span class="n">mod</span><span class="p">`</span> <span class="mi">2</span><span class="p">)</span> <span class="n">xs</span>
+<span class="n">head</span> <span class="p">(</span><span class="n">map</span> <span class="p">(</span><span class="nf">\</span><span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="p">`</span><span class="n">mod</span><span class="p">`</span> <span class="mi">2</span><span class="p">)</span> <span class="n">xs</span><span class="p">)</span>
+</code></pre>
+</div>
+<p>Com esse exemplo você pode ver como <em><code class="highlighter-rouge">Haskell</code></em> é poderoso usando a sua demora de processamento. Quando nós rodamos as linhas 2 e 3 nós temos que esperar alguns segundos para obter o resultado, por outro lado quando executamos a linha 4 o resultado é retornado automáticamente. Isoo acontece porque <em><code class="highlighter-rouge">Haskell</code></em> para de processar assim que descobre o resultado.</p>
+
+<p><br /></p>
+
+<p><strong>Tipo estático</strong></p>
+
+<p><em><code class="highlighter-rouge">Haskell</code></em> é estaticamente tipado, mas diferentemente de linguagens como <em><code class="highlighter-rouge">Java</code></em> or <em><code class="highlighter-rouge">C#</code></em> nós não temos que assinar tipos para tudo. <em><code class="highlighter-rouge">Haskell</code></em> infere os tipos para valores e funções e usa o compilador para avaliar os erros. Por isso <em><code class="highlighter-rouge">Haskell</code></em> não é considerada uma linguagem verbosa.</p>
+
+<p><br /></p>
+
+<p><strong>Aritmética</strong></p>
+
+<p>Os cálculos e processamentos aritméticos em <em><code class="highlighter-rouge">Haskell</code></em> são similares as outras linguagens de programação. Os precedentes universais da matématica são seguidos e respeitados.</p>
+
+<p><br /></p>
+
+<p><strong>Boolean</strong></p>
+
+<p>Booleanos em <em><code class="highlighter-rouge">Haskell</code></em> são similares as outras linguagens também. Temos os valores <em><code class="highlighter-rouge">True</code></em> e <em><code class="highlighter-rouge">False</code></em> e os operadores <em><code class="highlighter-rouge">&amp;&amp;</code></em> (e), <em><code class="highlighter-rouge">||</code></em> (ou) and <em><code class="highlighter-rouge">not</code></em> (negação). Para testar dois valores nós temos os operadores <em><code class="highlighter-rouge">==</code></em> (igual) e <em><code class="highlighter-rouge">/=</code></em> (diferente). Teste eles no <em><code class="highlighter-rouge">GHCI</code></em>.</p>
+
+<p><br /></p>
+
+<p><strong>Funções</strong></p>
+
+<p>Tudo em <em><code class="highlighter-rouge">Haskell</code></em> são funções ou quase tudo. Nós podemos não ter percebido mas <em><code class="highlighter-rouge">+</code></em> e <em><code class="highlighter-rouge">-</code></em> são funções. Esses tipos de funções são chamadas <em><code class="highlighter-rouge">infix</code></em> porque elas são chamadas entre os operandos como <em><code class="highlighter-rouge">5 + 6</code></em>. A maioria das funções são chamadas <em><code class="highlighter-rouge">prefix</code></em>, que são funções chamadas antes dos operandos como <em><code class="highlighter-rouge">succ 9</code></em>. Funções <em><code class="highlighter-rouge">prefix</code></em> podem ser chamadas como funções <em><code class="highlighter-rouge">infix</code></em>, para fazermos isso temos que coloca-las entre crases (`) como em 9 `div` 3. O oposto também é possível, neste caso nós temos que colocar a função entre parênteses (()).<br />
+Para criamos uma função nós temos que da-la um nome e parâmetros. Quando criamos uma função no <em><code class="highlighter-rouge">GHCI</code></em> é necessário usar <em><code class="highlighter-rouge">let</code></em>, mas se criamos uma função em um arquivo que será compilado não devemos usar o <em><code class="highlighter-rouge">let</code></em>.
+Vamos criar algumas funções?</p>
+<div class="language-haskell highlighter-rouge"><pre class="highlight"><code><span class="kt">Let</span> <span class="n">mult2</span> <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">*</span> <span class="mi">2</span>
+<span class="n">mult2</span> <span class="mi">3</span>
+<span class="mi">6</span>
+<span class="n">mult2</span> <span class="mi">4</span>
+<span class="mi">8</span>
+<span class="kr">let</span> <span class="n">add</span> <span class="n">x</span> <span class="n">y</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span>
+<span class="n">add</span> <span class="mi">2</span> <span class="mi">3</span>
+<span class="mi">5</span>
+<span class="n">add</span> <span class="mi">3</span> <span class="mi">3</span>
+<span class="mi">6</span>
+</code></pre>
+</div>
+
+<p><br /></p>
+
+<p>Esses foram os meus primeiros passos com <em><code class="highlighter-rouge">Haskell</code></em>.</p>
+
+  </div>
+
+  <div class="date">
+    Written on December  1, 2016
+  </div>
+
+  
+</article>
+
+    </div>
+
+    <div class="wrapper-footer">
+      <div class="container">
+        <footer class="footer">
+          
+<a href="mailto:morais.rm@gmail.com"><i class="svg-icon email"></i></a>
+
+
+<a href="https://github.com/rodrigo-morais"><i class="svg-icon github"></i></a>
+
+<a href="https://www.linkedin.com/in/moraisrm"><i class="svg-icon linkedin"></i></a>
+
+
+<a href="https://www.twitter.com/moraisrm_rs"><i class="svg-icon twitter"></i></a>
+
+
+
+        </footer>
+      </div>
+    </div>
+
+    
+	<!-- Google Analytics -->
+	<script>
+		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+		ga('create', 'UA-87967717-1', 'auto');
+		ga('send', 'pageview', {
+		  'page': '/haskell-marathon-day-one/',
+		  'title': 'Maratona de Haskell - Primeiro Dia'
+		});
+	</script>
+	<!-- End Google Analytics -->
+
+
+  </body>
+</html>

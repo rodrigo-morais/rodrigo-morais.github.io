@@ -66,6 +66,63 @@
   
     <article class="post">
 
+      <h1><a href="/pt_BR/haskell-marathon-day-four/">Maratona de Haskell - Quarto Dia</a></h1>
+
+      <div class="entry">
+        <p>Fala pessoal!</p>
+
+<p>Hoje vamos falar um pouco mais sobre listas, mas nós vamos dar uma olhada também em tuplas.</p>
+
+<p><br /></p>
+
+<p><strong>List Comprehension</strong></p>
+
+<p>Nos dias dois e três nós vimos como criar e usar listas, hoje vamos continuar falando de outra forma de usar listas chamado list comprehension.
+List comprehensions são o caminho para transformar, combinar e filtrar listas. Isso é similar ao conceito de set comprehension na matemática, mas nós não prestaremos atenção nisso.
+Vamos iniciar dizendo que queremos gerar uma lista com os valores de 1 até 10 todos multiplicados por 2. Com list comprehension nós podemos fazer desta forma:</p>
+
+
+      </div>
+
+      <a href="/pt_BR/haskell-marathon-day-four/" class="read-more">Continue</a>
+    </article>
+  
+    <article class="post">
+
+      <h1><a href="/pt_BR/haskell-marathon-day-three/">Maratona de Haskell - Terceiro Dia</a></h1>
+
+      <div class="entry">
+        <p>Fala pessoal!</p>
+
+<p>Vamos continuar dando uma olhada em listas?
+Ontem nós vimos como concatenar e obter elementos de listas. Hoje vamos ver outras funcionalidades que <em><code class="highlighter-rouge">Haskell</code></em> prove para listas.</p>
+
+
+      </div>
+
+      <a href="/pt_BR/haskell-marathon-day-three/" class="read-more">Continue</a>
+    </article>
+  
+    <article class="post">
+
+      <h1><a href="/pt_BR/haskell-marathon-day-two/">Maratona de Haskell - Segundo Dia</a></h1>
+
+      <div class="entry">
+        <p>Hoje é o meu segundo dia na maratona de <em><code class="highlighter-rouge">Haskell</code></em> e nós vamos falar sobre o condicional IF e listas.</p>
+
+<p><strong>Condicional (IF)</strong></p>
+
+<p>Em <em><code class="highlighter-rouge">Haskell</code></em> como em outras linguagens nós podemos usar condicionais para produzirmos funções mais interessantes. Uma das condicionais mais famosas é o <em><code class="highlighter-rouge">IF</code></em> que nos permite testar se um valor ou clausula é verdadeiro ou não e retornar um novo valor seguindo este teste. A grande diferença entre <em><code class="highlighter-rouge">Haskell</code></em> e as outras linguagens é que <em><code class="highlighter-rouge">Haskell</code></em> nos proíbe de termos um <em><code class="highlighter-rouge">IF</code></em> sem <em><code class="highlighter-rouge">ELSE</code></em>. Isso acontece porque em <em><code class="highlighter-rouge">Haskell</code></em> todas as funções devem ter um retorno e se temos uma clausula <em><code class="highlighter-rouge">IF</code></em> sem <em><code class="highlighter-rouge">ELSE</code></em> nós podemos ter uma função sem nenhum retorno.
+Vamos dar uma olhada em alguns exemplos usando <em><code class="highlighter-rouge">IF</code></em>:</p>
+
+
+      </div>
+
+      <a href="/pt_BR/haskell-marathon-day-two/" class="read-more">Continue</a>
+    </article>
+  
+    <article class="post">
+
       <h1><a href="/pt_BR/why-and-what-is-functional-programming/">Por que e o que é Programação Funcional?</a></h1>
 
       <div class="entry">
@@ -78,6 +135,43 @@ Paradigma funcional é uma abordagem diferente de trabalhar com desenvolvimento 
       </div>
 
       <a href="/pt_BR/why-and-what-is-functional-programming/" class="read-more">Continue</a>
+    </article>
+  
+    <article class="post">
+
+      <h1><a href="/pt_BR/haskell-marathon/">Maratona de Haskell</a></h1>
+
+      <div class="entry">
+        <p>Fala pessoal!</p>
+
+<p>Hoje eu estou iniciando uma maratona de <em><code class="highlighter-rouge">Haskell</code></em> onde eu irei mergulhar na linguagem de programação <em><code class="highlighter-rouge">Haskell</code></em> pelos próximos 3 meses.</p>
+
+<p>Legal!!! Mas por que? Eu estou realmente interessado em aprender mais sobre <em><code class="highlighter-rouge">Programação Funcional</code></em>, qual eu já aprendi alguns conceitos e estou os utilizando, e eu acho que iniciar esse processo com <em><code class="highlighter-rouge">Haskell</code></em> é uma boa ideia.</p>
+
+
+      </div>
+
+      <a href="/pt_BR/haskell-marathon/" class="read-more">Continue</a>
+    </article>
+  
+    <article class="post">
+
+      <h1><a href="/pt_BR/haskell-marathon-day-one/">Maratona de Haskell - Primeiro Dia</a></h1>
+
+      <div class="entry">
+        <p>Hoje foi o primeiro dia da minha maratona de <em><code class="highlighter-rouge">Haskell</code></em> e eu gostaria de compartilhar com vocês meus aprendizados e entendimentos.</p>
+
+<p><br /></p>
+
+<p><strong>Configuração</strong></p>
+
+<p>Vamos iniciar com como configurar seu computador para usar <em><code class="highlighter-rouge">Haskell</code></em>. Você tem que instalar o <em><code class="highlighter-rouge">Haskell</code></em> compilador que é chamado <em><code class="highlighter-rouge">GHC</code></em>. Os passo de instalação estão nesse <a href="https://www.haskell.org/platform/">link</a>.
+Minha dica é não instalar o compilador do <em><code class="highlighter-rouge">Haskell</code></em> em sua máquina, e sim usar uma imagem <em><code class="highlighter-rouge">Docker</code></em> com <em><code class="highlighter-rouge">Haskell</code></em> para isso. Se você não tem <em><code class="highlighter-rouge">Docker</code></em> instalado em seu computador você pode ver como instala-lo <a href="https://www.docker.com/products/overview">aqui</a>. Depois de instalar o <em><code class="highlighter-rouge">Docker</code></em> você somente necessita inicia-lo e rodar o comando: <strong>docker run -ti –rm -v $(pwd):/code haskell:7.10 bash</strong>. Agora você tem uma máquina virtual rodando o compilador do <em><code class="highlighter-rouge">Haskell</code></em> para você. Para iniciar o interpretador do <em><code class="highlighter-rouge">GHC</code></em>  você tem que executar o comando: <strong>ghci</strong>.</p>
+
+
+      </div>
+
+      <a href="/pt_BR/haskell-marathon-day-one/" class="read-more">Continue</a>
     </article>
   
     <article class="post">

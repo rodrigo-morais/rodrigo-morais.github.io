@@ -1,7 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
+<loc>https://rodrigo-morais.github.io/haskell-marathon-day-four/</loc>
+<lastmod>2016-12-04T00:00:00+01:00</lastmod>
+</url>
+<url>
+<loc>https://rodrigo-morais.github.io/haskell-marathon-day-three/</loc>
+<lastmod>2016-12-03T00:00:00+01:00</lastmod>
+</url>
+<url>
+<loc>https://rodrigo-morais.github.io/haskell-marathon-day-two/</loc>
+<lastmod>2016-12-02T00:00:00+01:00</lastmod>
+</url>
+<url>
 <loc>https://rodrigo-morais.github.io/why-and-what-is-functional-programming/</loc>
+<lastmod>2016-12-01T00:00:00+01:00</lastmod>
+</url>
+<url>
+<loc>https://rodrigo-morais.github.io/haskell-marathon/</loc>
+<lastmod>2016-12-01T00:00:00+01:00</lastmod>
+</url>
+<url>
+<loc>https://rodrigo-morais.github.io/haskell-marathon-day-one/</loc>
 <lastmod>2016-12-01T00:00:00+01:00</lastmod>
 </url>
 <url>
