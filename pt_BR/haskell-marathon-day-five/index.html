@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Maratona de Haskell - Quinto Dia –  – Software Developer</title>
+
+        <meta charset="utf-8" />
+    <meta content='text/html; charset=utf-8' http-equiv='Content-Type'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0'>
+
+    
+    <meta name="description" content="Fala pessoal!
+
+Qual é o seu tipo?
+Hoje nós vamos entender, ou tentar, um pouco como o sistemas de tipo de Haskell funciona.
+
+Em Haskell tudo tem um tipo e eles são validados em tempo de compilação. Isso faz o código ser mais seguro, porque os erros são pegos brevemente e não durante a execução.
+Diferentemente de outras linguagens como Java e C#, Haskell tem inferência de tipos. Isso significa que não é necessário dizer para o Haskell qual o tipo de cada elemento, e nosso código não se torna verboso.
+
+" />
+    <meta property="og:description" content="Fala pessoal!
+
+Qual é o seu tipo?
+Hoje nós vamos entender, ou tentar, um pouco como o sistemas de tipo de Haskell funciona.
+
+Em Haskell tudo tem um tipo e eles são validados em tempo de compilação. Isso faz o código ser mais seguro, porque os erros são pegos brevemente e não durante a execução.
+Diferentemente de outras linguagens como Java e C#, Haskell tem inferência de tipos. Isso significa que não é necessário dizer para o Haskell qual o tipo de cada elemento, e nosso código não se torna verboso.
+
+" />
+    
+    <meta name="author" content="" />
+
+    
+    <meta property="og:title" content="Maratona de Haskell - Quinto Dia" />
+    <meta property="twitter:title" content="Maratona de Haskell - Quinto Dia" />
+    
+
+    <!--[if lt IE 9]>
+      <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <link rel="stylesheet" type="text/css" href="/css/styles.css" />
+    <link rel="alternate" type="application/rss+xml" title=" - Software Developer" href="/pt_BR/feed.xml" />
+
+    <!-- Created with Jekyll Now - http://github.com/barryclark/jekyll-now -->
+  </head>
+
+  <body>
+    <div class="wrapper-masthead">
+      <div class="container">
+        <header class="masthead clearfix">
+          <a href="/pt_BR/" class="site-avatar"><img src="https://avatars.githubusercontent.com/rodrigo-morais" /></a>
+
+          <div class="site-info">
+            <h1 class="site-name"><a href="/pt_BR/">In development</a></h1>
+            <h3 class="site-author">Rodrigo Morais</h3>
+            <p class="site-description">Software Developer</p>
+          </div>
+
+          <nav class="languages"> 
+          
+          </nav>
+
+          <nav>
+            <a href="/pt_BR/">Blog</a>
+            <a href="/pt_BR/about">Sobre</a>
+          </nav>
+        </header>
+      </div>
+    </div>
+
+    <div id="main" role="main" class="container">
+      <article class="post">
+  
+    <nav class="languages"> 
+  
+    
+      <a href="https://rodrigo-morais.github.io/haskell-marathon-day-five/"><img src="https://rodrigo-morais.github.io/images/en-flag.png" /></a>
+    
+  
+    
+    <a href="https://rodrigo-morais.github.io/pt_BR/haskell-marathon-day-five/"><img src="https://rodrigo-morais.github.io/images/pt_BR-flag.png" /></a>
+    
+  
+</nav>
+
+  
+
+  <h1>Maratona de Haskell - Quinto Dia</h1>
+
+  <div class="entry">
+    <p>Fala pessoal!</p>
+
+<p>Qual é o seu tipo?<br />
+Hoje nós vamos entender, ou tentar, um pouco como o sistemas de tipo de <em><code class="highlighter-rouge">Haskell</code></em> funciona.</p>
+
+<p>Em <em><code class="highlighter-rouge">Haskell</code></em> tudo tem um tipo e eles são validados em tempo de compilação. Isso faz o código ser mais seguro, porque os erros são pegos brevemente e não durante a execução.<br />
+Diferentemente de outras linguagens como <em><code class="highlighter-rouge">Java</code></em> e <em><code class="highlighter-rouge">C#</code></em>, <em><code class="highlighter-rouge">Haskell</code></em> tem inferência de tipos. Isso significa que não é necessário dizer para o <em><code class="highlighter-rouge">Haskell</code></em> qual o tipo de cada elemento, e nosso código não se torna verboso.</p>
+
+<!--more-->
+
+<p>Se <em><code class="highlighter-rouge">Haskell</code></em> é uma linguagem estaticamente tipada nós temos que ter uma forma de obter os tipos de funções e valores. Para isso que podemos usar <em><code class="highlighter-rouge">:t</code></em> que nós da o tipo de valores e funções. Vamos ver:</p>
+
+<div class="language-haskell highlighter-rouge"><pre class="highlight"><code><span class="o">:</span><span class="n">t</span> <span class="err">‘</span><span class="n">a</span><span class="err">’</span>
+<span class="err">‘</span><span class="n">a</span><span class="err">’</span> <span class="o">::</span> <span class="kt">Char</span>
+<span class="o">:</span><span class="n">t</span> <span class="kt">True</span>
+<span class="kt">True</span> <span class="o">::</span> <span class="kt">Bool</span>
+<span class="o">:</span><span class="n">t</span> <span class="mi">5</span>
+<span class="mi">5</span> <span class="o">::</span> <span class="kt">Num</span> <span class="n">a</span> <span class="o">=&gt;</span> <span class="n">a</span>
+<span class="kr">let</span> <span class="n">fnt</span> <span class="n">x</span> <span class="o">=</span> <span class="n">x</span>
+<span class="n">fnt</span> <span class="mi">4</span>
+<span class="mi">4</span>
+<span class="n">fnt</span> <span class="err">‘</span><span class="n">a</span><span class="err">’</span>
+<span class="err">‘</span><span class="n">a</span><span class="err">’</span>
+<span class="o">:</span><span class="n">t</span> <span class="n">fnt</span>
+<span class="n">fnt</span> <span class="o">::</span> <span class="n">t</span> <span class="o">-&gt;</span> <span class="n">t</span>
+</code></pre>
+</div>
+<p>O operador <em><code class="highlighter-rouge">::</code></em> é chamado “has type of” e o tipo explícito são sempre denotados com a primeira letra em maíusculo.
+Um importante item é a função que vimos acima. Ela retorna um tipo diferente. O tipo da função significa que a funão <em><code class="highlighter-rouge">fnt</code></em> irá receber um tipo <em><code class="highlighter-rouge">t</code></em> e retornar um tipo <em><code class="highlighter-rouge">t</code></em> onde <em><code class="highlighter-rouge">t</code></em> pode ser qualquer tipo válido em <em><code class="highlighter-rouge">Haskell</code></em>.</p>
+
+<p>Mas o que são tipos válidos em <em><code class="highlighter-rouge">Haskell</code></em>?<br />
+Podemos iniciar dizendo que <em><code class="highlighter-rouge">Haskell</code></em> tem dois tipos para inteiros que são o <em><code class="highlighter-rouge">Int</code></em> e o <em><code class="highlighter-rouge">Integer</code></em>. A diferença é que o tipo <em><code class="highlighter-rouge">Integer</code></em> é usado para números grandes.</p>
+
+<div class="language-haskell highlighter-rouge"><pre class="highlight"><code><span class="n">factorial</span> <span class="o">::</span> <span class="kt">Int</span> <span class="o">-&gt;</span> <span class="kt">Int</span>
+<span class="n">factorial</span> <span class="n">n</span> <span class="o">=</span> <span class="n">product</span> <span class="p">[</span><span class="mi">1</span><span class="o">..</span><span class="n">n</span><span class="p">]</span>
+
+
+<span class="n">factorial'</span> <span class="o">::</span> <span class="kt">Integer</span> <span class="o">-&gt;</span> <span class="kt">Integer</span>
+<span class="n">factorial'</span> <span class="n">n</span> <span class="o">=</span> <span class="n">product</span> <span class="p">[</span><span class="mi">1</span><span class="o">..</span><span class="n">n</span><span class="p">]</span>
+
+
+<span class="n">factorial</span> <span class="mi">25</span>
+<span class="mi">7034535277573963776</span>
+
+
+<span class="n">factorial</span><span class="err">’</span> <span class="mi">25</span>
+<span class="mi">15511210043330985984000000</span>
+</code></pre>
+</div>
+
+<p>Para ponto flutuante <em><code class="highlighter-rouge">Haskell</code></em> tem dois tipos. <em><code class="highlighter-rouge">Float</code></em> é para precisção simples e <em><code class="highlighter-rouge">Double</code></em> para precisão dupla. <em><code class="highlighter-rouge">Char</code></em> e <em><code class="highlighter-rouge">Bool</code></em> são tipos também. E <em><code class="highlighter-rouge">Tuple</code></em> que vimos anteriormente são tipos também, elas dependem do tamanho e do tipo de seus componentes.</p>
+
+<p><em><code class="highlighter-rouge">Haskell</code></em> tem algo chamado tipos variáveis que é relacionado com o exemplo de função que vimos acima. Às vezes funções não tem um tipo definido e nós usamos os tipos variáveis para isso. Tipo variável em <em><code class="highlighter-rouge">Haskell</code></em> pode ser uma palavra, mas geralmente são usados um caracter como ‘a’ ou ‘b’. Vamos dar uma olhada na função <em><code class="highlighter-rouge">head</code></em> que obtém o primeiro elemento de uma lista.</p>
+<div class="language-haskell highlighter-rouge"><pre class="highlight"><code><span class="n">head</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">]</span>
+<span class="mi">1</span>
+<span class="n">head</span> <span class="p">[</span><span class="err">‘</span><span class="n">h</span><span class="err">’</span><span class="p">,</span><span class="err">’</span><span class="n">e</span><span class="err">’</span><span class="p">,</span><span class="err">’</span><span class="n">l</span><span class="err">’</span><span class="p">,</span><span class="err">’</span><span class="n">l</span><span class="err">’</span><span class="p">,</span><span class="err">’</span><span class="n">o</span><span class="err">’</span><span class="p">]</span>
+<span class="err">‘</span><span class="n">h</span><span class="err">’</span>
+<span class="o">:</span><span class="n">t</span> <span class="n">head</span>
+<span class="n">head</span> <span class="o">::</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="n">a</span>
+</code></pre>
+</div>
+<p>Como nós vimos o tipo da função <em><code class="highlighter-rouge">head</code></em> é uma lista de qualquer tipo que retorna um elemento do mesmo tipo da lista.
+Tipos variáveis são muito legais porque nos dão alguma liberdade quando não queremos criar regras severas para as funções ou quando a função pode trabalhar com diferentes tipos. Esse comporatmento é como <em><code class="highlighter-rouge">generics</code></em> em outras linguagens.</p>
+
+<p>Hoje nós entendemos um pouco como <em><code class="highlighter-rouge">Haskell</code></em> trabalha com tipos. Amanhã vamos ver <em><code class="highlighter-rouge">type classes</code></em> e que elas não são classes.</p>
+
+  </div>
+
+  <div class="date">
+    Written on December  5, 2016
+  </div>
+
+  
+</article>
+
+    </div>
+
+    <div class="wrapper-footer">
+      <div class="container">
+        <footer class="footer">
+          
+<a href="mailto:morais.rm@gmail.com"><i class="svg-icon email"></i></a>
+
+
+<a href="https://github.com/rodrigo-morais"><i class="svg-icon github"></i></a>
+
+<a href="https://www.linkedin.com/in/moraisrm"><i class="svg-icon linkedin"></i></a>
+
+
+<a href="https://www.twitter.com/moraisrm_rs"><i class="svg-icon twitter"></i></a>
+
+
+
+        </footer>
+      </div>
+    </div>
+
+    
+	<!-- Google Analytics -->
+	<script>
+		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+		ga('create', 'UA-87967717-1', 'auto');
+		ga('send', 'pageview', {
+		  'page': '/haskell-marathon-day-five/',
+		  'title': 'Maratona de Haskell - Quinto Dia'
+		});
+	</script>
+	<!-- End Google Analytics -->
+
+
+  </body>
+</html>
