@@ -1,4 +1,127 @@
-<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xml" href="https://rodrigo-morais.github.io/feed.xslt.xml"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.3.1">Jekyll</generator><link href="https://rodrigo-morais.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://rodrigo-morais.github.io/" rel="alternate" type="text/html" /><updated>2016-12-06T00:09:02+01:00</updated><id>https://rodrigo-morais.github.io//</id><title type="html">In development</title><subtitle>Software Developer</subtitle><author><name>Rodrigo Morais</name></author><entry xml:lang="en"><title type="html">Haskell’s Marathon - Day Five</title><link href="https://rodrigo-morais.github.io/haskell-marathon-day-five/" rel="alternate" type="text/html" title="Haskell's Marathon - Day Five" /><published>2016-12-05T00:00:00+01:00</published><updated>2016-12-05T00:00:00+01:00</updated><id>https://rodrigo-morais.github.io/haskell-marathon-day-five.en</id><content type="html" xml:base="https://rodrigo-morais.github.io/haskell-marathon-day-five/">&lt;p&gt;Hey folks!&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xml" href="https://rodrigo-morais.github.io/feed.xslt.xml"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.3.1">Jekyll</generator><link href="https://rodrigo-morais.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://rodrigo-morais.github.io/" rel="alternate" type="text/html" /><updated>2016-12-06T22:13:25+01:00</updated><id>https://rodrigo-morais.github.io//</id><title type="html">In development</title><subtitle>Software Developer</subtitle><author><name>Rodrigo Morais</name></author><entry xml:lang="en"><title type="html">Haskell’s Marathon - Day Six</title><link href="https://rodrigo-morais.github.io/haskell-marathon-day-six/" rel="alternate" type="text/html" title="Haskell's Marathon - Day Six" /><published>2016-12-06T00:00:00+01:00</published><updated>2016-12-06T00:00:00+01:00</updated><id>https://rodrigo-morais.github.io/haskell-marathon-day-six.en</id><content type="html" xml:base="https://rodrigo-morais.github.io/haskell-marathon-day-six/">&lt;p&gt;Hey folks!&lt;/p&gt;
+
+&lt;p&gt;Yesterday we understand how types work in &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Haskell&lt;/code&gt;&lt;/em&gt;, what types &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Haskell&lt;/code&gt;&lt;/em&gt; supports and that we have type variables which can help us a lot.
+Today let’s talk about &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;type classes&lt;/code&gt;&lt;/em&gt;. First of all we have to say that &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;type classes&lt;/code&gt;&lt;/em&gt; are not classes. With this disclaimer we can go ahead and discover what hell type classes are.&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+&lt;p&gt;&lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Type class&lt;/code&gt;&lt;/em&gt; is not more than an interface which describe some behaviour. If a type is an instance from a type class, then it implements this behaviour.
+To be more clear, &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;type class&lt;/code&gt;&lt;/em&gt; is just a collection of functions which we decide what they mean for the type.
+The most common type classes in &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Haskell&lt;/code&gt;&lt;/em&gt; are &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Eq&lt;/code&gt;&lt;/em&gt;, &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Ord&lt;/code&gt;&lt;/em&gt;, &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Show&lt;/code&gt;&lt;/em&gt;, &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Read&lt;/code&gt;&lt;/em&gt;, &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Enum&lt;/code&gt;&lt;/em&gt;, &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Bounded&lt;/code&gt;&lt;/em&gt;, &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Num&lt;/code&gt;&lt;/em&gt;, &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Floating&lt;/code&gt;&lt;/em&gt; and &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Integral&lt;/code&gt;&lt;/em&gt;. Let’s give a quick summary to each one.&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Eq type class&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;First let’s check the type of &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;==&lt;/code&gt;&lt;/em&gt; operator which is an instance of &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Eq&lt;/code&gt;&lt;/em&gt;.&lt;/p&gt;
+&lt;div class=&quot;language-haskell highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;t&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;==&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;==&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;::&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Eq&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Bool&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;How we already know the &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;:t&lt;/code&gt;&lt;/em&gt; return the type from a value and function. The operator &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;==&lt;/code&gt;&lt;/em&gt; is a function and we can see its types. We already learnt how read it. The function receives two types variable called “a” and return a &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Bool&lt;/code&gt;&lt;/em&gt;. But wait a minute, what hell is &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Eq a =&amp;gt;&lt;/code&gt;&lt;/em&gt;? &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Eq a =&amp;gt;&lt;/code&gt;&lt;/em&gt; wants say that the type “a” should be an instance of &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Eq&lt;/code&gt;&lt;/em&gt; class.
+The &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Eq&lt;/code&gt;&lt;/em&gt; &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;type class&lt;/code&gt;&lt;/em&gt; provide an interface for testing for equality. If it makes sense for two items from a determined type we can say that they are an instance of &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Eq&lt;/code&gt;&lt;/em&gt;. Almost all standard &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Haskell&lt;/code&gt;&lt;/em&gt; types are instances of &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Eq&lt;/code&gt;&lt;/em&gt;.
+&lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Eq&lt;/code&gt;&lt;/em&gt;’s instances implement two functions which are &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;==&lt;/code&gt;&lt;/em&gt; and &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;/=&lt;/code&gt;&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Ord type class&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Ord&lt;/code&gt;&lt;/em&gt; is a &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;type class&lt;/code&gt;&lt;/em&gt; for types whose values can be put in some order.  Let’s take a look in a operator to &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Ord&lt;/code&gt;&lt;/em&gt; &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;type class&lt;/code&gt;&lt;/em&gt;:&lt;/p&gt;
+&lt;div class=&quot;language-haskell highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;t&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;::&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Ord&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Bool&lt;/span&gt;
+&lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;6&lt;/span&gt;
+&lt;span class=&quot;kt&quot;&gt;True&lt;/span&gt;
+&lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;
+&lt;span class=&quot;kt&quot;&gt;False&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;The type &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;&lt;/code&gt;&lt;/em&gt; is similar to &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;==&lt;/code&gt;&lt;/em&gt; which we saw before. All the types we’ve cover so far are instances of &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Ord&lt;/code&gt;&lt;/em&gt; just functions are not. The operators to &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Ord&lt;/code&gt;&lt;/em&gt; are &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;&lt;/code&gt;&lt;/em&gt;, &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;=&lt;/code&gt;&lt;/em&gt;, &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;gt;&lt;/code&gt;&lt;/em&gt; and &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;gt;=&lt;/code&gt;&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Show type class&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Types which are instances of &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Show&lt;/code&gt;&lt;/em&gt; &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;type class&lt;/code&gt;&lt;/em&gt; can be represented as strings. As &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Ord&lt;/code&gt;&lt;/em&gt;, all types that we covered are instances of &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Show&lt;/code&gt;&lt;/em&gt; &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;type class&lt;/code&gt;&lt;/em&gt; just functions are not. The behaviour from &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Show&lt;/code&gt;&lt;/em&gt; &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;type class&lt;/code&gt;&lt;/em&gt; is print the values.&lt;/p&gt;
+&lt;div class=&quot;language-haskell highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;show&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;&quot;5&quot;&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;show&lt;/span&gt; &lt;span class=&quot;sc&quot;&gt;'a'&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;&quot;'a'&quot;&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;show&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;True&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;&quot;True&quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Read type class&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;The behaviour from &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Read&lt;/code&gt;&lt;/em&gt; &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;type class&lt;/code&gt;&lt;/em&gt; is the opposite of the behaviour from &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Show&lt;/code&gt;&lt;/em&gt; &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;type class&lt;/code&gt;&lt;/em&gt;, but all the rest are the same. It reads a string and transformss in a value.&lt;/p&gt;
+&lt;div class=&quot;language-haskell highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;read&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;True&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;||&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;False&lt;/span&gt;
+&lt;span class=&quot;kt&quot;&gt;True&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;read&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;True&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;False&lt;/span&gt;
+&lt;span class=&quot;kt&quot;&gt;False&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;read&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;5&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;
+&lt;span class=&quot;mi&quot;&gt;9&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;read&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;['a']&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;++&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;sc&quot;&gt;'h'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;&quot;ah&quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Enum type class&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Enum&lt;/code&gt;&lt;/em&gt; &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;type class&lt;/code&gt;&lt;/em&gt; has the behaviour to make sequences. So all instances from &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Enum&lt;/code&gt;&lt;/em&gt; &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;type class&lt;/code&gt;&lt;/em&gt; are sequentially ordered types and the values can be enumerated. These instances can be used in list ranges and have successor and predecessor.&lt;/p&gt;
+&lt;div class=&quot;language-haskell highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;sc&quot;&gt;'a'&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;..&lt;/span&gt;&lt;span class=&quot;sc&quot;&gt;'f'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;&quot;Abcdef&quot;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;..&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;9&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;6&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;7&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;8&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;9&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Num type class&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Num&lt;/code&gt;&lt;/em&gt; is a numeric &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;type class&lt;/code&gt;&lt;/em&gt;. Its instances can act as numbers.&lt;/p&gt;
+&lt;div class=&quot;language-haskell highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;t&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;
+&lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;::&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Num&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;
+&lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;::&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Int&lt;/span&gt;
+&lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;
+&lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;::&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Integer&lt;/span&gt;
+&lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;
+&lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;::&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Float&lt;/span&gt;
+&lt;span class=&quot;mf&quot;&gt;5.0&lt;/span&gt;
+&lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;::&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Double&lt;/span&gt;
+&lt;span class=&quot;mf&quot;&gt;5.0&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Floating type class&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Floating&lt;/code&gt;&lt;/em&gt; &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;type class&lt;/code&gt;&lt;/em&gt; has as instances the types &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Float&lt;/code&gt;&lt;/em&gt; and &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Double&lt;/code&gt;&lt;/em&gt;. The functions which are instances of &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Floating&lt;/code&gt;&lt;/em&gt; &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;type class&lt;/code&gt;&lt;/em&gt; must represent floating-point.&lt;/p&gt;
+&lt;div class=&quot;language-haskell highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;sin&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;
+&lt;span class=&quot;mf&quot;&gt;0.9092974268256817&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;cos&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;0.4161468365471424&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Integral type class&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Integral&lt;/code&gt;&lt;/em&gt; &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;type class&lt;/code&gt;&lt;/em&gt; is another numeric &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;type class&lt;/code&gt;&lt;/em&gt; which includes &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Int&lt;/code&gt;&lt;/em&gt; and &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Integer&lt;/code&gt;&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;A type can be instance of multiplies &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;type classes&lt;/code&gt;&lt;/em&gt;. We have to think, that as an interface, each &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;type class&lt;/code&gt;&lt;/em&gt; gives to a type behaviours which have to be followed. For example, a type can be an instance of &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Eq&lt;/code&gt;&lt;/em&gt; type class and &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Ord&lt;/code&gt;&lt;/em&gt; type class and have the equality behaviour and ordening behaviour.
+Looks like that &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;type classes&lt;/code&gt;&lt;/em&gt; are not so useful to us right now, but in more complex stuff of &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Haskell&lt;/code&gt;&lt;/em&gt; this knowledge will help us.&lt;/p&gt;</content><author><name>Rodrigo Morais</name></author><summary type="html">Hey folks!
+
+Yesterday we understand how types work in Haskell, what types Haskell supports and that we have type variables which can help us a lot.
+Today let’s talk about type classes. First of all we have to say that type classes are not classes. With this disclaimer we can go ahead and discover what hell type classes are.</summary></entry><entry xml:lang="en"><title type="html">Haskell’s Marathon - Day Five</title><link href="https://rodrigo-morais.github.io/haskell-marathon-day-five/" rel="alternate" type="text/html" title="Haskell's Marathon - Day Five" /><published>2016-12-05T00:00:00+01:00</published><updated>2016-12-05T00:00:00+01:00</updated><id>https://rodrigo-morais.github.io/haskell-marathon-day-five.en</id><content type="html" xml:base="https://rodrigo-morais.github.io/haskell-marathon-day-five/">&lt;p&gt;Hey folks!&lt;/p&gt;
 
 &lt;p&gt;What is your type?
 Today we will understand, or try, a little bit how the type system works in &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Haskell&lt;/code&gt;&lt;/em&gt;.&lt;/p&gt;

@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Haskell's Marathon - Day Six –  – Software Developer</title>
+
+        <meta charset="utf-8" />
+    <meta content='text/html; charset=utf-8' http-equiv='Content-Type'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0'>
+
+    
+    <meta name="description" content="Hey folks!
+
+Yesterday we understand how types work in Haskell, what types Haskell supports and that we have type variables which can help us a lot.
+Today let’s talk about type classes. First of all we have to say that type classes are not classes. With this disclaimer we can go ahead and discover what hell type classes are.
+
+" />
+    <meta property="og:description" content="Hey folks!
+
+Yesterday we understand how types work in Haskell, what types Haskell supports and that we have type variables which can help us a lot.
+Today let’s talk about type classes. First of all we have to say that type classes are not classes. With this disclaimer we can go ahead and discover what hell type classes are.
+
+" />
+    
+    <meta name="author" content="" />
+
+    
+    <meta property="og:title" content="Haskell's Marathon - Day Six" />
+    <meta property="twitter:title" content="Haskell's Marathon - Day Six" />
+    
+
+    <!--[if lt IE 9]>
+      <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <link rel="stylesheet" type="text/css" href="/css/styles.css" />
+    <link rel="alternate" type="application/rss+xml" title=" - Software Developer" href="/feed.xml" />
+
+    <!-- Created with Jekyll Now - http://github.com/barryclark/jekyll-now -->
+  </head>
+
+  <body>
+    <div class="wrapper-masthead">
+      <div class="container">
+        <header class="masthead clearfix">
+          <a href="/" class="site-avatar"><img src="https://avatars.githubusercontent.com/rodrigo-morais" /></a>
+
+          <div class="site-info">
+            <h1 class="site-name"><a href="/">In development</a></h1>
+            <h3 class="site-author">Rodrigo Morais</h3>
+            <p class="site-description">Software Developer</p>
+          </div>
+
+          <nav class="languages"> 
+          
+          </nav>
+
+          <nav>
+            <a href="/">Blog</a>
+            <a href="/about">About</a>
+          </nav>
+        </header>
+      </div>
+    </div>
+
+    <div id="main" role="main" class="container">
+      <article class="post">
+  
+    <nav class="languages"> 
+  
+    
+      <a href="https://rodrigo-morais.github.io/haskell-marathon-day-six/"><img src="https://rodrigo-morais.github.io/images/en-flag.png" /></a>
+    
+  
+    
+    <a href="https://rodrigo-morais.github.io/pt_BR/haskell-marathon-day-six/"><img src="https://rodrigo-morais.github.io/images/pt_BR-flag.png" /></a>
+    
+  
+</nav>
+
+  
+
+  <h1>Haskell's Marathon - Day Six</h1>
+
+  <div class="entry">
+    <p>Hey folks!</p>
+
+<p>Yesterday we understand how types work in <em><code class="highlighter-rouge">Haskell</code></em>, what types <em><code class="highlighter-rouge">Haskell</code></em> supports and that we have type variables which can help us a lot.
+Today let’s talk about <em><code class="highlighter-rouge">type classes</code></em>. First of all we have to say that <em><code class="highlighter-rouge">type classes</code></em> are not classes. With this disclaimer we can go ahead and discover what hell type classes are.</p>
+
+<!--more-->
+
+<p><em><code class="highlighter-rouge">Type class</code></em> is not more than an interface which describe some behaviour. If a type is an instance from a type class, then it implements this behaviour.
+To be more clear, <em><code class="highlighter-rouge">type class</code></em> is just a collection of functions which we decide what they mean for the type.
+The most common type classes in <em><code class="highlighter-rouge">Haskell</code></em> are <em><code class="highlighter-rouge">Eq</code></em>, <em><code class="highlighter-rouge">Ord</code></em>, <em><code class="highlighter-rouge">Show</code></em>, <em><code class="highlighter-rouge">Read</code></em>, <em><code class="highlighter-rouge">Enum</code></em>, <em><code class="highlighter-rouge">Bounded</code></em>, <em><code class="highlighter-rouge">Num</code></em>, <em><code class="highlighter-rouge">Floating</code></em> and <em><code class="highlighter-rouge">Integral</code></em>. Let’s give a quick summary to each one.</p>
+
+<p><br /></p>
+
+<p><strong>Eq type class</strong></p>
+
+<p>First let’s check the type of <em><code class="highlighter-rouge">==</code></em> operator which is an instance of <em><code class="highlighter-rouge">Eq</code></em>.</p>
+<div class="language-haskell highlighter-rouge"><pre class="highlight"><code><span class="o">:</span><span class="n">t</span> <span class="p">(</span><span class="o">==</span><span class="p">)</span>
+<span class="p">(</span><span class="o">==</span><span class="p">)</span> <span class="o">::</span> <span class="kt">Eq</span> <span class="n">a</span> <span class="o">=&gt;</span> <span class="n">a</span> <span class="o">-&gt;</span> <span class="n">a</span> <span class="o">-&gt;</span> <span class="kt">Bool</span>
+</code></pre>
+</div>
+<p>How we already know the <em><code class="highlighter-rouge">:t</code></em> return the type from a value and function. The operator <em><code class="highlighter-rouge">==</code></em> is a function and we can see its types. We already learnt how read it. The function receives two types variable called “a” and return a <em><code class="highlighter-rouge">Bool</code></em>. But wait a minute, what hell is <em><code class="highlighter-rouge">Eq a =&gt;</code></em>? <em><code class="highlighter-rouge">Eq a =&gt;</code></em> wants say that the type “a” should be an instance of <em><code class="highlighter-rouge">Eq</code></em> class.
+The <em><code class="highlighter-rouge">Eq</code></em> <em><code class="highlighter-rouge">type class</code></em> provide an interface for testing for equality. If it makes sense for two items from a determined type we can say that they are an instance of <em><code class="highlighter-rouge">Eq</code></em>. Almost all standard <em><code class="highlighter-rouge">Haskell</code></em> types are instances of <em><code class="highlighter-rouge">Eq</code></em>.
+<em><code class="highlighter-rouge">Eq</code></em>’s instances implement two functions which are <em><code class="highlighter-rouge">==</code></em> and <em><code class="highlighter-rouge">/=</code></em>.</p>
+
+<p><br /></p>
+
+<p><strong>Ord type class</strong></p>
+
+<p><em><code class="highlighter-rouge">Ord</code></em> is a <em><code class="highlighter-rouge">type class</code></em> for types whose values can be put in some order.  Let’s take a look in a operator to <em><code class="highlighter-rouge">Ord</code></em> <em><code class="highlighter-rouge">type class</code></em>:</p>
+<div class="language-haskell highlighter-rouge"><pre class="highlight"><code><span class="o">:</span><span class="n">t</span> <span class="p">(</span><span class="o">&lt;</span><span class="p">)</span>
+<span class="p">(</span><span class="o">&lt;</span><span class="p">)</span> <span class="o">::</span> <span class="kt">Ord</span> <span class="n">a</span> <span class="o">=&gt;</span> <span class="n">a</span> <span class="o">-&gt;</span> <span class="n">a</span> <span class="o">-&gt;</span> <span class="kt">Bool</span>
+<span class="mi">5</span> <span class="o">&lt;</span> <span class="mi">6</span>
+<span class="kt">True</span>
+<span class="mi">5</span> <span class="o">&lt;</span> <span class="mi">4</span>
+<span class="kt">False</span>
+</code></pre>
+</div>
+<p>The type <em><code class="highlighter-rouge">&lt;</code></em> is similar to <em><code class="highlighter-rouge">==</code></em> which we saw before. All the types we’ve cover so far are instances of <em><code class="highlighter-rouge">Ord</code></em> just functions are not. The operators to <em><code class="highlighter-rouge">Ord</code></em> are <em><code class="highlighter-rouge">&lt;</code></em>, <em><code class="highlighter-rouge">&lt;=</code></em>, <em><code class="highlighter-rouge">&gt;</code></em> and <em><code class="highlighter-rouge">&gt;=</code></em>.</p>
+
+<p><br /></p>
+
+<p><strong>Show type class</strong></p>
+
+<p>Types which are instances of <em><code class="highlighter-rouge">Show</code></em> <em><code class="highlighter-rouge">type class</code></em> can be represented as strings. As <em><code class="highlighter-rouge">Ord</code></em>, all types that we covered are instances of <em><code class="highlighter-rouge">Show</code></em> <em><code class="highlighter-rouge">type class</code></em> just functions are not. The behaviour from <em><code class="highlighter-rouge">Show</code></em> <em><code class="highlighter-rouge">type class</code></em> is print the values.</p>
+<div class="language-haskell highlighter-rouge"><pre class="highlight"><code><span class="n">show</span> <span class="mi">5</span>
+<span class="s">"5"</span>
+<span class="n">show</span> <span class="sc">'a'</span>
+<span class="s">"'a'"</span>
+<span class="n">show</span> <span class="kt">True</span>
+<span class="s">"True"</span>
+</code></pre>
+</div>
+
+<p><br /></p>
+
+<p><strong>Read type class</strong></p>
+
+<p>The behaviour from <em><code class="highlighter-rouge">Read</code></em> <em><code class="highlighter-rouge">type class</code></em> is the opposite of the behaviour from <em><code class="highlighter-rouge">Show</code></em> <em><code class="highlighter-rouge">type class</code></em>, but all the rest are the same. It reads a string and transformss in a value.</p>
+<div class="language-haskell highlighter-rouge"><pre class="highlight"><code><span class="n">read</span> <span class="s">"True"</span> <span class="o">||</span> <span class="kt">False</span>
+<span class="kt">True</span>
+<span class="n">read</span> <span class="s">"True"</span> <span class="o">&amp;&amp;</span> <span class="kt">False</span>
+<span class="kt">False</span>
+<span class="n">read</span> <span class="s">"5"</span> <span class="o">+</span> <span class="mi">4</span>
+<span class="mi">9</span>
+<span class="n">read</span> <span class="s">"['a']"</span> <span class="o">++</span> <span class="p">[</span><span class="sc">'h'</span><span class="p">]</span>
+<span class="s">"ah"</span>
+</code></pre>
+</div>
+
+<p><br /></p>
+
+<p><strong>Enum type class</strong></p>
+
+<p><em><code class="highlighter-rouge">Enum</code></em> <em><code class="highlighter-rouge">type class</code></em> has the behaviour to make sequences. So all instances from <em><code class="highlighter-rouge">Enum</code></em> <em><code class="highlighter-rouge">type class</code></em> are sequentially ordered types and the values can be enumerated. These instances can be used in list ranges and have successor and predecessor.</p>
+<div class="language-haskell highlighter-rouge"><pre class="highlight"><code><span class="p">[</span><span class="sc">'a'</span><span class="o">..</span><span class="sc">'f'</span><span class="p">]</span>
+<span class="s">"Abcdef"</span>
+<span class="p">[</span><span class="mi">3</span><span class="o">..</span><span class="mi">9</span><span class="p">]</span>
+<span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">9</span><span class="p">]</span>
+</code></pre>
+</div>
+
+<p><br /></p>
+
+<p><strong>Num type class</strong></p>
+
+<p><em><code class="highlighter-rouge">Num</code></em> is a numeric <em><code class="highlighter-rouge">type class</code></em>. Its instances can act as numbers.</p>
+<div class="language-haskell highlighter-rouge"><pre class="highlight"><code><span class="o">:</span><span class="n">t</span> <span class="mi">5</span>
+<span class="mi">5</span> <span class="o">::</span> <span class="kt">Num</span> <span class="n">a</span> <span class="o">=&gt;</span> <span class="n">a</span>
+<span class="mi">5</span> <span class="o">::</span> <span class="kt">Int</span>
+<span class="mi">5</span>
+<span class="mi">5</span> <span class="o">::</span> <span class="kt">Integer</span>
+<span class="mi">5</span>
+<span class="mi">5</span> <span class="o">::</span> <span class="kt">Float</span>
+<span class="mf">5.0</span>
+<span class="mi">5</span> <span class="o">::</span> <span class="kt">Double</span>
+<span class="mf">5.0</span>
+</code></pre>
+</div>
+
+<p><br /></p>
+
+<p><strong>Floating type class</strong></p>
+
+<p><em><code class="highlighter-rouge">Floating</code></em> <em><code class="highlighter-rouge">type class</code></em> has as instances the types <em><code class="highlighter-rouge">Float</code></em> and <em><code class="highlighter-rouge">Double</code></em>. The functions which are instances of <em><code class="highlighter-rouge">Floating</code></em> <em><code class="highlighter-rouge">type class</code></em> must represent floating-point.</p>
+<div class="language-haskell highlighter-rouge"><pre class="highlight"><code><span class="n">sin</span> <span class="mi">2</span>
+<span class="mf">0.9092974268256817</span>
+<span class="n">cos</span> <span class="mi">2</span>
+<span class="o">-</span><span class="mf">0.4161468365471424</span>
+</code></pre>
+</div>
+
+<p><br /></p>
+
+<p><strong>Integral type class</strong></p>
+
+<p><em><code class="highlighter-rouge">Integral</code></em> <em><code class="highlighter-rouge">type class</code></em> is another numeric <em><code class="highlighter-rouge">type class</code></em> which includes <em><code class="highlighter-rouge">Int</code></em> and <em><code class="highlighter-rouge">Integer</code></em>.</p>
+
+<p><br /></p>
+
+<p>A type can be instance of multiplies <em><code class="highlighter-rouge">type classes</code></em>. We have to think, that as an interface, each <em><code class="highlighter-rouge">type class</code></em> gives to a type behaviours which have to be followed. For example, a type can be an instance of <em><code class="highlighter-rouge">Eq</code></em> type class and <em><code class="highlighter-rouge">Ord</code></em> type class and have the equality behaviour and ordening behaviour.
+Looks like that <em><code class="highlighter-rouge">type classes</code></em> are not so useful to us right now, but in more complex stuff of <em><code class="highlighter-rouge">Haskell</code></em> this knowledge will help us.</p>
+
+  </div>
+
+  <div class="date">
+    Written on December  6, 2016
+  </div>
+
+  
+</article>
+
+    </div>
+
+    <div class="wrapper-footer">
+      <div class="container">
+        <footer class="footer">
+          
+<a href="mailto:morais.rm@gmail.com"><i class="svg-icon email"></i></a>
+
+
+<a href="https://github.com/rodrigo-morais"><i class="svg-icon github"></i></a>
+
+<a href="https://www.linkedin.com/in/moraisrm"><i class="svg-icon linkedin"></i></a>
+
+
+<a href="https://www.twitter.com/moraisrm_rs"><i class="svg-icon twitter"></i></a>
+
+
+
+        </footer>
+      </div>
+    </div>
+
+    
+	<!-- Google Analytics -->
+	<script>
+		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+		ga('create', 'UA-87967717-1', 'auto');
+		ga('send', 'pageview', {
+		  'page': '/haskell-marathon-day-six/',
+		  'title': 'Haskell\'s Marathon - Day Six'
+		});
+	</script>
+	<!-- End Google Analytics -->
+
+
+  </body>
+</html>
