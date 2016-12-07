@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Haskell's Marathon - Day Seven –  – Software Developer</title>
+
+        <meta charset="utf-8" />
+    <meta content='text/html; charset=utf-8' http-equiv='Content-Type'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0'>
+
+    
+    <meta name="description" content="Hey folks!
+
+Today the study about Haskell was a little bit different. Instead of to follow the book I went in a meetup. It was my first meetup here in Berlin and was pretty cool and different.
+This meetup happens every Wednesday and each week with different goals. One week is a meetup with lectures and etc, and another week is to beginners learn the language.
+Today the meetup was to beginners. The group is following the book called “Haskell Programming” and today they covered the eighth chapter which is about foldr and foldl.
+
+" />
+    <meta property="og:description" content="Hey folks!
+
+Today the study about Haskell was a little bit different. Instead of to follow the book I went in a meetup. It was my first meetup here in Berlin and was pretty cool and different.
+This meetup happens every Wednesday and each week with different goals. One week is a meetup with lectures and etc, and another week is to beginners learn the language.
+Today the meetup was to beginners. The group is following the book called “Haskell Programming” and today they covered the eighth chapter which is about foldr and foldl.
+
+" />
+    
+    <meta name="author" content="" />
+
+    
+    <meta property="og:title" content="Haskell's Marathon - Day Seven" />
+    <meta property="twitter:title" content="Haskell's Marathon - Day Seven" />
+    
+
+    <!--[if lt IE 9]>
+      <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <link rel="stylesheet" type="text/css" href="/css/styles.css" />
+    <link rel="alternate" type="application/rss+xml" title=" - Software Developer" href="/feed.xml" />
+
+    <!-- Created with Jekyll Now - http://github.com/barryclark/jekyll-now -->
+  </head>
+
+  <body>
+    <div class="wrapper-masthead">
+      <div class="container">
+        <header class="masthead clearfix">
+          <a href="/" class="site-avatar"><img src="https://avatars.githubusercontent.com/rodrigo-morais" /></a>
+
+          <div class="site-info">
+            <h1 class="site-name"><a href="/">In development</a></h1>
+            <h3 class="site-author">Rodrigo Morais</h3>
+            <p class="site-description">Software Developer</p>
+          </div>
+
+          <nav class="languages"> 
+          
+          </nav>
+
+          <nav>
+            <a href="/">Blog</a>
+            <a href="/about">About</a>
+          </nav>
+        </header>
+      </div>
+    </div>
+
+    <div id="main" role="main" class="container">
+      <article class="post">
+  
+    <nav class="languages"> 
+  
+    
+      <a href="https://rodrigo-morais.github.io/haskell-marathon-day-seven/"><img src="https://rodrigo-morais.github.io/images/en-flag.png" /></a>
+    
+  
+    
+    <a href="https://rodrigo-morais.github.io/pt_BR/haskell-marathon-day-seven/"><img src="https://rodrigo-morais.github.io/images/pt_BR-flag.png" /></a>
+    
+  
+</nav>
+
+  
+
+  <h1>Haskell's Marathon - Day Seven</h1>
+
+  <div class="entry">
+    <p>Hey folks!</p>
+
+<p>Today the study about <em><code class="highlighter-rouge">Haskell</code></em> was a little bit different. Instead of to follow the book I went in a meetup. It was my first meetup here in Berlin and was pretty cool and different.<br />
+This meetup happens every Wednesday and each week with different goals. One week is a meetup with lectures and etc, and another week is to beginners learn the language.<br />
+Today the meetup was to beginners. The group is following the book called <a href="http://haskellbook.com/">“Haskell Programming”</a> and today they covered the eighth chapter which is about <em><code class="highlighter-rouge">foldr</code></em> and <em><code class="highlighter-rouge">foldl</code></em>.</p>
+
+<!--more-->
+
+<p>The meetup started with a review about the chapter seven which was about Lists and functions as <em><code class="highlighter-rouge">map</code></em>, <em><code class="highlighter-rouge">filter</code></em> and <em><code class="highlighter-rouge">zip</code></em>. The cool part here was that we discuss how implement these functions manually. It was interessant because the participants could share ideas and experiences and we were building the solutions together. And beyond that we become more aware about this functions and after that is easier use them.</p>
+
+<p>After that we talk about the functions <em><code class="highlighter-rouge">foldr</code></em> and <em><code class="highlighter-rouge">foldl</code></em> which are useful to work with lists. They work as <em><code class="highlighter-rouge">reduce</code></em> works in other languages.</p>
+<div class="language-haskell highlighter-rouge"><pre class="highlight"><code><span class="n">foldr</span> <span class="p">(</span><span class="o">+</span><span class="p">)</span> <span class="mi">0</span> <span class="p">[</span><span class="mi">1</span><span class="o">..</span><span class="mi">10</span><span class="p">]</span>
+<span class="mi">55</span>
+<span class="n">foldl</span> <span class="p">(</span><span class="o">+</span><span class="p">)</span> <span class="mi">0</span> <span class="p">[</span><span class="mi">1</span><span class="o">..</span><span class="mi">10</span><span class="p">]</span>
+<span class="mi">55</span>
+</code></pre>
+</div>
+<p>The difference is that one start from left and another from right. We will talk about this functions and <em><code class="highlighter-rouge">map</code></em>, <em><code class="highlighter-rouge">filter</code></em>, <em><code class="highlighter-rouge">zip</code></em> and etc soon.</p>
+
+<p><br /></p>
+
+<p>If you come to Berlin or you are in Berlin I really recommend this <a href="https://www.meetup.com/berlinhug/">meetup</a>. Really smart and helpful people with different backgrounds and levels about <em><code class="highlighter-rouge">Haskell</code></em>.</p>
+
+  </div>
+
+  <div class="date">
+    Written on December  7, 2016
+  </div>
+
+  
+<div class="comments">
+	<div id="disqus_thread"></div>
+	<script type="text/javascript">
+
+	    var disqus_shortname = 'rodrigo-morais';
+
+	    (function() {
+	        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+	        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+	        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	    })();
+
+	</script>
+	<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+
+</article>
+
+    </div>
+
+    <div class="wrapper-footer">
+      <div class="container">
+        <footer class="footer">
+          
+<a href="mailto:morais.rm@gmail.com"><i class="svg-icon email"></i></a>
+
+
+<a href="https://github.com/rodrigo-morais"><i class="svg-icon github"></i></a>
+
+<a href="https://www.linkedin.com/in/moraisrm"><i class="svg-icon linkedin"></i></a>
+
+
+<a href="https://www.twitter.com/moraisrm_rs"><i class="svg-icon twitter"></i></a>
+
+
+
+        </footer>
+      </div>
+    </div>
+
+    
+	<!-- Google Analytics -->
+	<script>
+		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+		ga('create', 'UA-87967717-1', 'auto');
+		ga('send', 'pageview', {
+		  'page': '/haskell-marathon-day-seven/',
+		  'title': 'Haskell\'s Marathon - Day Seven'
+		});
+	</script>
+	<!-- End Google Analytics -->
+
+
+  </body>
+</html>
