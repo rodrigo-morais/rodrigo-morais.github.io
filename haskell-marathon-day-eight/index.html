@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Haskell's Marathon - Day Eight –  – Software Developer</title>
+
+        <meta charset="utf-8" />
+    <meta content='text/html; charset=utf-8' http-equiv='Content-Type'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0'>
+
+    
+    <meta name="description" content="Hey folks!
+
+
+
+Today let’s talk about Pattern Matching one the best features in Functional Programming in my opinion.
+
+As the majority functional languages Haskell has Pattern Matching which makes our lives much easier to create function with different actions depending what is received. Pattern Matching is about evaluate data and deconstruct them according those patterns.
+The idea behind Pattern Matching is to make our program simpler and readable. Let’s dive in some examples and understand why.
+
+" />
+    <meta property="og:description" content="Hey folks!
+
+
+
+Today let’s talk about Pattern Matching one the best features in Functional Programming in my opinion.
+
+As the majority functional languages Haskell has Pattern Matching which makes our lives much easier to create function with different actions depending what is received. Pattern Matching is about evaluate data and deconstruct them according those patterns.
+The idea behind Pattern Matching is to make our program simpler and readable. Let’s dive in some examples and understand why.
+
+" />
+    
+    <meta name="author" content="" />
+
+    
+    <meta property="og:title" content="Haskell's Marathon - Day Eight" />
+    <meta property="twitter:title" content="Haskell's Marathon - Day Eight" />
+    
+
+    <!--[if lt IE 9]>
+      <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <link rel="stylesheet" type="text/css" href="/css/styles.css" />
+    <link rel="alternate" type="application/rss+xml" title=" - Software Developer" href="/feed.xml" />
+
+    <!-- Created with Jekyll Now - http://github.com/barryclark/jekyll-now -->
+  </head>
+
+  <body>
+    <div class="wrapper-masthead">
+      <div class="container">
+        <header class="masthead clearfix">
+          <a href="/" class="site-avatar"><img src="https://avatars.githubusercontent.com/rodrigo-morais" /></a>
+
+          <div class="site-info">
+            <h1 class="site-name"><a href="/">In development</a></h1>
+            <h3 class="site-author">Rodrigo Morais</h3>
+            <p class="site-description">Software Developer</p>
+          </div>
+
+          <nav class="languages"> 
+          
+          </nav>
+
+          <nav>
+            <a href="/">Blog</a>
+            <a href="/about">About</a>
+          </nav>
+        </header>
+      </div>
+    </div>
+
+    <div id="main" role="main" class="container">
+      <article class="post">
+  
+    <nav class="languages"> 
+  
+    
+      <a href="https://rodrigo-morais.github.io/haskell-marathon-day-eight/"><img src="https://rodrigo-morais.github.io/images/en-flag.png" /></a>
+    
+  
+    
+    <a href="https://rodrigo-morais.github.io/pt_BR/haskell-marathon-day-eight/"><img src="https://rodrigo-morais.github.io/images/pt_BR-flag.png" /></a>
+    
+  
+</nav>
+
+  
+
+  <h1>Haskell's Marathon - Day Eight</h1>
+
+  <div class="entry">
+    <p>Hey folks!</p>
+
+<p><br /></p>
+
+<p>Today let’s talk about <em><code class="highlighter-rouge">Pattern Matching</code></em> one the best features in <em><code class="highlighter-rouge">Functional Programming</code></em> in my opinion.</p>
+
+<p>As the majority functional languages <em><code class="highlighter-rouge">Haskell</code></em> has <em><code class="highlighter-rouge">Pattern Matching</code></em> which makes our lives much easier to create function with different actions depending what is received. <em><code class="highlighter-rouge">Pattern Matching</code></em> is about evaluate data and deconstruct them according those patterns.
+The idea behind <em><code class="highlighter-rouge">Pattern Matching</code></em> is to make our program simpler and readable. Let’s dive in some examples and understand why.</p>
+
+<!--more-->
+
+<p>We can start with a function which receive a number and if this number is 5 then return the month “May” and if the number is different return the message “it is not a valid month”. How we implement that in a ordinary language?</p>
+<div class="language-haskell highlighter-rouge"><pre class="highlight"><code><span class="n">month</span> <span class="o">::</span> <span class="kt">Int</span> <span class="o">-&gt;</span> <span class="kt">String</span>
+<span class="n">month</span> <span class="n">a</span> <span class="o">=</span>
+  <span class="kr">if</span> <span class="n">a</span> <span class="o">==</span> <span class="mi">5</span> <span class="kr">then</span>
+    <span class="s">"May"</span>
+  <span class="kr">else</span>
+    <span class="s">"it is not a valid month"</span>
+
+
+<span class="n">month</span> <span class="mi">5</span>
+<span class="err">“</span><span class="kt">May</span><span class="err">”</span>
+<span class="n">month</span> <span class="mi">6</span>
+<span class="s">"it is not a valid month"</span>
+</code></pre>
+</div>
+<p>Ok. A simple <em><code class="highlighter-rouge">IF</code></em> can solve the problem, but if we want get “June”, “July” and “August”?</p>
+<div class="language-haskell highlighter-rouge"><pre class="highlight"><code><span class="n">month</span> <span class="o">::</span> <span class="kt">Int</span> <span class="o">-&gt;</span> <span class="kt">String</span>
+<span class="n">month</span> <span class="n">a</span> <span class="o">=</span>
+  <span class="kr">if</span> <span class="n">a</span> <span class="o">==</span> <span class="mi">5</span> <span class="kr">then</span>
+    <span class="s">"May"</span>
+  <span class="kr">else</span> <span class="kr">if</span> <span class="n">a</span> <span class="o">==</span> <span class="mi">6</span> <span class="kr">then</span>
+    <span class="s">"June"</span>
+  <span class="kr">else</span> <span class="kr">if</span> <span class="n">a</span> <span class="o">==</span> <span class="mi">7</span> <span class="kr">then</span>
+    <span class="s">"July"</span>
+  <span class="kr">else</span> <span class="kr">if</span> <span class="n">a</span> <span class="o">==</span> <span class="mi">8</span> <span class="kr">then</span>
+    <span class="s">"August"</span>
+  <span class="kr">else</span>
+    <span class="s">"it is not a valid month"</span>
+
+
+<span class="n">month</span> <span class="mi">6</span>
+<span class="s">"June"</span>
+<span class="n">month</span> <span class="mi">7</span>
+<span class="s">"July"</span>
+<span class="n">month</span> <span class="mi">8</span>
+<span class="err">“</span><span class="kt">August</span><span class="err">”</span>
+<span class="n">month</span> <span class="mi">9</span>
+<span class="s">"it is not a valid month"</span>
+</code></pre>
+</div>
+<p>The <em><code class="highlighter-rouge">IF</code></em> solution still works, but it is pretty ugly. Imagine this function with all months.<br />
+When we <em><code class="highlighter-rouge">Pattern Matching</code></em> a function we can create a body to each pattern making the function simpler and readable. Let’s see:</p>
+<div class="language-haskell highlighter-rouge"><pre class="highlight"><code><span class="n">month'</span> <span class="o">::</span> <span class="kt">Int</span> <span class="o">-&gt;</span> <span class="kt">String</span>
+<span class="n">month'</span> <span class="mi">5</span> <span class="o">=</span> <span class="s">"May"</span>
+<span class="n">month'</span> <span class="mi">6</span> <span class="o">=</span> <span class="s">"June"</span>
+<span class="n">month'</span> <span class="mi">7</span> <span class="o">=</span> <span class="s">"July"</span>
+<span class="n">month'</span> <span class="mi">8</span> <span class="o">=</span> <span class="s">"August"</span>
+
+
+<span class="n">month</span> <span class="mi">5</span>
+<span class="s">"May"</span>
+<span class="n">month</span> <span class="mi">6</span>
+<span class="s">"June"</span>
+<span class="n">month</span> <span class="mi">7</span>
+<span class="s">"July"</span>
+<span class="n">month</span> <span class="mi">8</span>
+<span class="err">“</span><span class="kt">August</span><span class="err">”</span>
+<span class="n">month</span> <span class="mi">9</span>
+<span class="s">"*** Exception: code/patter_matching.hs:(17,1)-(20,19): Non-exhaustive patterns in function month'
+</span></code></pre>
+</div>
+<p>Much better than the <em><code class="highlighter-rouge">IF</code></em> version. What do you think?<br />
+Pay attention that each month is a new function body.</p>
+
+<p>Ok. But, where is the final <em><code class="highlighter-rouge">ELSE</code></em> to nonexistent months?<br />
+Well, <em><code class="highlighter-rouge">Pattern Matching</code></em> has a feature called <em><code class="highlighter-rouge">catchall</code></em> which is the same than our final <em><code class="highlighter-rouge">ELSE</code></em>. In the example above we see the function failing because we don’t have the <em><code class="highlighter-rouge">catchall</code></em>.</p>
+<div class="language-haskell highlighter-rouge"><pre class="highlight"><code><span class="n">month'</span> <span class="o">::</span> <span class="kt">Int</span> <span class="o">-&gt;</span> <span class="kt">String</span>
+<span class="n">month'</span> <span class="mi">5</span> <span class="o">=</span> <span class="s">"May"</span>
+<span class="n">month'</span> <span class="mi">6</span> <span class="o">=</span> <span class="s">"June"</span>
+<span class="n">month'</span> <span class="mi">7</span> <span class="o">=</span> <span class="s">"July"</span>
+<span class="n">month'</span> <span class="mi">8</span> <span class="o">=</span> <span class="s">"August"</span>
+<span class="n">month'</span> <span class="kr">_</span> <span class="o">=</span> <span class="s">"it is not a valid month"</span>
+
+
+<span class="n">month</span> <span class="mi">9</span>
+<span class="s">"it is not a valid month"</span>
+</code></pre>
+</div>
+<p>Here to the <em><code class="highlighter-rouge">catchall</code></em> we are using an underscore (_) but we can use any other letter, symbol or word. Underscore is just a standard in <em><code class="highlighter-rouge">Haskell</code></em>.</p>
+
+<p>Another important point is the order of functions. If we have the functions in incorrect order we can get a bug. In the month’s example if we have <em><code class="highlighter-rouge">catchall</code></em> before a month this month will never be called because <em><code class="highlighter-rouge">catchall</code></em> get all cases.</p>
+<div class="language-haskell highlighter-rouge"><pre class="highlight"><code><span class="n">month'</span> <span class="o">::</span> <span class="kt">Int</span> <span class="o">-&gt;</span> <span class="kt">String</span>
+<span class="n">month'</span> <span class="mi">5</span> <span class="o">=</span> <span class="s">"May"</span>
+<span class="n">month'</span> <span class="kr">_</span> <span class="o">=</span> <span class="s">"it is not a valid month"</span>
+<span class="n">month'</span> <span class="mi">6</span> <span class="o">=</span> <span class="s">"June"</span>
+<span class="n">month'</span> <span class="mi">7</span> <span class="o">=</span> <span class="s">"July"</span>
+<span class="n">month'</span> <span class="mi">8</span> <span class="o">=</span> <span class="s">"August"</span>
+
+
+<span class="o">*</span><span class="kt">Main</span><span class="o">&gt;</span> <span class="o">:</span><span class="n">l</span> <span class="n">code</span><span class="o">/</span><span class="n">patter_matching</span><span class="o">.</span><span class="n">hs</span>
+<span class="p">[</span><span class="mi">1</span> <span class="kr">of</span> <span class="mi">1</span><span class="p">]</span> <span class="kt">Compiling</span> <span class="kt">Main</span>             <span class="p">(</span> <span class="n">code</span><span class="o">/</span><span class="n">patter_matching</span><span class="o">.</span><span class="n">hs</span><span class="p">,</span> <span class="n">interpreted</span> <span class="p">)</span>
+
+
+<span class="n">code</span><span class="o">/</span><span class="n">patter_matching</span><span class="o">.</span><span class="n">hs</span><span class="o">:</span><span class="mi">17</span><span class="o">:</span><span class="mi">1</span><span class="o">:</span> <span class="kt">Warning</span><span class="o">:</span>
+    <span class="kt">Pattern</span> <span class="n">match</span><span class="p">(</span><span class="n">es</span><span class="p">)</span> <span class="n">are</span> <span class="n">overlapped</span>
+    <span class="kt">In</span> <span class="n">an</span> <span class="n">equation</span> <span class="n">for</span> <span class="err">‘</span><span class="n">month'</span><span class="err">’</span><span class="o">:</span>
+        <span class="n">month'</span> <span class="mi">6</span> <span class="o">=</span> <span class="o">...</span>
+        <span class="n">month'</span> <span class="mi">7</span> <span class="o">=</span> <span class="o">...</span>
+        <span class="n">month'</span> <span class="mi">8</span> <span class="o">=</span> <span class="o">...</span>
+<span class="kt">Ok</span><span class="p">,</span> <span class="n">modules</span> <span class="n">loaded</span><span class="o">:</span> <span class="kt">Main</span><span class="o">.</span>
+
+
+<span class="n">month'</span> <span class="mi">5</span>
+<span class="err">“</span><span class="kt">May</span><span class="err">”</span>
+<span class="n">month'</span> <span class="mi">6</span>
+<span class="s">"it is not a valid month"</span>
+<span class="n">month'</span> <span class="mi">9</span>
+<span class="s">"it is not a valid month"</span>
+</code></pre>
+</div>
+
+<p>We can use <em><code class="highlighter-rouge">Pattern Matching</code></em> with <em><code class="highlighter-rouge">Tuples</code></em> too. If we want sum two <em><code class="highlighter-rouge">Tuples</code></em> how we can do?</p>
+<div class="language-haskell highlighter-rouge"><pre class="highlight"><code><span class="n">points</span> <span class="o">::</span> <span class="p">(</span><span class="kt">Int</span><span class="p">,</span> <span class="kt">Int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="kt">Int</span><span class="p">,</span> <span class="kt">Int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="kt">Int</span><span class="p">,</span> <span class="kt">Int</span><span class="p">)</span>
+<span class="n">points</span> <span class="p">(</span><span class="n">a1</span><span class="p">,</span> <span class="n">b1</span><span class="p">)</span> <span class="p">(</span><span class="n">a2</span><span class="p">,</span> <span class="n">b2</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="n">a1</span> <span class="o">+</span> <span class="n">a2</span><span class="p">,</span> <span class="n">b1</span> <span class="o">+</span> <span class="n">b2</span><span class="p">)</span>
+
+
+<span class="n">points</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span> <span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="p">(</span><span class="mi">9</span><span class="p">,</span><span class="mi">6</span><span class="p">)</span>
+</code></pre>
+</div>
+<p>In this case we don’t have <em><code class="highlighter-rouge">catchall</code></em> because the first pattern get all cases.
+Another example with <em><code class="highlighter-rouge">Tuples</code></em> can be create a functions to triples. We already have the functions <em><code class="highlighter-rouge">fst</code></em> and <em><code class="highlighter-rouge">snd</code></em> to pairs, but we don’t have any function to triples. We can create then:</p>
+<div class="language-haskell highlighter-rouge"><pre class="highlight"><code><span class="n">first</span> <span class="o">::</span> <span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">a</span>
+<span class="n">first</span> <span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="kr">_</span><span class="p">,</span> <span class="kr">_</span><span class="p">)</span> <span class="o">=</span> <span class="n">a</span>
+
+
+<span class="n">second</span> <span class="o">::</span> <span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">b</span>
+<span class="n">second</span> <span class="p">(</span><span class="kr">_</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="kr">_</span><span class="p">)</span> <span class="o">=</span> <span class="n">b</span>
+
+
+<span class="n">third</span> <span class="o">::</span> <span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">c</span>
+<span class="n">third</span> <span class="p">(</span><span class="kr">_</span><span class="p">,</span> <span class="kr">_</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span> <span class="o">=</span> <span class="n">c</span>
+
+
+<span class="n">first</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
+<span class="mi">1</span>
+<span class="n">second</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
+<span class="mi">2</span>
+<span class="n">third</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
+<span class="mi">3</span>
+
+
+</code></pre>
+</div>
+
+<p>And the most important we can use <em><code class="highlighter-rouge">Pattern Matching</code></em> with lists which probably where we will use the most this technic. We saw before the functions <em><code class="highlighter-rouge">head</code></em> and <em><code class="highlighter-rouge">tail</code></em> which we can use with lists. Let’s rewrite them:</p>
+<div class="language-haskell highlighter-rouge"><pre class="highlight"><code><span class="n">head'</span> <span class="o">::</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="n">a</span>
+<span class="n">head'</span> <span class="p">(</span><span class="n">x</span><span class="o">:</span><span class="kr">_</span><span class="p">)</span> <span class="o">=</span> <span class="n">x</span>
+
+
+<span class="n">tail'</span> <span class="o">::</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span>
+<span class="n">tail'</span> <span class="p">(</span><span class="kr">_</span><span class="o">:</span><span class="n">xs</span><span class="p">)</span> <span class="o">=</span> <span class="n">xs</span>
+
+
+<span class="n">head'</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span>
+<span class="mi">1</span>
+<span class="n">tail'</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span>
+<span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span>
+
+
+<span class="n">head'</span> <span class="kt">[]</span>
+<span class="o">***</span> <span class="kt">Exception</span><span class="o">:</span> <span class="n">code</span><span class="o">/</span><span class="n">patter_matching</span><span class="o">.</span><span class="n">hs</span><span class="o">:</span><span class="mi">39</span><span class="o">:</span><span class="mi">1</span><span class="o">-</span><span class="mi">15</span><span class="o">:</span> <span class="kt">Non</span><span class="o">-</span><span class="n">exhaustive</span> <span class="n">patterns</span> <span class="kr">in</span> <span class="n">function</span> <span class="n">head'</span>
+
+
+<span class="n">tail'</span> <span class="kt">[]</span>
+<span class="o">***</span> <span class="kt">Exception</span><span class="o">:</span> <span class="n">code</span><span class="o">/</span><span class="n">patter_matching</span><span class="o">.</span><span class="n">hs</span><span class="o">:</span><span class="mi">42</span><span class="o">:</span><span class="mi">1</span><span class="o">-</span><span class="mi">17</span><span class="o">:</span> <span class="kt">Non</span><span class="o">-</span><span class="n">exhaustive</span> <span class="n">patterns</span> <span class="kr">in</span> <span class="n">function</span> <span class="n">tail'</span>
+</code></pre>
+</div>
+<p>Here we can see that the functions are working when they receive a list with elements, but when the list is empty the functions are breaking. Let’s solve it.</p>
+
+<div class="language-haskell highlighter-rouge"><pre class="highlight"><code><span class="n">head'</span> <span class="o">::</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="n">a</span>
+<span class="n">head'</span> <span class="kt">[]</span> <span class="o">=</span> <span class="ne">error</span> <span class="s">"list is empty"</span>
+<span class="n">head'</span> <span class="p">(</span><span class="n">x</span><span class="o">:</span><span class="kr">_</span><span class="p">)</span> <span class="o">=</span> <span class="n">x</span>
+
+
+<span class="n">tail'</span> <span class="o">::</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span>
+<span class="n">tail'</span> <span class="kt">[]</span> <span class="o">=</span> <span class="p">[</span>
+
+
+<span class="n">head'</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span>
+<span class="mi">1</span>
+
+
+<span class="n">tail'</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span>
+<span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span>
+
+
+<span class="n">head'</span> <span class="kt">[]</span>
+<span class="o">***</span> <span class="kt">Exception</span><span class="o">:</span> <span class="n">list</span> <span class="n">is</span> <span class="n">empty</span>
+
+
+<span class="n">tail'</span> <span class="kt">[]</span>
+<span class="kt">[]</span>
+</code></pre>
+</div>
+<p>Now is everything working, we gave two different solutions to each function. To <em><code class="highlighter-rouge">head</code></em> we are calling an error when we receive an empty list because we don’t have element to return, on the other hand to <em><code class="highlighter-rouge">tail</code></em> we are returning an empty list when we receive an empty list because the rest of nothing is nothing.</p>
+
+<p>Beyond that we have a curiosity in this implementation, we can see that in <em><code class="highlighter-rouge">head</code></em> function we are receiving the list as <em><code class="highlighter-rouge">(x:_)</code></em> and in <em><code class="highlighter-rouge">tail</code></em> function as <em><code class="highlighter-rouge">(_:xs)</code></em>. It happens because in <em><code class="highlighter-rouge">Haskell</code></em> we can represent a list as <em><code class="highlighter-rouge">x:xs</code></em> where <em><code class="highlighter-rouge">x</code></em> is the first element and <em><code class="highlighter-rouge">xs</code></em> is the rest.
+One example is the list <em><code class="highlighter-rouge">[1,2,3,4]</code></em> which can be represented as <em><code class="highlighter-rouge">(1:(2:(3:(4))))</code></em>. In this case <em><code class="highlighter-rouge">1</code></em> is <em><code class="highlighter-rouge">x</code></em> and <em><code class="highlighter-rouge">(2:(3:(4)))</code></em> is <em><code class="highlighter-rouge">xs</code></em>.</p>
+
+<p><br /></p>
+
+<p><em><code class="highlighter-rouge">Pattern Matching</code></em> is a super feature to <em><code class="highlighter-rouge">Functional Programming</code></em> because makes the code simpler and readable. I can say that is my favorite feature. Prepare yourself because you will work a lot with <em><code class="highlighter-rouge">Pattern Matching</code></em> when you are using <em><code class="highlighter-rouge">Functional Programming</code></em>.</p>
+
+  </div>
+
+  <div class="date">
+    Written on December  8, 2016
+  </div>
+
+  
+<div class="comments">
+	<div id="disqus_thread"></div>
+	<script type="text/javascript">
+
+	    var disqus_shortname = 'rodrigo-morais';
+
+	    (function() {
+	        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+	        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+	        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	    })();
+
+	</script>
+	<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+
+</article>
+
+    </div>
+
+    <div class="wrapper-footer">
+      <div class="container">
+        <footer class="footer">
+          
+<a href="mailto:morais.rm@gmail.com"><i class="svg-icon email"></i></a>
+
+
+<a href="https://github.com/rodrigo-morais"><i class="svg-icon github"></i></a>
+
+<a href="https://www.linkedin.com/in/moraisrm"><i class="svg-icon linkedin"></i></a>
+
+
+<a href="https://www.twitter.com/moraisrm_rs"><i class="svg-icon twitter"></i></a>
+
+
+
+        </footer>
+      </div>
+    </div>
+
+    
+	<!-- Google Analytics -->
+	<script>
+		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+		ga('create', 'UA-87967717-1', 'auto');
+		ga('send', 'pageview', {
+		  'page': '/haskell-marathon-day-eight/',
+		  'title': 'Haskell\'s Marathon - Day Eight'
+		});
+	</script>
+	<!-- End Google Analytics -->
+
+
+  </body>
+</html>

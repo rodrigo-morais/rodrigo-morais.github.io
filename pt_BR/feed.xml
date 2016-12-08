@@ -1,4 +1,224 @@
-<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xml" href="https://rodrigo-morais.github.io/feed.xslt.xml"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.3.1">Jekyll</generator><link href="https://rodrigo-morais.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://rodrigo-morais.github.io/" rel="alternate" type="text/html" /><updated>2016-12-08T00:19:46+01:00</updated><id>https://rodrigo-morais.github.io//</id><title type="html">In development</title><subtitle>Software Developer</subtitle><author><name>Rodrigo Morais</name></author><entry xml:lang="pt_BR"><title type="html">Maratona de Haskell - Sétimo Dia</title><link href="https://rodrigo-morais.github.io/haskell-marathon-day-seven/" rel="alternate" type="text/html" title="Maratona de Haskell - Sétimo Dia" /><published>2016-12-07T00:00:00+01:00</published><updated>2016-12-07T00:00:00+01:00</updated><id>https://rodrigo-morais.github.io/haskell-marathon-day-seven.pt_BR</id><content type="html" xml:base="https://rodrigo-morais.github.io/haskell-marathon-day-seven/">&lt;p&gt;Fala pessoal!&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xml" href="https://rodrigo-morais.github.io/feed.xslt.xml"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.3.1">Jekyll</generator><link href="https://rodrigo-morais.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://rodrigo-morais.github.io/" rel="alternate" type="text/html" /><updated>2016-12-08T23:18:45+01:00</updated><id>https://rodrigo-morais.github.io//</id><title type="html">In development</title><subtitle>Software Developer</subtitle><author><name>Rodrigo Morais</name></author><entry xml:lang="pt_BR"><title type="html">Maratona de Haskell - Oitavo Dia</title><link href="https://rodrigo-morais.github.io/haskell-marathon-day-eight/" rel="alternate" type="text/html" title="Maratona de Haskell - Oitavo Dia" /><published>2016-12-08T00:00:00+01:00</published><updated>2016-12-08T00:00:00+01:00</updated><id>https://rodrigo-morais.github.io/haskell-marathon-day-eight.pt_BR</id><content type="html" xml:base="https://rodrigo-morais.github.io/haskell-marathon-day-eight/">&lt;p&gt;Fala pessoal!&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;Hoje vamos falar de &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Pattern Matching&lt;/code&gt;&lt;/em&gt; uma das melhores funcionalidades em &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Functional Programming&lt;/code&gt;&lt;/em&gt; na minha opinião.&lt;/p&gt;
+
+&lt;p&gt;Como a maioria das linguagens funcionais &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Haskell&lt;/code&gt;&lt;/em&gt; tem &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Pattern Matching&lt;/code&gt;&lt;/em&gt; que faz nossas vidas muito mais fácil apra criar funções com diferentes ações dependendo do que é recebido. &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Pattern Matching&lt;/code&gt;&lt;/em&gt; é sobre avaliar dados e desconstrui-los de acordo com seus padrões.
+A ideia atrás de &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Pattern Matching&lt;/code&gt;&lt;/em&gt; é fazer nossos programas mais simples e legíveis. Vamos mergulhar em alguns exemplos e entender o porque.&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+&lt;p&gt;Nós podemos iniciar com uma função que recebe um número e se este número for 5 então retornamos o mês de “Maio” e se o número é diferente retorna uma mensagem “it is not a valid month”. Como nós implementamos isso como uma linguagem que estamos acostumados?&lt;/p&gt;
+&lt;div class=&quot;language-haskell highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;month&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;::&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Int&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;month&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;
+  &lt;span class=&quot;kr&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt; &lt;span class=&quot;kr&quot;&gt;then&lt;/span&gt;
+    &lt;span class=&quot;s&quot;&gt;&quot;May&quot;&lt;/span&gt;
+  &lt;span class=&quot;kr&quot;&gt;else&lt;/span&gt;
+    &lt;span class=&quot;s&quot;&gt;&quot;it is not a valid month&quot;&lt;/span&gt;
+
+
+&lt;span class=&quot;n&quot;&gt;month&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;
+&lt;span class=&quot;err&quot;&gt;“&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;May&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;”&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;month&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;6&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;&quot;it is not a valid month&quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;Ok. Um simples &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;IF&lt;/code&gt;&lt;/em&gt; pode resolver o problema, mas e se nós queremos obter “June”, “July” e “August”?&lt;/p&gt;
+&lt;div class=&quot;language-haskell highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;month&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;::&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Int&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;month&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;
+  &lt;span class=&quot;kr&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt; &lt;span class=&quot;kr&quot;&gt;then&lt;/span&gt;
+    &lt;span class=&quot;s&quot;&gt;&quot;May&quot;&lt;/span&gt;
+  &lt;span class=&quot;kr&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;kr&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;6&lt;/span&gt; &lt;span class=&quot;kr&quot;&gt;then&lt;/span&gt;
+    &lt;span class=&quot;s&quot;&gt;&quot;June&quot;&lt;/span&gt;
+  &lt;span class=&quot;kr&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;kr&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;7&lt;/span&gt; &lt;span class=&quot;kr&quot;&gt;then&lt;/span&gt;
+    &lt;span class=&quot;s&quot;&gt;&quot;July&quot;&lt;/span&gt;
+  &lt;span class=&quot;kr&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;kr&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;8&lt;/span&gt; &lt;span class=&quot;kr&quot;&gt;then&lt;/span&gt;
+    &lt;span class=&quot;s&quot;&gt;&quot;August&quot;&lt;/span&gt;
+  &lt;span class=&quot;kr&quot;&gt;else&lt;/span&gt;
+    &lt;span class=&quot;s&quot;&gt;&quot;it is not a valid month&quot;&lt;/span&gt;
+
+
+&lt;span class=&quot;n&quot;&gt;month&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;6&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;&quot;June&quot;&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;month&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;7&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;&quot;July&quot;&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;month&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;8&lt;/span&gt;
+&lt;span class=&quot;err&quot;&gt;“&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;August&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;”&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;month&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;9&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;&quot;it is not a valid month&quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;A solução do &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;IF&lt;/code&gt;&lt;/em&gt;  continua funcionando, mas é muito feia. Imagine se a função retornar todos os meses.&lt;br /&gt;
+Quando usamos &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Pattern Matching&lt;/code&gt;&lt;/em&gt; em uma função podemos criar um corpo para cada padrão fazendo a função mais simples e legível. Vamos ver:&lt;/p&gt;
+&lt;div class=&quot;language-haskell highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;month'&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;::&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Int&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;month'&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;May&quot;&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;month'&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;6&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;June&quot;&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;month'&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;7&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;July&quot;&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;month'&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;8&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;August&quot;&lt;/span&gt;
+
+
+&lt;span class=&quot;n&quot;&gt;month&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;&quot;May&quot;&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;month&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;6&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;&quot;June&quot;&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;month&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;7&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;&quot;July&quot;&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;month&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;8&lt;/span&gt;
+&lt;span class=&quot;err&quot;&gt;“&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;August&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;”&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;month&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;9&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;&quot;*** Exception: code/patter_matching.hs:(17,1)-(20,19): Non-exhaustive patterns in function month'
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;Muito melhor que a versão do &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;IF&lt;/code&gt;&lt;/em&gt;. O que você acha?&lt;br /&gt;
+Preste atenção que cada mês é um novo corpo de função.&lt;/p&gt;
+
+&lt;p&gt;Ok. Mas onde esta o &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;ELSE&lt;/code&gt;&lt;/em&gt; final para os meses que não existem?&lt;br /&gt;
+Bem, &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Pattern Matching&lt;/code&gt;&lt;/em&gt; tem uma funcionalidade chamada &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;catchall&lt;/code&gt;&lt;/em&gt; que é o mesmo que o &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;ELSE&lt;/code&gt;&lt;/em&gt; final. No exemplo acima nós vimos a função falhando porque nós não temos o &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;catchall&lt;/code&gt;&lt;/em&gt;.&lt;/p&gt;
+&lt;div class=&quot;language-haskell highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;month'&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;::&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Int&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;month'&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;May&quot;&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;month'&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;6&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;June&quot;&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;month'&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;7&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;July&quot;&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;month'&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;8&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;August&quot;&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;month'&lt;/span&gt; &lt;span class=&quot;kr&quot;&gt;_&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;it is not a valid month&quot;&lt;/span&gt;
+
+
+&lt;span class=&quot;n&quot;&gt;month&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;9&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;&quot;it is not a valid month&quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;Aqui para o &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;catcall&lt;/code&gt;&lt;/em&gt; nós estamos usando o underscore (_) mas nós podemos usar qualquer outra letra, simbolo ou palavra. Underscore é somente um padrão do &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Haskell&lt;/code&gt;&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;Outro importante ponto é a ordem das funções. Se nós temos as funções em uma ordem incorreta é possível termos um bug. No exemplo dos meses se o &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;catchall&lt;/code&gt;&lt;/em&gt; esta antes de um mês, este mês nunca será chamado porque o &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;catchall&lt;/code&gt;&lt;/em&gt; pega todos os casos.&lt;/p&gt;
+&lt;div class=&quot;language-haskell highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;month'&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;::&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Int&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;month'&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;May&quot;&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;month'&lt;/span&gt; &lt;span class=&quot;kr&quot;&gt;_&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;it is not a valid month&quot;&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;month'&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;6&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;June&quot;&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;month'&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;7&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;July&quot;&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;month'&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;8&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;August&quot;&lt;/span&gt;
+
+
+&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;Main&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;l&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;code&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;patter_matching&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;hs&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;kr&quot;&gt;of&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Compiling&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Main&lt;/span&gt;             &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;code&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;patter_matching&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;hs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;interpreted&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+
+&lt;span class=&quot;n&quot;&gt;code&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;patter_matching&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;hs&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;17&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Warning&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;kt&quot;&gt;Pattern&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;match&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;es&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;are&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;overlapped&lt;/span&gt;
+    &lt;span class=&quot;kt&quot;&gt;In&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;an&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;equation&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;‘&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;month'&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;’&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;month'&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;6&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;...&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;month'&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;7&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;...&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;month'&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;8&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;...&lt;/span&gt;
+&lt;span class=&quot;kt&quot;&gt;Ok&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;modules&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;loaded&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Main&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;
+
+
+&lt;span class=&quot;n&quot;&gt;month'&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;
+&lt;span class=&quot;err&quot;&gt;“&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;May&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;”&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;month'&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;6&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;&quot;it is not a valid month&quot;&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;month'&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;9&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;&quot;it is not a valid month&quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Nós podemos usar o &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Pattern Matching&lt;/code&gt;&lt;/em&gt; com &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Tuples&lt;/code&gt;&lt;/em&gt; também. Se nós queremos somar duas &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Tuples&lt;/code&gt;&lt;/em&gt; como podemos fazer?&lt;/p&gt;
+&lt;div class=&quot;language-haskell highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;points&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;::&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;Int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;Int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;Int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;points&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;a1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;b1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;a2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;b2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;a1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;b1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;b2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+
+&lt;span class=&quot;n&quot;&gt;points&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;7&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;9&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;6&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;Neste caso nós não teremos o &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;catchall&lt;/code&gt;&lt;/em&gt; porque o primeiro padrão pega todos os casos.&lt;br /&gt;
+Outro exemplo com &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Tuples&lt;/code&gt;&lt;/em&gt; pode ser criar funções para trios. Nós já temos as funções &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;fst&lt;/code&gt;&lt;/em&gt; e &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;snd&lt;/code&gt;&lt;/em&gt; para pares, mas nós não temos nenhuma função para trios. Nós podemos criar então:&lt;/p&gt;
+&lt;div class=&quot;language-haskell highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;first&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;::&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;c&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;first&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kr&quot;&gt;_&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kr&quot;&gt;_&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;
+
+
+&lt;span class=&quot;n&quot;&gt;second&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;::&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;c&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;b&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;second&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kr&quot;&gt;_&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kr&quot;&gt;_&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;b&lt;/span&gt;
+
+
+&lt;span class=&quot;n&quot;&gt;third&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;::&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;c&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;c&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;third&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kr&quot;&gt;_&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kr&quot;&gt;_&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;c&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;c&lt;/span&gt;
+
+
+&lt;span class=&quot;n&quot;&gt;first&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;second&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;third&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;
+
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;E o mais importante, nós podemos usar &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Pattern Matching&lt;/code&gt;&lt;/em&gt; com listas que é provavelmente onde iremos usar mais esta técnica. Nós vimos anteriormente as funções &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;head&lt;/code&gt;&lt;/em&gt; e &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;tail&lt;/code&gt;&lt;/em&gt; que podem ser usadas com listas. Vamos reescreve-las:&lt;/p&gt;
+&lt;div class=&quot;language-haskell highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;head'&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;::&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;head'&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;kr&quot;&gt;_&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;
+
+
+&lt;span class=&quot;n&quot;&gt;tail'&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;::&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;tail'&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kr&quot;&gt;_&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;xs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;xs&lt;/span&gt;
+
+
+&lt;span class=&quot;n&quot;&gt;head'&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;tail'&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+
+
+&lt;span class=&quot;n&quot;&gt;head'&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;[]&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;***&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Exception&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;code&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;patter_matching&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;hs&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;39&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;15&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Non&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;exhaustive&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;patterns&lt;/span&gt; &lt;span class=&quot;kr&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;head'&lt;/span&gt;
+
+
+&lt;span class=&quot;n&quot;&gt;tail'&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;[]&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;***&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Exception&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;code&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;patter_matching&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;hs&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;42&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;17&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Non&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;exhaustive&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;patterns&lt;/span&gt; &lt;span class=&quot;kr&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tail'&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;Aqui podemos ver que as funções estão funcionando quando recebemos uma lista com elementos, mas quando a lista esta vazia as funções quebram. Vamos resolver isso.&lt;/p&gt;
+
+&lt;div class=&quot;language-haskell highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;head'&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;::&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;head'&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;[]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;ne&quot;&gt;error&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;list is empty&quot;&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;head'&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;kr&quot;&gt;_&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;
+
+
+&lt;span class=&quot;n&quot;&gt;tail'&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;::&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;tail'&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;[]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
+
+
+&lt;span class=&quot;n&quot;&gt;head'&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
+
+
+&lt;span class=&quot;n&quot;&gt;tail'&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+
+
+&lt;span class=&quot;n&quot;&gt;head'&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;[]&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;***&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Exception&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;list&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;is&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;empty&lt;/span&gt;
+
+
+&lt;span class=&quot;n&quot;&gt;tail'&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;[]&lt;/span&gt;
+&lt;span class=&quot;kt&quot;&gt;[]&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;Agora esta tudo funcionando, nós demos duas diferentes soluções para cada função. Para &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;head&lt;/code&gt;&lt;/em&gt; estamos chamando um erro quando receboms uma lista vazia porque não temos um elemento para retornar, por outro lado para a função &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;tail&lt;/code&gt;&lt;/em&gt; nós estamos retornando uma lista vazia quando recebemos uma lista vazia porque o resto de nada é nada.&lt;/p&gt;
+
+&lt;p&gt;Além disso temos uma curiosidade nessa implementação, nós podemos ver que na função &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;head&lt;/code&gt;&lt;/em&gt; nós recebemos a lista como &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;(x:_)&lt;/code&gt;&lt;/em&gt; e na função &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;tail&lt;/code&gt;&lt;/em&gt; como &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;(_:xs)&lt;/code&gt;&lt;/em&gt;. Isso acontece porque em &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Haskell&lt;/code&gt;&lt;/em&gt; nós podemos representar listas com &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;x:xs&lt;/code&gt;&lt;/em&gt; onde &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;x&lt;/code&gt;&lt;/em&gt; é o primeiro elemento e &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;xs&lt;/code&gt;&lt;/em&gt; é o resto.&lt;br /&gt;
+Um exemplo pode ser a lista &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;[1,2,3,4]&lt;/code&gt;&lt;/em&gt; que pode ser representada como &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;(1:(2:(3:(4))))&lt;/code&gt;&lt;/em&gt;. Neste caso &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;1&lt;/code&gt;&lt;/em&gt; é o &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;x&lt;/code&gt;&lt;/em&gt; e &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;(2:(3:(4)))&lt;/code&gt;&lt;/em&gt; é o &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;xs&lt;/code&gt;&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Pattern Matching&lt;/code&gt;&lt;/em&gt; é uma funcionalidade especial na programação funcional porque faz o código mais simples e legível. Eu posso dizer que é a minha funcionalidade favorita. Prepare-se porque você vai trabalhar bastante com &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Pattern Matching&lt;/code&gt;&lt;/em&gt; quando você estiver usando &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Functional Programming&lt;/code&gt;&lt;/em&gt;.&lt;/p&gt;</content><author><name>Rodrigo Morais</name></author><summary type="html">Fala pessoal!
+
+
+
+Hoje vamos falar de Pattern Matching uma das melhores funcionalidades em Functional Programming na minha opinião.
+
+Como a maioria das linguagens funcionais Haskell tem Pattern Matching que faz nossas vidas muito mais fácil apra criar funções com diferentes ações dependendo do que é recebido. Pattern Matching é sobre avaliar dados e desconstrui-los de acordo com seus padrões.
+A ideia atrás de Pattern Matching é fazer nossos programas mais simples e legíveis. Vamos mergulhar em alguns exemplos e entender o porque.</summary></entry><entry xml:lang="pt_BR"><title type="html">Maratona de Haskell - Sétimo Dia</title><link href="https://rodrigo-morais.github.io/haskell-marathon-day-seven/" rel="alternate" type="text/html" title="Maratona de Haskell - Sétimo Dia" /><published>2016-12-07T00:00:00+01:00</published><updated>2016-12-07T00:00:00+01:00</updated><id>https://rodrigo-morais.github.io/haskell-marathon-day-seven.pt_BR</id><content type="html" xml:base="https://rodrigo-morais.github.io/haskell-marathon-day-seven/">&lt;p&gt;Fala pessoal!&lt;/p&gt;
 
 &lt;p&gt;Hoje o estudo sobre &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Haskell&lt;/code&gt;&lt;/em&gt; foi um pouco diferente. Ao invés de seguir o livro eu fui a um meetup. Este foi meu primeiro meetup em Berlim e fui muito legal e diferente.&lt;br /&gt;
 Este meetup acontece todas as Quarta-feiras e cada semana tem um diferente objetivo. Uma semana é um meetup com palestras e etc, e na outra é para iniciantes aprenderem a linguagem.&lt;br /&gt;
@@ -621,95 +841,4 @@ Vamos criar algumas funções?&lt;/p&gt;
 Configuração
 
 Vamos iniciar com como configurar seu computador para usar Haskell. Você tem que instalar o Haskell compilador que é chamado GHC. Os passo de instalação estão nesse link.
-Minha dica é não instalar o compilador do Haskell em sua máquina, e sim usar uma imagem Docker com Haskell para isso. Se você não tem Docker instalado em seu computador você pode ver como instala-lo aqui. Depois de instalar o Docker você somente necessita inicia-lo e rodar o comando: docker run -ti –rm -v $(pwd):/code haskell:7.10 bash. Agora você tem uma máquina virtual rodando o compilador do Haskell para você. Para iniciar o interpretador do GHC  você tem que executar o comando: ghci.</summary></entry><entry xml:lang="pt_BR"><title type="html">Using local storage with React and Redux</title><link href="https://rodrigo-morais.github.io/react-redux-local-storage/" rel="alternate" type="text/html" title="Using local storage with React and Redux" /><published>2016-11-29T00:00:00+01:00</published><updated>2016-11-29T00:00:00+01:00</updated><id>https://rodrigo-morais.github.io/react-redux-local-storage.pt_BR</id><content type="html" xml:base="https://rodrigo-morais.github.io/react-redux-local-storage/">&lt;p&gt;Geralmente nosssas applicações iniciam o &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Redux's&lt;/code&gt;&lt;/em&gt; store com um objeto vazio para mostrar que a aplicação não tem nenhum dado ao ser iniciada. No futuro quando usuários tiverem alguma interação ou quando a aplicação receber dados do back-end então o store irá manter esses dados. Essa é uma abordagem muito comum para usar &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Redux&lt;/code&gt;&lt;/em&gt; em um projeto &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;React&lt;/code&gt;&lt;/em&gt;, ao menos em projetos no qual eu trabalhei até agora, mas as vezes nós necessitamos uma outra abordagem.&lt;/p&gt;
-
-&lt;p&gt;Para criar um store com &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Redux&lt;/code&gt;&lt;/em&gt; nós temos que usar uma função chamada &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;createStore&lt;/code&gt;&lt;/em&gt; qual nós importamos do &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Redux&lt;/code&gt;&lt;/em&gt; e passamos como parâmetro os nossos &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;reducers&lt;/code&gt;&lt;/em&gt;.&lt;/p&gt;
-
-&lt;!--more--&gt;
-
-&lt;p&gt;Ok, primeiro nós podemos usar como um exemplo um &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;reducer&lt;/code&gt;&lt;/em&gt; para uma aplicação TODO. Provavelmente nós temos um arquivo chamado &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;reducers.js&lt;/code&gt;&lt;/em&gt; para cria-lo.&lt;/p&gt;
-
-&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kr&quot;&gt;export&lt;/span&gt; &lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;todos&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;state&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[],&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;action&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;switch&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;action&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;type&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;case&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;ADD_TODO&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
-      &lt;span class=&quot;c1&quot;&gt;// add new todo&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;case&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;REMOV_TODO&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
-      &lt;span class=&quot;c1&quot;&gt;// remove todos&lt;/span&gt;
-    &lt;span class=&quot;na&quot;&gt;default&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
-      &lt;span class=&quot;nx&quot;&gt;state&lt;/span&gt;
-  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;Com esse &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;reducer&lt;/code&gt;&lt;/em&gt; nós podemos criar uma store. Para fazer isso nós temos que importar a função &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;createStore&lt;/code&gt;&lt;/em&gt; do &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Redux&lt;/code&gt;&lt;/em&gt; e nossos &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;reducers&lt;/code&gt;&lt;/em&gt; em um arquivo no qual nós criamos o store, que provavelmente se chama &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;app.js&lt;/code&gt;&lt;/em&gt; or algo similar.&lt;/p&gt;
-
-&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kr&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;reducers&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'./reducers'&lt;/span&gt;
-&lt;span class=&quot;kr&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;createStore&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'redux'&lt;/span&gt;
-
-&lt;span class=&quot;kr&quot;&gt;export&lt;/span&gt; &lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;store&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;createStore&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;reducers&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;p&gt;Agora nós temos nossa store com um TODO list qual foi inicializado com um array vazio ([]).&lt;/p&gt;
-
-&lt;p&gt;Ok, isso funciona muito bem, Mas nesse caso toda a vez que nossa aplicação é recarregada nós perdemos todos os TODOs que foram cadastrados. Se nós temos que mante-los, nós temos que salva-los em alguma base de dados.
-Vamos pensar um pouco mais e dizer que nós temos uma aplicação mais complexa que busca dados do back-end e eles não serão alterados em um curto espaço de tempo e por isso queremos mante-los quando a página for recarregada. Como podemos fazer isso?
-Uma solução para essa situação é usar &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;local storage&lt;/code&gt;&lt;/em&gt; que é um pequeno “database” dentro do browser.&lt;/p&gt;
-
-&lt;p&gt;Vamos ver como fazer isso na nossa TODO app.&lt;/p&gt;
-
-&lt;p&gt;Primeiro nós temos que criar duas funções para obter dados do local storage e para salvar os dados lá.
-Para isso nós podemos criar um arquivo chamado &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;localStorage.js&lt;/code&gt;&lt;/em&gt; onde nós teremos essas funções.&lt;/p&gt;
-
-&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kr&quot;&gt;export&lt;/span&gt; &lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;loadState&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;try&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;serializedState&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;localStorage&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;getItem&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'state'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;serializedState&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;===&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-      &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;undefined&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;JSON&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;parse&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;serializedState&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;catch&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;err&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;undefined&lt;/span&gt;
-  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-&lt;span class=&quot;kr&quot;&gt;export&lt;/span&gt; &lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;saveState&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;state&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;try&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;serializedState&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;JSON&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;stringify&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;state&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;nx&quot;&gt;localStorage&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;setItem&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'state'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;serializedState&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;catch&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;err&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;c1&quot;&gt;// ignore&lt;/span&gt;
-  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;Para usar o local storage é muito simples, ele é uma lista de chave-valor. Quando nós queremos obter dados nós chamamos a função &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;getItem&lt;/code&gt;&lt;/em&gt; do objeto global chamado &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;localStorage&lt;/code&gt;&lt;/em&gt; passando a chave como parâmetro. E para salvar dados nós chamamos a função &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;setItem&lt;/code&gt;&lt;/em&gt; do mesmo objeto global passando a chave e os dados.
-Os dados no local storage devem sempre ser serializados e por causa disso quando carregamos os dados nós temos que deserializa-los usanso &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;JSON.parse&lt;/code&gt;&lt;/em&gt; e quando enviamos dados nós temos que serializa-los com &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;JSON.stringify&lt;/code&gt;&lt;/em&gt;.
-Outro ponto importante é que o local storage pode não ter permissão de acesso ou outro erro pode acontecer ao tentar acessa-lo. Por isso o código de acesso ao local storage deve estar dentro de um bloco try/catch.&lt;/p&gt;
-
-&lt;p&gt;Agora nós temos que usar as funções para salvar e carregar dados do local storage na nossa aplicação.
-No nosso arquivo &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;app.js&lt;/code&gt;&lt;/em&gt; nós iremos importar nosso arquivo &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;localStorage.js&lt;/code&gt;&lt;/em&gt; e usar suas funções.&lt;/p&gt;
-
-&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kr&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;saveState&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;loadState&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'./localStorage'&lt;/span&gt;
-
-&lt;span class=&quot;kr&quot;&gt;export&lt;/span&gt; &lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;store&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;createStore&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;reducers&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;loadState&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;())&lt;/span&gt;
-
-&lt;span class=&quot;nx&quot;&gt;store&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;subscribe&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;nx&quot;&gt;saveState&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;({&lt;/span&gt;
-    &lt;span class=&quot;na&quot;&gt;todos&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;store&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;getState&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;todos&lt;/span&gt;
-  &lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;Agora na função &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;createStore&lt;/code&gt;&lt;/em&gt; nós estamos passando um segundo parâmetro que é o retorno da função &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;loadStore&lt;/code&gt;&lt;/em&gt; que criamos para obter dados do local store. A função &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;createStore&lt;/code&gt;&lt;/em&gt; do &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Redux&lt;/code&gt;&lt;/em&gt; aceita receber dados para hidratar o store. De uma olhada na &lt;a href=&quot;https://github.com/reactjs/redux/blob/master/docs/api/createStore.md&quot;&gt;documentação&lt;/a&gt;.
-Para salvar os dados no local storage nós usamos a função chamada &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;subscribe&lt;/code&gt;&lt;/em&gt; do store, que será chamada toda vez que o store for modificado. Para essa função nós estamos passando uma função que chama a função &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;saveState&lt;/code&gt;&lt;/em&gt; que criamos anteriormente e irá receber o estado dos TODOs para serem salvos no local storage.&lt;/p&gt;
-
-&lt;p&gt;Com essa nova implementação nós podemos salvar dados no local storage e reusa-los sem ter que acessar o back-end a todo momento que recarregamos a aplicação até que o browser ou aba sejam fechados.&lt;/p&gt;
-
-&lt;p&gt;Se você quiser testar essa abordagem, de uma olhada nesse &lt;a href=&quot;https://github.com/rodrigo-morais/react-redux-to-do&quot;&gt;repositório&lt;/a&gt;.&lt;/p&gt;</content><author><name>Rodrigo Morais</name></author><summary type="html">Geralmente nosssas applicações iniciam o Redux's store com um objeto vazio para mostrar que a aplicação não tem nenhum dado ao ser iniciada. No futuro quando usuários tiverem alguma interação ou quando a aplicação receber dados do back-end então o store irá manter esses dados. Essa é uma abordagem muito comum para usar Redux em um projeto React, ao menos em projetos no qual eu trabalhei até agora, mas as vezes nós necessitamos uma outra abordagem.
-
-Para criar um store com Redux nós temos que usar uma função chamada createStore qual nós importamos do Redux e passamos como parâmetro os nossos reducers.</summary></entry></feed>
+Minha dica é não instalar o compilador do Haskell em sua máquina, e sim usar uma imagem Docker com Haskell para isso. Se você não tem Docker instalado em seu computador você pode ver como instala-lo aqui. Depois de instalar o Docker você somente necessita inicia-lo e rodar o comando: docker run -ti –rm -v $(pwd):/code haskell:7.10 bash. Agora você tem uma máquina virtual rodando o compilador do Haskell para você. Para iniciar o interpretador do GHC  você tem que executar o comando: ghci.</summary></entry></feed>
