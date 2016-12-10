@@ -1,4 +1,214 @@
-<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xml" href="https://rodrigo-morais.github.io/feed.xslt.xml"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.3.1">Jekyll</generator><link href="https://rodrigo-morais.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://rodrigo-morais.github.io/" rel="alternate" type="text/html" /><updated>2016-12-10T11:18:58+01:00</updated><id>https://rodrigo-morais.github.io//</id><title type="html">In development</title><subtitle>Software Developer</subtitle><author><name>Rodrigo Morais</name></author><entry xml:lang="pt_BR"><title type="html">Maratona de Haskell - Nono Dia</title><link href="https://rodrigo-morais.github.io/haskell-marathon-day-nine/" rel="alternate" type="text/html" title="Maratona de Haskell - Nono Dia" /><published>2016-12-09T00:00:00+01:00</published><updated>2016-12-09T00:00:00+01:00</updated><id>https://rodrigo-morais.github.io/haskell-marathon-day-nine.pt_BR</id><content type="html" xml:base="https://rodrigo-morais.github.io/haskell-marathon-day-nine/">&lt;p&gt;Fala pessoal!&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xml" href="https://rodrigo-morais.github.io/feed.xslt.xml"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.3.1">Jekyll</generator><link href="https://rodrigo-morais.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://rodrigo-morais.github.io/" rel="alternate" type="text/html" /><updated>2016-12-10T19:20:00+01:00</updated><id>https://rodrigo-morais.github.io//</id><title type="html">In development</title><subtitle>Software Developer</subtitle><author><name>Rodrigo Morais</name></author><entry xml:lang="pt_BR"><title type="html">Maratona de Haskell - Décimo Dia</title><link href="https://rodrigo-morais.github.io/haskell-marathon-day-ten/" rel="alternate" type="text/html" title="Maratona de Haskell - Décimo Dia" /><published>2016-12-10T00:00:00+01:00</published><updated>2016-12-10T00:00:00+01:00</updated><id>https://rodrigo-morais.github.io/haskell-marathon-day-ten.pt_BR</id><content type="html" xml:base="https://rodrigo-morais.github.io/haskell-marathon-day-ten/">&lt;p&gt;Fala pessoal!&lt;/p&gt;
+
+&lt;p&gt;Hoje vamos falar sobre duas diferentes formas de trabalhar com &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Pattern Matching&lt;/code&gt;&lt;/em&gt; que são &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;let..in&lt;/code&gt;&lt;/em&gt; e &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;case..of&lt;/code&gt;&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;Nós já vimos um pouco sobre &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;let..in&lt;/code&gt;&lt;/em&gt; no primeiro dia quando nós o usamos para criar “variáveis” &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;GHCI&lt;/code&gt;&lt;/em&gt;, mas podemos usa-las levemente diferente.&lt;/p&gt;
+&lt;div class=&quot;language-haskell highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kr&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;
+&lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;
+&lt;span class=&quot;mi&quot;&gt;25&lt;/span&gt;
+
+
+&lt;span class=&quot;kr&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;add&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;b&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;b&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;add&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;
+&lt;span class=&quot;mi&quot;&gt;9&lt;/span&gt;
+
+
+&lt;span class=&quot;kr&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;add'&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;b&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;b&lt;/span&gt; &lt;span class=&quot;kr&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;add'&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;
+&lt;span class=&quot;mi&quot;&gt;9&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Ao invés de usar o &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;where&lt;/code&gt;&lt;/em&gt; nós podemos usar o &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;let..in&lt;/code&gt;&lt;/em&gt; e colocar a “variável” no topo.&lt;/p&gt;
+&lt;div class=&quot;language-haskell highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;cylinder&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;::&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Double&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Double&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Double&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;cylinder&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;r&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;h&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;
+  &lt;span class=&quot;kr&quot;&gt;let&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;sideArea&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pi&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;r&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;h&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;topArea&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pi&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;r&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;^&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;
+  &lt;span class=&quot;kr&quot;&gt;in&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;sideArea&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;topArea&lt;/span&gt;
+
+
+&lt;span class=&quot;n&quot;&gt;cylinder&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;8&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;
+&lt;span class=&quot;mf&quot;&gt;904.7786842338604&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;Diferentemente do &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;where&lt;/code&gt;&lt;/em&gt; o &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;let..in&lt;/code&gt;&lt;/em&gt; é uma expressão e pode ser usado em qualquer lugar, pelo outro lado ele tem scopo somente onde é definido e nós não podemos usa-lo com &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Guards&lt;/code&gt;&lt;/em&gt; por exemplo, Vamos ver um exemplo de onde podemos usar &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;let..in&lt;/code&gt;&lt;/em&gt;.&lt;/p&gt;
+&lt;div class=&quot;language-haskell highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;kr&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;b&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt; &lt;span class=&quot;kr&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;b&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;
+
+
+&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;kr&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;square&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;kr&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;square&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;square&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;square&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)]&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;[(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;9&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;16&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)]&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;Quando dizemos que &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;let..in&lt;/code&gt;&lt;/em&gt; é uma expressão queremos dizer que ele tem um valor e por causa disso podemos usa-lo em qualquer lugar.&lt;/p&gt;
+
+&lt;p&gt;Podemos usar o &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;let..in&lt;/code&gt;&lt;/em&gt; em list comprehension também. Com &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;let..in&lt;/code&gt;&lt;/em&gt; em list comprehension nós podemos criar variáveis que podem ser usadas no output e em tudo que venha depois da definição de &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;let..in&lt;/code&gt;&lt;/em&gt;.&lt;/p&gt;
+&lt;div class=&quot;language-haskell highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;calcBMI&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;::&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;Double&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Double&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;Double&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;calcBMI&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;xs&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;bmi&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;weight&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;height&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;xs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kr&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;bmi&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;weight&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;/&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;height&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;^&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+
+
+&lt;span class=&quot;n&quot;&gt;calcBMI&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;85&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;1.81&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;70&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;1.9&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;60&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;1.5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;90&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;1.8&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)]&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;25.94548395958609&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;19.390581717451525&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;26.666666666666668&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;27.777777777777775&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+
+
+&lt;span class=&quot;n&quot;&gt;getOverweight&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;::&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;Double&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Double&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;Double&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;getOverweight&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;xs&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;bmi&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;weight&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;height&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;xs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kr&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;bmi&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;weight&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;/&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;height&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;^&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;bmi&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;25.0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+
+
+&lt;span class=&quot;n&quot;&gt;getOverweight&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;85&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;1.81&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;70&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;1.9&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;60&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;1.5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;90&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;1.8&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)]&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;25.94548395958609&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;26.666666666666668&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;27.777777777777775&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;Neste caso não necessitamos funções auxiliares para nossas list comprehension.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Haskell&lt;/code&gt;&lt;/em&gt; tem uma forma diferente para fazer &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Pattern Matching&lt;/code&gt;&lt;/em&gt; que é o &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;case..of&lt;/code&gt;&lt;/em&gt;. Ambos fazem o mesmo, mas como uma expressão &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;case..of&lt;/code&gt;&lt;/em&gt; pode ser usado em qualquer lugar e &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Pattern Matching&lt;/code&gt;&lt;/em&gt; não.&lt;/p&gt;
+&lt;div class=&quot;language-haskell highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;head'&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;::&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;head'&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;xs&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kr&quot;&gt;case&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;xs&lt;/span&gt; &lt;span class=&quot;kr&quot;&gt;of&lt;/span&gt;
+  &lt;span class=&quot;kt&quot;&gt;[]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;ne&quot;&gt;error&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;empty list&quot;&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;kr&quot;&gt;_&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;
+
+
+&lt;span class=&quot;n&quot;&gt;head'&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;[]&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;***&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Exception&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;empty&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;list&lt;/span&gt;
+
+
+&lt;span class=&quot;n&quot;&gt;head'&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
+
+
+&lt;span class=&quot;n&quot;&gt;head'&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
+
+
+&lt;span class=&quot;n&quot;&gt;listType&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;::&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;listType&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;xs&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;This is &quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;++&lt;/span&gt; &lt;span class=&quot;kr&quot;&gt;case&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;xs&lt;/span&gt; &lt;span class=&quot;kr&quot;&gt;of&lt;/span&gt;
+  &lt;span class=&quot;kt&quot;&gt;[]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;an empty list&quot;&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;list with a single element&quot;&lt;/span&gt;
+  &lt;span class=&quot;kr&quot;&gt;_&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;a list with more than one element&quot;&lt;/span&gt;
+
+
+&lt;span class=&quot;n&quot;&gt;listType&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;[]&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;&quot;This is an empty list&quot;&lt;/span&gt;
+
+
+&lt;span class=&quot;n&quot;&gt;listType&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;&quot;This is list with a single element&quot;&lt;/span&gt;
+
+
+&lt;span class=&quot;n&quot;&gt;listType&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;&quot;This is a list with more than one element&quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;Com o &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;case..of&lt;/code&gt;&lt;/em&gt; nós podemos criar uma função com &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Pattern Matching&lt;/code&gt;&lt;/em&gt; ou adiciona-la dentro de outras expressões.&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;Hoje vimos outras possibilidades para trabalhar com listas e às vezes não usar &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Pattern Matching&lt;/code&gt;&lt;/em&gt;. Com esse conteúdo nós finalizamos o terceiro capítulo do livro “Learn You a Haskell for Great Good!: A Beginner’s Guide”.&lt;/p&gt;</content><author><name>Rodrigo Morais</name></author><summary type="html">Fala pessoal!
+
+Hoje vamos falar sobre duas diferentes formas de trabalhar com Pattern Matching que são let..in e case..of.
+
+Nós já vimos um pouco sobre let..in no primeiro dia quando nós o usamos para criar “variáveis” GHCI, mas podemos usa-las levemente diferente.
+let a = 5
+5 * 5
+25
+
+
+let add a b = a + b
+add 5 4
+9
+
+
+let add' a b = a + b in add' 5 4
+9
+
+
+
+Ao invés de usar o where nós podemos usar o let..in e colocar a “variável” no topo.
+cylinder :: Double -&amp;gt; Double -&amp;gt; Double
+cylinder r h =
+  let
+    sideArea = 2 * pi * r * h
+    topArea = pi * r ^ 2
+  in
+    sideArea + 2 * topArea
+
+
+cylinder 8 10
+904.7786842338604
+
+
+Diferentemente do where o let..in é uma expressão e pode ser usado em qualquer lugar, pelo outro lado ele tem scopo somente onde é definido e nós não podemos usa-lo com Guards por exemplo, Vamos ver um exemplo de onde podemos usar let..in.
+4 + let b = 5 in 5 + b + 2
+
+
+[let square x = x * x in (square 2, square 3, square 4)]
+[(4,9,16)]
+
+
+Quando dizemos que let..in é uma expressão queremos dizer que ele tem um valor e por causa disso podemos usa-lo em qualquer lugar.
+
+Podemos usar o let..in em list comprehension também. Com let..in em list comprehension nós podemos criar variáveis que podem ser usadas no output e em tudo que venha depois da definição de let..in.
+calcBMI :: [(Double, Double)] -&amp;gt; [Double]
+calcBMI xs = [bmi | (weight, height) &amp;lt;- xs, let bmi = weight / height ^ 2]
+
+
+calcBMI [(85, 1.81), (70, 1.9), (60, 1.5), (90, 1.8)]
+[25.94548395958609,19.390581717451525,26.666666666666668,27.777777777777775]
+
+
+getOverweight :: [(Double, Double)] -&amp;gt; [Double]
+getOverweight xs = [bmi | (weight, height) &amp;lt;- xs, let bmi = weight / height ^ 2, bmi &amp;gt; 25.0]
+
+
+getOverweight [(85, 1.81), (70, 1.9), (60, 1.5), (90, 1.8)]
+[25.94548395958609,26.666666666666668,27.777777777777775]
+
+
+Neste caso não necessitamos funções auxiliares para nossas list comprehension.
+
+Haskell tem uma forma diferente para fazer Pattern Matching que é o case..of. Ambos fazem o mesmo, mas como uma expressão case..of pode ser usado em qualquer lugar e Pattern Matching não.
+head' :: [a] -&amp;gt; a
+head' xs = case xs of
+  [] -&amp;gt; error &quot;empty list&quot;
+  (x:_) -&amp;gt; x
+
+
+head' []
+*** Exception: empty list
+
+
+head' [1]
+1
+
+
+head' [1,2]
+1
+
+
+listType :: [a] -&amp;gt; String
+listType xs = &quot;This is &quot; ++ case xs of
+  [] -&amp;gt; &quot;an empty list&quot;
+  [a] -&amp;gt; &quot;list with a single element&quot;
+  _ -&amp;gt; &quot;a list with more than one element&quot;
+
+
+listType []
+&quot;This is an empty list&quot;
+
+
+listType [1]
+&quot;This is list with a single element&quot;
+
+
+listType [1,2]
+&quot;This is a list with more than one element&quot;
+
+
+Com o case..of nós podemos criar uma função com Pattern Matching ou adiciona-la dentro de outras expressões.
+
+
+
+Hoje vimos outras possibilidades para trabalhar com listas e às vezes não usar Pattern Matching. Com esse conteúdo nós finalizamos o terceiro capítulo do livro “Learn You a Haskell for Great Good!: A Beginner’s Guide”.</summary></entry><entry xml:lang="pt_BR"><title type="html">Maratona de Haskell - Nono Dia</title><link href="https://rodrigo-morais.github.io/haskell-marathon-day-nine/" rel="alternate" type="text/html" title="Maratona de Haskell - Nono Dia" /><published>2016-12-09T00:00:00+01:00</published><updated>2016-12-09T00:00:00+01:00</updated><id>https://rodrigo-morais.github.io/haskell-marathon-day-nine.pt_BR</id><content type="html" xml:base="https://rodrigo-morais.github.io/haskell-marathon-day-nine/">&lt;p&gt;Fala pessoal!&lt;/p&gt;
 
 &lt;p&gt;Ontem nós falamos sobre &lt;em&gt;´Pattern Matching&lt;code class=&quot;highlighter-rouge&quot;&gt;* e hoje nós vamos iniciar com um especial caso de *&lt;/code&gt;Pattern Matching&lt;code class=&quot;highlighter-rouge&quot;&gt;*. Se nós precisamos da lista original durante o *&lt;/code&gt;Pattern Matching&lt;code class=&quot;highlighter-rouge&quot;&gt;* nós podemos usar algo chamado *&lt;/code&gt;as-pattern`&lt;/em&gt;. Eu não acho este caso especial tão útil, mas eu vou mostrar um exemplo:
 &lt;!--more--&gt;&lt;/p&gt;
@@ -836,20 +1046,4 @@ Imutabilidade e funçōes puras. Nāo é necessário se preocupar se o valor da 
 &lt;p&gt;Se você está nesta jornada ou pensando em começar, deixe um comentário e boa experiência!&lt;/p&gt;</content><author><name>Rodrigo Morais</name></author><summary type="html">Fala pessoal!
 
 Hoje vamos falar um pouco de paradigma e programaçāo funcional (FP).
-Paradigma funcional é uma abordagem diferente de trabalhar com desenvolvimento de software do qual a maioria dos desenvolvedores estāo acostumados. Provavelmente você como a maioria dos desenvolvedores esta trabalhando ou trabalhou com os paradigmas Imperativo e / ou Orientado a Objeto (OO). Entāo o paradigma funcional tem algumas diferentes ideias para resolver o mesmos problemas quais imperativo e orientaçāo a objeto resolvem também, e como tudo tem prós e contras para serem avaliados.</summary></entry><entry xml:lang="pt_BR"><title type="html">Maratona de Haskell</title><link href="https://rodrigo-morais.github.io/haskell-marathon/" rel="alternate" type="text/html" title="Maratona de Haskell" /><published>2016-12-01T00:00:00+01:00</published><updated>2016-12-01T00:00:00+01:00</updated><id>https://rodrigo-morais.github.io/haskell-marathon.pt_BR</id><content type="html" xml:base="https://rodrigo-morais.github.io/haskell-marathon/">&lt;p&gt;Fala pessoal!&lt;/p&gt;
-
-&lt;p&gt;Hoje eu estou iniciando uma maratona de &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Haskell&lt;/code&gt;&lt;/em&gt; onde eu irei mergulhar na linguagem de programação &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Haskell&lt;/code&gt;&lt;/em&gt; pelos próximos 3 meses.&lt;/p&gt;
-
-&lt;p&gt;Legal!!! Mas por que? Eu estou realmente interessado em aprender mais sobre &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Programação Funcional&lt;/code&gt;&lt;/em&gt;, qual eu já aprendi alguns conceitos e estou os utilizando, e eu acho que iniciar esse processo com &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Haskell&lt;/code&gt;&lt;/em&gt; é uma boa ideia.&lt;/p&gt;
-
-&lt;!--more--&gt;
-
-&lt;p&gt;Por que aprender &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Haskell&lt;/code&gt;&lt;/em&gt; e não outra linguagem como &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Scala&lt;/code&gt;&lt;/em&gt;, &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;F#&lt;/code&gt;&lt;/em&gt;, &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Elixir&lt;/code&gt;&lt;/em&gt;, …:? Eu tentei escolher uma linguagem qual seguisse os princípios da &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Programação Funcional&lt;/code&gt;&lt;/em&gt; o máximo possível e &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Haskell&lt;/code&gt;&lt;/em&gt; é essa linguagem. &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Haskell&lt;/code&gt;&lt;/em&gt; é uma linguagem funcional pura que tenta seguir os conceitos de &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Programação Funcional&lt;/code&gt;&lt;/em&gt;. Além disso, &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Haskell&lt;/code&gt;&lt;/em&gt; entre outras coisas é uma linguagem estaticamente tipada que nos ajuda com o seu compilador.&lt;/p&gt;
-
-&lt;p&gt;Eu já li um livro sobre &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Haskell&lt;/code&gt;&lt;/em&gt; chamado &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;“Learn You a Haskell for Great Good!: A Beginner’s Guide”&lt;/code&gt;&lt;/em&gt;, então eu decidi iniciar esta aventura fazendo uma revisão deste livro e o que eu aprendi com ele. Meu objetivo é estudar 16 horas por semana e a cada dia compartilhar com vocês o que aprendi e o meu entendimento de cada assunto.&lt;/p&gt;
-
-&lt;p&gt;Eu espero que sigamos juntos nessa maratona.&lt;/p&gt;</content><author><name>Rodrigo Morais</name></author><summary type="html">Fala pessoal!
-
-Hoje eu estou iniciando uma maratona de Haskell onde eu irei mergulhar na linguagem de programação Haskell pelos próximos 3 meses.
-
-Legal!!! Mas por que? Eu estou realmente interessado em aprender mais sobre Programação Funcional, qual eu já aprendi alguns conceitos e estou os utilizando, e eu acho que iniciar esse processo com Haskell é uma boa ideia.</summary></entry></feed>
+Paradigma funcional é uma abordagem diferente de trabalhar com desenvolvimento de software do qual a maioria dos desenvolvedores estāo acostumados. Provavelmente você como a maioria dos desenvolvedores esta trabalhando ou trabalhou com os paradigmas Imperativo e / ou Orientado a Objeto (OO). Entāo o paradigma funcional tem algumas diferentes ideias para resolver o mesmos problemas quais imperativo e orientaçāo a objeto resolvem também, e como tudo tem prós e contras para serem avaliados.</summary></entry></feed>

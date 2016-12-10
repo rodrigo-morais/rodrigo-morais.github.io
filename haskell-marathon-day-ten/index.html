@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title> – Software Developer</title>
+    <title>Haskell's Marathon - Day Ten –  – Software Developer</title>
 
         <meta charset="utf-8" />
     <meta content='text/html; charset=utf-8' http-equiv='Content-Type'>
@@ -9,11 +9,226 @@
     <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0'>
 
     
-    <meta name="description" content="Software Developer">
-    <meta property="og:description" content="Software Developer" />
+    <meta name="description" content="Hey folks!
+
+Today we will talk about two different options to work with Pattern Matching which are let..in and case..of.
+
+We already saw a little bit about let..in in the first day where we are using it to create variables’ GHCI, but we can use it a slightly different.
+let a = 5
+5 * 5
+25
+
+
+let add a b = a + b
+add 5 4
+9
+
+
+let add' a b = a + b in add' 5 4
+9
+
+
+
+Instead of use where we can use let..in and put the “variables” on the top.
+cylinder :: Double -&gt; Double -&gt; Double
+cylinder r h =
+  let
+    sideArea = 2 * pi * r * h
+    topArea = pi * r ^ 2
+  in
+    sideArea + 2 * topArea
+
+
+cylinder 8 10
+904.7786842338604
+
+
+Different of where the let..in is an expression and can be used everywhere, on the other hand it has scope just where it is defined and we can’t use with Guards for example. Let’s see an example where we can use let..in.
+4 + let b = 5 in 5 + b + 2
+
+
+[let square x = x * x in (square 2, square 3, square 4)]
+[(4,9,16)]
+
+
+When we say that let..in is an expression we want to say that it has a value and because of that we can use it everywhere.
+
+We can use let..in in list comprehension too. With let..in in list comprehensions we can create variables which can be used in the output and everything comes after the let..in definition.
+calcBMI :: [(Double, Double)] -&gt; [Double]
+calcBMI xs = [bmi | (weight, height) &lt;- xs, let bmi = weight / height ^ 2]
+
+
+calcBMI [(85, 1.81), (70, 1.9), (60, 1.5), (90, 1.8)]
+[25.94548395958609,19.390581717451525,26.666666666666668,27.777777777777775]
+
+
+getOverweight :: [(Double, Double)] -&gt; [Double]
+getOverweight xs = [bmi | (weight, height) &lt;- xs, let bmi = weight / height ^ 2, bmi &gt; 25.0]
+
+
+getOverweight [(85, 1.81), (70, 1.9), (60, 1.5), (90, 1.8)]
+[25.94548395958609,26.666666666666668,27.777777777777775]
+
+
+In this case we don’t need auxiliary functions to our list comprehension.
+
+Haskell has a different way to do Pattern Matching which is case..of. Both doing the same, but as an expression case..of can be used anywhere and Pattern Matching can’t.
+head' :: [a] -&gt; a
+head' xs = case xs of
+  [] -&gt; error "empty list"
+  (x:_) -&gt; x
+
+
+head' []
+*** Exception: empty list
+
+
+head' [1]
+1
+
+
+head' [1,2]
+1
+
+
+listType :: [a] -&gt; String
+listType xs = "This is " ++ case xs of
+  [] -&gt; "an empty list"
+  [a] -&gt; "list with a single element"
+  _ -&gt; "a list with more than one element"
+
+
+listType []
+"This is an empty list"
+
+
+listType [1]
+"This is list with a single element"
+
+
+listType [1,2]
+"This is a list with more than one element"
+
+
+With case..of we can create a function as Pattern Matching or add it inside the other expression.
+
+
+
+Today we saw other possibilities to work with list and sometimes not use Pattern Matching. With these content we finalized the third chapter of book “Learn You a Haskell for Great Good!: A Beginner’s Guide”.
+" />
+    <meta property="og:description" content="Hey folks!
+
+Today we will talk about two different options to work with Pattern Matching which are let..in and case..of.
+
+We already saw a little bit about let..in in the first day where we are using it to create variables’ GHCI, but we can use it a slightly different.
+let a = 5
+5 * 5
+25
+
+
+let add a b = a + b
+add 5 4
+9
+
+
+let add' a b = a + b in add' 5 4
+9
+
+
+
+Instead of use where we can use let..in and put the “variables” on the top.
+cylinder :: Double -&gt; Double -&gt; Double
+cylinder r h =
+  let
+    sideArea = 2 * pi * r * h
+    topArea = pi * r ^ 2
+  in
+    sideArea + 2 * topArea
+
+
+cylinder 8 10
+904.7786842338604
+
+
+Different of where the let..in is an expression and can be used everywhere, on the other hand it has scope just where it is defined and we can’t use with Guards for example. Let’s see an example where we can use let..in.
+4 + let b = 5 in 5 + b + 2
+
+
+[let square x = x * x in (square 2, square 3, square 4)]
+[(4,9,16)]
+
+
+When we say that let..in is an expression we want to say that it has a value and because of that we can use it everywhere.
+
+We can use let..in in list comprehension too. With let..in in list comprehensions we can create variables which can be used in the output and everything comes after the let..in definition.
+calcBMI :: [(Double, Double)] -&gt; [Double]
+calcBMI xs = [bmi | (weight, height) &lt;- xs, let bmi = weight / height ^ 2]
+
+
+calcBMI [(85, 1.81), (70, 1.9), (60, 1.5), (90, 1.8)]
+[25.94548395958609,19.390581717451525,26.666666666666668,27.777777777777775]
+
+
+getOverweight :: [(Double, Double)] -&gt; [Double]
+getOverweight xs = [bmi | (weight, height) &lt;- xs, let bmi = weight / height ^ 2, bmi &gt; 25.0]
+
+
+getOverweight [(85, 1.81), (70, 1.9), (60, 1.5), (90, 1.8)]
+[25.94548395958609,26.666666666666668,27.777777777777775]
+
+
+In this case we don’t need auxiliary functions to our list comprehension.
+
+Haskell has a different way to do Pattern Matching which is case..of. Both doing the same, but as an expression case..of can be used anywhere and Pattern Matching can’t.
+head' :: [a] -&gt; a
+head' xs = case xs of
+  [] -&gt; error "empty list"
+  (x:_) -&gt; x
+
+
+head' []
+*** Exception: empty list
+
+
+head' [1]
+1
+
+
+head' [1,2]
+1
+
+
+listType :: [a] -&gt; String
+listType xs = "This is " ++ case xs of
+  [] -&gt; "an empty list"
+  [a] -&gt; "list with a single element"
+  _ -&gt; "a list with more than one element"
+
+
+listType []
+"This is an empty list"
+
+
+listType [1]
+"This is list with a single element"
+
+
+listType [1,2]
+"This is a list with more than one element"
+
+
+With case..of we can create a function as Pattern Matching or add it inside the other expression.
+
+
+
+Today we saw other possibilities to work with list and sometimes not use Pattern Matching. With these content we finalized the third chapter of book “Learn You a Haskell for Great Good!: A Beginner’s Guide”.
+" />
     
     <meta name="author" content="" />
 
+    
+    <meta property="og:title" content="Haskell's Marathon - Day Ten" />
+    <meta property="twitter:title" content="Haskell's Marathon - Day Ten" />
     
 
     <!--[if lt IE 9]>
@@ -40,16 +255,6 @@
 
           <nav class="languages"> 
           
-            
-              
-                <a href="https://rodrigo-morais.github.io"><img src="https://rodrigo-morais.github.io/images/en-flag.png" /></a>
-              
-            
-              
-                <a href="https://rodrigo-morais.github.io/pt_BR"><img src="https://rodrigo-morais.github.io/images/pt_BR-flag.png" /></a>
-              
-            
-          
           </nav>
 
           <nav>
@@ -61,15 +266,26 @@
     </div>
 
     <div id="main" role="main" class="container">
-      <div class="posts">
+      <article class="post">
   
+    <nav class="languages"> 
   
-    <article class="post">
+    
+      <a href="https://rodrigo-morais.github.io/haskell-marathon-day-ten/"><img src="https://rodrigo-morais.github.io/images/en-flag.png" /></a>
+    
+  
+    
+    <a href="https://rodrigo-morais.github.io/pt_BR/haskell-marathon-day-ten/"><img src="https://rodrigo-morais.github.io/images/pt_BR-flag.png" /></a>
+    
+  
+</nav>
 
-      <h1><a href="/haskell-marathon-day-ten/">Haskell's Marathon - Day Ten</a></h1>
+  
 
-      <div class="entry">
-        <p>Hey folks!</p>
+  <h1>Haskell's Marathon - Day Ten</h1>
+
+  <div class="entry">
+    <p>Hey folks!</p>
 
 <p>Today we will talk about two different options to work with <em><code class="highlighter-rouge">Pattern Matching</code></em> which are <em><code class="highlighter-rouge">let..in</code></em> and <em><code class="highlighter-rouge">case..of</code></em>.</p>
 
@@ -176,240 +392,30 @@
 
 <p>Today we saw other possibilities to work with list and sometimes not use <em><code class="highlighter-rouge">Pattern Matching</code></em>. With these content we finalized the third chapter of book “Learn You a Haskell for Great Good!: A Beginner’s Guide”.</p>
 
-      </div>
+  </div>
 
-      <a href="/haskell-marathon-day-ten/" class="read-more">Read More</a>
-    </article>
+  <div class="date">
+    Written on December 10, 2016
+  </div>
+
   
-    <article class="post">
-
-      <h1><a href="/haskell-marathon-day-nine/">Haskell's Marathon - Day Nine</a></h1>
-
-      <div class="entry">
-        <p>Hey folks!</p>
-
-<p>Yesterday we talked about <em><code class="highlighter-rouge">Pattern Matching</code></em> and today we will start with a special case of <em><code class="highlighter-rouge">Pattern Matching</code></em>. If we need get the whole list during a <em><code class="highlighter-rouge">Pattern Matching</code></em> we can use something called <em><code class="highlighter-rouge">as-pattern</code></em>. I don’t think this special case not much useful, but I’ll show you one example:</p>
-
-
-      </div>
-
-      <a href="/haskell-marathon-day-nine/" class="read-more">Read More</a>
-    </article>
-  
-    <article class="post">
-
-      <h1><a href="/haskell-marathon-day-eight/">Haskell's Marathon - Day Eight</a></h1>
-
-      <div class="entry">
-        <p>Hey folks!</p>
-
-<p><br /></p>
-
-<p>Today let’s talk about <em><code class="highlighter-rouge">Pattern Matching</code></em> one the best features in <em><code class="highlighter-rouge">Functional Programming</code></em> in my opinion.</p>
-
-<p>As the majority functional languages <em><code class="highlighter-rouge">Haskell</code></em> has <em><code class="highlighter-rouge">Pattern Matching</code></em> which makes our lives much easier to create function with different actions depending what is received. <em><code class="highlighter-rouge">Pattern Matching</code></em> is about evaluate data and deconstruct them according those patterns.
-The idea behind <em><code class="highlighter-rouge">Pattern Matching</code></em> is to make our program simpler and readable. Let’s dive in some examples and understand why.</p>
-
-
-      </div>
-
-      <a href="/haskell-marathon-day-eight/" class="read-more">Read More</a>
-    </article>
-  
-    <article class="post">
-
-      <h1><a href="/haskell-marathon-day-seven/">Haskell's Marathon - Day Seven</a></h1>
-
-      <div class="entry">
-        <p>Hey folks!</p>
-
-<p>Today the study about <em><code class="highlighter-rouge">Haskell</code></em> was a little bit different. Instead of to follow the book I went in a meetup. It was my first meetup here in Berlin and was pretty cool and different.<br />
-This meetup happens every Wednesday and each week with different goals. One week is a meetup with lectures and etc, and another week is to beginners learn the language.<br />
-Today the meetup was to beginners. The group is following the book called <a href="http://haskellbook.com/">“Haskell Programming”</a> and today they covered the eighth chapter which is about <em><code class="highlighter-rouge">foldr</code></em> and <em><code class="highlighter-rouge">foldl</code></em>.</p>
-
-
-      </div>
-
-      <a href="/haskell-marathon-day-seven/" class="read-more">Read More</a>
-    </article>
-  
-    <article class="post">
-
-      <h1><a href="/haskell-marathon-day-six/">Haskell's Marathon - Day Six</a></h1>
-
-      <div class="entry">
-        <p>Hey folks!</p>
-
-<p>Yesterday we understand how types work in <em><code class="highlighter-rouge">Haskell</code></em>, what types <em><code class="highlighter-rouge">Haskell</code></em> supports and that we have type variables which can help us a lot.
-Today let’s talk about <em><code class="highlighter-rouge">type classes</code></em>. First of all we have to say that <em><code class="highlighter-rouge">type classes</code></em> are not classes. With this disclaimer we can go ahead and discover what hell type classes are.</p>
-
-
-      </div>
-
-      <a href="/haskell-marathon-day-six/" class="read-more">Read More</a>
-    </article>
-  
-    <article class="post">
-
-      <h1><a href="/haskell-marathon-day-five/">Haskell's Marathon - Day Five</a></h1>
-
-      <div class="entry">
-        <p>Hey folks!</p>
-
-<p>What is your type?
-Today we will understand, or try, a little bit how the type system works in <em><code class="highlighter-rouge">Haskell</code></em>.</p>
-
-<p>In <em><code class="highlighter-rouge">Haskell</code></em> everything has a type and they are validate in compile time. It makes the code safer because the errors are catched soon and not during the execution.
-Unlike other languages as <em><code class="highlighter-rouge">Java</code></em> and <em><code class="highlighter-rouge">C#</code></em>, <em><code class="highlighter-rouge">Haskell</code></em> has type inference. It means that we don’t need say to <em><code class="highlighter-rouge">Haskell</code></em> what type each element is, and our code doesn’t become verbose.</p>
-
-
-      </div>
-
-      <a href="/haskell-marathon-day-five/" class="read-more">Read More</a>
-    </article>
-  
-    <article class="post">
-
-      <h1><a href="/haskell-marathon-day-four/">Haskell's Marathon - Day Four</a></h1>
-
-      <div class="entry">
-        <p>Hey folks!</p>
-
-<p>Today we will talk a little bit more about lists, but we will take a look in tuples too.</p>
-
-<p><br /></p>
-
-<p><strong>List Comprehension</strong></p>
-
-<p>In the days two and three we saw how create and use lists, today we will talk about another way to use lists called list comprehension.
-List comprehensions are the way to transform, filter and combine lists. It is similar to the mathematical concept of set comprehensions, but we are won’t pay attention to it.
-Let’s start saying that we want generate a list of values from 1 to 10 and multiply per 2. With list comprehension we can do in this way:</p>
-
-
-      </div>
-
-      <a href="/haskell-marathon-day-four/" class="read-more">Read More</a>
-    </article>
-  
-    <article class="post">
-
-      <h1><a href="/haskell-marathon-day-three/">Haskell's Marathon - Day Three</a></h1>
-
-      <div class="entry">
-        <p>Hey folks!</p>
-
-<p>Let’s continue taking a look in lists?<br />
-Yesterday we took a look in how concatenate and get element from a list. Today we will see other feature which <em><code class="highlighter-rouge">Haskell</code></em> provides to his lists.</p>
-
-
-      </div>
-
-      <a href="/haskell-marathon-day-three/" class="read-more">Read More</a>
-    </article>
-  
-    <article class="post">
-
-      <h1><a href="/haskell-marathon-day-two/">Haskell's Marathon - Day Two</a></h1>
-
-      <div class="entry">
-        <p>Today is my second day in <em><code class="highlighter-rouge">Haskell’s</code></em> marathon and we will talk about conditional with IF and lists.</p>
-
-<p><strong>Conditional (IF)</strong></p>
-
-<p>In <em><code class="highlighter-rouge">Haskell</code></em> as other languages we can use conditionals to produce more interesting functions. One the most famous conditional is <em><code class="highlighter-rouge">IF</code></em> which we can test values and return new values following this test. The biggest difference between <em><code class="highlighter-rouge">Haskell</code></em> and other languages is that <em><code class="highlighter-rouge">Haskell</code></em> forbids us that use <em><code class="highlighter-rouge">IF</code></em> without <em><code class="highlighter-rouge">ELSE</code></em>. It happens because in <em><code class="highlighter-rouge">Haskell</code></em> all functions have to have a return and if we have an <em><code class="highlighter-rouge">IF</code></em> clause without <em><code class="highlighter-rouge">ELSE</code></em> we can doesn’t have any return in a function.
-Let’s take a look in some examples using <em><code class="highlighter-rouge">IF</code></em> clause:</p>
-
-
-      </div>
-
-      <a href="/haskell-marathon-day-two/" class="read-more">Read More</a>
-    </article>
-  
-    <article class="post">
-
-      <h1><a href="/why-and-what-is-functional-programming/">Why and What is Functional Programming?</a></h1>
-
-      <div class="entry">
-        <p>Hey folks!</p>
-
-<p>Today we will talk about functional paradigm or functional programming (<em><code class="highlighter-rouge">FP</code></em>).
-Functional paradigm is a different approach to work with software development which the majority of software engineers are accustomed. Probably you as the majority of developers are working or have worked with Imperative paradigm and / or Object Oriented (<em><code class="highlighter-rouge">OO</code></em>) paradigm. So Functional paradigm has some different ideas to solve the same problems which Imperative and Object Oriented solve too, and as everything has pros and cons to be evaluated.</p>
-
-
-      </div>
-
-      <a href="/why-and-what-is-functional-programming/" class="read-more">Read More</a>
-    </article>
-  
-    <article class="post">
-
-      <h1><a href="/haskell-marathon/">Haskell's Marathon</a></h1>
-
-      <div class="entry">
-        <p>Hey folks!</p>
-
-<p>Today I’m starting a <em><code class="highlighter-rouge">Haskell’s</code></em> marathon where I’ll dive in the <em><code class="highlighter-rouge">Haskell</code></em> programming language in the next 3 months.</p>
-
-<p>Cool!!! But why? Well, I’m really interested to learn more about <em><code class="highlighter-rouge">Functional Programming</code></em>,  which I already learnt some concepts and I’m using them, and I think start this process with <em><code class="highlighter-rouge">Haskell</code></em> is a great idea.</p>
-
-
-      </div>
-
-      <a href="/haskell-marathon/" class="read-more">Read More</a>
-    </article>
-  
-    <article class="post">
-
-      <h1><a href="/haskell-marathon-day-one/">Haskell's Marathon - Day One</a></h1>
-
-      <div class="entry">
-        <p>Today is my first day in <em><code class="highlighter-rouge">Haskell’s</code></em> marathon and I’d like to share with you what are my learning and understanding.</p>
-
-<p><br /></p>
-
-<p><strong>Set up</strong></p>
-
-<p>Let’s start how set up your computer to use <em><code class="highlighter-rouge">Haskell</code></em>. You have to install the <em><code class="highlighter-rouge">Haskell</code></em> compiler called <em><code class="highlighter-rouge">GHC</code></em>. The steps are in this <a href="https://www.haskell.org/platform/">link</a>.
-My tip here is don’t install the <em><code class="highlighter-rouge">Haskell</code></em> compiler in your machine, instead that use a <em><code class="highlighter-rouge">Docker</code></em> image with <em><code class="highlighter-rouge">Haskell</code></em> to work with. If you don’t have <em><code class="highlighter-rouge">Docker</code></em> in your computer you can see how install it here: <a href="https://www.docker.com/products/overview">https://www.docker.com/products/overview</a>. After install <em><code class="highlighter-rouge">Docker</code></em> you just have to start it and run this command: <strong>docker run -ti –rm -v $(pwd):/code haskell:7.10 bash</strong>. Now you have a virtual machine running the <em><code class="highlighter-rouge">Haskell</code></em> compiler to you. To start the <em><code class="highlighter-rouge">GHC's interpreter</code></em> you have to run the command: <strong>ghci</strong>.</p>
-
-
-      </div>
-
-      <a href="/haskell-marathon-day-one/" class="read-more">Read More</a>
-    </article>
-  
-    <article class="post">
-
-      <h1><a href="/react-redux-local-storage/">Using local storage with React and Redux</a></h1>
-
-      <div class="entry">
-        <p>Usually our application starts <em><code class="highlighter-rouge">Redux's</code></em> store with an empty object to show that the application doesn’t have any data when it starts. In the future when users have some interaction or when the application gets some data from the back-end so the store will keep these data. It is the most commom way to use <em><code class="highlighter-rouge">Redux</code></em> in a <em><code class="highlighter-rouge">React</code></em> project, at least in the projects which I worked til now, but sometimes we need another approach.
-To create a store with <em><code class="highlighter-rouge">Redux</code></em> we have to use a function called <em><code class="highlighter-rouge">createStore</code></em> which receives our <em><code class="highlighter-rouge">reducers</code></em> as parameters and should be imported from <em><code class="highlighter-rouge">Redux</code></em>.</p>
-
-
-      </div>
-
-      <a href="/react-redux-local-storage/" class="read-more">Read More</a>
-    </article>
-  
-    <article class="post">
-
-      <h1><a href="/welcome/">Welcome</a></h1>
-
-      <div class="entry">
-        <p>Hello guys!!!!</p>
-
-<p>Today I’m giving the kick off of my blog.</p>
-
-<p>I’d like to use this channel to share with you what I’m doing and studiyng. In the last years I have been working with back-end and front-end and I still doing that.</p>
-
-
-      </div>
-
-      <a href="/welcome/" class="read-more">Read More</a>
-    </article>
-  
+<div class="comments">
+	<div id="disqus_thread"></div>
+	<script type="text/javascript">
+
+	    var disqus_shortname = 'rodrigo-morais';
+
+	    (function() {
+	        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+	        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+	        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	    })();
+
+	</script>
+	<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 </div>
+
+</article>
 
     </div>
 
@@ -443,8 +449,8 @@ To create a store with <em><code class="highlighter-rouge">Redux</code></em> we 
 
 		ga('create', 'UA-87967717-1', 'auto');
 		ga('send', 'pageview', {
-		  'page': '/',
-		  'title': ''
+		  'page': '/haskell-marathon-day-ten/',
+		  'title': 'Haskell\'s Marathon - Day Ten'
 		});
 	</script>
 	<!-- End Google Analytics -->
