@@ -1,8 +1,9 @@
-<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xml" href="https://rodrigo-morais.github.io/feed.xslt.xml"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.3.1">Jekyll</generator><link href="https://rodrigo-morais.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://rodrigo-morais.github.io/" rel="alternate" type="text/html" /><updated>2016-12-10T19:20:00+01:00</updated><id>https://rodrigo-morais.github.io//</id><title type="html">In development</title><subtitle>Software Developer</subtitle><author><name>Rodrigo Morais</name></author><entry xml:lang="pt_BR"><title type="html">Maratona de Haskell - Décimo Dia</title><link href="https://rodrigo-morais.github.io/haskell-marathon-day-ten/" rel="alternate" type="text/html" title="Maratona de Haskell - Décimo Dia" /><published>2016-12-10T00:00:00+01:00</published><updated>2016-12-10T00:00:00+01:00</updated><id>https://rodrigo-morais.github.io/haskell-marathon-day-ten.pt_BR</id><content type="html" xml:base="https://rodrigo-morais.github.io/haskell-marathon-day-ten/">&lt;p&gt;Fala pessoal!&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xml" href="https://rodrigo-morais.github.io/feed.xslt.xml"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.3.1">Jekyll</generator><link href="https://rodrigo-morais.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://rodrigo-morais.github.io/" rel="alternate" type="text/html" /><updated>2016-12-10T19:23:47+01:00</updated><id>https://rodrigo-morais.github.io//</id><title type="html">In development</title><subtitle>Software Developer</subtitle><author><name>Rodrigo Morais</name></author><entry xml:lang="pt_BR"><title type="html">Maratona de Haskell - Décimo Dia</title><link href="https://rodrigo-morais.github.io/haskell-marathon-day-ten/" rel="alternate" type="text/html" title="Maratona de Haskell - Décimo Dia" /><published>2016-12-10T00:00:00+01:00</published><updated>2016-12-10T00:00:00+01:00</updated><id>https://rodrigo-morais.github.io/haskell-marathon-day-ten.pt_BR</id><content type="html" xml:base="https://rodrigo-morais.github.io/haskell-marathon-day-ten/">&lt;p&gt;Fala pessoal!&lt;/p&gt;
 
 &lt;p&gt;Hoje vamos falar sobre duas diferentes formas de trabalhar com &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Pattern Matching&lt;/code&gt;&lt;/em&gt; que são &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;let..in&lt;/code&gt;&lt;/em&gt; e &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;case..of&lt;/code&gt;&lt;/em&gt;.&lt;/p&gt;
 
-&lt;p&gt;Nós já vimos um pouco sobre &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;let..in&lt;/code&gt;&lt;/em&gt; no primeiro dia quando nós o usamos para criar “variáveis” &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;GHCI&lt;/code&gt;&lt;/em&gt;, mas podemos usa-las levemente diferente.&lt;/p&gt;
+&lt;p&gt;Nós já vimos um pouco sobre &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;let..in&lt;/code&gt;&lt;/em&gt; no primeiro dia quando nós o usamos para criar “variáveis” &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;GHCI&lt;/code&gt;&lt;/em&gt;, mas podemos usa-las levemente diferente.
+&lt;!--more--&gt;&lt;/p&gt;
 &lt;div class=&quot;language-haskell highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kr&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;
 &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;
 &lt;span class=&quot;mi&quot;&gt;25&lt;/span&gt;
@@ -107,108 +108,7 @@
 
 Hoje vamos falar sobre duas diferentes formas de trabalhar com Pattern Matching que são let..in e case..of.
 
-Nós já vimos um pouco sobre let..in no primeiro dia quando nós o usamos para criar “variáveis” GHCI, mas podemos usa-las levemente diferente.
-let a = 5
-5 * 5
-25
-
-
-let add a b = a + b
-add 5 4
-9
-
-
-let add' a b = a + b in add' 5 4
-9
-
-
-
-Ao invés de usar o where nós podemos usar o let..in e colocar a “variável” no topo.
-cylinder :: Double -&amp;gt; Double -&amp;gt; Double
-cylinder r h =
-  let
-    sideArea = 2 * pi * r * h
-    topArea = pi * r ^ 2
-  in
-    sideArea + 2 * topArea
-
-
-cylinder 8 10
-904.7786842338604
-
-
-Diferentemente do where o let..in é uma expressão e pode ser usado em qualquer lugar, pelo outro lado ele tem scopo somente onde é definido e nós não podemos usa-lo com Guards por exemplo, Vamos ver um exemplo de onde podemos usar let..in.
-4 + let b = 5 in 5 + b + 2
-
-
-[let square x = x * x in (square 2, square 3, square 4)]
-[(4,9,16)]
-
-
-Quando dizemos que let..in é uma expressão queremos dizer que ele tem um valor e por causa disso podemos usa-lo em qualquer lugar.
-
-Podemos usar o let..in em list comprehension também. Com let..in em list comprehension nós podemos criar variáveis que podem ser usadas no output e em tudo que venha depois da definição de let..in.
-calcBMI :: [(Double, Double)] -&amp;gt; [Double]
-calcBMI xs = [bmi | (weight, height) &amp;lt;- xs, let bmi = weight / height ^ 2]
-
-
-calcBMI [(85, 1.81), (70, 1.9), (60, 1.5), (90, 1.8)]
-[25.94548395958609,19.390581717451525,26.666666666666668,27.777777777777775]
-
-
-getOverweight :: [(Double, Double)] -&amp;gt; [Double]
-getOverweight xs = [bmi | (weight, height) &amp;lt;- xs, let bmi = weight / height ^ 2, bmi &amp;gt; 25.0]
-
-
-getOverweight [(85, 1.81), (70, 1.9), (60, 1.5), (90, 1.8)]
-[25.94548395958609,26.666666666666668,27.777777777777775]
-
-
-Neste caso não necessitamos funções auxiliares para nossas list comprehension.
-
-Haskell tem uma forma diferente para fazer Pattern Matching que é o case..of. Ambos fazem o mesmo, mas como uma expressão case..of pode ser usado em qualquer lugar e Pattern Matching não.
-head' :: [a] -&amp;gt; a
-head' xs = case xs of
-  [] -&amp;gt; error &quot;empty list&quot;
-  (x:_) -&amp;gt; x
-
-
-head' []
-*** Exception: empty list
-
-
-head' [1]
-1
-
-
-head' [1,2]
-1
-
-
-listType :: [a] -&amp;gt; String
-listType xs = &quot;This is &quot; ++ case xs of
-  [] -&amp;gt; &quot;an empty list&quot;
-  [a] -&amp;gt; &quot;list with a single element&quot;
-  _ -&amp;gt; &quot;a list with more than one element&quot;
-
-
-listType []
-&quot;This is an empty list&quot;
-
-
-listType [1]
-&quot;This is list with a single element&quot;
-
-
-listType [1,2]
-&quot;This is a list with more than one element&quot;
-
-
-Com o case..of nós podemos criar uma função com Pattern Matching ou adiciona-la dentro de outras expressões.
-
-
-
-Hoje vimos outras possibilidades para trabalhar com listas e às vezes não usar Pattern Matching. Com esse conteúdo nós finalizamos o terceiro capítulo do livro “Learn You a Haskell for Great Good!: A Beginner’s Guide”.</summary></entry><entry xml:lang="pt_BR"><title type="html">Maratona de Haskell - Nono Dia</title><link href="https://rodrigo-morais.github.io/haskell-marathon-day-nine/" rel="alternate" type="text/html" title="Maratona de Haskell - Nono Dia" /><published>2016-12-09T00:00:00+01:00</published><updated>2016-12-09T00:00:00+01:00</updated><id>https://rodrigo-morais.github.io/haskell-marathon-day-nine.pt_BR</id><content type="html" xml:base="https://rodrigo-morais.github.io/haskell-marathon-day-nine/">&lt;p&gt;Fala pessoal!&lt;/p&gt;
+Nós já vimos um pouco sobre let..in no primeiro dia quando nós o usamos para criar “variáveis” GHCI, mas podemos usa-las levemente diferente.</summary></entry><entry xml:lang="pt_BR"><title type="html">Maratona de Haskell - Nono Dia</title><link href="https://rodrigo-morais.github.io/haskell-marathon-day-nine/" rel="alternate" type="text/html" title="Maratona de Haskell - Nono Dia" /><published>2016-12-09T00:00:00+01:00</published><updated>2016-12-09T00:00:00+01:00</updated><id>https://rodrigo-morais.github.io/haskell-marathon-day-nine.pt_BR</id><content type="html" xml:base="https://rodrigo-morais.github.io/haskell-marathon-day-nine/">&lt;p&gt;Fala pessoal!&lt;/p&gt;
 
 &lt;p&gt;Ontem nós falamos sobre &lt;em&gt;´Pattern Matching&lt;code class=&quot;highlighter-rouge&quot;&gt;* e hoje nós vamos iniciar com um especial caso de *&lt;/code&gt;Pattern Matching&lt;code class=&quot;highlighter-rouge&quot;&gt;*. Se nós precisamos da lista original durante o *&lt;/code&gt;Pattern Matching&lt;code class=&quot;highlighter-rouge&quot;&gt;* nós podemos usar algo chamado *&lt;/code&gt;as-pattern`&lt;/em&gt;. Eu não acho este caso especial tão útil, mas eu vou mostrar um exemplo:
 &lt;!--more--&gt;&lt;/p&gt;
