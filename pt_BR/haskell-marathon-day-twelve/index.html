@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Maratona de Haskell - Décimo Segundo Dia –  – Software Developer</title>
+
+        <meta charset="utf-8" />
+    <meta content='text/html; charset=utf-8' http-equiv='Content-Type'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0'>
+
+    
+    <meta name="description" content="Fala pessoal!
+
+Hoje nós contiamos fazendo exercícios. Ontem fizemos alguns exercícios e no exercício nove nós usamos duas funções standard do Haskell que foram takeWhile e dropWhile. Agora vamos fazer algo levemente diferente, nós vamos criar nossas próprias takeWhile e dropWhile e usa-las no exercício nove.
+
+" />
+    <meta property="og:description" content="Fala pessoal!
+
+Hoje nós contiamos fazendo exercícios. Ontem fizemos alguns exercícios e no exercício nove nós usamos duas funções standard do Haskell que foram takeWhile e dropWhile. Agora vamos fazer algo levemente diferente, nós vamos criar nossas próprias takeWhile e dropWhile e usa-las no exercício nove.
+
+" />
+    
+    <meta name="author" content="" />
+
+    
+    <meta property="og:title" content="Maratona de Haskell - Décimo Segundo Dia" />
+    <meta property="twitter:title" content="Maratona de Haskell - Décimo Segundo Dia" />
+    
+
+    <!--[if lt IE 9]>
+      <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <link rel="stylesheet" type="text/css" href="/css/styles.css" />
+    <link rel="alternate" type="application/rss+xml" title=" - Software Developer" href="/pt_BR/feed.xml" />
+
+    <!-- Created with Jekyll Now - http://github.com/barryclark/jekyll-now -->
+  </head>
+
+  <body>
+    <div class="wrapper-masthead">
+      <div class="container">
+        <header class="masthead clearfix">
+          <a href="/pt_BR/" class="site-avatar"><img src="https://avatars.githubusercontent.com/rodrigo-morais" /></a>
+
+          <div class="site-info">
+            <h1 class="site-name"><a href="/pt_BR/">In development</a></h1>
+            <h3 class="site-author">Rodrigo Morais</h3>
+            <p class="site-description">Software Developer</p>
+          </div>
+
+          <nav class="languages"> 
+          
+          </nav>
+
+          <nav>
+            <a href="/pt_BR/">Blog</a>
+            <a href="/pt_BR/about">Sobre</a>
+          </nav>
+        </header>
+      </div>
+    </div>
+
+    <div id="main" role="main" class="container">
+      <article class="post">
+  
+    <nav class="languages"> 
+  
+    
+      <a href="https://rodrigo-morais.github.io/haskell-marathon-day-twelve/"><img src="https://rodrigo-morais.github.io/images/en-flag.png" /></a>
+    
+  
+    
+    <a href="https://rodrigo-morais.github.io/pt_BR/haskell-marathon-day-twelve/"><img src="https://rodrigo-morais.github.io/images/pt_BR-flag.png" /></a>
+    
+  
+</nav>
+
+  
+
+  <h1>Maratona de Haskell - Décimo Segundo Dia</h1>
+
+  <div class="entry">
+    <p>Fala pessoal!</p>
+
+<p>Hoje nós contiamos fazendo exercícios. Ontem fizemos alguns exercícios e no exercício nove nós usamos duas funções standard do <em><code class="highlighter-rouge">Haskell</code></em> que foram <em><code class="highlighter-rouge">takeWhile</code></em> e <em><code class="highlighter-rouge">dropWhile</code></em>. Agora vamos fazer algo levemente diferente, nós vamos criar nossas próprias <em><code class="highlighter-rouge">takeWhile</code></em> e <em><code class="highlighter-rouge">dropWhile</code></em> e usa-las no exercício nove.</p>
+
+<!--more-->
+
+<p>Vamos iniciar com <em><code class="highlighter-rouge">takeWhile</code></em> porque depois <em><code class="highlighter-rouge">dropWhile</code></em> será bem parecida.
+A função <em><code class="highlighter-rouge">takeWhile</code></em> obtém os elementos de uma lista equanto eles respeitam a função informada.</p>
+<div class="language-haskell highlighter-rouge"><pre class="highlight"><code><span class="n">takeWhile</span> <span class="p">(</span><span class="o">==</span><span class="sc">'a'</span><span class="p">)</span> <span class="p">[</span><span class="sc">'a'</span><span class="p">,</span> <span class="sc">'a'</span><span class="p">,</span> <span class="sc">'a'</span><span class="p">,</span> <span class="sc">'a'</span><span class="p">,</span> <span class="sc">'b'</span><span class="p">,</span> <span class="sc">'c'</span><span class="p">,</span> <span class="sc">'c'</span><span class="p">,</span> <span class="sc">'a'</span><span class="p">,</span> <span class="sc">'a'</span><span class="p">,</span> <span class="sc">'d'</span><span class="p">,</span> <span class="sc">'e'</span><span class="p">,</span> <span class="sc">'e'</span><span class="p">,</span> <span class="sc">'e'</span><span class="p">,</span> <span class="sc">'e'</span><span class="p">]</span>
+<span class="s">"aaaa"</span>
+
+
+<span class="n">takeWhile</span> <span class="p">(</span><span class="o">&lt;=</span> <span class="mi">3</span><span class="p">)</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">]</span>
+<span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span>
+</code></pre>
+</div>
+<p>Ok. Quando criamos uma função é sempre mais fácil começar com seu comportamento. Em <em><code class="highlighter-rouge">Haskell</code></em> nós fazemos isso pensando na assinatura da função.<br />
+Como é a assinatura de <em><code class="highlighter-rouge">takeWhile</code></em>? Bem, a função recebe uma função e uma lista. E o resultado é uma lista.<br />
+Ok, e como é essa função? A função recebe um elemento e retorna um booleano.
+Ótimo, parece que já temos a assinatura.</p>
+<div class="language-haskell highlighter-rouge"><pre class="highlight"><code><span class="n">takeWhile</span><span class="err">’</span> <span class="o">::</span> <span class="p">(</span><span class="n">a</span> <span class="o">-&gt;</span> <span class="kt">Bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span>
+</code></pre>
+</div>
+<p>A <em><code class="highlighter-rouge">(a -&gt; Bool)</code></em> é a nossa função que recebemos o elemento <em><code class="highlighter-rouge">a</code></em> e retorna um booleano. <em><code class="highlighter-rouge">[a]</code></em> é a lista que recebemos e o último <em><code class="highlighter-rouge">[a]</code></em> é a lista que retornamos.</p>
+
+<p>Legal. O próximo passo é pensar nas exceções que no nosso caso é quando recebemos uma lista vazia. O que fazemos com uma lista vazia? Nada. Então vamos escrever isso:</p>
+<div class="language-haskell highlighter-rouge"><pre class="highlight"><code><span class="n">takeWhile</span><span class="err">’</span> <span class="o">::</span> <span class="p">(</span><span class="n">a</span> <span class="o">-&gt;</span> <span class="kt">Bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span>
+<span class="n">takeWhile</span><span class="err">’</span> <span class="kr">_</span> <span class="kt">[]</span> <span class="o">=</span> <span class="kt">[]</span>
+</code></pre>
+</div>
+<p>Neste caso a função não é importante e nós estamos usando o <em><code class="highlighter-rouge">_</code></em> para isso.
+Agora vamos para a parte mais importante da função. Vamos pensar, o que acontece quando o primeiro elemento da lista é verdadeiro para a nossa função? Neste caso queremos retornar ele e continuar verificando a lista.</p>
+<div class="language-haskell highlighter-rouge"><pre class="highlight"><code><span class="n">takeWhile</span><span class="err">’</span> <span class="o">::</span> <span class="p">(</span><span class="n">a</span> <span class="o">-&gt;</span> <span class="kt">Bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span>
+<span class="n">takeWhile</span><span class="err">’</span> <span class="kr">_</span> <span class="kt">[]</span> <span class="o">=</span> <span class="kt">[]</span>
+<span class="n">takeWhile</span><span class="err">’</span> <span class="n">f</span> <span class="p">(</span><span class="n">x</span><span class="o">:</span><span class="n">xs</span><span class="p">)</span> <span class="o">=</span>
+    <span class="kt">If</span> <span class="n">f</span> <span class="n">x</span> <span class="kr">then</span>
+        <span class="n">x</span><span class="o">:</span> <span class="n">takeWhile</span><span class="err">’</span> <span class="n">f</span> <span class="n">xs</span>
+</code></pre>
+</div>
+<p>Simples assim:</p>
+
+<p>Ok. Mas quando a função retorna falso para o nosso elemento? Bem, neste caso nós não temos que retornar o elemento e parar de avaliar a lista.</p>
+<div class="language-haskell highlighter-rouge"><pre class="highlight"><code><span class="n">takeWhile</span><span class="err">’</span> <span class="o">::</span> <span class="p">(</span><span class="n">a</span> <span class="o">-&gt;</span> <span class="kt">Bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span>
+<span class="n">takeWhile</span><span class="err">’</span> <span class="kr">_</span> <span class="kt">[]</span> <span class="o">=</span> <span class="kt">[]</span>
+<span class="n">takeWhile</span><span class="err">’</span> <span class="n">f</span> <span class="p">(</span><span class="n">x</span><span class="o">:</span><span class="n">xs</span><span class="p">)</span> <span class="o">=</span>
+    <span class="kt">If</span> <span class="n">f</span> <span class="n">x</span> <span class="kr">then</span>
+        <span class="n">x</span><span class="o">:</span> <span class="n">takeWhile</span><span class="err">’</span> <span class="n">f</span> <span class="n">xs</span>
+    <span class="kr">else</span>
+        <span class="kt">[]</span>
+</code></pre>
+</div>
+<p>E se testarmos:</p>
+<div class="language-haskell highlighter-rouge"><pre class="highlight"><code><span class="n">takeWhile</span><span class="err">’</span> <span class="p">(</span><span class="o">==</span><span class="sc">'a'</span><span class="p">)</span> <span class="p">[</span><span class="sc">'a'</span><span class="p">,</span> <span class="sc">'a'</span><span class="p">,</span> <span class="sc">'a'</span><span class="p">,</span> <span class="sc">'a'</span><span class="p">,</span> <span class="sc">'b'</span><span class="p">,</span> <span class="sc">'c'</span><span class="p">,</span> <span class="sc">'c'</span><span class="p">,</span> <span class="sc">'a'</span><span class="p">,</span> <span class="sc">'a'</span><span class="p">,</span> <span class="sc">'d'</span><span class="p">,</span> <span class="sc">'e'</span><span class="p">,</span> <span class="sc">'e'</span><span class="p">,</span> <span class="sc">'e'</span><span class="p">,</span> <span class="sc">'e'</span><span class="p">]</span>
+<span class="s">"aaaa"</span>
+
+
+<span class="n">takeWhile</span><span class="err">’</span> <span class="p">(</span><span class="o">&lt;=</span> <span class="mi">3</span><span class="p">)</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">]</span>
+<span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span>
+</code></pre>
+</div>
+<p>Funciona. Mas podemos melhorar a função usando <em><code class="highlighter-rouge">Guards</code></em>. Vamos testar?</p>
+<div class="language-haskell highlighter-rouge"><pre class="highlight"><code><span class="n">takeWhile''</span> <span class="o">::</span> <span class="p">(</span><span class="n">a</span> <span class="o">-&gt;</span> <span class="kt">Bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span>
+<span class="n">takeWhile''</span> <span class="kr">_</span> <span class="kt">[]</span> <span class="o">=</span> <span class="kt">[]</span>
+<span class="n">takeWhile''</span> <span class="n">f</span> <span class="p">(</span><span class="n">x</span><span class="o">:</span><span class="n">xs</span><span class="p">)</span>
+  <span class="o">|</span> <span class="n">f</span> <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">:</span> <span class="n">takeWhile'</span> <span class="n">f</span> <span class="n">xs</span>
+  <span class="o">|</span> <span class="n">otherwise</span> <span class="o">=</span> <span class="kt">[]</span>
+
+
+<span class="n">takeWhile</span><span class="err">’’</span> <span class="p">(</span><span class="o">==</span><span class="sc">'a'</span><span class="p">)</span> <span class="p">[</span><span class="sc">'a'</span><span class="p">,</span> <span class="sc">'a'</span><span class="p">,</span> <span class="sc">'a'</span><span class="p">,</span> <span class="sc">'a'</span><span class="p">,</span> <span class="sc">'b'</span><span class="p">,</span> <span class="sc">'c'</span><span class="p">,</span> <span class="sc">'c'</span><span class="p">,</span> <span class="sc">'a'</span><span class="p">,</span> <span class="sc">'a'</span><span class="p">,</span> <span class="sc">'d'</span><span class="p">,</span> <span class="sc">'e'</span><span class="p">,</span> <span class="sc">'e'</span><span class="p">,</span> <span class="sc">'e'</span><span class="p">,</span> <span class="sc">'e'</span><span class="p">]</span>
+<span class="s">"aaaa"</span>
+
+
+<span class="n">takeWhile</span><span class="err">’’</span> <span class="p">(</span><span class="o">&lt;=</span> <span class="mi">3</span><span class="p">)</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">]</span>
+<span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span>
+</code></pre>
+</div>
+<p>Funciona também. E a função parece melhor. O que você acha?</p>
+
+<p>Ok. Agora vamos ver o <em><code class="highlighter-rouge">dropWhile</code></em>. Esta função recebe como parâmetro uma função e uma lista e retorna outra lista. Igual ao <em><code class="highlighter-rouge">take While</code></em>, não è?
+E tem mais, se a lista recebida é vazia a função retorna uma lista vazia também.</p>
+<div class="language-haskell highlighter-rouge"><pre class="highlight"><code><span class="n">dropWhile</span><span class="err">’</span> <span class="o">::</span> <span class="p">(</span><span class="n">a</span> <span class="o">-&gt;</span> <span class="kt">Bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span>
+<span class="n">dropWhile</span><span class="err">’</span> <span class="kr">_</span> <span class="kt">[]</span> <span class="o">=</span> <span class="kt">[]</span>
+</code></pre>
+</div>
+<p>O que irá mudar no <em><code class="highlighter-rouge">dropWhile</code></em> é a última parte que tem um comportamento diferente do <em><code class="highlighter-rouge">takeWhile</code></em>. No <em><code class="highlighter-rouge">dropWhile</code></em> nós queremos remover os elementos se eles são verdadeiro de acordo com a função recebida como parâmetro. E se o elemento é falso nós paramos de avaliar a lista e retornamos ela com o elemento.</p>
+<div class="language-haskell highlighter-rouge"><pre class="highlight"><code><span class="n">dropWhile''</span> <span class="o">::</span> <span class="p">(</span><span class="n">a</span> <span class="o">-&gt;</span> <span class="kt">Bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span>
+<span class="n">dropWhile''</span> <span class="kr">_</span> <span class="kt">[]</span> <span class="o">=</span> <span class="kt">[]</span>
+<span class="n">dropWhile''</span> <span class="n">f</span> <span class="p">(</span><span class="n">x</span><span class="o">:</span><span class="n">xs</span><span class="p">)</span>
+  <span class="o">|</span> <span class="n">f</span> <span class="n">x</span> <span class="o">=</span> <span class="n">dropWhile'</span> <span class="n">f</span> <span class="n">xs</span>
+  <span class="o">|</span> <span class="n">otherwise</span> <span class="o">=</span> <span class="n">x</span><span class="o">:</span><span class="n">xs</span>
+
+
+<span class="n">dropWhile''</span> <span class="p">(</span><span class="o">&lt;=</span> <span class="mi">3</span><span class="p">)</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">]</span>
+<span class="p">[</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">]</span>
+
+
+<span class="n">dropWhile''</span> <span class="p">(</span><span class="o">==</span><span class="sc">'a'</span><span class="p">)</span> <span class="p">[</span><span class="sc">'a'</span><span class="p">,</span> <span class="sc">'a'</span><span class="p">,</span> <span class="sc">'a'</span><span class="p">,</span> <span class="sc">'a'</span><span class="p">,</span> <span class="sc">'b'</span><span class="p">,</span> <span class="sc">'c'</span><span class="p">,</span> <span class="sc">'c'</span><span class="p">,</span> <span class="sc">'a'</span><span class="p">,</span> <span class="sc">'a'</span><span class="p">,</span> <span class="sc">'d'</span><span class="p">,</span> <span class="sc">'e'</span><span class="p">,</span> <span class="sc">'e'</span><span class="p">,</span> <span class="sc">'e'</span><span class="p">,</span> <span class="sc">'e'</span><span class="p">]</span>
+<span class="s">"bccaadeeee"</span>
+</code></pre>
+</div>
+<p>Funciona também.</p>
+
+<p>Agora nós podemos retornar para o exercício nove que trabalhamos ontem e substituir as funções standard pelas nossas.</p>
+
+<p>A descrição do exercício é: Pack consecutive duplicates of list elements into sublists. If a list contains repeated elements they should be placed in separate sublists.</p>
+
+<p>E o exemplo é:</p>
+<div class="language-haskell highlighter-rouge"><pre class="highlight"><code><span class="n">pack</span> <span class="p">[</span><span class="sc">'a'</span><span class="p">,</span> <span class="sc">'a'</span><span class="p">,</span> <span class="sc">'a'</span><span class="p">,</span> <span class="sc">'a'</span><span class="p">,</span> <span class="sc">'b'</span><span class="p">,</span> <span class="sc">'c'</span><span class="p">,</span> <span class="sc">'c'</span><span class="p">,</span> <span class="sc">'a'</span><span class="p">,</span>  <span class="sc">'a'</span><span class="p">,</span> <span class="sc">'d'</span><span class="p">,</span> <span class="sc">'e'</span><span class="p">,</span> <span class="sc">'e'</span><span class="p">,</span> <span class="sc">'e'</span><span class="p">,</span> <span class="sc">'e'</span><span class="p">]</span>
+<span class="p">[</span><span class="s">"aaaa"</span><span class="p">,</span><span class="s">"b"</span><span class="p">,</span><span class="s">"cc"</span><span class="p">,</span><span class="s">"aa"</span><span class="p">,</span><span class="s">"d"</span><span class="p">,</span><span class="s">"eeee"</span><span class="p">]</span>
+</code></pre>
+</div>
+<p>Com nossas novas funções:</p>
+<div class="language-haskell highlighter-rouge"><pre class="highlight"><code><span class="n">pack</span> <span class="o">::</span> <span class="p">(</span><span class="kt">Eq</span> <span class="n">a</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="p">[[</span><span class="n">a</span><span class="p">]]</span>
+<span class="n">pack</span> <span class="kt">[]</span> <span class="o">=</span> <span class="kt">[]</span>
+<span class="n">pack</span> <span class="p">(</span><span class="n">x</span><span class="o">:</span><span class="n">xs</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span><span class="o">:</span> <span class="n">takeWhile</span><span class="err">’’</span> <span class="p">(</span><span class="o">==</span><span class="n">x</span><span class="p">)</span> <span class="n">xs</span><span class="p">)</span> <span class="o">:</span> <span class="p">(</span><span class="n">pack</span> <span class="o">$</span> <span class="n">dropWhile</span><span class="err">’’</span> <span class="p">(</span><span class="o">==</span><span class="n">x</span><span class="p">)</span> <span class="n">xs</span><span class="p">)</span>
+
+
+<span class="n">pack</span> <span class="p">[</span><span class="sc">'a'</span><span class="p">,</span> <span class="sc">'a'</span><span class="p">,</span> <span class="sc">'a'</span><span class="p">,</span> <span class="sc">'a'</span><span class="p">,</span> <span class="sc">'b'</span><span class="p">,</span> <span class="sc">'c'</span><span class="p">,</span> <span class="sc">'c'</span><span class="p">,</span> <span class="sc">'a'</span><span class="p">,</span>  <span class="sc">'a'</span><span class="p">,</span> <span class="sc">'d'</span><span class="p">,</span> <span class="sc">'e'</span><span class="p">,</span> <span class="sc">'e'</span><span class="p">,</span> <span class="sc">'e'</span><span class="p">,</span> <span class="sc">'e'</span><span class="p">]</span>
+<span class="p">[</span><span class="s">"aaaa"</span><span class="p">,</span><span class="s">"b"</span><span class="p">,</span><span class="s">"cc"</span><span class="p">,</span><span class="s">"aa"</span><span class="p">,</span><span class="s">"d"</span><span class="p">,</span><span class="s">"eeee"</span><span class="p">]</span>
+</code></pre>
+</div>
+<p>E a função <em><code class="highlighter-rouge">pack</code></em> continua funcionando com as nossas funções.</p>
+
+<p><br /></p>
+
+<p>Para reescrever as funções <em><code class="highlighter-rouge">takeWhile</code></em> e <em><code class="highlighter-rouge">dropWhile</code></em> nós tivemos que usar duas técnicas chamadas <em><code class="highlighter-rouge">recursion</code></em> e <em><code class="highlighter-rouge">high order function</code></em> que serão estudadas nos próximos dois cápitulos do <a href="http://learnyouahaskell.com/">livro</a> que estamos acompanhando.</p>
+
+  </div>
+
+  <div class="date">
+    Written on December 12, 2016
+  </div>
+
+  
+<div class="comments">
+	<div id="disqus_thread"></div>
+	<script type="text/javascript">
+
+	    var disqus_shortname = 'rodrigo-morais';
+
+	    (function() {
+	        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+	        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+	        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	    })();
+
+	</script>
+	<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+
+</article>
+
+    </div>
+
+    <div class="wrapper-footer">
+      <div class="container">
+        <footer class="footer">
+          
+<a href="mailto:morais.rm@gmail.com"><i class="svg-icon email"></i></a>
+
+
+<a href="https://github.com/rodrigo-morais"><i class="svg-icon github"></i></a>
+
+<a href="https://www.linkedin.com/in/moraisrm"><i class="svg-icon linkedin"></i></a>
+
+
+<a href="https://www.twitter.com/moraisrm_rs"><i class="svg-icon twitter"></i></a>
+
+
+
+        </footer>
+      </div>
+    </div>
+
+    
+	<!-- Google Analytics -->
+	<script>
+		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+		ga('create', 'UA-87967717-1', 'auto');
+		ga('send', 'pageview', {
+		  'page': '/haskell-marathon-day-twelve/',
+		  'title': 'Maratona de Haskell - Décimo Segundo Dia'
+		});
+	</script>
+	<!-- End Google Analytics -->
+
+
+  </body>
+</html>
