@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Maratona de Haskell - Décimo Sétimo e Oitavo Dias –  – Software Developer</title>
+
+        <meta charset="utf-8" />
+    <meta content='text/html; charset=utf-8' http-equiv='Content-Type'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0'>
+
+    
+    <meta name="description" content="Fala pessoal!
+
+Estes útlimos dias eu estudei sobre folds e scan.
+
+Então hoje vamos começar falando sobre folds que são o mesmo que reducers em outras linguagens. Haskell tem dois tipos de folds que são foldl e foldr.
+
+" />
+    <meta property="og:description" content="Fala pessoal!
+
+Estes útlimos dias eu estudei sobre folds e scan.
+
+Então hoje vamos começar falando sobre folds que são o mesmo que reducers em outras linguagens. Haskell tem dois tipos de folds que são foldl e foldr.
+
+" />
+    
+    <meta name="author" content="" />
+
+    
+    <meta property="og:title" content="Maratona de Haskell - Décimo Sétimo e Oitavo Dias" />
+    <meta property="twitter:title" content="Maratona de Haskell - Décimo Sétimo e Oitavo Dias" />
+    
+
+    <!--[if lt IE 9]>
+      <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <link rel="stylesheet" type="text/css" href="/css/styles.css" />
+    <link rel="alternate" type="application/rss+xml" title=" - Software Developer" href="/pt_BR/feed.xml" />
+
+    <!-- Created with Jekyll Now - http://github.com/barryclark/jekyll-now -->
+  </head>
+
+  <body>
+    <div class="wrapper-masthead">
+      <div class="container">
+        <header class="masthead clearfix">
+          <a href="/pt_BR/" class="site-avatar"><img src="https://avatars.githubusercontent.com/rodrigo-morais" /></a>
+
+          <div class="site-info">
+            <h1 class="site-name"><a href="/pt_BR/">In development</a></h1>
+            <h3 class="site-author">Rodrigo Morais</h3>
+            <p class="site-description">Software Developer</p>
+          </div>
+
+          <nav class="languages"> 
+          
+          </nav>
+
+          <nav>
+            <a href="/pt_BR/">Blog</a>
+            <a href="/pt_BR/about">Sobre</a>
+          </nav>
+        </header>
+      </div>
+    </div>
+
+    <div id="main" role="main" class="container">
+      <article class="post">
+  
+    <nav class="languages"> 
+  
+    
+      <a href="https://rodrigo-morais.github.io/haskell-marathon-day-seventeen-eighteen/"><img src="https://rodrigo-morais.github.io/images/en-flag.png" /></a>
+    
+  
+    
+    <a href="https://rodrigo-morais.github.io/pt_BR/haskell-marathon-day-seventeen-eighteen/"><img src="https://rodrigo-morais.github.io/images/pt_BR-flag.png" /></a>
+    
+  
+</nav>
+
+  
+
+  <h1>Maratona de Haskell - Décimo Sétimo e Oitavo Dias</h1>
+
+  <div class="entry">
+    <p>Fala pessoal!</p>
+
+<p>Estes útlimos dias eu estudei sobre <em><code class="highlighter-rouge">folds</code></em> e <em><code class="highlighter-rouge">scan</code></em>.</p>
+
+<p>Então hoje vamos começar falando sobre <em><code class="highlighter-rouge">folds</code></em> que são o mesmo que <em><code class="highlighter-rouge">reducers</code></em> em outras linguagens. <em><code class="highlighter-rouge">Haskell</code></em> tem dois tipos de <em><code class="highlighter-rouge">folds</code></em> que são <em><code class="highlighter-rouge">foldl</code></em> e <em><code class="highlighter-rouge">foldr</code></em>.</p>
+
+<!--more-->
+
+<h3 id="foldl">foldl</h3>
+
+<p>A função <em><code class="highlighter-rouge">foldl</code></em> é usada quando queremos executar a lista da esquerda para a direita. Por exemplo se temos uma lista [1,2,3,4,5] com <em><code class="highlighter-rouge">foldl</code></em> nós vamos fazer esse processo:
+(((((0 + 1) + 2) + 3) + 4) + 5) =&gt; ((((1 + 2) + 3) + 4) + 5) =&gt; (((3 + 3) + 4) + 5) =&gt; ((6 + 4) + 5) =&gt; (10 + 5) =&gt; 15</p>
+
+<p>A função <em><code class="highlighter-rouge">foldl</code></em> tem essa assinatura <em><code class="highlighter-rouge">foldl :: (b -&gt; a -&gt; b) -&gt; b -&gt; [a] -&gt; b</code></em> que esta dizendo que receberemos uma função, um elemento de qualquer tipo, uma lista e retornaremos um elemento como resultado.<br />
+A função será aplicada sobre a lista e o segundo elemento é um acumulador.<br />
+Vamos ver como isso funciona:</p>
+<div class="language-haskell highlighter-rouge"><pre class="highlight"><code><span class="n">foldl</span> <span class="p">(</span><span class="o">+</span><span class="p">)</span> <span class="mi">0</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">]</span>
+<span class="mi">15</span>
+
+<span class="n">foldl</span> <span class="p">(</span><span class="o">*</span><span class="p">)</span> <span class="mi">3</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">]</span>
+<span class="mi">360</span>
+</code></pre>
+</div>
+<p>Então no primeiro exemplo que a função recebida foi <em><code class="highlighter-rouge">(*)</code></em>, o acumulador foi <em><code class="highlighter-rouge">0</code></em> e a lista recebida foi <em><code class="highlighter-rouge">[1,2,3,4,5]</code></em>. O resultado foi <em><code class="highlighter-rouge">15</code></em> como haviamos simulado anteriormente.</p>
+
+<p>Eu reescrevi a função <em><code class="highlighter-rouge">foldl</code></em>. Vamos ver como ficou:</p>
+<div class="language-haskell highlighter-rouge"><pre class="highlight"><code><span class="n">foldl'</span> <span class="o">::</span> <span class="p">(</span><span class="n">b</span> <span class="o">-&gt;</span> <span class="n">a</span> <span class="o">-&gt;</span> <span class="n">b</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">b</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="n">b</span>
+<span class="n">foldl'</span> <span class="kr">_</span> <span class="n">acc</span> <span class="kt">[]</span> <span class="o">=</span> <span class="n">acc</span>
+<span class="n">foldl'</span> <span class="n">f</span> <span class="n">acc</span> <span class="p">(</span><span class="n">x</span><span class="o">:</span><span class="n">xs</span><span class="p">)</span> <span class="o">=</span> <span class="n">foldl'</span> <span class="n">f</span> <span class="p">(</span><span class="n">f</span> <span class="n">acc</span> <span class="n">x</span><span class="p">)</span> <span class="n">xs</span>
+
+<span class="n">foldl'</span> <span class="p">(</span><span class="o">+</span><span class="p">)</span> <span class="mi">0</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">]</span>
+<span class="mi">15</span>
+
+<span class="n">foldl'</span> <span class="p">(</span><span class="o">*</span><span class="p">)</span> <span class="mi">3</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">]</span>
+<span class="mi">360</span>
+</code></pre>
+</div>
+
+<p><br /></p>
+
+<h3 id="foldr">foldr</h3>
+
+<p>A função <em><code class="highlighter-rouge">foldr</code></em> é similar a função a função <em><code class="highlighter-rouge">foldl</code></em> mas a computação é feita da direita para a esquerda. Vamos ver um exemplo com a soma de uma lista [1,2,3,4,5]:<br />
+(1 + (2 + (3 + ( 4 + (5 + 0))))) =&gt; (1 + (2 + (3 + ( 4 + 5)))) =&gt; (1 + (2 + (3 + 9))) =&gt; (1 + (2 + 12)) =&gt; (1 + 14) =&gt; 15</p>
+
+<p>A assinatura da função <em><code class="highlighter-rouge">foldr</code></em> é <em><code class="highlighter-rouge">foldr :: (a -&gt; b -&gt; b) -&gt; b -&gt; [a] -&gt; b</code></em>.<br />
+Vamos ver alguns exemplos:</p>
+<div class="language-haskell highlighter-rouge"><pre class="highlight"><code><span class="n">foldr</span> <span class="p">(</span><span class="o">+</span><span class="p">)</span> <span class="mi">0</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">]</span>
+<span class="mi">15</span>
+
+<span class="n">foldr</span> <span class="p">(</span><span class="o">*</span><span class="p">)</span> <span class="mi">3</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">]</span>
+<span class="mi">360</span>
+</code></pre>
+</div>
+<p>Somente o mesmo que <em><code class="highlighter-rouge">foldl</code></em>.<br />
+A função <em><code class="highlighter-rouge">foldr</code></em> brilha quando usada para concatenar listas ou com listas infinitas. Com a concatenação de listas porque o operador <em><code class="highlighter-rouge">:</code></em> é muito mais barato do que o <em><code class="highlighter-rouge">++</code></em> para concatenar listas, e a maioria do tempo usamos <em><code class="highlighter-rouge">foldr</code></em> e <em><code class="highlighter-rouge">:</code></em> ou <em><code class="highlighter-rouge">foldl</code></em> e <em><code class="highlighter-rouge">++</code></em>. Sobre listas infinitas porque em algumas listas <em><code class="highlighter-rouge">foldl</code></em> não funciona enquanto <em><code class="highlighter-rouge">foldr</code></em> continua funcionando. Isso acontece porque <em><code class="highlighter-rouge">foldr</code></em> não necessita de toda lista para avaliar a função tomando vantagem do laziness do <em><code class="highlighter-rouge">Haskell</code></em>.<br />
+Abaixo o código para reescrever a função <em><code class="highlighter-rouge">foldr</code></em>.</p>
+<div class="language-haskell highlighter-rouge"><pre class="highlight"><code><span class="n">foldr''</span> <span class="o">::</span> <span class="p">(</span><span class="n">a</span> <span class="o">-&gt;</span> <span class="n">b</span> <span class="o">-&gt;</span> <span class="n">b</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">b</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="n">b</span>
+<span class="n">foldr''</span> <span class="kr">_</span> <span class="n">acc</span> <span class="kt">[]</span> <span class="o">=</span> <span class="n">acc</span>
+<span class="n">foldr''</span> <span class="n">f</span> <span class="n">acc</span> <span class="p">(</span><span class="n">x</span><span class="o">:</span><span class="n">xs</span><span class="p">)</span> <span class="o">=</span>
+  <span class="n">f</span> <span class="n">x</span> <span class="p">(</span><span class="n">foldr''</span> <span class="n">f</span> <span class="n">acc</span> <span class="n">xs</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<p>Para ver a diferenção entre <em><code class="highlighter-rouge">foldl</code></em> e <em><code class="highlighter-rouge">foldr</code></em> nós temos que usar funções com divisão ou subtração. Vamos ver isso:</p>
+<div class="language-haskell highlighter-rouge"><pre class="highlight"><code><span class="n">foldl</span> <span class="p">(</span><span class="o">-</span><span class="p">)</span> <span class="mi">100</span> <span class="p">[</span><span class="mi">54</span><span class="p">,</span><span class="mi">20</span><span class="p">]</span>
+<span class="mi">26</span>
+
+<span class="n">foldr</span> <span class="p">(</span><span class="o">-</span><span class="p">)</span> <span class="mi">100</span> <span class="p">[</span><span class="mi">54</span><span class="p">,</span><span class="mi">20</span><span class="p">]</span>
+<span class="mi">134</span>
+</code></pre>
+</div>
+<p>Aui o <em><code class="highlighter-rouge">foldl</code></em> computa os valores nessa ordem <em><code class="highlighter-rouge">((100 - 54) - 20)</code></em> e <em><code class="highlighter-rouge">foldr</code></em> nessa ordem <em><code class="highlighter-rouge">(54 - (20 - 100))</code></em> e por causa disso os resultados são diferentes.<br />
+Outro exemplo com divisão:</p>
+<div class="language-haskell highlighter-rouge"><pre class="highlight"><code><span class="n">foldl</span> <span class="p">(</span><span class="o">/</span><span class="p">)</span> <span class="mi">100</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span>
+<span class="mf">10.0</span>
+
+<span class="n">foldr</span> <span class="p">(</span><span class="o">/</span><span class="p">)</span> <span class="mi">100</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span>
+<span class="mf">250.0</span>
+</code></pre>
+</div>
+<p>A mesma ideia que vimos antes.</p>
+
+<p><br /></p>
+
+<h3 id="scan">Scan</h3>
+
+<p>Agora vamos dar uma rápida olhada em outra função chamada <em><code class="highlighter-rouge">scan</code></em>. Essa função faz o mesmo que <em><code class="highlighter-rouge">fold</code></em> mas o resultado não é somente um valor, mas sim uma lista. A lista tem todos os acumuladores criados durante a computação. <em><code class="highlighter-rouge">Scan</code></em> tem duas funções como <em><code class="highlighter-rouge">fold</code></em> que são <em><code class="highlighter-rouge">scanl</code></em> e <em><code class="highlighter-rouge">scanr</code></em>.<br />
+Vamos comparar <em><code class="highlighter-rouge">scan</code></em> e <em><code class="highlighter-rouge">fold</code></em>:</p>
+<div class="language-haskell highlighter-rouge"><pre class="highlight"><code><span class="n">foldl</span> <span class="p">(</span><span class="o">/</span><span class="p">)</span> <span class="mi">100</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span>
+<span class="mf">10.0</span>
+
+<span class="n">scanl</span> <span class="p">(</span><span class="o">/</span><span class="p">)</span> <span class="mi">100</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span>
+<span class="p">[</span><span class="mf">100.0</span><span class="p">,</span><span class="mf">20.0</span><span class="p">,</span><span class="mf">10.0</span><span class="p">]</span>
+
+<span class="n">foldr</span> <span class="p">(</span><span class="o">/</span><span class="p">)</span> <span class="mi">100</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span>
+<span class="mf">250.0</span>
+
+<span class="n">scanr</span> <span class="p">(</span><span class="o">/</span><span class="p">)</span> <span class="mi">100</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span>
+<span class="p">[</span><span class="mf">250.0</span><span class="p">,</span><span class="mf">2.0e-2</span><span class="p">,</span><span class="mf">100.0</span><span class="p">]</span>
+</code></pre>
+</div>
+
+<p>Pode ver? Nós temos o resulatdo final, mas <em><code class="highlighter-rouge">scan</code></em> trouxe todos os acumuladores que foram computados. Na função <em><code class="highlighter-rouge">scanl</code></em> nós temos o resultado no final da lista e em <em><code class="highlighter-rouge">scanr</code></em> no início.</p>
+
+  </div>
+
+  <div class="date">
+    Written on December 18, 2016
+  </div>
+
+  
+<div class="comments">
+	<div id="disqus_thread"></div>
+	<script type="text/javascript">
+
+	    var disqus_shortname = 'rodrigo-morais';
+
+	    (function() {
+	        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+	        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+	        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	    })();
+
+	</script>
+	<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+
+</article>
+
+    </div>
+
+    <div class="wrapper-footer">
+      <div class="container">
+        <footer class="footer">
+          
+<a href="mailto:morais.rm@gmail.com"><i class="svg-icon email"></i></a>
+
+
+<a href="https://github.com/rodrigo-morais"><i class="svg-icon github"></i></a>
+
+<a href="https://www.linkedin.com/in/moraisrm"><i class="svg-icon linkedin"></i></a>
+
+
+<a href="https://www.twitter.com/moraisrm_rs"><i class="svg-icon twitter"></i></a>
+
+
+
+        </footer>
+      </div>
+    </div>
+
+    
+	<!-- Google Analytics -->
+	<script>
+		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+		ga('create', 'UA-87967717-1', 'auto');
+		ga('send', 'pageview', {
+		  'page': '/haskell-marathon-day-seventeen-eighteen/',
+		  'title': 'Maratona de Haskell - Décimo Sétimo e Oitavo Dias'
+		});
+	</script>
+	<!-- End Google Analytics -->
+
+
+  </body>
+</html>

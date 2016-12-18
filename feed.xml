@@ -1,4 +1,110 @@
-<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xml" href="https://rodrigo-morais.github.io/feed.xslt.xml"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.3.1">Jekyll</generator><link href="https://rodrigo-morais.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://rodrigo-morais.github.io/" rel="alternate" type="text/html" /><updated>2016-12-17T18:01:06+01:00</updated><id>https://rodrigo-morais.github.io//</id><title type="html">In development</title><subtitle>Software Developer</subtitle><author><name>Rodrigo Morais</name></author><entry xml:lang="en"><title type="html">Haskell’s Marathon - Days Fourteen, Fifteen and Sixteen</title><link href="https://rodrigo-morais.github.io/haskell-marathon-day-fourteen-sixteen/" rel="alternate" type="text/html" title="Haskell's Marathon - Days Fourteen, Fifteen and Sixteen" /><published>2016-12-16T00:00:00+01:00</published><updated>2016-12-16T00:00:00+01:00</updated><id>https://rodrigo-morais.github.io/haskell-marathon-day-fourteen-sixteen.en</id><content type="html" xml:base="https://rodrigo-morais.github.io/haskell-marathon-day-fourteen-sixteen/">&lt;p&gt;Hey folks!&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xml" href="https://rodrigo-morais.github.io/feed.xslt.xml"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.3.1">Jekyll</generator><link href="https://rodrigo-morais.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://rodrigo-morais.github.io/" rel="alternate" type="text/html" /><updated>2016-12-18T17:42:45+01:00</updated><id>https://rodrigo-morais.github.io//</id><title type="html">In development</title><subtitle>Software Developer</subtitle><author><name>Rodrigo Morais</name></author><entry xml:lang="en"><title type="html">Haskell’s Marathon - Days Seventeen and Eighteen</title><link href="https://rodrigo-morais.github.io/haskell-marathon-day-seventeen-eighteen/" rel="alternate" type="text/html" title="Haskell's Marathon - Days Seventeen and Eighteen" /><published>2016-12-18T00:00:00+01:00</published><updated>2016-12-18T00:00:00+01:00</updated><id>https://rodrigo-morais.github.io/haskell-marathon-day-seventeen-eighteen.en</id><content type="html" xml:base="https://rodrigo-morais.github.io/haskell-marathon-day-seventeen-eighteen/">&lt;p&gt;Hey folks!&lt;/p&gt;
+
+&lt;p&gt;These last days I studied about &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;folds&lt;/code&gt;&lt;/em&gt; and &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;scans&lt;/code&gt;&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;So today let’s start talking about &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;folds&lt;/code&gt;&lt;/em&gt; which are the same than &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;reducers&lt;/code&gt;&lt;/em&gt; in other languages. &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Haskell&lt;/code&gt;&lt;/em&gt; has two kind of &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;folds&lt;/code&gt;&lt;/em&gt; which are &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;foldl&lt;/code&gt;&lt;/em&gt; and &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;foldr&lt;/code&gt;&lt;/em&gt;.&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+&lt;h3 id=&quot;foldl&quot;&gt;foldl&lt;/h3&gt;
+
+&lt;p&gt;&lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;foldl&lt;/code&gt;&lt;/em&gt; function is used when we want start to &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;fold&lt;/code&gt;&lt;/em&gt; a list from left to right. For example if we have a list as [1,2,3,4,5] in &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;foldl&lt;/code&gt;&lt;/em&gt; function we will do this process:&lt;br /&gt;
+(((((0 + 1) + 2) + 3) + 4) + 5) =&amp;gt; ((((1 + 2) + 3) + 4) + 5) =&amp;gt; (((3 + 3) + 4) + 5) =&amp;gt; ((6 + 4) + 5) =&amp;gt; (10 + 5) =&amp;gt; 15&lt;/p&gt;
+
+&lt;p&gt;The &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;foldl&lt;/code&gt;&lt;/em&gt; function has this signature &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;foldl :: (b -&amp;gt; a -&amp;gt; b) -&amp;gt; b -&amp;gt; [a] -&amp;gt; b&lt;/code&gt;&lt;/em&gt; which is saying to us that we will receive a function, an element with any type, a list and we it will return one element as result.&lt;br /&gt;
+The function will be applied over the list and the second element is the accumulator.&lt;br /&gt;
+Let’s see how it works:&lt;/p&gt;
+&lt;div class=&quot;language-haskell highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;foldl&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;mi&quot;&gt;15&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;foldl&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;mi&quot;&gt;360&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;Then in the first example we saw that the function received was &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;(+)&lt;/code&gt;&lt;/em&gt;, the accumulator was &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;0&lt;/code&gt;&lt;/em&gt; and the list was &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;[1,2,3,4,5]&lt;/code&gt;&lt;/em&gt;. The result was &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;15&lt;/code&gt;&lt;/em&gt; as we simulated before.&lt;/p&gt;
+
+&lt;p&gt;I rewrote the &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;foldl&lt;/code&gt;&lt;/em&gt; function and it was like that:&lt;/p&gt;
+&lt;div class=&quot;language-haskell highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;foldl'&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;::&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;b&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;b&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;b&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;foldl'&lt;/span&gt; &lt;span class=&quot;kr&quot;&gt;_&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;acc&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;[]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;acc&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;foldl'&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;f&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;acc&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;xs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;foldl'&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;f&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;f&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;acc&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;xs&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;foldl'&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;mi&quot;&gt;15&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;foldl'&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;mi&quot;&gt;360&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;foldr&quot;&gt;foldr&lt;/h3&gt;
+&lt;p&gt;&lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;foldr&lt;/code&gt;&lt;/em&gt; function is similar to &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;foldl&lt;/code&gt;&lt;/em&gt; but it does the computation from right to left. Let’s see an example with a sum in a list [1,2,3,4,5]:&lt;br /&gt;
+(1 + (2 + (3 + ( 4 + (5 + 0))))) =&amp;gt; (1 + (2 + (3 + ( 4 + 5)))) =&amp;gt; (1 + (2 + (3 + 9))) =&amp;gt; (1 + (2 + 12)) =&amp;gt; (1 + 14) =&amp;gt; 15&lt;/p&gt;
+
+&lt;p&gt;The signature to &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;foldr&lt;/code&gt;&lt;/em&gt; function is &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;foldr :: (a -&amp;gt; b -&amp;gt; b) -&amp;gt; b -&amp;gt; [a] -&amp;gt; b&lt;/code&gt;&lt;/em&gt;.&lt;br /&gt;
+Let’s see some examples:&lt;/p&gt;
+&lt;div class=&quot;language-haskell highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;foldr&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;mi&quot;&gt;15&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;foldr&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;mi&quot;&gt;360&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;Just the same than &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;foldl&lt;/code&gt;&lt;/em&gt; function.&lt;br /&gt;
+ The &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;foldr&lt;/code&gt;&lt;/em&gt;  shine when is used to concatenate lists or in infinite lists. With list concatenation because the operation &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;:&lt;/code&gt;&lt;/em&gt; is much cheaper than &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;++&lt;/code&gt;&lt;/em&gt; to concatenation of lists, and the majority of time we will use &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;foldr&lt;/code&gt;&lt;/em&gt; and &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;:&lt;/code&gt;&lt;/em&gt; or &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;foldl&lt;/code&gt;&lt;/em&gt; and &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;++&lt;/code&gt;&lt;/em&gt;. About infinite lists because in some infinite lists &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;foldl&lt;/code&gt;&lt;/em&gt; doesn’t work when &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;foldr&lt;/code&gt;&lt;/em&gt; still working. It is happens because &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;foldr&lt;/code&gt;&lt;/em&gt; doesn’t need process all list to evaluate it taking advantage from &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Haskell&lt;/code&gt;&lt;/em&gt; laziness.&lt;br /&gt;
+Below the code to rewrite the &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;foldr&lt;/code&gt;&lt;/em&gt; function.&lt;/p&gt;
+&lt;div class=&quot;language-haskell highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;foldr''&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;::&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;b&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;b&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;b&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;foldr''&lt;/span&gt; &lt;span class=&quot;kr&quot;&gt;_&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;acc&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;[]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;acc&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;foldr''&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;f&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;acc&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;xs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;f&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;foldr''&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;f&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;acc&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;xs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;To see the difference between &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;foldl&lt;/code&gt;&lt;/em&gt; and &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;foldr&lt;/code&gt;&lt;/em&gt; we have use functions to divide or subtract values. Let’s do that:&lt;/p&gt;
+&lt;div class=&quot;language-haskell highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;foldl&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;100&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;54&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;20&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;mi&quot;&gt;26&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;foldr&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;100&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;54&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;20&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;mi&quot;&gt;134&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;Here &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;foldl&lt;/code&gt;&lt;/em&gt; function compute the values in this order &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;((100 - 54) - 20)&lt;/code&gt;&lt;/em&gt; and &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;foldr&lt;/code&gt;&lt;/em&gt; in this order &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;(54 - (20 - 100))&lt;/code&gt;&lt;/em&gt; and because that the results are different.&lt;br /&gt;
+Another example with division:&lt;/p&gt;
+&lt;div class=&quot;language-haskell highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;foldl&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;100&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;mf&quot;&gt;10.0&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;foldr&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;100&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;mf&quot;&gt;250.0&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;The same idea which we saw before.&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;scan&quot;&gt;Scan&lt;/h3&gt;
+
+&lt;p&gt;Now let’s take a quick look in another function called &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;scan&lt;/code&gt;&lt;/em&gt;. It does the same that &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;fold&lt;/code&gt;&lt;/em&gt; but the result is not just one value but a list. The list has all accumulators created during the computation. &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Scan&lt;/code&gt;&lt;/em&gt; has two function as &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;fold&lt;/code&gt;&lt;/em&gt; which are &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;scanl&lt;/code&gt;&lt;/em&gt; and &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;scanr&lt;/code&gt;&lt;/em&gt;.
+Let’s compare &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;scan&lt;/code&gt;&lt;/em&gt; and &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;fold&lt;/code&gt;&lt;/em&gt;:&lt;/p&gt;
+&lt;div class=&quot;language-haskell highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;foldl&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;100&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;mf&quot;&gt;10.0&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;scanl&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;100&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;100.0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;20.0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;10.0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;foldr&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;100&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;mf&quot;&gt;250.0&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;scanr&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;100&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;250.0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;2.0e-2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;100.0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Can you see? We have the same final result, but &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;scan&lt;/code&gt;&lt;/em&gt; brought all accumulators which were computed. In &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;scanl&lt;/code&gt;&lt;/em&gt; function we have the result in the end of the list and in &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;scanr&lt;/code&gt;&lt;/em&gt; in the head.&lt;/p&gt;</content><author><name>Rodrigo Morais</name></author><summary type="html">Hey folks!
+
+These last days I studied about folds and scans.
+
+So today let’s start talking about folds which are the same than reducers in other languages. Haskell has two kind of folds which are foldl and foldr.</summary></entry><entry xml:lang="en"><title type="html">Haskell’s Marathon - Days Fourteen, Fifteen and Sixteen</title><link href="https://rodrigo-morais.github.io/haskell-marathon-day-fourteen-sixteen/" rel="alternate" type="text/html" title="Haskell's Marathon - Days Fourteen, Fifteen and Sixteen" /><published>2016-12-16T00:00:00+01:00</published><updated>2016-12-16T00:00:00+01:00</updated><id>https://rodrigo-morais.github.io/haskell-marathon-day-fourteen-sixteen.en</id><content type="html" xml:base="https://rodrigo-morais.github.io/haskell-marathon-day-fourteen-sixteen/">&lt;p&gt;Hey folks!&lt;/p&gt;
 
 &lt;p&gt;First of all an explanation why I didn’t write separately posts to days fourteen, fifteen and sixteen. I realized that I was wasting too much time of my studies doing the posts and because of that I’ll try a new strategy to be more productive.&lt;/p&gt;
 
@@ -1221,127 +1327,4 @@ Today the meetup was to beginners. The group is following the book called &lt;a 
 
 Today the study about Haskell was a little bit different. Instead of to follow the book I went in a meetup. It was my first meetup here in Berlin and was pretty cool and different.
 This meetup happens every Wednesday and each week with different goals. One week is a meetup with lectures and etc, and another week is to beginners learn the language.
-Today the meetup was to beginners. The group is following the book called “Haskell Programming” and today they covered the eighth chapter which is about foldr and foldl.</summary></entry><entry xml:lang="en"><title type="html">Haskell’s Marathon - Day Six</title><link href="https://rodrigo-morais.github.io/haskell-marathon-day-six/" rel="alternate" type="text/html" title="Haskell's Marathon - Day Six" /><published>2016-12-06T00:00:00+01:00</published><updated>2016-12-06T00:00:00+01:00</updated><id>https://rodrigo-morais.github.io/haskell-marathon-day-six.en</id><content type="html" xml:base="https://rodrigo-morais.github.io/haskell-marathon-day-six/">&lt;p&gt;Hey folks!&lt;/p&gt;
-
-&lt;p&gt;Yesterday we understand how types work in &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Haskell&lt;/code&gt;&lt;/em&gt;, what types &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Haskell&lt;/code&gt;&lt;/em&gt; supports and that we have type variables which can help us a lot.
-Today let’s talk about &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;type classes&lt;/code&gt;&lt;/em&gt;. First of all we have to say that &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;type classes&lt;/code&gt;&lt;/em&gt; are not classes. With this disclaimer we can go ahead and discover what hell type classes are.&lt;/p&gt;
-
-&lt;!--more--&gt;
-
-&lt;p&gt;&lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Type class&lt;/code&gt;&lt;/em&gt; is not more than an interface which describe some behaviour. If a type is an instance from a type class, then it implements this behaviour.
-To be more clear, &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;type class&lt;/code&gt;&lt;/em&gt; is just a collection of functions which we decide what they mean for the type.
-The most common type classes in &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Haskell&lt;/code&gt;&lt;/em&gt; are &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Eq&lt;/code&gt;&lt;/em&gt;, &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Ord&lt;/code&gt;&lt;/em&gt;, &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Show&lt;/code&gt;&lt;/em&gt;, &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Read&lt;/code&gt;&lt;/em&gt;, &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Enum&lt;/code&gt;&lt;/em&gt;, &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Bounded&lt;/code&gt;&lt;/em&gt;, &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Num&lt;/code&gt;&lt;/em&gt;, &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Floating&lt;/code&gt;&lt;/em&gt; and &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Integral&lt;/code&gt;&lt;/em&gt;. Let’s give a quick summary to each one.&lt;/p&gt;
-
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Eq type class&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;First let’s check the type of &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;==&lt;/code&gt;&lt;/em&gt; operator which is an instance of &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Eq&lt;/code&gt;&lt;/em&gt;.&lt;/p&gt;
-&lt;div class=&quot;language-haskell highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;t&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;==&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;==&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;::&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Eq&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Bool&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;p&gt;How we already know the &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;:t&lt;/code&gt;&lt;/em&gt; return the type from a value and function. The operator &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;==&lt;/code&gt;&lt;/em&gt; is a function and we can see its types. We already learnt how read it. The function receives two types variable called “a” and return a &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Bool&lt;/code&gt;&lt;/em&gt;. But wait a minute, what hell is &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Eq a =&amp;gt;&lt;/code&gt;&lt;/em&gt;? &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Eq a =&amp;gt;&lt;/code&gt;&lt;/em&gt; wants say that the type “a” should be an instance of &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Eq&lt;/code&gt;&lt;/em&gt; class.
-The &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Eq&lt;/code&gt;&lt;/em&gt; &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;type class&lt;/code&gt;&lt;/em&gt; provide an interface for testing for equality. If it makes sense for two items from a determined type we can say that they are an instance of &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Eq&lt;/code&gt;&lt;/em&gt;. Almost all standard &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Haskell&lt;/code&gt;&lt;/em&gt; types are instances of &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Eq&lt;/code&gt;&lt;/em&gt;.
-&lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Eq&lt;/code&gt;&lt;/em&gt;’s instances implement two functions which are &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;==&lt;/code&gt;&lt;/em&gt; and &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;/=&lt;/code&gt;&lt;/em&gt;.&lt;/p&gt;
-
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Ord type class&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Ord&lt;/code&gt;&lt;/em&gt; is a &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;type class&lt;/code&gt;&lt;/em&gt; for types whose values can be put in some order.  Let’s take a look in a operator to &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Ord&lt;/code&gt;&lt;/em&gt; &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;type class&lt;/code&gt;&lt;/em&gt;:&lt;/p&gt;
-&lt;div class=&quot;language-haskell highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;t&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;::&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Ord&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Bool&lt;/span&gt;
-&lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;6&lt;/span&gt;
-&lt;span class=&quot;kt&quot;&gt;True&lt;/span&gt;
-&lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;
-&lt;span class=&quot;kt&quot;&gt;False&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;p&gt;The type &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;&lt;/code&gt;&lt;/em&gt; is similar to &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;==&lt;/code&gt;&lt;/em&gt; which we saw before. All the types we’ve cover so far are instances of &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Ord&lt;/code&gt;&lt;/em&gt; just functions are not. The operators to &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Ord&lt;/code&gt;&lt;/em&gt; are &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;&lt;/code&gt;&lt;/em&gt;, &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;=&lt;/code&gt;&lt;/em&gt;, &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;gt;&lt;/code&gt;&lt;/em&gt; and &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;gt;=&lt;/code&gt;&lt;/em&gt;.&lt;/p&gt;
-
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Show type class&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;Types which are instances of &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Show&lt;/code&gt;&lt;/em&gt; &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;type class&lt;/code&gt;&lt;/em&gt; can be represented as strings. As &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Ord&lt;/code&gt;&lt;/em&gt;, all types that we covered are instances of &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Show&lt;/code&gt;&lt;/em&gt; &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;type class&lt;/code&gt;&lt;/em&gt; just functions are not. The behaviour from &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Show&lt;/code&gt;&lt;/em&gt; &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;type class&lt;/code&gt;&lt;/em&gt; is print the values.&lt;/p&gt;
-&lt;div class=&quot;language-haskell highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;show&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;
-&lt;span class=&quot;s&quot;&gt;&quot;5&quot;&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;show&lt;/span&gt; &lt;span class=&quot;sc&quot;&gt;'a'&lt;/span&gt;
-&lt;span class=&quot;s&quot;&gt;&quot;'a'&quot;&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;show&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;True&lt;/span&gt;
-&lt;span class=&quot;s&quot;&gt;&quot;True&quot;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Read type class&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;The behaviour from &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Read&lt;/code&gt;&lt;/em&gt; &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;type class&lt;/code&gt;&lt;/em&gt; is the opposite of the behaviour from &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Show&lt;/code&gt;&lt;/em&gt; &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;type class&lt;/code&gt;&lt;/em&gt;, but all the rest are the same. It reads a string and transformss in a value.&lt;/p&gt;
-&lt;div class=&quot;language-haskell highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;read&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;True&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;||&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;False&lt;/span&gt;
-&lt;span class=&quot;kt&quot;&gt;True&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;read&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;True&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;False&lt;/span&gt;
-&lt;span class=&quot;kt&quot;&gt;False&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;read&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;5&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;
-&lt;span class=&quot;mi&quot;&gt;9&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;read&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;['a']&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;++&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;sc&quot;&gt;'h'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
-&lt;span class=&quot;s&quot;&gt;&quot;ah&quot;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Enum type class&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Enum&lt;/code&gt;&lt;/em&gt; &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;type class&lt;/code&gt;&lt;/em&gt; has the behaviour to make sequences. So all instances from &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Enum&lt;/code&gt;&lt;/em&gt; &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;type class&lt;/code&gt;&lt;/em&gt; are sequentially ordered types and the values can be enumerated. These instances can be used in list ranges and have successor and predecessor.&lt;/p&gt;
-&lt;div class=&quot;language-haskell highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;sc&quot;&gt;'a'&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;..&lt;/span&gt;&lt;span class=&quot;sc&quot;&gt;'f'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
-&lt;span class=&quot;s&quot;&gt;&quot;Abcdef&quot;&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;..&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;9&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;6&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;7&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;8&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;9&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Num type class&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Num&lt;/code&gt;&lt;/em&gt; is a numeric &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;type class&lt;/code&gt;&lt;/em&gt;. Its instances can act as numbers.&lt;/p&gt;
-&lt;div class=&quot;language-haskell highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;t&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;
-&lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;::&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Num&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;
-&lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;::&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Int&lt;/span&gt;
-&lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;
-&lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;::&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Integer&lt;/span&gt;
-&lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;
-&lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;::&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Float&lt;/span&gt;
-&lt;span class=&quot;mf&quot;&gt;5.0&lt;/span&gt;
-&lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;::&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Double&lt;/span&gt;
-&lt;span class=&quot;mf&quot;&gt;5.0&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Floating type class&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Floating&lt;/code&gt;&lt;/em&gt; &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;type class&lt;/code&gt;&lt;/em&gt; has as instances the types &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Float&lt;/code&gt;&lt;/em&gt; and &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Double&lt;/code&gt;&lt;/em&gt;. The functions which are instances of &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Floating&lt;/code&gt;&lt;/em&gt; &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;type class&lt;/code&gt;&lt;/em&gt; must represent floating-point.&lt;/p&gt;
-&lt;div class=&quot;language-haskell highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;sin&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;
-&lt;span class=&quot;mf&quot;&gt;0.9092974268256817&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;cos&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;0.4161468365471424&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Integral type class&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Integral&lt;/code&gt;&lt;/em&gt; &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;type class&lt;/code&gt;&lt;/em&gt; is another numeric &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;type class&lt;/code&gt;&lt;/em&gt; which includes &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Int&lt;/code&gt;&lt;/em&gt; and &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Integer&lt;/code&gt;&lt;/em&gt;.&lt;/p&gt;
-
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
-
-&lt;p&gt;A type can be instance of multiplies &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;type classes&lt;/code&gt;&lt;/em&gt;. We have to think, that as an interface, each &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;type class&lt;/code&gt;&lt;/em&gt; gives to a type behaviours which have to be followed. For example, a type can be an instance of &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Eq&lt;/code&gt;&lt;/em&gt; type class and &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Ord&lt;/code&gt;&lt;/em&gt; type class and have the equality behaviour and ordening behaviour.
-Looks like that &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;type classes&lt;/code&gt;&lt;/em&gt; are not so useful to us right now, but in more complex stuff of &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Haskell&lt;/code&gt;&lt;/em&gt; this knowledge will help us.&lt;/p&gt;</content><author><name>Rodrigo Morais</name></author><summary type="html">Hey folks!
-
-Yesterday we understand how types work in Haskell, what types Haskell supports and that we have type variables which can help us a lot.
-Today let’s talk about type classes. First of all we have to say that type classes are not classes. With this disclaimer we can go ahead and discover what hell type classes are.</summary></entry></feed>
+Today the meetup was to beginners. The group is following the book called “Haskell Programming” and today they covered the eighth chapter which is about foldr and foldl.</summary></entry></feed>
