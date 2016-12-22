@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Haskell's Marathon - Days Nineteen to Twenty Two –  – Software Developer</title>
+
+        <meta charset="utf-8" />
+    <meta content='text/html; charset=utf-8' http-equiv='Content-Type'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0'>
+
+    
+    <meta name="description" content="Hey folks!
+
+Let’s start talking about Function Application operator which is a function that help us to remove parentheses from our functions. While Function Application with spaces are left-associative the Function Application with $ is right-associative and because of that we can add functions without parentheses.
+
+Function Application with spaces: f a b c =&gt; ((f a) b) c)
+Function Application with $: f a b c =&gt; (f (a (b c)))
+
+" />
+    <meta property="og:description" content="Hey folks!
+
+Let’s start talking about Function Application operator which is a function that help us to remove parentheses from our functions. While Function Application with spaces are left-associative the Function Application with $ is right-associative and because of that we can add functions without parentheses.
+
+Function Application with spaces: f a b c =&gt; ((f a) b) c)
+Function Application with $: f a b c =&gt; (f (a (b c)))
+
+" />
+    
+    <meta name="author" content="" />
+
+    
+    <meta property="og:title" content="Haskell's Marathon - Days Nineteen to Twenty Two" />
+    <meta property="twitter:title" content="Haskell's Marathon - Days Nineteen to Twenty Two" />
+    
+
+    <!--[if lt IE 9]>
+      <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <link rel="stylesheet" type="text/css" href="/css/styles.css" />
+    <link rel="alternate" type="application/rss+xml" title=" - Software Developer" href="/feed.xml" />
+
+    <!-- Created with Jekyll Now - http://github.com/barryclark/jekyll-now -->
+  </head>
+
+  <body>
+    <div class="wrapper-masthead">
+      <div class="container">
+        <header class="masthead clearfix">
+          <a href="/" class="site-avatar"><img src="https://avatars.githubusercontent.com/rodrigo-morais" /></a>
+
+          <div class="site-info">
+            <h1 class="site-name"><a href="/">In development</a></h1>
+            <h3 class="site-author">Rodrigo Morais</h3>
+            <p class="site-description">Software Developer</p>
+          </div>
+
+          <nav class="languages"> 
+          
+          </nav>
+
+          <nav>
+            <a href="/">Blog</a>
+            <a href="/about">About</a>
+          </nav>
+        </header>
+      </div>
+    </div>
+
+    <div id="main" role="main" class="container">
+      <article class="post">
+  
+    <nav class="languages"> 
+  
+    
+      <a href="https://rodrigo-morais.github.io/haskell-marathon-day-nineteen-twenty-two/"><img src="https://rodrigo-morais.github.io/images/en-flag.png" /></a>
+    
+  
+    
+    <a href="https://rodrigo-morais.github.io/pt_BR/haskell-marathon-day-nineteen-twenty-two/"><img src="https://rodrigo-morais.github.io/images/pt_BR-flag.png" /></a>
+    
+  
+</nav>
+
+  
+
+  <h1>Haskell's Marathon - Days Nineteen to Twenty Two</h1>
+
+  <div class="entry">
+    <p>Hey folks!</p>
+
+<p>Let’s start talking about <em><code class="highlighter-rouge">Function Application</code></em> operator which is a function that help us to remove parentheses from our functions. While <em><code class="highlighter-rouge">Function Application</code></em> with spaces are left-associative the <em><code class="highlighter-rouge">Function Application</code></em> with <em><code class="highlighter-rouge">$</code></em> is right-associative and because of that we can add functions without parentheses.</p>
+
+<p>Function Application with spaces: f a b c =&gt; ((f a) b) c)<br />
+Function Application with $: f a b c =&gt; (f (a (b c)))</p>
+
+<!--more-->
+
+<p>Let see some examples with <em><code class="highlighter-rouge">Function Application</code></em> operator:</p>
+<div class="language-haskell highlighter-rouge"><pre class="highlight"><code><span class="n">sqrt</span> <span class="mi">3</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="mi">5</span>
+<span class="mf">1.732050807568877</span>
+
+<span class="n">sqrt</span> <span class="p">(</span><span class="mi">3</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="mi">5</span><span class="p">)</span>
+<span class="mf">3.605551275463989</span>
+
+<span class="n">sqrt</span> <span class="o">$</span> <span class="mi">3</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="mi">5</span>
+<span class="mf">3.605551275463989</span>
+</code></pre>
+</div>
+<p>We can see here that <em><code class="highlighter-rouge">$</code></em> allowed us to remove the parentheses.</p>
+
+<p>Another example:</p>
+<div class="language-haskell highlighter-rouge"><pre class="highlight"><code><span class="n">foldl</span> <span class="p">(</span><span class="o">+</span><span class="p">)</span> <span class="mi">0</span> <span class="p">(</span><span class="n">tail</span> <span class="p">(</span><span class="n">map</span> <span class="p">(</span><span class="o">*</span><span class="mi">2</span><span class="p">)</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">]))</span>
+<span class="mi">54</span>
+
+<span class="n">foldl</span> <span class="p">(</span><span class="o">+</span><span class="p">)</span> <span class="mi">0</span> <span class="o">$</span> <span class="n">tail</span> <span class="o">$</span> <span class="n">map</span> <span class="p">(</span><span class="o">*</span><span class="mi">2</span><span class="p">)</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">]</span>
+<span class="mi">54</span>
+</code></pre>
+</div>
+<p>In the second example we can remove all parentheses.</p>
+
+<p><br /></p>
+
+<p>Now let’s take a look in <em><code class="highlighter-rouge">Function Composition</code></em> which is the way that we can can compose functions. <em><code class="highlighter-rouge">Function Composition</code></em> is represented by a <em><code class="highlighter-rouge">.</code></em> (point) in <em><code class="highlighter-rouge">Haskell</code></em>. Sometimes <em><code class="highlighter-rouge">Function Composition</code></em> allowed us to remove some parentheses as <em><code class="highlighter-rouge">Function Application</code></em>, but its principal responsibility is compose functions.</p>
+<div class="language-haskell highlighter-rouge"><pre class="highlight"><code><span class="n">map</span> <span class="p">(</span><span class="nf">\</span><span class="n">x</span> <span class="o">-&gt;</span> <span class="n">negate</span> <span class="p">(</span><span class="n">abs</span> <span class="n">x</span><span class="p">))</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="o">-</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="o">-</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">]</span>
+<span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span><span class="o">-</span><span class="mi">4</span><span class="p">,</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span><span class="o">-</span><span class="mi">6</span><span class="p">,</span><span class="o">-</span><span class="mi">7</span><span class="p">]</span>
+
+<span class="n">map</span> <span class="p">(</span><span class="n">negate</span> <span class="o">.</span><span class="n">abs</span><span class="p">)</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="o">-</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="o">-</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">]</span>
+<span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span><span class="o">-</span><span class="mi">4</span><span class="p">,</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span><span class="o">-</span><span class="mi">6</span><span class="p">,</span><span class="o">-</span><span class="mi">7</span><span class="p">]</span>
+</code></pre>
+</div>
+<p>See that we remove the anonymous function only leaving the function and we remove the parentheses. It happens because <em><code class="highlighter-rouge">Function Composition</code></em> just work with functions that are waiting for one parameter.</p>
+
+<div class="language-haskell highlighter-rouge"><pre class="highlight"><code><span class="n">sumTail</span> <span class="o">::</span> <span class="p">(</span><span class="kt">Num</span> <span class="n">a</span><span class="p">,</span> <span class="kt">Ord</span> <span class="n">a</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="n">a</span>
+<span class="n">sumTail</span> <span class="n">xs</span> <span class="n">ys</span> <span class="o">=</span> <span class="n">foldl</span> <span class="p">(</span><span class="o">+</span><span class="p">)</span> <span class="mi">0</span> <span class="o">.</span> <span class="n">tail</span> <span class="o">.</span> <span class="n">map</span> <span class="p">(</span><span class="n">negate</span> <span class="o">.</span> <span class="n">abs</span><span class="p">)</span> <span class="o">$</span> <span class="n">zipWith</span> <span class="n">max</span> <span class="n">xs</span> <span class="n">ys</span>
+
+<span class="n">sumTail</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">]</span>
+<span class="o">-</span><span class="mi">11</span>
+</code></pre>
+</div>
+<p>And we can combine <em><code class="highlighter-rouge">Function Application</code></em> with <em><code class="highlighter-rouge">Function Composition</code></em> and get clean and readable functions.</p>
+
+  </div>
+
+  <div class="date">
+    Written on December 22, 2016
+  </div>
+
+  
+<div class="comments">
+	<div id="disqus_thread"></div>
+	<script type="text/javascript">
+
+	    var disqus_shortname = 'rodrigo-morais';
+
+	    (function() {
+	        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+	        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+	        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	    })();
+
+	</script>
+	<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+
+</article>
+
+    </div>
+
+    <div class="wrapper-footer">
+      <div class="container">
+        <footer class="footer">
+          
+<a href="mailto:morais.rm@gmail.com"><i class="svg-icon email"></i></a>
+
+
+<a href="https://github.com/rodrigo-morais"><i class="svg-icon github"></i></a>
+
+<a href="https://www.linkedin.com/in/moraisrm"><i class="svg-icon linkedin"></i></a>
+
+
+<a href="https://www.twitter.com/moraisrm_rs"><i class="svg-icon twitter"></i></a>
+
+
+
+        </footer>
+      </div>
+    </div>
+
+    
+	<!-- Google Analytics -->
+	<script>
+		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+		ga('create', 'UA-87967717-1', 'auto');
+		ga('send', 'pageview', {
+		  'page': '/haskell-marathon-day-nineteen-twenty-two/',
+		  'title': 'Haskell\'s Marathon - Days Nineteen to Twenty Two'
+		});
+	</script>
+	<!-- End Google Analytics -->
+
+
+  </body>
+</html>
