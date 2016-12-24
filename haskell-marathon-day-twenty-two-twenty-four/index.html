@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Haskell's Marathon - Days Twenty Two to Twenty Four –  – Software Developer</title>
+
+        <meta charset="utf-8" />
+    <meta content='text/html; charset=utf-8' http-equiv='Content-Type'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0'>
+
+    
+    <meta name="description" content="Hey folks!
+
+These last days I’m working in some exercises and I want invite you to create a Binary Search Tree (BST) with me.
+The BST is a data structure which has the data ordered making easier to search for a data inside it. The BST follows a rule where the smaller or equal values compared with the root should be on the left side of the root and the bigger values on the right. Because of that the values in a BST should be comparable as Int, Char and etc are.
+
+" />
+    <meta property="og:description" content="Hey folks!
+
+These last days I’m working in some exercises and I want invite you to create a Binary Search Tree (BST) with me.
+The BST is a data structure which has the data ordered making easier to search for a data inside it. The BST follows a rule where the smaller or equal values compared with the root should be on the left side of the root and the bigger values on the right. Because of that the values in a BST should be comparable as Int, Char and etc are.
+
+" />
+    
+    <meta name="author" content="" />
+
+    
+    <meta property="og:title" content="Haskell's Marathon - Days Twenty Two to Twenty Four" />
+    <meta property="twitter:title" content="Haskell's Marathon - Days Twenty Two to Twenty Four" />
+    
+
+    <!--[if lt IE 9]>
+      <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <link rel="stylesheet" type="text/css" href="/css/styles.css" />
+    <link rel="alternate" type="application/rss+xml" title=" - Software Developer" href="/feed.xml" />
+
+    <!-- Created with Jekyll Now - http://github.com/barryclark/jekyll-now -->
+  </head>
+
+  <body>
+    <div class="wrapper-masthead">
+      <div class="container">
+        <header class="masthead clearfix">
+          <a href="/" class="site-avatar"><img src="https://avatars.githubusercontent.com/rodrigo-morais" /></a>
+
+          <div class="site-info">
+            <h1 class="site-name"><a href="/">In development</a></h1>
+            <h3 class="site-author">Rodrigo Morais</h3>
+            <p class="site-description">Software Developer</p>
+          </div>
+
+          <nav class="languages"> 
+          
+          </nav>
+
+          <nav>
+            <a href="/">Blog</a>
+            <a href="/about">About</a>
+          </nav>
+        </header>
+      </div>
+    </div>
+
+    <div id="main" role="main" class="container">
+      <article class="post">
+  
+    <nav class="languages"> 
+  
+    
+      <a href="https://rodrigo-morais.github.io/haskell-marathon-day-twenty-two-twenty-four/"><img src="https://rodrigo-morais.github.io/images/en-flag.png" /></a>
+    
+  
+    
+    <a href="https://rodrigo-morais.github.io/pt_BR/haskell-marathon-day-twenty-two-twenty-four/"><img src="https://rodrigo-morais.github.io/images/pt_BR-flag.png" /></a>
+    
+  
+</nav>
+
+  
+
+  <h1>Haskell's Marathon - Days Twenty Two to Twenty Four</h1>
+
+  <div class="entry">
+    <p>Hey folks!</p>
+
+<p>These last days I’m working in some exercises and I want invite you to create a <em><code class="highlighter-rouge">Binary Search Tree (BST)</code></em> with me.<br />
+The <em><code class="highlighter-rouge">BST</code></em> is a data structure which has the data ordered making easier to search for a data inside it. The <em><code class="highlighter-rouge">BST</code></em> follows a rule where the smaller or equal values compared with the root should be on the left side of the root and the bigger values on the right. Because of that the values in a <em><code class="highlighter-rouge">BST</code></em> should be comparable as Int, Char and etc are.</p>
+
+<!--more-->
+
+<p>Let’s say that we have a list as: [5,3,6,3,2,7,1,8,9]<br />
+This list will create a tree like that:</p>
+
+<image src="https://rodrigo-morais.github.io/images/bst_1.png" />
+
+<p>Can you see that the numbers in the list just grew to left or right in the tree? In this case we have a tree with left and right side, and a bunch of sub-trees with left or right side just.</p>
+
+<p>How we created this tree from the list?<br />
+First we get the first element from the list which was the number 5. After that we get the second value which was 3 and compared with 5. The number 3 is smaller than number 5 and because of that we put on the left side of the root which was the number 5. Now we have a tree which the root is the number 5, the left side has a leaf which is the number 3 and the right side is empty.<br />
+Following our list the next value is the number 6 which is bigger than the root 5 and should be on the right side. Now we have a tree with two leaves on left and right side.<br />
+Next value is 3 which is smaller than the root 5 and should be on the left. So we have to compare with the next value which is 3 too and because of that the value should be on the left. Now we have a sub-tree which has the root 3, the left side with the number 3 and the right side empty.<br />
+This process happened with all numbers in our list and finished creating our tree above.</p>
+
+<p>Now let’s see how to create a <em><code class="highlighter-rouge">BST</code></em> in <em><code class="highlighter-rouge">Haskell</code></em>:</p>
+<div class="language-haskell highlighter-rouge"><pre class="highlight"><code><span class="kr">data</span> <span class="kt">Tree</span> <span class="n">a</span> <span class="o">=</span> <span class="kt">Empty</span> <span class="o">|</span> <span class="kt">Node</span> <span class="n">a</span> <span class="p">(</span><span class="kt">Tree</span> <span class="n">a</span><span class="p">)</span> <span class="p">(</span><span class="kt">Tree</span> <span class="n">a</span><span class="p">)</span>
+  <span class="kr">deriving</span> <span class="kt">Show</span>
+
+<span class="o">:</span><span class="n">t</span> <span class="kt">Node</span>
+<span class="kt">Node</span> <span class="o">::</span> <span class="n">a</span> <span class="o">-&gt;</span> <span class="kt">Tree</span> <span class="n">a</span> <span class="o">-&gt;</span> <span class="kt">Tree</span> <span class="n">a</span> <span class="o">-&gt;</span> <span class="kt">Tree</span> <span class="n">a</span>
+
+<span class="o">:</span><span class="n">t</span> <span class="kt">Empty</span>
+<span class="kt">Empty</span> <span class="o">::</span> <span class="kt">Tree</span> <span class="n">a</span>
+</code></pre>
+</div>
+<p>Now we have a type <em><code class="highlighter-rouge">Tree a</code></em> with two differents options which are <em><code class="highlighter-rouge">Empty</code></em> and <em><code class="highlighter-rouge">Node a (Tree a) (Tree a)</code></em>. The <em><code class="highlighter-rouge">Tree</code></em>, <em><code class="highlighter-rouge">Empty</code></em> and <em><code class="highlighter-rouge">Node</code></em> are not types or values from <em><code class="highlighter-rouge">Haskell</code></em> but we are creating them to our program. In the future we will talk more about that, but for a while we can think in them as types as Int, Char and etc.<br />
+Another point is the <em><code class="highlighter-rouge">deriving Show</code></em> which we associated with our type. It is to be possible print our tree.</p>
+
+<p>Now let’s write a really simple function which say if a <em><code class="highlighter-rouge">BST</code></em> is empty or not. If the <em><code class="highlighter-rouge">BST</code></em> has the value <em><code class="highlighter-rouge">Empty</code></em> than it is empty otherwise not.</p>
+<div class="language-haskell highlighter-rouge"><pre class="highlight"><code><span class="n">empty</span> <span class="o">::</span> <span class="kt">Tree</span> <span class="n">a</span> <span class="o">-&gt;</span> <span class="kt">Bool</span>
+<span class="n">empty</span> <span class="kt">Empty</span> <span class="o">=</span> <span class="kt">True</span>
+<span class="n">empty</span> <span class="kr">_</span> <span class="o">=</span> <span class="kt">False</span>
+
+<span class="kr">let</span> <span class="n">emptyTree</span> <span class="o">=</span> <span class="kt">Empty</span>
+<span class="n">empty</span> <span class="n">emptyTree</span>
+<span class="kt">True</span>
+
+<span class="kr">let</span> <span class="n">tree</span> <span class="o">=</span> <span class="kt">Node</span> <span class="mi">3</span> <span class="kt">Empty</span> <span class="kt">Empty</span>
+<span class="n">empty</span> <span class="n">tree</span>
+<span class="kt">False</span>
+</code></pre>
+</div>
+<p>Pretty simple function which say if our <em><code class="highlighter-rouge">BST</code></em> is empty or not.</p>
+
+
+  </div>
+
+  <div class="date">
+    Written on December 24, 2016
+  </div>
+
+  
+<div class="comments">
+	<div id="disqus_thread"></div>
+	<script type="text/javascript">
+
+	    var disqus_shortname = 'rodrigo-morais';
+
+	    (function() {
+	        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+	        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+	        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	    })();
+
+	</script>
+	<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+
+</article>
+
+    </div>
+
+    <div class="wrapper-footer">
+      <div class="container">
+        <footer class="footer">
+          
+<a href="mailto:morais.rm@gmail.com"><i class="svg-icon email"></i></a>
+
+
+<a href="https://github.com/rodrigo-morais"><i class="svg-icon github"></i></a>
+
+<a href="https://www.linkedin.com/in/moraisrm"><i class="svg-icon linkedin"></i></a>
+
+
+<a href="https://www.twitter.com/moraisrm_rs"><i class="svg-icon twitter"></i></a>
+
+
+
+        </footer>
+      </div>
+    </div>
+
+    
+	<!-- Google Analytics -->
+	<script>
+		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+		ga('create', 'UA-87967717-1', 'auto');
+		ga('send', 'pageview', {
+		  'page': '/haskell-marathon-day-twenty-two-twenty-four/',
+		  'title': 'Haskell\'s Marathon - Days Twenty Two to Twenty Four'
+		});
+	</script>
+	<!-- End Google Analytics -->
+
+
+  </body>
+</html>
