@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Maratona de Haskell - Vigésimo Quinto à Vigésimo Sexto Dia –  – Software Developer</title>
+
+        <meta charset="utf-8" />
+    <meta content='text/html; charset=utf-8' http-equiv='Content-Type'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0'>
+
+    
+    <meta name="description" content="Fala pessoal!
+
+No último post nós falamos sobre Binary Tree Search (BST) e nós vimos como criar um tipo para trabalhar com ela e como escrever uma função simples.
+Hoje veremos como contruir uma BST a partir de uma lista.
+
+
+
+BST Revisão
+
+Nós já sabemos que temos que criar um novo tipo para trabalhar com uma BST.
+data (Ord a, Eq a) =&gt; Tree a = Empty | Node a (Tree a) (Tree a)
+  deriving Show
+
+
+
+" />
+    <meta property="og:description" content="Fala pessoal!
+
+No último post nós falamos sobre Binary Tree Search (BST) e nós vimos como criar um tipo para trabalhar com ela e como escrever uma função simples.
+Hoje veremos como contruir uma BST a partir de uma lista.
+
+
+
+BST Revisão
+
+Nós já sabemos que temos que criar um novo tipo para trabalhar com uma BST.
+data (Ord a, Eq a) =&gt; Tree a = Empty | Node a (Tree a) (Tree a)
+  deriving Show
+
+
+
+" />
+    
+    <meta name="author" content="" />
+
+    
+    <meta property="og:title" content="Maratona de Haskell - Vigésimo Quinto à Vigésimo Sexto Dia" />
+    <meta property="twitter:title" content="Maratona de Haskell - Vigésimo Quinto à Vigésimo Sexto Dia" />
+    
+
+    <!--[if lt IE 9]>
+      <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <link rel="stylesheet" type="text/css" href="/css/styles.css" />
+    <link rel="alternate" type="application/rss+xml" title=" - Software Developer" href="/pt_BR/feed.xml" />
+
+    <!-- Created with Jekyll Now - http://github.com/barryclark/jekyll-now -->
+  </head>
+
+  <body>
+    <div class="wrapper-masthead">
+      <div class="container">
+        <header class="masthead clearfix">
+          <a href="/pt_BR/" class="site-avatar"><img src="https://avatars.githubusercontent.com/rodrigo-morais" /></a>
+
+          <div class="site-info">
+            <h1 class="site-name"><a href="/pt_BR/">In development</a></h1>
+            <h3 class="site-author">Rodrigo Morais</h3>
+            <p class="site-description">Software Developer</p>
+          </div>
+
+          <nav class="languages"> 
+          
+          </nav>
+
+          <nav>
+            <a href="/pt_BR/">Blog</a>
+            <a href="/pt_BR/about">Sobre</a>
+          </nav>
+        </header>
+      </div>
+    </div>
+
+    <div id="main" role="main" class="container">
+      <article class="post">
+  
+    <nav class="languages"> 
+  
+    
+      <a href="https://rodrigo-morais.github.io/haskell-marathon-day-twenty-five-twenty-six/"><img src="https://rodrigo-morais.github.io/images/en-flag.png" /></a>
+    
+  
+    
+    <a href="https://rodrigo-morais.github.io/pt_BR/haskell-marathon-day-twenty-five-twenty-six/"><img src="https://rodrigo-morais.github.io/images/pt_BR-flag.png" /></a>
+    
+  
+</nav>
+
+  
+
+  <h1>Maratona de Haskell - Vigésimo Quinto à Vigésimo Sexto Dia</h1>
+
+  <div class="entry">
+    <p>Fala pessoal!</p>
+
+<p>No último post nós falamos sobre <em><code class="highlighter-rouge">Binary Tree Search (BST)</code></em> e nós vimos como criar um tipo para trabalhar com ela e como escrever uma função simples.<br />
+Hoje veremos como contruir uma <em><code class="highlighter-rouge">BST</code></em> a partir de uma lista.</p>
+
+<p><br /></p>
+
+<p><strong><em><code class="highlighter-rouge">BST</code></em> Revisão</strong></p>
+
+<p>Nós já sabemos que temos que criar um novo tipo para trabalhar com uma <em><code class="highlighter-rouge">BST</code></em>.</p>
+<div class="language-haskell highlighter-rouge"><pre class="highlight"><code><span class="kr">data</span> <span class="p">(</span><span class="kt">Ord</span> <span class="n">a</span><span class="p">,</span> <span class="kt">Eq</span> <span class="n">a</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="kt">Tree</span> <span class="n">a</span> <span class="o">=</span> <span class="kt">Empty</span> <span class="o">|</span> <span class="kt">Node</span> <span class="n">a</span> <span class="p">(</span><span class="kt">Tree</span> <span class="n">a</span><span class="p">)</span> <span class="p">(</span><span class="kt">Tree</span> <span class="n">a</span><span class="p">)</span>
+  <span class="kr">deriving</span> <span class="kt">Show</span>
+</code></pre>
+</div>
+
+<!--more-->
+
+<p>Em nosso tipo a <em><code class="highlighter-rouge">BST</code></em> pode ter dois diferentes valores que são <em><code class="highlighter-rouge">Empty</code></em> ou <em><code class="highlighter-rouge">Node a (Tree a) (Tree a)</code></em> . O <em><code class="highlighter-rouge">Empty</code></em> é somente uma árvore vazia. E o <em><code class="highlighter-rouge">Node a (Tree a) (Tree a)</code></em> é um tronco da árvore que tem mais dois novos troncos a esquerda e direita.</p>
+
+<p>Além da estrutura de dados da <em><code class="highlighter-rouge">BST</code></em> nós escrevemos uma simples função para ver se a árvore é vazia ou não.</p>
+<div class="language-haskell highlighter-rouge"><pre class="highlight"><code><span class="n">empty</span> <span class="o">::</span> <span class="kt">Tree</span> <span class="n">a</span> <span class="o">-&gt;</span> <span class="kt">Bool</span>
+<span class="n">empty</span> <span class="kt">Empty</span> <span class="o">=</span> <span class="kt">True</span>
+<span class="n">empty</span> <span class="kr">_</span> <span class="o">=</span> <span class="kt">False</span>
+</code></pre>
+</div>
+
+<p><br /></p>
+
+<p><strong>Construir uma Árvore</strong></p>
+
+<p>Neste momento podemos criar uma <em><code class="highlighter-rouge">BST</code></em> manualmente como essa:</p>
+<div class="language-haskell highlighter-rouge"><pre class="highlight"><code><span class="kr">let</span> <span class="n">x</span> <span class="o">=</span> <span class="kt">Node</span> <span class="mi">8</span> <span class="p">(</span><span class="kt">Node</span> <span class="mi">6</span> <span class="p">(</span><span class="kt">Node</span> <span class="mi">4</span> <span class="p">(</span><span class="kt">Node</span> <span class="mi">2</span> <span class="p">(</span><span class="kt">Node</span> <span class="mi">1</span> <span class="kt">Empty</span> <span class="kt">Empty</span><span class="p">)</span> <span class="p">(</span><span class="kt">Node</span> <span class="mi">3</span> <span class="kt">Empty</span> <span class="kt">Empty</span><span class="p">))</span> <span class="p">(</span><span class="kt">Node</span> <span class="mi">5</span> <span class="kt">Empty</span> <span class="kt">Empty</span><span class="p">))</span> <span class="p">(</span><span class="kt">Node</span> <span class="mi">7</span> <span class="kt">Empty</span> <span class="kt">Empty</span><span class="p">))</span> <span class="p">(</span><span class="kt">Node</span> <span class="mi">10</span> <span class="p">(</span><span class="kt">Node</span> <span class="mi">9</span> <span class="kt">Empty</span> <span class="kt">Empty</span><span class="p">)</span> <span class="p">(</span><span class="kt">Node</span> <span class="mi">11</span> <span class="kt">Empty</span> <span class="kt">Empty</span><span class="p">))</span>
+
+<span class="n">x</span>
+<span class="kt">Node</span> <span class="mi">8</span> <span class="p">(</span><span class="kt">Node</span> <span class="mi">6</span> <span class="p">(</span><span class="kt">Node</span> <span class="mi">4</span> <span class="p">(</span><span class="kt">Node</span> <span class="mi">2</span> <span class="p">(</span><span class="kt">Node</span> <span class="mi">1</span> <span class="kt">Empty</span> <span class="kt">Empty</span><span class="p">)</span> <span class="p">(</span><span class="kt">Node</span> <span class="mi">3</span> <span class="kt">Empty</span> <span class="kt">Empty</span><span class="p">))</span> <span class="p">(</span><span class="kt">Node</span> <span class="mi">5</span> <span class="kt">Empty</span> <span class="kt">Empty</span><span class="p">))</span> <span class="p">(</span><span class="kt">Node</span> <span class="mi">7</span> <span class="kt">Empty</span> <span class="kt">Empty</span><span class="p">))</span> <span class="p">(</span><span class="kt">Node</span> <span class="mi">10</span> <span class="p">(</span><span class="kt">Node</span> <span class="mi">9</span> <span class="kt">Empty</span> <span class="kt">Empty</span><span class="p">)</span> <span class="p">(</span><span class="kt">Node</span> <span class="mi">11</span> <span class="kt">Empty</span> <span class="kt">Empty</span><span class="p">))</span>
+
+<span class="o">:</span><span class="n">t</span> <span class="n">x</span>
+<span class="n">x</span> <span class="o">::</span> <span class="p">(</span><span class="kt">Num</span> <span class="n">a</span><span class="p">,</span> <span class="kt">Ord</span> <span class="n">a</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="kt">Tree</span> <span class="n">a</span>
+</code></pre>
+</div>
+<p>Mas criar uma <em><code class="highlighter-rouge">BST</code></em> manualmente é muito chato e poderia ser bom se pudéssemos converter uma lista em uma árvore.<br />
+Vamos dizer que temos esta lista: [8,6,9,4,7,11,10,12,8,6,2,3,1]<br />
+Como seria a <em><code class="highlighter-rouge">BST</code></em> construída a partir desta lista?</p>
+
+<image src="https://rodrigo-morais.github.io/images/bst_2.png" />
+
+<p>Esta <em><code class="highlighter-rouge">BST</code></em> é muito mais complexa que  a <em><code class="highlighter-rouge">BST</code></em> que vimos no post anterior.<br />
+Vamos ver como contruir uma <em><code class="highlighter-rouge">BST</code></em> em <em><code class="highlighter-rouge">Haskell</code></em>:</p>
+<div class="language-haskell highlighter-rouge"><pre class="highlight"><code><span class="n">build'</span> <span class="o">::</span> <span class="p">(</span><span class="kt">Ord</span> <span class="n">a</span><span class="p">,</span> <span class="kt">Eq</span> <span class="n">a</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="kt">Tree</span> <span class="n">a</span> <span class="o">-&gt;</span> <span class="kt">Tree</span> <span class="n">a</span>
+<span class="n">build'</span> <span class="kt">[]</span> <span class="n">tree</span> <span class="o">=</span> <span class="n">tree</span>
+<span class="n">build'</span> <span class="p">(</span><span class="n">x</span><span class="o">:</span><span class="n">xs</span><span class="p">)</span> <span class="kt">Empty</span> <span class="o">=</span> <span class="n">build'</span> <span class="n">xs</span> <span class="p">(</span><span class="kt">Node</span> <span class="n">x</span> <span class="kt">Empty</span> <span class="kt">Empty</span><span class="p">)</span>
+<span class="n">build'</span> <span class="p">(</span><span class="n">x</span><span class="o">:</span><span class="n">xs</span><span class="p">)</span> <span class="p">(</span><span class="kt">Node</span> <span class="n">a</span> <span class="n">left</span> <span class="n">right</span><span class="p">)</span>
+  <span class="o">|</span> <span class="n">a</span> <span class="o">&gt;=</span> <span class="n">x</span> <span class="o">=</span> <span class="n">build'</span> <span class="n">xs</span> <span class="p">(</span><span class="kt">Node</span> <span class="n">a</span> <span class="p">(</span><span class="n">build'</span> <span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="n">left</span><span class="p">)</span> <span class="n">right</span><span class="p">)</span>
+  <span class="o">|</span> <span class="n">otherwise</span> <span class="o">=</span> <span class="n">build'</span> <span class="n">xs</span> <span class="p">(</span><span class="kt">Node</span> <span class="n">a</span> <span class="n">left</span> <span class="p">(</span><span class="n">build'</span> <span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="n">right</span><span class="p">))</span>
+
+<span class="n">build</span> <span class="o">::</span> <span class="p">(</span><span class="kt">Ord</span> <span class="n">a</span><span class="p">,</span> <span class="kt">Eq</span> <span class="n">a</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="kt">Tree</span> <span class="n">a</span>
+<span class="n">build</span> <span class="n">xs</span> <span class="o">=</span> <span class="n">build'</span> <span class="n">xs</span> <span class="kt">Empty</span>
+</code></pre>
+</div>
+
+<p>Aqui a função <em><code class="highlighter-rouge">build</code></em> recebe uma lista e contrói um <em><code class="highlighter-rouge">BST</code></em>, mas essa função apenas chama a função auxiliar <em><code class="highlighter-rouge">build'</code></em>.<br />
+A função <em><code class="highlighter-rouge">build'</code></em> irá fazer o trabalho sujo. Ela recebe uma lista, uma árvore e retorna uma árvore. A função <em><code class="highlighter-rouge">build</code></em> chama a função <em><code class="highlighter-rouge">build'</code></em> com a lista que foi recebida e uma árvore vazia.<br />
+Com esses dados a função <em><code class="highlighter-rouge">build'</code></em> irá se chamar recursivamente.<br />
+Vamos pensar em nossa lista acima que não esta vazia.<br />
+Primeiramente a árvore esta vazia, então o primeiro elemento de nossa lista que é 8 seria a raíz de nossa árvore. Depois avaliamos o valor 6 que é menor que a raíz e é adicionado à esquerda. O próximo valor é 9 que é maior que a raíz e por causa disso ficará a direita.<br />
+Os outros valores serguiram a mesma ideia.</p>
+
+<p>Vamos ver a função funcionando:</p>
+<div class="language-haskell highlighter-rouge"><pre class="highlight"><code><span class="n">build</span> <span class="p">[</span><span class="mi">8</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">11</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">12</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span>
+<span class="kt">Node</span> <span class="mi">8</span> <span class="p">(</span><span class="kt">Node</span> <span class="mi">6</span> <span class="p">(</span><span class="kt">Node</span> <span class="mi">4</span> <span class="p">(</span><span class="kt">Node</span> <span class="mi">2</span> <span class="p">(</span><span class="kt">Node</span> <span class="mi">1</span> <span class="kt">Empty</span> <span class="kt">Empty</span><span class="p">)</span> <span class="p">(</span><span class="kt">Node</span> <span class="mi">3</span> <span class="kt">Empty</span> <span class="kt">Empty</span><span class="p">))</span> <span class="p">(</span><span class="kt">Node</span> <span class="mi">6</span> <span class="kt">Empty</span> <span class="kt">Empty</span><span class="p">))</span> <span class="p">(</span><span class="kt">Node</span> <span class="mi">7</span> <span class="kt">Empty</span> <span class="p">(</span><span class="kt">Node</span> <span class="mi">8</span> <span class="kt">Empty</span> <span class="kt">Empty</span><span class="p">)))</span> <span class="p">(</span><span class="kt">Node</span> <span class="mi">9</span> <span class="kt">Empty</span> <span class="p">(</span><span class="kt">Node</span> <span class="mi">11</span> <span class="p">(</span><span class="kt">Node</span> <span class="mi">10</span> <span class="kt">Empty</span> <span class="kt">Empty</span><span class="p">)</span> <span class="p">(</span><span class="kt">Node</span> <span class="mi">12</span> <span class="kt">Empty</span> <span class="kt">Empty</span><span class="p">)))</span>
+</code></pre>
+</div>
+
+<p>Esta é a nossa lista como um <em><code class="highlighter-rouge">BST</code></em></p>
+
+<p><br /></p>
+
+<p>É possível fazer essa função <em><code class="highlighter-rouge">build</code></em> melhor e menor. Nos próximos posts nós trabalharemos como helper functions que nos ajudarão a reescrever a função <em><code class="highlighter-rouge">build</code></em>.</p>
+
+  </div>
+
+  <div class="date">
+    Written on December 26, 2016
+  </div>
+
+  
+<div class="comments">
+	<div id="disqus_thread"></div>
+	<script type="text/javascript">
+
+	    var disqus_shortname = 'rodrigo-morais';
+
+	    (function() {
+	        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+	        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+	        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	    })();
+
+	</script>
+	<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+
+</article>
+
+    </div>
+
+    <div class="wrapper-footer">
+      <div class="container">
+        <footer class="footer">
+          
+<a href="mailto:morais.rm@gmail.com"><i class="svg-icon email"></i></a>
+
+
+<a href="https://github.com/rodrigo-morais"><i class="svg-icon github"></i></a>
+
+<a href="https://www.linkedin.com/in/moraisrm"><i class="svg-icon linkedin"></i></a>
+
+
+<a href="https://www.twitter.com/moraisrm_rs"><i class="svg-icon twitter"></i></a>
+
+
+
+        </footer>
+      </div>
+    </div>
+
+    
+	<!-- Google Analytics -->
+	<script>
+		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+		ga('create', 'UA-87967717-1', 'auto');
+		ga('send', 'pageview', {
+		  'page': '/haskell-marathon-day-twenty-five-twenty-six/',
+		  'title': 'Maratona de Haskell - Vigésimo Quinto à Vigésimo Sexto Dia'
+		});
+	</script>
+	<!-- End Google Analytics -->
+
+
+  </body>
+</html>
