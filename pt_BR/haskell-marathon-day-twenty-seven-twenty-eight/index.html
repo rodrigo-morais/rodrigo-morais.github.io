@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Maratona de Haskell - Vigésimo Sétimo à Vigésimo Oitavo Dia –  – Software Developer</title>
+
+        <meta charset="utf-8" />
+    <meta content='text/html; charset=utf-8' http-equiv='Content-Type'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0'>
+
+    
+    <meta name="description" content="Fala pessoal!
+
+No último post nós vimos como construir uma Binary Tree Search (BST) a partir de uma lista. Hoje nós vamos falar sobre a função insert que pode adicionar um nodo em nossa BST.
+
+
+
+Relembrando BST
+
+Nós já sabemos como construir uma BST a partir de uma lista. Nós temos a função build e uma função auxiliar para nos ajudar. A função auxiliar tem um acumulador que seria a nossa árvore.
+
+" />
+    <meta property="og:description" content="Fala pessoal!
+
+No último post nós vimos como construir uma Binary Tree Search (BST) a partir de uma lista. Hoje nós vamos falar sobre a função insert que pode adicionar um nodo em nossa BST.
+
+
+
+Relembrando BST
+
+Nós já sabemos como construir uma BST a partir de uma lista. Nós temos a função build e uma função auxiliar para nos ajudar. A função auxiliar tem um acumulador que seria a nossa árvore.
+
+" />
+    
+    <meta name="author" content="" />
+
+    
+    <meta property="og:title" content="Maratona de Haskell - Vigésimo Sétimo à Vigésimo Oitavo Dia" />
+    <meta property="twitter:title" content="Maratona de Haskell - Vigésimo Sétimo à Vigésimo Oitavo Dia" />
+    
+
+    <!--[if lt IE 9]>
+      <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <link rel="stylesheet" type="text/css" href="/css/styles.css" />
+    <link rel="alternate" type="application/rss+xml" title=" - Software Developer" href="/pt_BR/feed.xml" />
+
+    <!-- Created with Jekyll Now - http://github.com/barryclark/jekyll-now -->
+  </head>
+
+  <body>
+    <div class="wrapper-masthead">
+      <div class="container">
+        <header class="masthead clearfix">
+          <a href="/pt_BR/" class="site-avatar"><img src="https://avatars.githubusercontent.com/rodrigo-morais" /></a>
+
+          <div class="site-info">
+            <h1 class="site-name"><a href="/pt_BR/">In development</a></h1>
+            <h3 class="site-author">Rodrigo Morais</h3>
+            <p class="site-description">Software Developer</p>
+          </div>
+
+          <nav class="languages"> 
+          
+          </nav>
+
+          <nav>
+            <a href="/pt_BR/">Blog</a>
+            <a href="/pt_BR/about">Sobre</a>
+          </nav>
+        </header>
+      </div>
+    </div>
+
+    <div id="main" role="main" class="container">
+      <article class="post">
+  
+    <nav class="languages"> 
+  
+    
+      <a href="https://rodrigo-morais.github.io/haskell-marathon-day-twenty-seven-twenty-eight/"><img src="https://rodrigo-morais.github.io/images/en-flag.png" /></a>
+    
+  
+    
+    <a href="https://rodrigo-morais.github.io/pt_BR/haskell-marathon-day-twenty-seven-twenty-eight/"><img src="https://rodrigo-morais.github.io/images/pt_BR-flag.png" /></a>
+    
+  
+</nav>
+
+  
+
+  <h1>Maratona de Haskell - Vigésimo Sétimo à Vigésimo Oitavo Dia</h1>
+
+  <div class="entry">
+    <p>Fala pessoal!</p>
+
+<p>No último post nós vimos como construir uma <em><code class="highlighter-rouge">Binary Tree Search (BST)</code></em> a partir de uma lista. Hoje nós vamos falar sobre a função <em><code class="highlighter-rouge">insert</code></em> que pode adicionar um nodo em nossa <em><code class="highlighter-rouge">BST</code></em>.</p>
+
+<p><br /></p>
+
+<p><strong>Relembrando BST</strong></p>
+
+<p>Nós já sabemos como construir uma <em><code class="highlighter-rouge">BST</code></em> a partir de uma lista. Nós temos a função <em><code class="highlighter-rouge">build</code></em> e uma função auxiliar para nos ajudar. A função auxiliar tem um acumulador que seria a nossa árvore.</p>
+
+<!--more-->
+
+<div class="language-haskell highlighter-rouge"><pre class="highlight"><code><span class="n">build'</span> <span class="o">::</span> <span class="p">(</span><span class="kt">Ord</span> <span class="n">a</span><span class="p">,</span> <span class="kt">Eq</span> <span class="n">a</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="kt">Tree</span> <span class="n">a</span> <span class="o">-&gt;</span> <span class="kt">Tree</span> <span class="n">a</span>
+<span class="n">build'</span> <span class="kt">[]</span> <span class="n">tree</span> <span class="o">=</span> <span class="n">tree</span>
+<span class="n">build'</span> <span class="p">(</span><span class="n">x</span><span class="o">:</span><span class="n">xs</span><span class="p">)</span> <span class="kt">Empty</span> <span class="o">=</span> <span class="n">build'</span> <span class="n">xs</span> <span class="p">(</span><span class="kt">Node</span> <span class="n">x</span> <span class="kt">Empty</span> <span class="kt">Empty</span><span class="p">)</span>
+<span class="n">build'</span> <span class="p">(</span><span class="n">x</span><span class="o">:</span><span class="n">xs</span><span class="p">)</span> <span class="p">(</span><span class="kt">Node</span> <span class="n">a</span> <span class="n">left</span> <span class="n">right</span><span class="p">)</span>
+  <span class="o">|</span> <span class="n">a</span> <span class="o">&gt;=</span> <span class="n">x</span> <span class="o">=</span> <span class="n">build'</span> <span class="n">xs</span> <span class="p">(</span><span class="kt">Node</span> <span class="n">a</span> <span class="p">(</span><span class="n">build'</span> <span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="n">left</span><span class="p">)</span> <span class="n">right</span><span class="p">)</span>
+  <span class="o">|</span> <span class="n">otherwise</span> <span class="o">=</span> <span class="n">build'</span> <span class="n">xs</span> <span class="p">(</span><span class="kt">Node</span> <span class="n">a</span> <span class="n">left</span> <span class="p">(</span><span class="n">build'</span> <span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="n">right</span><span class="p">))</span>
+
+<span class="n">build</span> <span class="o">::</span> <span class="p">(</span><span class="kt">Ord</span> <span class="n">a</span><span class="p">,</span> <span class="kt">Eq</span> <span class="n">a</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="kt">Tree</span> <span class="n">a</span>
+<span class="n">build</span> <span class="n">xs</span> <span class="o">=</span> <span class="n">build'</span> <span class="n">xs</span> <span class="kt">Empty</span>
+
+<span class="n">build</span> <span class="p">[</span><span class="mi">8</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">11</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">12</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span>
+<span class="kt">Node</span> <span class="mi">8</span> <span class="p">(</span><span class="kt">Node</span> <span class="mi">6</span> <span class="p">(</span><span class="kt">Node</span> <span class="mi">4</span> <span class="p">(</span><span class="kt">Node</span> <span class="mi">2</span> <span class="p">(</span><span class="kt">Node</span> <span class="mi">1</span> <span class="kt">Empty</span> <span class="kt">Empty</span><span class="p">)</span> <span class="p">(</span><span class="kt">Node</span> <span class="mi">3</span> <span class="kt">Empty</span> <span class="kt">Empty</span><span class="p">))</span> <span class="p">(</span><span class="kt">Node</span> <span class="mi">6</span> <span class="kt">Empty</span> <span class="kt">Empty</span><span class="p">))</span> <span class="p">(</span><span class="kt">Node</span> <span class="mi">7</span> <span class="kt">Empty</span> <span class="p">(</span><span class="kt">Node</span> <span class="mi">8</span> <span class="kt">Empty</span> <span class="kt">Empty</span><span class="p">)))</span> <span class="p">(</span><span class="kt">Node</span> <span class="mi">9</span> <span class="kt">Empty</span> <span class="p">(</span><span class="kt">Node</span> <span class="mi">11</span> <span class="p">(</span><span class="kt">Node</span> <span class="mi">10</span> <span class="kt">Empty</span> <span class="kt">Empty</span><span class="p">)</span> <span class="p">(</span><span class="kt">Node</span> <span class="mi">12</span> <span class="kt">Empty</span> <span class="kt">Empty</span><span class="p">)))</span>
+</code></pre>
+</div>
+
+<p>Eu acho que podemos melhorar essas funções.</p>
+
+<p><br /></p>
+
+<p><strong>Criar um Nodo Simples</strong></p>
+
+<p>Primeiro de tudo vamos criar uma helper function chamada <em><code class="highlighter-rouge">singleNode</code></em> que recebe um valor e cria um nodo somente com o valor e os lados direito e esquerdo vazios.</p>
+<div class="language-haskell highlighter-rouge"><pre class="highlight"><code><span class="n">singleNode</span> <span class="o">::</span> <span class="p">(</span><span class="kt">Ord</span> <span class="n">a</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="n">a</span> <span class="o">-&gt;</span> <span class="kt">Tree</span> <span class="n">a</span>
+<span class="n">singleNode</span> <span class="n">x</span> <span class="o">=</span> <span class="kt">Node</span> <span class="n">x</span> <span class="kt">Empty</span> <span class="kt">Empty</span>
+</code></pre>
+</div>
+<p>Tão simples que é auto-explicativo.</p>
+
+<p><br /></p>
+
+<p><strong>Inserir um Nodo na Árvore</strong></p>
+
+<p>Agora podemos criar uma função para inserir um novo valor em uma <em><code class="highlighter-rouge">BST</code></em>. Essa função recebe uma árvore na qual queremos adicionar o valor e o valor. O output da função <em><code class="highlighter-rouge">insert</code></em> é a árvore recebida com o novo valor.</p>
+<div class="language-haskell highlighter-rouge"><pre class="highlight"><code><span class="n">insert</span> <span class="o">::</span> <span class="p">(</span><span class="kt">Ord</span> <span class="n">a</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="kt">Tree</span> <span class="n">a</span> <span class="o">-&gt;</span> <span class="n">a</span> <span class="o">-&gt;</span> <span class="kt">Tree</span> <span class="n">a</span>
+<span class="n">insert</span> <span class="kt">Empty</span> <span class="n">x</span> <span class="o">=</span> <span class="n">singleNode</span> <span class="n">x</span>
+<span class="n">insert</span> <span class="p">(</span><span class="kt">Node</span> <span class="n">a</span> <span class="n">left</span> <span class="n">right</span><span class="p">)</span> <span class="n">x</span>
+  <span class="o">|</span> <span class="n">a</span> <span class="o">&gt;=</span> <span class="n">x</span> <span class="o">=</span> <span class="kt">Node</span> <span class="n">a</span> <span class="p">(</span><span class="n">insert</span> <span class="n">left</span> <span class="n">x</span><span class="p">)</span> <span class="n">right</span>
+  <span class="o">|</span> <span class="n">otherwise</span> <span class="o">=</span> <span class="kt">Node</span> <span class="n">a</span> <span class="n">left</span> <span class="p">(</span><span class="n">insert</span> <span class="n">right</span> <span class="n">x</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<p>Aqui nós estamos usando a função <em><code class="highlighter-rouge">singleNode</code></em> que nós criamos acima somente para fazer nosso código mais limpo.<br />
+A função <em><code class="highlighter-rouge">insert</code></em> é realmente simples somente procura o lugar correto para adicionar o novo valor. Para fazer isso a função navega nos lados direito e esquerdo da árvore.</p>
+
+<p><br /></p>
+
+<p><strong>Melhorando a funcão <em><code class="highlighter-rouge">build</code></em></strong></p>
+
+<p>Antes nós tinhamos a função <em><code class="highlighter-rouge">build</code></em> como:</p>
+<div class="language-haskell highlighter-rouge"><pre class="highlight"><code><span class="n">build'</span> <span class="o">::</span> <span class="p">(</span><span class="kt">Ord</span> <span class="n">a</span><span class="p">,</span> <span class="kt">Eq</span> <span class="n">a</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="kt">Tree</span> <span class="n">a</span> <span class="o">-&gt;</span> <span class="kt">Tree</span> <span class="n">a</span>
+<span class="n">build'</span> <span class="kt">[]</span> <span class="n">tree</span> <span class="o">=</span> <span class="n">tree</span>
+<span class="n">build'</span> <span class="p">(</span><span class="n">x</span><span class="o">:</span><span class="n">xs</span><span class="p">)</span> <span class="kt">Empty</span> <span class="o">=</span> <span class="n">build'</span> <span class="n">xs</span> <span class="p">(</span><span class="kt">Node</span> <span class="n">x</span> <span class="kt">Empty</span> <span class="kt">Empty</span><span class="p">)</span>
+<span class="n">build'</span> <span class="p">(</span><span class="n">x</span><span class="o">:</span><span class="n">xs</span><span class="p">)</span> <span class="p">(</span><span class="kt">Node</span> <span class="n">a</span> <span class="n">left</span> <span class="n">right</span><span class="p">)</span>
+  <span class="o">|</span> <span class="n">a</span> <span class="o">&gt;=</span> <span class="n">x</span> <span class="o">=</span> <span class="n">build'</span> <span class="n">xs</span> <span class="p">(</span><span class="kt">Node</span> <span class="n">a</span> <span class="p">(</span><span class="n">build'</span> <span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="n">left</span><span class="p">)</span> <span class="n">right</span><span class="p">)</span>
+  <span class="o">|</span> <span class="n">otherwise</span> <span class="o">=</span> <span class="n">build'</span> <span class="n">xs</span> <span class="p">(</span><span class="kt">Node</span> <span class="n">a</span> <span class="n">left</span> <span class="p">(</span><span class="n">build'</span> <span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="n">right</span><span class="p">))</span>
+
+<span class="n">build</span> <span class="o">::</span> <span class="p">(</span><span class="kt">Ord</span> <span class="n">a</span><span class="p">,</span> <span class="kt">Eq</span> <span class="n">a</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="kt">Tree</span> <span class="n">a</span>
+<span class="n">build</span> <span class="n">xs</span> <span class="o">=</span> <span class="n">build'</span> <span class="n">xs</span> <span class="kt">Empty</span>
+</code></pre>
+</div>
+<p>Se dermos uma olhada nesssas funções podemos ver que elas tem algumas similaridades com a função <em><code class="highlighter-rouge">insert</code></em>. Então vamos tentar melhorar a função <em><code class="highlighter-rouge">build</code></em> usando a função <em><code class="highlighter-rouge">insert</code></em>.</p>
+<div class="language-haskell highlighter-rouge"><pre class="highlight"><code><span class="n">build'</span> <span class="o">::</span> <span class="p">(</span><span class="kt">Ord</span> <span class="n">a</span><span class="p">,</span> <span class="kt">Eq</span> <span class="n">a</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="kt">Tree</span> <span class="n">a</span> <span class="o">-&gt;</span> <span class="kt">Tree</span> <span class="n">a</span>
+<span class="n">build'</span> <span class="kt">[]</span> <span class="n">tree</span> <span class="o">=</span> <span class="n">tree</span>
+<span class="n">build'</span> <span class="p">(</span><span class="n">x</span><span class="o">:</span><span class="n">xs</span><span class="p">)</span> <span class="n">tree</span> <span class="o">=</span> <span class="n">build'</span> <span class="n">xs</span> <span class="o">$</span> <span class="n">insert</span> <span class="n">tree</span> <span class="n">x</span>
+
+<span class="n">build</span> <span class="o">::</span> <span class="p">(</span><span class="kt">Ord</span> <span class="n">a</span><span class="p">,</span> <span class="kt">Eq</span> <span class="n">a</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="kt">Tree</span> <span class="n">a</span>
+<span class="n">build</span> <span class="n">xs</span> <span class="o">=</span> <span class="n">build'</span> <span class="n">xs</span> <span class="kt">Empty</span>
+</code></pre>
+</div>
+<p>Para mim esta muito melhor. E para você?<br />
+Nós tinhamos a função <em><code class="highlighter-rouge">build'</code></em> com 5 linhas e agora temos com apenas 2. Agora a função <em><code class="highlighter-rouge">build'</code></em> esta mais limpa e clara.</p>
+
+<p><br /></p>
+
+<p><strong>Mais duas opções</strong></p>
+
+<p>Além disso podemos melhorar mais nossa função <em><code class="highlighter-rouge">build'</code></em>.<br />
+Primeiro podemos passar a função <em><code class="highlighter-rouge">build'</code></em> para dentro da função <em><code class="highlighter-rouge">build</code></em> e usa-la como uma variável interna.</p>
+<div class="language-haskell highlighter-rouge"><pre class="highlight"><code><span class="n">build</span> <span class="o">::</span> <span class="p">(</span><span class="kt">Ord</span> <span class="n">a</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="kt">Tree</span> <span class="n">a</span>
+<span class="n">build</span> <span class="kt">[]</span> <span class="o">=</span> <span class="kt">Empty</span>
+<span class="n">build</span> <span class="n">xs</span> <span class="o">=</span> <span class="n">build'</span> <span class="n">xs</span> <span class="kt">Empty</span>
+  <span class="kr">where</span>
+    <span class="n">build'</span> <span class="p">(</span><span class="n">y</span><span class="o">:</span><span class="n">ys</span><span class="p">)</span> <span class="kt">Empty</span> <span class="o">=</span> <span class="n">build'</span> <span class="n">ys</span> <span class="o">$</span> <span class="n">insert</span> <span class="kt">Empty</span> <span class="n">y</span>
+    <span class="n">build'</span> <span class="p">(</span><span class="n">y</span><span class="o">:</span><span class="n">ys</span><span class="p">)</span> <span class="n">tree</span> <span class="o">=</span> <span class="n">build'</span> <span class="n">ys</span> <span class="o">$</span> <span class="n">insert</span> <span class="n">tree</span> <span class="n">y</span>
+</code></pre>
+</div>
+<p>Nós podemos dizer que tivemos alguma melhoria porque não necessitamos uma função auxiliar. Mas parece que não tivemos uma grande melhora.</p>
+
+<p>Nós podemos melhorar um pouco mais. Vamos tentar?</p>
+<div class="language-haskell highlighter-rouge"><pre class="highlight"><code><span class="n">build</span> <span class="o">::</span> <span class="p">(</span><span class="kt">Ord</span> <span class="n">a</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="kt">Tree</span> <span class="n">a</span> <span class="o">-&gt;</span> <span class="kt">Tree</span> <span class="n">a</span>
+<span class="n">build</span> <span class="kt">[]</span> <span class="n">tree</span> <span class="o">=</span> <span class="n">tree</span>
+<span class="n">build</span> <span class="p">(</span><span class="n">x</span><span class="o">:</span><span class="n">xs</span><span class="p">)</span> <span class="n">tree</span> <span class="o">=</span> <span class="n">build</span> <span class="n">xs</span> <span class="o">$</span> <span class="n">insert</span> <span class="n">tree</span> <span class="n">x</span>
+</code></pre>
+</div>
+<p>Agora eu acho que temos uma boa melhora. Nós removemos a função auxiliar e nossa função <em><code class="highlighter-rouge">build</code></em> tem apenas 2 linhas e esta super legível.<br />
+O que você acha?</p>
+
+<p><br /></p>
+
+<p>Dividir uma função em pequenas funções  é uma boa prática em Programação Funcional. A ideia é termos pequenas funções com apenas uma responsabilidade e funções usarem outras funções para atingirem seus objetivos. Isto foi o que fizemos com <em><code class="highlighter-rouge">build</code></em>. Nós criamos uma nova função <em><code class="highlighter-rouge">insert</code></em> que tem somente uma responsabilidade que é adicionar um novo elemento na árvore. E nós usamos a função <em><code class="highlighter-rouge">insert</code></em> em nossa função <em><code class="highlighter-rouge">build</code></em>. Isso fez nossa função <em><code class="highlighter-rouge">build</code></em> mais simples e nos deu a oportunidade de melhora-la. Porque código simples e legível é mais fácil de refatorar e temos mais confiança para fazer isso.</p>
+
+  </div>
+
+  <div class="date">
+    Written on December 28, 2016
+  </div>
+
+  
+<div class="comments">
+	<div id="disqus_thread"></div>
+	<script type="text/javascript">
+
+	    var disqus_shortname = 'rodrigo-morais';
+
+	    (function() {
+	        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+	        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+	        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	    })();
+
+	</script>
+	<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+
+</article>
+
+    </div>
+
+    <div class="wrapper-footer">
+      <div class="container">
+        <footer class="footer">
+          
+<a href="mailto:morais.rm@gmail.com"><i class="svg-icon email"></i></a>
+
+
+<a href="https://github.com/rodrigo-morais"><i class="svg-icon github"></i></a>
+
+<a href="https://www.linkedin.com/in/moraisrm"><i class="svg-icon linkedin"></i></a>
+
+
+<a href="https://www.twitter.com/moraisrm_rs"><i class="svg-icon twitter"></i></a>
+
+
+
+        </footer>
+      </div>
+    </div>
+
+    
+	<!-- Google Analytics -->
+	<script>
+		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+		ga('create', 'UA-87967717-1', 'auto');
+		ga('send', 'pageview', {
+		  'page': '/haskell-marathon-day-twenty-seven-twenty-eight/',
+		  'title': 'Maratona de Haskell - Vigésimo Sétimo à Vigésimo Oitavo Dia'
+		});
+	</script>
+	<!-- End Google Analytics -->
+
+
+  </body>
+</html>
