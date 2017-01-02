@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Maratona de Haskell - Trigésimo Segundo à Trigésimo Terceiro Dia –  – Software Developer</title>
+
+        <meta charset="utf-8" />
+    <meta content='text/html; charset=utf-8' http-equiv='Content-Type'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0'>
+
+    
+    <meta name="description" content="Fala galera!
+
+No último post nós vimos algumas funções para encontrar um elemento na árvore ou confirmar se a árvore contém ou não um elemento.
+Hoje aprenderemos como calcular o tamanho e altura de uma BST.
+
+
+
+Revisão
+
+Primeiramente vamos fazer uma rápida revisão sobre encontrar elementos e confirmar se um elemento existe ou não em nossa BST.
+
+Primeiro como encontramos um elemento em nossa árvore.
+find :: (Ord a) =&gt; Tree a -&gt; a -&gt; Tree a
+find Empty _ = Empty
+find (Node a left right) x
+  | a == x = Node a left right
+  | a &gt;= x = find left x
+  | otherwise = find right x
+
+
+
+" />
+    <meta property="og:description" content="Fala galera!
+
+No último post nós vimos algumas funções para encontrar um elemento na árvore ou confirmar se a árvore contém ou não um elemento.
+Hoje aprenderemos como calcular o tamanho e altura de uma BST.
+
+
+
+Revisão
+
+Primeiramente vamos fazer uma rápida revisão sobre encontrar elementos e confirmar se um elemento existe ou não em nossa BST.
+
+Primeiro como encontramos um elemento em nossa árvore.
+find :: (Ord a) =&gt; Tree a -&gt; a -&gt; Tree a
+find Empty _ = Empty
+find (Node a left right) x
+  | a == x = Node a left right
+  | a &gt;= x = find left x
+  | otherwise = find right x
+
+
+
+" />
+    
+    <meta name="author" content="" />
+
+    
+    <meta property="og:title" content="Maratona de Haskell - Trigésimo Segundo à Trigésimo Terceiro Dia" />
+    <meta property="twitter:title" content="Maratona de Haskell - Trigésimo Segundo à Trigésimo Terceiro Dia" />
+    
+
+    <!--[if lt IE 9]>
+      <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <link rel="stylesheet" type="text/css" href="/css/styles.css" />
+    <link rel="alternate" type="application/rss+xml" title=" - Software Developer" href="/pt_BR/feed.xml" />
+
+    <!-- Created with Jekyll Now - http://github.com/barryclark/jekyll-now -->
+  </head>
+
+  <body>
+    <div class="wrapper-masthead">
+      <div class="container">
+        <header class="masthead clearfix">
+          <a href="/pt_BR/" class="site-avatar"><img src="https://avatars.githubusercontent.com/rodrigo-morais" /></a>
+
+          <div class="site-info">
+            <h1 class="site-name"><a href="/pt_BR/">In development</a></h1>
+            <h3 class="site-author">Rodrigo Morais</h3>
+            <p class="site-description">Software Developer</p>
+          </div>
+
+          <nav class="languages"> 
+          
+          </nav>
+
+          <nav>
+            <a href="/pt_BR/">Blog</a>
+            <a href="/pt_BR/about">Sobre</a>
+          </nav>
+        </header>
+      </div>
+    </div>
+
+    <div id="main" role="main" class="container">
+      <article class="post">
+  
+    <nav class="languages"> 
+  
+    
+      <a href="https://rodrigo-morais.github.io/haskell-marathon-day-thirty-two-thirty-three/"><img src="https://rodrigo-morais.github.io/images/en-flag.png" /></a>
+    
+  
+    
+    <a href="https://rodrigo-morais.github.io/pt_BR/haskell-marathon-day-thirty-two-thirty-three/"><img src="https://rodrigo-morais.github.io/images/pt_BR-flag.png" /></a>
+    
+  
+</nav>
+
+  
+
+  <h1>Maratona de Haskell - Trigésimo Segundo à Trigésimo Terceiro Dia</h1>
+
+  <div class="entry">
+    <p>Fala galera!</p>
+
+<p>No último post nós vimos algumas funções para encontrar um elemento na árvore ou confirmar se a árvore contém ou não um elemento.<br />
+Hoje aprenderemos como calcular o tamanho e altura de uma <em><code class="highlighter-rouge">BST</code></em>.</p>
+
+<p><br /></p>
+
+<p><strong>Revisão</strong></p>
+
+<p>Primeiramente vamos fazer uma rápida revisão sobre encontrar elementos e confirmar se um elemento existe ou não em nossa <em><code class="highlighter-rouge">BST</code></em>.</p>
+
+<p>Primeiro como encontramos um elemento em nossa árvore.</p>
+<div class="language-haskell highlighter-rouge"><pre class="highlight"><code><span class="n">find</span> <span class="o">::</span> <span class="p">(</span><span class="kt">Ord</span> <span class="n">a</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="kt">Tree</span> <span class="n">a</span> <span class="o">-&gt;</span> <span class="n">a</span> <span class="o">-&gt;</span> <span class="kt">Tree</span> <span class="n">a</span>
+<span class="n">find</span> <span class="kt">Empty</span> <span class="kr">_</span> <span class="o">=</span> <span class="kt">Empty</span>
+<span class="n">find</span> <span class="p">(</span><span class="kt">Node</span> <span class="n">a</span> <span class="n">left</span> <span class="n">right</span><span class="p">)</span> <span class="n">x</span>
+  <span class="o">|</span> <span class="n">a</span> <span class="o">==</span> <span class="n">x</span> <span class="o">=</span> <span class="kt">Node</span> <span class="n">a</span> <span class="n">left</span> <span class="n">right</span>
+  <span class="o">|</span> <span class="n">a</span> <span class="o">&gt;=</span> <span class="n">x</span> <span class="o">=</span> <span class="n">find</span> <span class="n">left</span> <span class="n">x</span>
+  <span class="o">|</span> <span class="n">otherwise</span> <span class="o">=</span> <span class="n">find</span> <span class="n">right</span> <span class="n">x</span>
+</code></pre>
+</div>
+
+<!--more-->
+
+<p>E quando temos dois elementos repetidos, como encontramos o segundo elemento?</p>
+<div class="language-haskell highlighter-rouge"><pre class="highlight"><code><span class="n">findSub</span> <span class="o">::</span> <span class="p">(</span><span class="kt">Ord</span> <span class="n">a</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="kt">Tree</span> <span class="n">a</span> <span class="o">-&gt;</span> <span class="n">a</span> <span class="o">-&gt;</span> <span class="kt">Tree</span> <span class="n">a</span>
+<span class="n">findSub</span> <span class="kt">Empty</span> <span class="kr">_</span> <span class="o">=</span> <span class="kt">Empty</span>
+<span class="n">findSub</span> <span class="p">(</span><span class="kt">Node</span> <span class="n">a</span> <span class="n">left</span> <span class="n">right</span><span class="p">)</span> <span class="n">x</span>
+  <span class="o">|</span> <span class="n">a</span> <span class="o">&gt;=</span> <span class="n">x</span> <span class="o">=</span> <span class="n">find</span> <span class="n">left</span> <span class="n">x</span>
+  <span class="o">|</span> <span class="n">otherwise</span> <span class="o">=</span> <span class="n">find</span> <span class="n">right</span> <span class="n">x</span>
+</code></pre>
+</div>
+
+<p>Vamos confirmar se o elemento existe ou não na árvore:</p>
+<div class="language-haskell highlighter-rouge"><pre class="highlight"><code><span class="n">contains</span> <span class="o">::</span> <span class="p">(</span><span class="kt">Ord</span> <span class="n">a</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="n">a</span> <span class="o">-&gt;</span> <span class="kt">Tree</span> <span class="n">a</span> <span class="o">-&gt;</span> <span class="kt">Bool</span>
+<span class="n">contains</span> <span class="kr">_</span> <span class="kt">Empty</span> <span class="o">=</span> <span class="kt">False</span>
+<span class="n">contains</span> <span class="n">x</span> <span class="p">(</span><span class="kt">Node</span> <span class="n">a</span> <span class="n">left</span> <span class="n">right</span><span class="p">)</span>
+  <span class="o">|</span> <span class="n">a</span> <span class="o">&gt;</span> <span class="n">x</span> <span class="o">=</span> <span class="n">contains</span> <span class="n">x</span> <span class="n">left</span>
+  <span class="o">|</span> <span class="n">a</span> <span class="o">&lt;</span> <span class="n">x</span> <span class="o">=</span> <span class="n">contains</span> <span class="n">x</span> <span class="n">right</span>
+  <span class="o">|</span> <span class="n">otherwise</span> <span class="o">=</span> <span class="kt">True</span>
+</code></pre>
+</div>
+
+<p><br /></p>
+
+<p><strong>Calculando o Tamanho de uma <em><code class="highlighter-rouge">BST</code></em></strong></p>
+
+<p>Uma importante funcionalidade quando estamos trabalhando com <em><code class="highlighter-rouge">BST</code></em> é obter o tamanho da árvore.<br />
+O tamanho quer dizer o número de elementos que uma <em><code class="highlighter-rouge">BST</code></em> contém. Então vamos criar uma função para isso:</p>
+<div class="language-haskell highlighter-rouge"><pre class="highlight"><code><span class="n">size</span> <span class="o">::</span> <span class="p">(</span><span class="kt">Ord</span> <span class="n">a</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="kt">Tree</span> <span class="n">a</span> <span class="o">-&gt;</span> <span class="kt">Int</span>
+<span class="n">size</span> <span class="kt">Empty</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">size</span> <span class="p">(</span><span class="kt">Node</span> <span class="kr">_</span> <span class="n">left</span> <span class="n">right</span><span class="p">)</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="p">(</span><span class="n">size</span> <span class="n">left</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">size</span> <span class="n">right</span><span class="p">)</span>
+</code></pre>
+</div>
+<p>A função é realmente simples. Nós recebemos uma árvore e retornamos o número de elementos como um Int.<br />
+Se a árvore é <em><code class="highlighter-rouge">Empty</code></em> deve a função <em><code class="highlighter-rouge">size</code></em> retornar o valor 0. Ao contrário se a árvore não é <em><code class="highlighter-rouge">Empty</code></em> a função <em><code class="highlighter-rouge">size</code></em> somará 1 e chamará a si própria para as sub-árvores na esquerda e direita.</p>
+
+<p>Essa função trabalha recursivamente chamando-se até encontrar um nodo <em><code class="highlighter-rouge">Empty</code></em>.
+Vamos ver como ela funciona:</p>
+<div class="language-haskell highlighter-rouge"><pre class="highlight"><code><span class="o">&gt;</span> <span class="kr">let</span> <span class="n">tree</span> <span class="o">=</span> <span class="n">build</span> <span class="p">[</span><span class="mi">8</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">11</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">12</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span>
+<span class="o">&gt;</span> <span class="n">tree</span>
+<span class="kt">Node</span> <span class="mi">8</span> <span class="p">(</span><span class="kt">Node</span> <span class="mi">6</span> <span class="p">(</span><span class="kt">Node</span> <span class="mi">4</span> <span class="p">(</span><span class="kt">Node</span> <span class="mi">2</span> <span class="p">(</span><span class="kt">Node</span> <span class="mi">1</span> <span class="kt">Empty</span> <span class="kt">Empty</span><span class="p">)</span> <span class="p">(</span><span class="kt">Node</span> <span class="mi">3</span> <span class="kt">Empty</span> <span class="kt">Empty</span><span class="p">))</span> <span class="p">(</span><span class="kt">Node</span> <span class="mi">6</span> <span class="kt">Empty</span> <span class="kt">Empty</span><span class="p">))</span> <span class="p">(</span><span class="kt">Node</span> <span class="mi">7</span> <span class="kt">Empty</span> <span class="p">(</span><span class="kt">Node</span> <span class="mi">8</span> <span class="kt">Empty</span> <span class="kt">Empty</span><span class="p">)))</span> <span class="p">(</span><span class="kt">Node</span> <span class="mi">9</span> <span class="kt">Empty</span> <span class="p">(</span><span class="kt">Node</span> <span class="mi">11</span> <span class="p">(</span><span class="kt">Node</span> <span class="mi">10</span> <span class="kt">Empty</span> <span class="kt">Empty</span><span class="p">)</span> <span class="p">(</span><span class="kt">Node</span> <span class="mi">12</span> <span class="kt">Empty</span> <span class="kt">Empty</span><span class="p">)))</span>
+
+<span class="o">&gt;</span> <span class="n">size</span> <span class="n">tree</span>
+<span class="mi">13</span>
+
+<span class="o">&gt;</span> <span class="kr">let</span> <span class="n">newTree</span> <span class="o">=</span> <span class="n">find</span> <span class="n">tree</span> <span class="mi">6</span>
+<span class="o">&gt;</span> <span class="n">newTree</span>
+<span class="kt">Node</span> <span class="mi">6</span> <span class="p">(</span><span class="kt">Node</span> <span class="mi">4</span> <span class="p">(</span><span class="kt">Node</span> <span class="mi">2</span> <span class="p">(</span><span class="kt">Node</span> <span class="mi">1</span> <span class="kt">Empty</span> <span class="kt">Empty</span><span class="p">)</span> <span class="p">(</span><span class="kt">Node</span> <span class="mi">3</span> <span class="kt">Empty</span> <span class="kt">Empty</span><span class="p">))</span> <span class="p">(</span><span class="kt">Node</span> <span class="mi">6</span> <span class="kt">Empty</span> <span class="kt">Empty</span><span class="p">))</span> <span class="p">(</span><span class="kt">Node</span> <span class="mi">7</span> <span class="kt">Empty</span> <span class="p">(</span><span class="kt">Node</span> <span class="mi">8</span> <span class="kt">Empty</span> <span class="kt">Empty</span><span class="p">))</span>
+
+<span class="o">&gt;</span> <span class="n">size</span> <span class="n">newTree</span>
+<span class="mi">8</span>
+</code></pre>
+</div>
+
+<p><br /></p>
+
+<p><strong>Quão alto você é?</strong></p>
+
+<p>Outra função que é realmente útil quando estamos trabalhando com <em><code class="highlighter-rouge">BST</code></em> é a função <em><code class="highlighter-rouge">height</code></em>. Esta função nos da a altura da árvore e nós podemos usa-la para balancear a mesma. Como podemos ver uma <em><code class="highlighter-rouge">BST</code></em>  não é balanceada.<br />
+Por exemplo, se nós temos a lista em sequencia como: [3,4,5,6,7]<br />
+Teremos essa <em><code class="highlighter-rouge">BST</code></em>:</p>
+
+<image src="https://rodrigo-morais.github.io/images/bst_4.png" />
+
+<p>Podemos ver que a árvore esta desequilibrada para a direita. Temos alguns algoritimos para balancear uma árvore e eles usam a função <em><code class="highlighter-rouge">height</code></em> para isso.<br />
+Por enquanto vamos prestar atenção somente na função <em><code class="highlighter-rouge">height</code></em>.</p>
+<div class="language-haskell highlighter-rouge"><pre class="highlight"><code><span class="n">height</span> <span class="o">::</span> <span class="p">(</span><span class="kt">Ord</span> <span class="n">a</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="kt">Tree</span> <span class="n">a</span> <span class="o">-&gt;</span> <span class="kt">Int</span>
+<span class="n">height</span> <span class="kt">Empty</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">height</span> <span class="p">(</span><span class="kt">Node</span> <span class="kr">_</span> <span class="n">left</span> <span class="n">right</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="o">+</span><span class="p">)</span> <span class="mi">1</span> <span class="o">$</span> <span class="n">max</span> <span class="p">(</span><span class="n">height</span> <span class="n">left</span><span class="p">)</span> <span class="p">(</span><span class="n">height</span> <span class="n">right</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<p>Essa é uma função pequena, mas não é simples de entender.<br />
+Primeiro se a árvore é <em><code class="highlighter-rouge">Empty</code></em> a altura é 0.<br />
+Se a árvore não é <em><code class="highlighter-rouge">Empty</code></em> nós devemos somar um pela raíz e obter a altura máxima entre os lados esquerdo e direito. A função <em><code class="highlighter-rouge">height</code></em> mergulha na árvore até encontrar um nodo <em><code class="highlighter-rouge">Empty</code></em> e começa a contar a altura de baixo para cima. Ela funciona recursivamente.</p>
+
+<p>Vamos dizer que temos essa <em><code class="highlighter-rouge">BST</code></em>:</p>
+
+<image src="https://rodrigo-morais.github.io/images/bst_3.png" />
+
+<p>Legal. Se chamamos a função:</p>
+<div class="language-haskell highlighter-rouge"><pre class="highlight"><code><span class="o">&gt;</span> <span class="n">newTree</span>
+<span class="kt">Node</span> <span class="mi">6</span> <span class="p">(</span><span class="kt">Node</span> <span class="mi">4</span> <span class="p">(</span><span class="kt">Node</span> <span class="mi">2</span> <span class="p">(</span><span class="kt">Node</span> <span class="mi">1</span> <span class="kt">Empty</span> <span class="kt">Empty</span><span class="p">)</span> <span class="p">(</span><span class="kt">Node</span> <span class="mi">3</span> <span class="kt">Empty</span> <span class="kt">Empty</span><span class="p">))</span> <span class="p">(</span><span class="kt">Node</span> <span class="mi">6</span> <span class="kt">Empty</span> <span class="kt">Empty</span><span class="p">))</span> <span class="p">(</span><span class="kt">Node</span> <span class="mi">7</span> <span class="kt">Empty</span> <span class="p">(</span><span class="kt">Node</span> <span class="mi">8</span> <span class="kt">Empty</span> <span class="kt">Empty</span><span class="p">))</span>
+
+<span class="o">&gt;</span> <span class="n">height</span> <span class="n">newTree</span>
+<span class="mi">4</span>
+</code></pre>
+</div>
+
+<p>Como isso funciona?
+Primeiro obtemos a altura do lado esquerdo. Então mergulhamos para a primeira árvore de baixo para cima.</p>
+
+<image src="https://rodrigo-morais.github.io/images/bst_5.png" />
+
+<p>Na primeira árvore nós temos um nodo que é a raíz com valor 2 e com nodos para a esquerda e direita. Os nodos a esquerda e direita não tem nodos à esquerda ou direita ou eles tem nodos <em><code class="highlighter-rouge">Empty</code></em>. Os nodos <em><code class="highlighter-rouge">Empty</code></em> retornam a altura 0.<br />
+Legal, então o nodo com o valor 1 é a raíz da sub-árvore que os lados esquerdo são <em><code class="highlighter-rouge">Empty</code></em>. Nós temos a função que trata isso:<br />
+(+) 1 $ max (height left) (height right) =&gt; (+) 1 max 0 0 =&gt; (+) 1 0 =&gt; 1</p>
+
+<p>O mesmo ocorre com o lado direito da árvore onde a sub-árvore tem a raíz 3.<br />
+Agora nós podemos ir para a raíz de nossa árvore que é 2. Vamos ver como isso funciona:<br />
+(+) 1 $ max (height left) (height right) =&gt; (+) 1 $ max 1 1 =&gt; (+) 1 1 =&gt; 2<br />
+Aqui nós obtemos a altura de nossa sub-árvore, comparamos o máximo e depois somamos 1 que vem da raíz sempre.<br />
+Esse processo se repete em toda a árvore até alcançar a raíz.</p>
+
+<p>Vamos terminar isso. Agora nós sabemos a altura do lado esquerdo de nossa sub-árvore que tem a raíz 4. O lado direito somente tem um nodo com o lado esquerdo e direito <em><code class="highlighter-rouge">Empty</code></em> e por causa disso que a altura é 1. Com isso temos essa função:<br />
+(+) 1 $ max (height left) (height right) =&gt; (+) 1 $ max 2 1 =&gt; (+) 1 2 =&gt; 3<br />
+Agora nós sabemos que o lado esquerdo da árvore tem a altura 3.<br />
+O lado direito tem uma sub-árvore onde o lado esquerdo é <em><code class="highlighter-rouge">Empty</code></em> e o lado direito somente tem um nodo sozinho com altura 1 fazendo a altura da sub-árvore direita igual à 2.<br />
+Com esse dados podemos somar a altura de nossa árvore:<br />
+(+) 1 $ max (height left) (height right) =&gt; (+) 1 $ max 3 2 =&gt; (+) 1 3 =&gt; 4</p>
+
+<p>E temos o mesmo resultado da nossa função.</p>
+
+  </div>
+
+  <div class="date">
+    Written on January  2, 2017
+  </div>
+
+  
+<div class="comments">
+	<div id="disqus_thread"></div>
+	<script type="text/javascript">
+
+	    var disqus_shortname = 'rodrigo-morais';
+
+	    (function() {
+	        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+	        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+	        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	    })();
+
+	</script>
+	<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+
+</article>
+
+    </div>
+
+    <div class="wrapper-footer">
+      <div class="container">
+        <footer class="footer">
+          
+<a href="mailto:morais.rm@gmail.com"><i class="svg-icon email"></i></a>
+
+
+<a href="https://github.com/rodrigo-morais"><i class="svg-icon github"></i></a>
+
+<a href="https://www.linkedin.com/in/moraisrm"><i class="svg-icon linkedin"></i></a>
+
+
+<a href="https://www.twitter.com/moraisrm_rs"><i class="svg-icon twitter"></i></a>
+
+
+
+        </footer>
+      </div>
+    </div>
+
+    
+	<!-- Google Analytics -->
+	<script>
+		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+		ga('create', 'UA-87967717-1', 'auto');
+		ga('send', 'pageview', {
+		  'page': '/haskell-marathon-day-thirty-two-thirty-three/',
+		  'title': 'Maratona de Haskell - Trigésimo Segundo à Trigésimo Terceiro Dia'
+		});
+	</script>
+	<!-- End Google Analytics -->
+
+
+  </body>
+</html>

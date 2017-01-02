@@ -66,6 +66,38 @@
   
     <article class="post">
 
+      <h1><a href="/pt_BR/haskell-marathon-day-thirty-two-thirty-three/">Maratona de Haskell - Trigésimo Segundo à Trigésimo Terceiro Dia</a></h1>
+
+      <div class="entry">
+        <p>Fala galera!</p>
+
+<p>No último post nós vimos algumas funções para encontrar um elemento na árvore ou confirmar se a árvore contém ou não um elemento.<br />
+Hoje aprenderemos como calcular o tamanho e altura de uma <em><code class="highlighter-rouge">BST</code></em>.</p>
+
+<p><br /></p>
+
+<p><strong>Revisão</strong></p>
+
+<p>Primeiramente vamos fazer uma rápida revisão sobre encontrar elementos e confirmar se um elemento existe ou não em nossa <em><code class="highlighter-rouge">BST</code></em>.</p>
+
+<p>Primeiro como encontramos um elemento em nossa árvore.</p>
+<div class="language-haskell highlighter-rouge"><pre class="highlight"><code><span class="n">find</span> <span class="o">::</span> <span class="p">(</span><span class="kt">Ord</span> <span class="n">a</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="kt">Tree</span> <span class="n">a</span> <span class="o">-&gt;</span> <span class="n">a</span> <span class="o">-&gt;</span> <span class="kt">Tree</span> <span class="n">a</span>
+<span class="n">find</span> <span class="kt">Empty</span> <span class="kr">_</span> <span class="o">=</span> <span class="kt">Empty</span>
+<span class="n">find</span> <span class="p">(</span><span class="kt">Node</span> <span class="n">a</span> <span class="n">left</span> <span class="n">right</span><span class="p">)</span> <span class="n">x</span>
+  <span class="o">|</span> <span class="n">a</span> <span class="o">==</span> <span class="n">x</span> <span class="o">=</span> <span class="kt">Node</span> <span class="n">a</span> <span class="n">left</span> <span class="n">right</span>
+  <span class="o">|</span> <span class="n">a</span> <span class="o">&gt;=</span> <span class="n">x</span> <span class="o">=</span> <span class="n">find</span> <span class="n">left</span> <span class="n">x</span>
+  <span class="o">|</span> <span class="n">otherwise</span> <span class="o">=</span> <span class="n">find</span> <span class="n">right</span> <span class="n">x</span>
+</code></pre>
+</div>
+
+
+      </div>
+
+      <a href="/pt_BR/haskell-marathon-day-thirty-two-thirty-three/" class="read-more">Continue</a>
+    </article>
+  
+    <article class="post">
+
       <h1><a href="/pt_BR/haskell-marathon-day-twenty-nine-thirty-one/">Maratona de Haskell - Vigésimo Nono à Trigésimo Primeiro Dia</a></h1>
 
       <div class="entry">

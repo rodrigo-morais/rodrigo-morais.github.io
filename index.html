@@ -66,6 +66,38 @@
   
     <article class="post">
 
+      <h1><a href="/haskell-marathon-day-thirty-two-thirty-three/">Haskell's Marathon - Days Thirty Two to Thirty Three</a></h1>
+
+      <div class="entry">
+        <p>Hey folks!</p>
+
+<p>Last post we saw some functions to find an element in the tree or confirm if the tree contains or not an element.
+Today we will learn how to calculate the size and height of our <em><code class="highlighter-rouge">BST</code></em>.</p>
+
+<p><br /></p>
+
+<p><strong>BST Recap</strong></p>
+
+<p>First let’s do a quick recap about find elements and confirm if an element exists or not in our <em><code class="highlighter-rouge">BST</code></em>.</p>
+
+<p>First how we find an element in our tree.</p>
+<div class="language-haskell highlighter-rouge"><pre class="highlight"><code><span class="n">find</span> <span class="o">::</span> <span class="p">(</span><span class="kt">Ord</span> <span class="n">a</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="kt">Tree</span> <span class="n">a</span> <span class="o">-&gt;</span> <span class="n">a</span> <span class="o">-&gt;</span> <span class="kt">Tree</span> <span class="n">a</span>
+<span class="n">find</span> <span class="kt">Empty</span> <span class="kr">_</span> <span class="o">=</span> <span class="kt">Empty</span>
+<span class="n">find</span> <span class="p">(</span><span class="kt">Node</span> <span class="n">a</span> <span class="n">left</span> <span class="n">right</span><span class="p">)</span> <span class="n">x</span>
+  <span class="o">|</span> <span class="n">a</span> <span class="o">==</span> <span class="n">x</span> <span class="o">=</span> <span class="kt">Node</span> <span class="n">a</span> <span class="n">left</span> <span class="n">right</span>
+  <span class="o">|</span> <span class="n">a</span> <span class="o">&gt;=</span> <span class="n">x</span> <span class="o">=</span> <span class="n">find</span> <span class="n">left</span> <span class="n">x</span>
+  <span class="o">|</span> <span class="n">otherwise</span> <span class="o">=</span> <span class="n">find</span> <span class="n">right</span> <span class="n">x</span>
+</code></pre>
+</div>
+
+
+      </div>
+
+      <a href="/haskell-marathon-day-thirty-two-thirty-three/" class="read-more">Read More</a>
+    </article>
+  
+    <article class="post">
+
       <h1><a href="/haskell-marathon-day-twenty-nine-thirty-one/">Haskell's Marathon - Days Twenty Nine to Thirty One</a></h1>
 
       <div class="entry">
