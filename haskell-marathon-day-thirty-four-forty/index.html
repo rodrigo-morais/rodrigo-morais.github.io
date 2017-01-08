@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Haskell's Marathon - Days Thirty Four to Fourty –  – Software Developer</title>
+
+        <meta charset="utf-8" />
+    <meta content='text/html; charset=utf-8' http-equiv='Content-Type'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0'>
+
+    
+    <meta name="description" content="Hey folks!
+
+Last post we saw some functions to calculate the size and height of our Binary Search Tree (BST).
+Today is the last post about the exercises with BST and we will create the function to remove nodes from.
+
+
+
+BST Recap
+
+Let’s just recap how were the functions size and height which we worked in the last post.
+
+First the function size to work with a BST which means get a number of elements that exist in a BST.
+ BST.
+size :: (Ord a) =&gt; Tree a -&gt; Int
+size Empty = 0
+size (Node _ left right) = 1 + (size left) + (size right)
+
+&gt; let tree = build [8,6,9,4,7,11,10,12,8,6,2,3,1]
+&gt; tree
+Node 8 (Node 6 (Node 4 (Node 2 (Node 1 Empty Empty) (Node 3 Empty Empty)) (Node 6 Empty Empty)) (Node 7 Empty (Node 8 Empty Empty))) (Node 9 Empty (Node 11 (Node 10 Empty Empty) (Node 12 Empty Empty)))
+
+&gt; size tree
+13
+
+&gt; let newTree = find tree 6
+&gt; newTree
+Node 6 (Node 4 (Node 2 (Node 1 Empty Empty) (Node 3 Empty Empty)) (Node 6 Empty Empty)) (Node 7 Empty (Node 8 Empty Empty))
+
+&gt; size newTree
+8
+
+
+
+" />
+    <meta property="og:description" content="Hey folks!
+
+Last post we saw some functions to calculate the size and height of our Binary Search Tree (BST).
+Today is the last post about the exercises with BST and we will create the function to remove nodes from.
+
+
+
+BST Recap
+
+Let’s just recap how were the functions size and height which we worked in the last post.
+
+First the function size to work with a BST which means get a number of elements that exist in a BST.
+ BST.
+size :: (Ord a) =&gt; Tree a -&gt; Int
+size Empty = 0
+size (Node _ left right) = 1 + (size left) + (size right)
+
+&gt; let tree = build [8,6,9,4,7,11,10,12,8,6,2,3,1]
+&gt; tree
+Node 8 (Node 6 (Node 4 (Node 2 (Node 1 Empty Empty) (Node 3 Empty Empty)) (Node 6 Empty Empty)) (Node 7 Empty (Node 8 Empty Empty))) (Node 9 Empty (Node 11 (Node 10 Empty Empty) (Node 12 Empty Empty)))
+
+&gt; size tree
+13
+
+&gt; let newTree = find tree 6
+&gt; newTree
+Node 6 (Node 4 (Node 2 (Node 1 Empty Empty) (Node 3 Empty Empty)) (Node 6 Empty Empty)) (Node 7 Empty (Node 8 Empty Empty))
+
+&gt; size newTree
+8
+
+
+
+" />
+    
+    <meta name="author" content="" />
+
+    
+    <meta property="og:title" content="Haskell's Marathon - Days Thirty Four to Fourty" />
+    <meta property="twitter:title" content="Haskell's Marathon - Days Thirty Four to Fourty" />
+    
+
+    <!--[if lt IE 9]>
+      <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <link rel="stylesheet" type="text/css" href="/css/styles.css" />
+    <link rel="alternate" type="application/rss+xml" title=" - Software Developer" href="/feed.xml" />
+
+    <!-- Created with Jekyll Now - http://github.com/barryclark/jekyll-now -->
+  </head>
+
+  <body>
+    <div class="wrapper-masthead">
+      <div class="container">
+        <header class="masthead clearfix">
+          <a href="/" class="site-avatar"><img src="https://avatars.githubusercontent.com/rodrigo-morais" /></a>
+
+          <div class="site-info">
+            <h1 class="site-name"><a href="/">In development</a></h1>
+            <h3 class="site-author">Rodrigo Morais</h3>
+            <p class="site-description">Software Developer</p>
+          </div>
+
+          <nav class="languages"> 
+          
+          </nav>
+
+          <nav>
+            <a href="/">Blog</a>
+            <a href="/about">About</a>
+          </nav>
+        </header>
+      </div>
+    </div>
+
+    <div id="main" role="main" class="container">
+      <article class="post">
+  
+    <nav class="languages"> 
+  
+    
+      <a href="https://rodrigo-morais.github.io/haskell-marathon-day-thirty-four-forty/"><img src="https://rodrigo-morais.github.io/images/en-flag.png" /></a>
+    
+  
+    
+    <a href="https://rodrigo-morais.github.io/pt_BR/haskell-marathon-day-thirty-four-forty/"><img src="https://rodrigo-morais.github.io/images/pt_BR-flag.png" /></a>
+    
+  
+</nav>
+
+  
+
+  <h1>Haskell's Marathon - Days Thirty Four to Fourty</h1>
+
+  <div class="entry">
+    <p>Hey folks!</p>
+
+<p>Last post we saw some functions to calculate the size and height of our <em><code class="highlighter-rouge">Binary Search Tree (BST)</code></em>.<br />
+Today is the last post about the exercises with <em><code class="highlighter-rouge">BST</code></em> and we will create the function to remove nodes from.</p>
+
+<p><br /></p>
+
+<p><strong>BST Recap</strong></p>
+
+<p>Let’s just recap how were the functions <em><code class="highlighter-rouge">size</code></em> and <em><code class="highlighter-rouge">height</code></em> which we worked in the last post.</p>
+
+<p>First the function <em><code class="highlighter-rouge">size</code></em> to work with a <em><code class="highlighter-rouge">BST</code></em> which means get a number of elements that exist in a <em><code class="highlighter-rouge">BST</code></em>.
+ <em><code class="highlighter-rouge">BST</code></em>.</p>
+<div class="language-haskell highlighter-rouge"><pre class="highlight"><code><span class="n">size</span> <span class="o">::</span> <span class="p">(</span><span class="kt">Ord</span> <span class="n">a</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="kt">Tree</span> <span class="n">a</span> <span class="o">-&gt;</span> <span class="kt">Int</span>
+<span class="n">size</span> <span class="kt">Empty</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">size</span> <span class="p">(</span><span class="kt">Node</span> <span class="kr">_</span> <span class="n">left</span> <span class="n">right</span><span class="p">)</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="p">(</span><span class="n">size</span> <span class="n">left</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">size</span> <span class="n">right</span><span class="p">)</span>
+
+<span class="o">&gt;</span> <span class="kr">let</span> <span class="n">tree</span> <span class="o">=</span> <span class="n">build</span> <span class="p">[</span><span class="mi">8</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">11</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">12</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span>
+<span class="o">&gt;</span> <span class="n">tree</span>
+<span class="kt">Node</span> <span class="mi">8</span> <span class="p">(</span><span class="kt">Node</span> <span class="mi">6</span> <span class="p">(</span><span class="kt">Node</span> <span class="mi">4</span> <span class="p">(</span><span class="kt">Node</span> <span class="mi">2</span> <span class="p">(</span><span class="kt">Node</span> <span class="mi">1</span> <span class="kt">Empty</span> <span class="kt">Empty</span><span class="p">)</span> <span class="p">(</span><span class="kt">Node</span> <span class="mi">3</span> <span class="kt">Empty</span> <span class="kt">Empty</span><span class="p">))</span> <span class="p">(</span><span class="kt">Node</span> <span class="mi">6</span> <span class="kt">Empty</span> <span class="kt">Empty</span><span class="p">))</span> <span class="p">(</span><span class="kt">Node</span> <span class="mi">7</span> <span class="kt">Empty</span> <span class="p">(</span><span class="kt">Node</span> <span class="mi">8</span> <span class="kt">Empty</span> <span class="kt">Empty</span><span class="p">)))</span> <span class="p">(</span><span class="kt">Node</span> <span class="mi">9</span> <span class="kt">Empty</span> <span class="p">(</span><span class="kt">Node</span> <span class="mi">11</span> <span class="p">(</span><span class="kt">Node</span> <span class="mi">10</span> <span class="kt">Empty</span> <span class="kt">Empty</span><span class="p">)</span> <span class="p">(</span><span class="kt">Node</span> <span class="mi">12</span> <span class="kt">Empty</span> <span class="kt">Empty</span><span class="p">)))</span>
+
+<span class="o">&gt;</span> <span class="n">size</span> <span class="n">tree</span>
+<span class="mi">13</span>
+
+<span class="o">&gt;</span> <span class="kr">let</span> <span class="n">newTree</span> <span class="o">=</span> <span class="n">find</span> <span class="n">tree</span> <span class="mi">6</span>
+<span class="o">&gt;</span> <span class="n">newTree</span>
+<span class="kt">Node</span> <span class="mi">6</span> <span class="p">(</span><span class="kt">Node</span> <span class="mi">4</span> <span class="p">(</span><span class="kt">Node</span> <span class="mi">2</span> <span class="p">(</span><span class="kt">Node</span> <span class="mi">1</span> <span class="kt">Empty</span> <span class="kt">Empty</span><span class="p">)</span> <span class="p">(</span><span class="kt">Node</span> <span class="mi">3</span> <span class="kt">Empty</span> <span class="kt">Empty</span><span class="p">))</span> <span class="p">(</span><span class="kt">Node</span> <span class="mi">6</span> <span class="kt">Empty</span> <span class="kt">Empty</span><span class="p">))</span> <span class="p">(</span><span class="kt">Node</span> <span class="mi">7</span> <span class="kt">Empty</span> <span class="p">(</span><span class="kt">Node</span> <span class="mi">8</span> <span class="kt">Empty</span> <span class="kt">Empty</span><span class="p">))</span>
+
+<span class="o">&gt;</span> <span class="n">size</span> <span class="n">newTree</span>
+<span class="mi">8</span>
+</code></pre>
+</div>
+
+<!--more-->
+
+<p>Pretty straightforward function to count the number of nodes.</p>
+
+<p>Now let’s see the function <em><code class="highlighter-rouge">height</code></em> which gives us the height of a <em><code class="highlighter-rouge">BST</code></em>.</p>
+<div class="language-haskell highlighter-rouge"><pre class="highlight"><code><span class="n">height</span> <span class="o">::</span> <span class="p">(</span><span class="kt">Ord</span> <span class="n">a</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="kt">Tree</span> <span class="n">a</span> <span class="o">-&gt;</span> <span class="kt">Int</span>
+<span class="n">height</span> <span class="kt">Empty</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">height</span> <span class="p">(</span><span class="kt">Node</span> <span class="kr">_</span> <span class="n">left</span> <span class="n">right</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="o">+</span><span class="p">)</span> <span class="mi">1</span> <span class="o">$</span> <span class="n">max</span> <span class="p">(</span><span class="n">height</span> <span class="n">left</span><span class="p">)</span> <span class="p">(</span><span class="n">height</span> <span class="n">right</span><span class="p">)</span>
+
+<span class="o">&gt;</span> <span class="n">newTree</span>
+<span class="kt">Node</span> <span class="mi">6</span> <span class="p">(</span><span class="kt">Node</span> <span class="mi">4</span> <span class="p">(</span><span class="kt">Node</span> <span class="mi">2</span> <span class="p">(</span><span class="kt">Node</span> <span class="mi">1</span> <span class="kt">Empty</span> <span class="kt">Empty</span><span class="p">)</span> <span class="p">(</span><span class="kt">Node</span> <span class="mi">3</span> <span class="kt">Empty</span> <span class="kt">Empty</span><span class="p">))</span> <span class="p">(</span><span class="kt">Node</span> <span class="mi">6</span> <span class="kt">Empty</span> <span class="kt">Empty</span><span class="p">))</span> <span class="p">(</span><span class="kt">Node</span> <span class="mi">7</span> <span class="kt">Empty</span> <span class="p">(</span><span class="kt">Node</span> <span class="mi">8</span> <span class="kt">Empty</span> <span class="kt">Empty</span><span class="p">))</span>
+
+<span class="o">&gt;</span> <span class="n">height</span> <span class="n">newTree</span>
+<span class="mi">4</span>
+</code></pre>
+</div>
+<p>The function look simple, but it is not easy to understand the computation under the hood. If you have some doubt I suggest you take a look in the previous <a href="https://rodrigo-morais.github.io/haskell-marathon-day-thirty-two-thirty-three/">post</a>.</p>
+
+<p><br /></p>
+
+<p><strong>Delete node in a <em><code class="highlighter-rouge">BST</code></em></strong></p>
+
+<p>We already have functions to create a <em><code class="highlighter-rouge">BST</code></em> from a list, add new node, find a node and evaluate if a value exist or not in our tree. Now we have to do the last function which is to remove a node from our <em><code class="highlighter-rouge">BST</code></em>.<br />
+Let’s say that we have this <em><code class="highlighter-rouge">BST</code></em>:</p>
+
+<image src="https://rodrigo-morais.github.io/images/bst_6.png" />
+
+<p>We can start trying to remove the node with number 10. This is pretty easy, because this node doesn’t have other nodes on left or right. We just have to remove it.<br />
+Let’s see how is the <em><code class="highlighter-rouge">delete</code></em> function:</p>
+<div class="language-haskell highlighter-rouge"><pre class="highlight"><code><span class="n">empty</span> <span class="o">::</span> <span class="kt">Tree</span> <span class="n">a</span> <span class="o">-&gt;</span> <span class="kt">Bool</span>
+<span class="n">empty</span> <span class="kt">Empty</span> <span class="o">=</span> <span class="kt">True</span>
+<span class="n">empty</span> <span class="kr">_</span> <span class="o">=</span> <span class="kt">False</span>
+
+<span class="n">findSmallest</span> <span class="o">::</span> <span class="p">(</span><span class="kt">Ord</span> <span class="n">a</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="kt">Tree</span> <span class="n">a</span> <span class="o">-&gt;</span> <span class="n">a</span>
+<span class="n">findSmallest</span> <span class="kt">Empty</span> <span class="o">=</span> <span class="ne">error</span> <span class="s">"Empty list"</span>
+<span class="n">findSmallest</span> <span class="p">(</span><span class="kt">Node</span> <span class="n">a</span> <span class="n">left</span> <span class="kr">_</span><span class="p">)</span>
+  <span class="o">|</span> <span class="n">empty</span> <span class="n">left</span> <span class="o">=</span> <span class="n">a</span>
+  <span class="o">|</span> <span class="n">otherwise</span> <span class="o">=</span> <span class="n">findSmallest</span> <span class="n">left</span>
+
+<span class="n">delete</span> <span class="o">::</span> <span class="p">(</span><span class="kt">Ord</span> <span class="n">a</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="kt">Tree</span> <span class="n">a</span> <span class="o">-&gt;</span> <span class="n">a</span> <span class="o">-&gt;</span> <span class="kt">Tree</span> <span class="n">a</span>
+<span class="n">delete</span> <span class="kt">Empty</span> <span class="kr">_</span> <span class="o">=</span> <span class="kt">Empty</span>
+<span class="n">delete</span> <span class="p">(</span><span class="kt">Node</span> <span class="n">a</span> <span class="n">left</span> <span class="n">right</span><span class="p">)</span> <span class="n">x</span>
+  <span class="o">|</span> <span class="n">a</span> <span class="o">==</span> <span class="n">x</span> <span class="o">&amp;&amp;</span> <span class="n">empty</span> <span class="n">right</span> <span class="o">=</span> <span class="n">left</span>
+  <span class="o">|</span> <span class="n">a</span> <span class="o">==</span> <span class="n">x</span> <span class="o">&amp;&amp;</span> <span class="n">empty</span> <span class="n">left</span> <span class="o">=</span> <span class="n">right</span>
+  <span class="o">|</span> <span class="n">a</span> <span class="o">==</span> <span class="n">x</span> <span class="o">=</span> <span class="kt">Node</span> <span class="n">smaller</span> <span class="n">left</span> <span class="n">newRight</span>
+  <span class="o">|</span> <span class="n">a</span> <span class="o">&gt;=</span> <span class="n">x</span> <span class="o">=</span> <span class="kt">Node</span> <span class="n">a</span> <span class="p">(</span><span class="n">delete</span> <span class="n">left</span> <span class="n">x</span><span class="p">)</span> <span class="n">right</span>
+  <span class="o">|</span> <span class="n">otherwise</span> <span class="o">=</span> <span class="kt">Node</span> <span class="n">a</span> <span class="n">left</span> <span class="p">(</span><span class="n">delete</span> <span class="n">right</span> <span class="n">x</span><span class="p">)</span>
+  <span class="kr">where</span> <span class="n">smaller</span> <span class="o">=</span> <span class="n">findSmallest</span> <span class="n">right</span>
+        <span class="n">newRight</span> <span class="o">=</span> <span class="n">delete</span> <span class="n">right</span> <span class="n">smaller</span>
+</code></pre>
+</div>
+<p>The <em><code class="highlighter-rouge">delete</code></em> function uses two helper functions to remove a node which are <em><code class="highlighter-rouge">empty</code></em> and <em><code class="highlighter-rouge">findSmallest</code></em>. The function <em><code class="highlighter-rouge">delete</code></em> works recursively. Let’s see how is the process to remove the value 10:</p>
+<ul>
+  <li>First value is 8 and it is compared with value 10 which we want remove. The number 8 is smaller than 10 and the value 10 must be on the right side of the tree.</li>
+  <li>Move to next element on right which is 12. The number 12 is bigger than 10 and the evaluation should continue on the left side of the node 12.</li>
+  <li>Move to next element on left which 11. The number 11 is bigger than 10 and the evaluation should continue on the left side of the node 11.</li>
+  <li>Move to next element on left which 10. The number 10 is the number that we are looking for. The first evaluation in this case in our function is if the right side of the node is empty. And it is. So we return the left side which in this case is empty too.</li>
+</ul>
+
+<p>And we have the same tree without the node with value 10.</p>
+
+<image src="https://rodrigo-morais.github.io/images/bst_7.png" />
+
+<p>Now let’s try to remove the value 12 from the original tree. But what we will do with the left and right sides of this node if they are not empty? The result will be:</p>
+
+<image src="https://rodrigo-morais.github.io/images/bst_8.png" />
+
+<p>The function <em><code class="highlighter-rouge">delete</code></em> remove the node with value 12 and move the smallest node on right, which in this case is the node with value 18, to the removed node place. Let see how is it works:</p>
+<ul>
+  <li>First value is 8 and it is compared with value 10 which we want remove. The number 8 is smaller than 10 and the value 10 must be on the right side of the tree.</li>
+  <li>Move to next element on right which is 12. The number 12 is what we are looking for. So we have to looking for the smallest value in the right side of this sub-tree.</li>
+  <li>Using the helper function <em><code class="highlighter-rouge">findSmallest</code></em> we dicover that the smallest value on right is 18.</li>
+  <li>We recreate the tree putting the node with value 18 where the node with value 12 is.</li>
+</ul>
+
+<p>Both the process and the function are not simple to understand, but it is a good exercise to training <em><code class="highlighter-rouge">Haskell</code></em></p>
+
+<p><br /></p>
+
+<p>The source code to our <em><code class="highlighter-rouge">BST</code></em> is in <a href="https://github.com/rodrigo-morais/haskell-exercises/blob/master/binary-tree.hs">this repository</a>.</p>
+
+  </div>
+
+  <div class="date">
+    Written on January  8, 2017
+  </div>
+
+  
+<div class="comments">
+	<div id="disqus_thread"></div>
+	<script type="text/javascript">
+
+	    var disqus_shortname = 'rodrigo-morais';
+
+	    (function() {
+	        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+	        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+	        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	    })();
+
+	</script>
+	<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+
+</article>
+
+    </div>
+
+    <div class="wrapper-footer">
+      <div class="container">
+        <footer class="footer">
+          
+<a href="mailto:morais.rm@gmail.com"><i class="svg-icon email"></i></a>
+
+
+<a href="https://github.com/rodrigo-morais"><i class="svg-icon github"></i></a>
+
+<a href="https://www.linkedin.com/in/moraisrm"><i class="svg-icon linkedin"></i></a>
+
+
+<a href="https://www.twitter.com/moraisrm_rs"><i class="svg-icon twitter"></i></a>
+
+
+
+        </footer>
+      </div>
+    </div>
+
+    
+	<!-- Google Analytics -->
+	<script>
+		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+		ga('create', 'UA-87967717-1', 'auto');
+		ga('send', 'pageview', {
+		  'page': '/haskell-marathon-day-thirty-four-forty/',
+		  'title': 'Haskell\'s Marathon - Days Thirty Four to Fourty'
+		});
+	</script>
+	<!-- End Google Analytics -->
+
+
+  </body>
+</html>

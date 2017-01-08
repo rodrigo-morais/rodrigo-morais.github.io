@@ -66,6 +66,50 @@
   
     <article class="post">
 
+      <h1><a href="/haskell-marathon-day-thirty-four-forty/">Haskell's Marathon - Days Thirty Four to Fourty</a></h1>
+
+      <div class="entry">
+        <p>Hey folks!</p>
+
+<p>Last post we saw some functions to calculate the size and height of our <em><code class="highlighter-rouge">Binary Search Tree (BST)</code></em>.<br />
+Today is the last post about the exercises with <em><code class="highlighter-rouge">BST</code></em> and we will create the function to remove nodes from.</p>
+
+<p><br /></p>
+
+<p><strong>BST Recap</strong></p>
+
+<p>Let’s just recap how were the functions <em><code class="highlighter-rouge">size</code></em> and <em><code class="highlighter-rouge">height</code></em> which we worked in the last post.</p>
+
+<p>First the function <em><code class="highlighter-rouge">size</code></em> to work with a <em><code class="highlighter-rouge">BST</code></em> which means get a number of elements that exist in a <em><code class="highlighter-rouge">BST</code></em>.
+ <em><code class="highlighter-rouge">BST</code></em>.</p>
+<div class="language-haskell highlighter-rouge"><pre class="highlight"><code><span class="n">size</span> <span class="o">::</span> <span class="p">(</span><span class="kt">Ord</span> <span class="n">a</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="kt">Tree</span> <span class="n">a</span> <span class="o">-&gt;</span> <span class="kt">Int</span>
+<span class="n">size</span> <span class="kt">Empty</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">size</span> <span class="p">(</span><span class="kt">Node</span> <span class="kr">_</span> <span class="n">left</span> <span class="n">right</span><span class="p">)</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="p">(</span><span class="n">size</span> <span class="n">left</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">size</span> <span class="n">right</span><span class="p">)</span>
+
+<span class="o">&gt;</span> <span class="kr">let</span> <span class="n">tree</span> <span class="o">=</span> <span class="n">build</span> <span class="p">[</span><span class="mi">8</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">11</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">12</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span>
+<span class="o">&gt;</span> <span class="n">tree</span>
+<span class="kt">Node</span> <span class="mi">8</span> <span class="p">(</span><span class="kt">Node</span> <span class="mi">6</span> <span class="p">(</span><span class="kt">Node</span> <span class="mi">4</span> <span class="p">(</span><span class="kt">Node</span> <span class="mi">2</span> <span class="p">(</span><span class="kt">Node</span> <span class="mi">1</span> <span class="kt">Empty</span> <span class="kt">Empty</span><span class="p">)</span> <span class="p">(</span><span class="kt">Node</span> <span class="mi">3</span> <span class="kt">Empty</span> <span class="kt">Empty</span><span class="p">))</span> <span class="p">(</span><span class="kt">Node</span> <span class="mi">6</span> <span class="kt">Empty</span> <span class="kt">Empty</span><span class="p">))</span> <span class="p">(</span><span class="kt">Node</span> <span class="mi">7</span> <span class="kt">Empty</span> <span class="p">(</span><span class="kt">Node</span> <span class="mi">8</span> <span class="kt">Empty</span> <span class="kt">Empty</span><span class="p">)))</span> <span class="p">(</span><span class="kt">Node</span> <span class="mi">9</span> <span class="kt">Empty</span> <span class="p">(</span><span class="kt">Node</span> <span class="mi">11</span> <span class="p">(</span><span class="kt">Node</span> <span class="mi">10</span> <span class="kt">Empty</span> <span class="kt">Empty</span><span class="p">)</span> <span class="p">(</span><span class="kt">Node</span> <span class="mi">12</span> <span class="kt">Empty</span> <span class="kt">Empty</span><span class="p">)))</span>
+
+<span class="o">&gt;</span> <span class="n">size</span> <span class="n">tree</span>
+<span class="mi">13</span>
+
+<span class="o">&gt;</span> <span class="kr">let</span> <span class="n">newTree</span> <span class="o">=</span> <span class="n">find</span> <span class="n">tree</span> <span class="mi">6</span>
+<span class="o">&gt;</span> <span class="n">newTree</span>
+<span class="kt">Node</span> <span class="mi">6</span> <span class="p">(</span><span class="kt">Node</span> <span class="mi">4</span> <span class="p">(</span><span class="kt">Node</span> <span class="mi">2</span> <span class="p">(</span><span class="kt">Node</span> <span class="mi">1</span> <span class="kt">Empty</span> <span class="kt">Empty</span><span class="p">)</span> <span class="p">(</span><span class="kt">Node</span> <span class="mi">3</span> <span class="kt">Empty</span> <span class="kt">Empty</span><span class="p">))</span> <span class="p">(</span><span class="kt">Node</span> <span class="mi">6</span> <span class="kt">Empty</span> <span class="kt">Empty</span><span class="p">))</span> <span class="p">(</span><span class="kt">Node</span> <span class="mi">7</span> <span class="kt">Empty</span> <span class="p">(</span><span class="kt">Node</span> <span class="mi">8</span> <span class="kt">Empty</span> <span class="kt">Empty</span><span class="p">))</span>
+
+<span class="o">&gt;</span> <span class="n">size</span> <span class="n">newTree</span>
+<span class="mi">8</span>
+</code></pre>
+</div>
+
+
+      </div>
+
+      <a href="/haskell-marathon-day-thirty-four-forty/" class="read-more">Read More</a>
+    </article>
+  
+    <article class="post">
+
       <h1><a href="/haskell-marathon-day-thirty-two-thirty-three/">Haskell's Marathon - Days Thirty Two to Thirty Three</a></h1>
 
       <div class="entry">
