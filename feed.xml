@@ -1,4 +1,90 @@
-<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xml" href="https://rodrigo-morais.github.io/feed.xslt.xml"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.3.1">Jekyll</generator><link href="https://rodrigo-morais.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://rodrigo-morais.github.io/" rel="alternate" type="text/html" /><updated>2017-01-08T16:30:41+01:00</updated><id>https://rodrigo-morais.github.io//</id><title type="html">In development</title><subtitle>Software Developer</subtitle><author><name>Rodrigo Morais</name></author><entry xml:lang="en"><title type="html">Haskell’s Marathon - Days Thirty Four to Fourty</title><link href="https://rodrigo-morais.github.io/haskell-marathon-day-thirty-four-forty/" rel="alternate" type="text/html" title="Haskell's Marathon - Days Thirty Four to Fourty" /><published>2017-01-08T00:00:00+01:00</published><updated>2017-01-08T00:00:00+01:00</updated><id>https://rodrigo-morais.github.io/haskell-marathon-day-thirty-four-forty.en</id><content type="html" xml:base="https://rodrigo-morais.github.io/haskell-marathon-day-thirty-four-forty/">&lt;p&gt;Hey folks!&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xml" href="https://rodrigo-morais.github.io/feed.xslt.xml"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.3.1">Jekyll</generator><link href="https://rodrigo-morais.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://rodrigo-morais.github.io/" rel="alternate" type="text/html" /><updated>2017-01-14T18:53:47+01:00</updated><id>https://rodrigo-morais.github.io//</id><title type="html">In development</title><subtitle>Software Developer</subtitle><author><name>Rodrigo Morais</name></author><entry xml:lang="en"><title type="html">Haskell’s marathon - Day Forty to Forty One</title><link href="https://rodrigo-morais.github.io/haskell-marathon-day-forty-forty-one/" rel="alternate" type="text/html" title="Haskell’s marathon - Day Forty to Forty One" /><published>2017-01-14T00:00:00+01:00</published><updated>2017-01-14T00:00:00+01:00</updated><id>https://rodrigo-morais.github.io/haskell-marathon-day-forty-forty-one.en</id><content type="html" xml:base="https://rodrigo-morais.github.io/haskell-marathon-day-forty-forty-one/">&lt;p&gt;Hey folks!&lt;/p&gt;
+
+&lt;p&gt;We finished our exercises with a &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Binary Search Tree (BST)&lt;/code&gt;&lt;/em&gt; in the last post and now we are back to still follow the &lt;a href=&quot;http://learnyouahaskell.com/&quot;&gt;book&lt;/a&gt; which we are following.&lt;br /&gt;
+Today let’s start to talk about modules in &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Haskell&lt;/code&gt;&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;What are modules?&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Well, modules are files where we can define functions, types and types classes.&lt;br /&gt;
+A module has a bunch of definitions and can export just some of them. It is the same idea of private and public in Object-oriented.&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+&lt;p&gt;The split of code in modules is a good signal and give us some advantages. First should be the reusability, if we have some functions and types which can be used for other modules is a good idea to put them by similarity in the same module to make easy reuse them. Another benefit is the maintainability because if the relationed functions and types are in the same module is easier to take care of them.&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Importing a module&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Let’s say that we want use a function from a specific module as &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;nub&lt;/code&gt;&lt;/em&gt; function from &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Data.List&lt;/code&gt;&lt;/em&gt; module. The &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;nub&lt;/code&gt;&lt;/em&gt; function remove duplicate values from a list. To use it we have to import the module.&lt;br /&gt;
+Let’s see how we do the import:&lt;/p&gt;
+&lt;div class=&quot;language-haskell highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kr&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;Data.List&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;With this line we are importing all functions and types that &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Data.List&lt;/code&gt;&lt;/em&gt; module export.&lt;br /&gt;
+Now we can use the function &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;nub&lt;/code&gt;&lt;/em&gt;.&lt;/p&gt;
+&lt;div class=&quot;language-haskell highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kt&quot;&gt;Data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;List&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nub&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;6&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;6&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;And everything works ok. If we don’t import the module we receive an error:&lt;/p&gt;
+&lt;div class=&quot;language-haskell highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nub&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;6&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;interactive&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Not&lt;/span&gt; &lt;span class=&quot;kr&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;scope&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;‘&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;nub&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;’&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Import just some functions&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;When we use &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;import&lt;/code&gt;&lt;/em&gt; as above we are importing all functions from module. To import just the functions that we need we have to say to &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Haskell&lt;/code&gt;&lt;/em&gt; which are the functions that we want like that:&lt;/p&gt;
+&lt;div class=&quot;language-haskell highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kr&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;Data.List&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;nub&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;sort&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;Now we just imported the functions &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;nub&lt;/code&gt;&lt;/em&gt; and &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;sort&lt;/code&gt;&lt;/em&gt; and all other functions from &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Data.List&lt;/code&gt;&lt;/em&gt; module are not available to use.&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Get rid of some functions&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;As you can choose some functions to import is possible to do the opposite and choose some to not import. For to do this is pretty simple:&lt;/p&gt;
+&lt;div class=&quot;language-haskell highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kr&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;Data.List&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;hiding&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;nub&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nub&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;6&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;interactive&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Not&lt;/span&gt; &lt;span class=&quot;kr&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;scope&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;‘&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;nub&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;’&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;And now we have all functions from &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Data.List&lt;/code&gt;&lt;/em&gt; module less the &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;nub&lt;/code&gt;&lt;/em&gt; function.&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Qualifying modules&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Sometimes two different modules having the same name of function or our project has the same name of function that the module which we are importing has. In this case &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Haskell&lt;/code&gt;&lt;/em&gt; gives us the opportunity to qualify the imported module to still using the same function.&lt;/p&gt;
+&lt;div class=&quot;language-haskell highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;kr&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;qualified&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;Data.List&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;L&lt;/span&gt;
+
+&lt;span class=&quot;kt&quot;&gt;L&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;L&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;nub&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;6&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;6&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;And now we can use the letter &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;L&lt;/code&gt;&lt;/em&gt; to access the functions from the module.&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;Today we saw how import modules in &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Haskell&lt;/code&gt;&lt;/em&gt;.&lt;br /&gt;
+Next posts we continue take a looking in how modules work in &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Haskell&lt;/code&gt;&lt;/em&gt;.&lt;/p&gt;</content><author><name>Rodrigo Morais</name></author><summary type="html">Hey folks!
+
+We finished our exercises with a Binary Search Tree (BST) in the last post and now we are back to still follow the book which we are following.
+Today let’s start to talk about modules in Haskell.
+
+
+
+What are modules?
+
+Well, modules are files where we can define functions, types and types classes.
+A module has a bunch of definitions and can export just some of them. It is the same idea of private and public in Object-oriented.</summary></entry><entry xml:lang="en"><title type="html">Haskell’s Marathon - Days Thirty Four to Fourty</title><link href="https://rodrigo-morais.github.io/haskell-marathon-day-thirty-four-forty/" rel="alternate" type="text/html" title="Haskell's Marathon - Days Thirty Four to Fourty" /><published>2017-01-08T00:00:00+01:00</published><updated>2017-01-08T00:00:00+01:00</updated><id>https://rodrigo-morais.github.io/haskell-marathon-day-thirty-four-forty.en</id><content type="html" xml:base="https://rodrigo-morais.github.io/haskell-marathon-day-thirty-four-forty/">&lt;p&gt;Hey folks!&lt;/p&gt;
 
 &lt;p&gt;Last post we saw some functions to calculate the size and height of our &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Binary Search Tree (BST)&lt;/code&gt;&lt;/em&gt;.&lt;br /&gt;
 Today is the last post about the exercises with &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;BST&lt;/code&gt;&lt;/em&gt; and we will create the function to remove nodes from.&lt;/p&gt;
@@ -1054,40 +1140,4 @@ What is happening? Firts &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&
 
 &lt;p&gt;The part of code above with this expression &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;(\x -&amp;gt; x + 3)&lt;/code&gt;&lt;/em&gt; is the &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;lambda function&lt;/code&gt;&lt;/em&gt;. I’ll write a post or posts about &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Lambda Functions&lt;/code&gt;&lt;/em&gt; because I think make easier understand &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;functional programming&lt;/code&gt;&lt;/em&gt;.&lt;/p&gt;</content><author><name>Rodrigo Morais</name></author><summary type="html">Hey folks!
 
-First of all an explanation why I didn’t write separately posts to days fourteen, fifteen and sixteen. I realized that I was wasting too much time of my studies doing the posts and because of that I’ll try a new strategy to be more productive.</summary></entry><entry xml:lang="en"><title type="html">Haskell’s Marathon - Day Thirteen</title><link href="https://rodrigo-morais.github.io/haskell-marathon-day-thirteen/" rel="alternate" type="text/html" title="Haskell's Marathon - Day Thirteen" /><published>2016-12-13T00:00:00+01:00</published><updated>2016-12-13T00:00:00+01:00</updated><id>https://rodrigo-morais.github.io/haskell-marathon-day-thirteen.en</id><content type="html" xml:base="https://rodrigo-morais.github.io/haskell-marathon-day-thirteen/">&lt;p&gt;Hey folks!&lt;/p&gt;
-
-&lt;p&gt;Yesterday we rewrote some standard functions from &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Haskell&lt;/code&gt;&lt;/em&gt; and how I commented these functions was using &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;recursion&lt;/code&gt;&lt;/em&gt;.
-Probably the majority or totality of your know what &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;recursion&lt;/code&gt;&lt;/em&gt; is. But if by chance someone doesn’t know I’ll try explain in few words.&lt;/p&gt;
-
-&lt;!--more--&gt;
-
-&lt;p&gt;&lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Recursion&lt;/code&gt;&lt;/em&gt; is or happens when a function calls itself with a different parameter until find a base case. And what is a base case? Base case is a case where the function return a result and doesn’t call itself, with other words when the functions doesn’t have more work for to do.&lt;/p&gt;
-
-&lt;p&gt;A good example for &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;recursion&lt;/code&gt;&lt;/em&gt; is &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;fibonacci&lt;/code&gt;&lt;/em&gt;.&lt;br /&gt;
-How is it works? Well, let’s start thinking in &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;fibonacci&lt;/code&gt;&lt;/em&gt; signature which is a function receives a number and return a list. So &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;fibonacci&lt;/code&gt;&lt;/em&gt; receives a number and decomposes this list until achieve the number 1. Each step the number decreases one. If the number is 1 or 0 it returns the same number in a list. Ops, 1 or 0? Looks like we found our base cases.
-Let’s see an example:&lt;/p&gt;
-
-&lt;p&gt;If &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;fibonacci&lt;/code&gt;&lt;/em&gt; receives the number 4, how is it work?&lt;br /&gt;
-4 : 3 : 2 : 1 = [4,3,2,1]
-Let’s look that in other prism.
-4 + (4 - 1) + ((4 - 1) - 1) + ((4 - 1) - 1) - 1) = [4,3,2,1]
-Can you see the &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;recursion&lt;/code&gt;&lt;/em&gt; in this last example? No, neither I.
-Let’s see how is the function in &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Haskell&lt;/code&gt;&lt;/em&gt;:&lt;/p&gt;
-&lt;div class=&quot;language-haskell highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;fibonacci&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;::&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Int&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;Int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;fibonacci&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;fibonacci&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;fibonacci&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fibonacci&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-
-&lt;span class=&quot;n&quot;&gt;fibonacci&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;p&gt;Now you can see the &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;recursion&lt;/code&gt;&lt;/em&gt; and the *&lt;code class=&quot;highlighter-rouge&quot;&gt;fibonacci*&lt;/code&gt; function calling itself.&lt;/p&gt;
-
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
-
-&lt;p&gt;In functional programming the &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;recursion&lt;/code&gt;&lt;/em&gt; technique is really important, unlike the imperative programming we don’t have steps to follow and because of that the function has to call itself to return some valuable data or for to do something interesting.&lt;/p&gt;</content><author><name>Rodrigo Morais</name></author><summary type="html">Hey folks!
-
-Yesterday we rewrote some standard functions from Haskell and how I commented these functions was using recursion.
-Probably the majority or totality of your know what recursion is. But if by chance someone doesn’t know I’ll try explain in few words.</summary></entry></feed>
+First of all an explanation why I didn’t write separately posts to days fourteen, fifteen and sixteen. I realized that I was wasting too much time of my studies doing the posts and because of that I’ll try a new strategy to be more productive.</summary></entry></feed>

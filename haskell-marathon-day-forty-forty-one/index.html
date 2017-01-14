@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Haskell’s marathon - Day Forty to Forty One –  – Software Developer</title>
+
+        <meta charset="utf-8" />
+    <meta content='text/html; charset=utf-8' http-equiv='Content-Type'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0'>
+
+    
+    <meta name="description" content="Hey folks!
+
+We finished our exercises with a Binary Search Tree (BST) in the last post and now we are back to still follow the book which we are following.
+Today let’s start to talk about modules in Haskell.
+
+
+
+What are modules?
+
+Well, modules are files where we can define functions, types and types classes.
+A module has a bunch of definitions and can export just some of them. It is the same idea of private and public in Object-oriented.
+
+" />
+    <meta property="og:description" content="Hey folks!
+
+We finished our exercises with a Binary Search Tree (BST) in the last post and now we are back to still follow the book which we are following.
+Today let’s start to talk about modules in Haskell.
+
+
+
+What are modules?
+
+Well, modules are files where we can define functions, types and types classes.
+A module has a bunch of definitions and can export just some of them. It is the same idea of private and public in Object-oriented.
+
+" />
+    
+    <meta name="author" content="" />
+
+    
+    <meta property="og:title" content="Haskell’s marathon - Day Forty to Forty One" />
+    <meta property="twitter:title" content="Haskell’s marathon - Day Forty to Forty One" />
+    
+
+    <!--[if lt IE 9]>
+      <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <link rel="stylesheet" type="text/css" href="/css/styles.css" />
+    <link rel="alternate" type="application/rss+xml" title=" - Software Developer" href="/feed.xml" />
+
+    <!-- Created with Jekyll Now - http://github.com/barryclark/jekyll-now -->
+  </head>
+
+  <body>
+    <div class="wrapper-masthead">
+      <div class="container">
+        <header class="masthead clearfix">
+          <a href="/" class="site-avatar"><img src="https://avatars.githubusercontent.com/rodrigo-morais" /></a>
+
+          <div class="site-info">
+            <h1 class="site-name"><a href="/">In development</a></h1>
+            <h3 class="site-author">Rodrigo Morais</h3>
+            <p class="site-description">Software Developer</p>
+          </div>
+
+          <nav class="languages"> 
+          
+          </nav>
+
+          <nav>
+            <a href="/">Blog</a>
+            <a href="/about">About</a>
+          </nav>
+        </header>
+      </div>
+    </div>
+
+    <div id="main" role="main" class="container">
+      <article class="post">
+  
+    <nav class="languages"> 
+  
+    
+      <a href="https://rodrigo-morais.github.io/haskell-marathon-day-forty-forty-one/"><img src="https://rodrigo-morais.github.io/images/en-flag.png" /></a>
+    
+  
+    
+    <a href="https://rodrigo-morais.github.io/pt_BR/haskell-marathon-day-forty-forty-one/"><img src="https://rodrigo-morais.github.io/images/pt_BR-flag.png" /></a>
+    
+  
+</nav>
+
+  
+
+  <h1>Haskell’s marathon - Day Forty to Forty One</h1>
+
+  <div class="entry">
+    <p>Hey folks!</p>
+
+<p>We finished our exercises with a <em><code class="highlighter-rouge">Binary Search Tree (BST)</code></em> in the last post and now we are back to still follow the <a href="http://learnyouahaskell.com/">book</a> which we are following.<br />
+Today let’s start to talk about modules in <em><code class="highlighter-rouge">Haskell</code></em>.</p>
+
+<p><br /></p>
+
+<p><strong>What are modules?</strong></p>
+
+<p>Well, modules are files where we can define functions, types and types classes.<br />
+A module has a bunch of definitions and can export just some of them. It is the same idea of private and public in Object-oriented.</p>
+
+<!--more-->
+
+<p>The split of code in modules is a good signal and give us some advantages. First should be the reusability, if we have some functions and types which can be used for other modules is a good idea to put them by similarity in the same module to make easy reuse them. Another benefit is the maintainability because if the relationed functions and types are in the same module is easier to take care of them.</p>
+
+<p><br /></p>
+
+<p><strong>Importing a module</strong></p>
+
+<p>Let’s say that we want use a function from a specific module as <em><code class="highlighter-rouge">nub</code></em> function from <em><code class="highlighter-rouge">Data.List</code></em> module. The <em><code class="highlighter-rouge">nub</code></em> function remove duplicate values from a list. To use it we have to import the module.<br />
+Let’s see how we do the import:</p>
+<div class="language-haskell highlighter-rouge"><pre class="highlight"><code><span class="kr">import</span> <span class="nn">Data.List</span>
+</code></pre>
+</div>
+<p>With this line we are importing all functions and types that <em><code class="highlighter-rouge">Data.List</code></em> module export.<br />
+Now we can use the function <em><code class="highlighter-rouge">nub</code></em>.</p>
+<div class="language-haskell highlighter-rouge"><pre class="highlight"><code><span class="kt">Data</span><span class="o">.</span><span class="kt">List</span><span class="o">&gt;</span> <span class="n">nub</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">6</span><span class="p">]</span>
+<span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">]</span>
+</code></pre>
+</div>
+<p>And everything works ok. If we don’t import the module we receive an error:</p>
+<div class="language-haskell highlighter-rouge"><pre class="highlight"><code><span class="o">&gt;</span> <span class="n">nub</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">6</span><span class="p">]</span>
+<span class="o">&lt;</span><span class="n">interactive</span><span class="o">&gt;:</span><span class="mi">2</span><span class="o">:</span><span class="mi">1</span><span class="o">:</span> <span class="kt">Not</span> <span class="kr">in</span> <span class="n">scope</span><span class="o">:</span> <span class="err">‘</span><span class="n">nub</span><span class="err">’</span>
+</code></pre>
+</div>
+
+<p><br /></p>
+
+<p><strong>Import just some functions</strong></p>
+
+<p>When we use <em><code class="highlighter-rouge">import</code></em> as above we are importing all functions from module. To import just the functions that we need we have to say to <em><code class="highlighter-rouge">Haskell</code></em> which are the functions that we want like that:</p>
+<div class="language-haskell highlighter-rouge"><pre class="highlight"><code><span class="kr">import</span> <span class="nn">Data.List</span> <span class="p">(</span><span class="nf">nub</span><span class="p">,</span> <span class="nf">sort</span><span class="p">)</span>
+</code></pre>
+</div>
+<p>Now we just imported the functions <em><code class="highlighter-rouge">nub</code></em> and <em><code class="highlighter-rouge">sort</code></em> and all other functions from <em><code class="highlighter-rouge">Data.List</code></em> module are not available to use.</p>
+
+<p><br /></p>
+
+<p><strong>Get rid of some functions</strong></p>
+
+<p>As you can choose some functions to import is possible to do the opposite and choose some to not import. For to do this is pretty simple:</p>
+<div class="language-haskell highlighter-rouge"><pre class="highlight"><code><span class="kr">import</span> <span class="nn">Data.List</span> <span class="k">hiding</span> <span class="p">(</span><span class="nf">nub</span><span class="p">)</span>
+
+<span class="o">&gt;</span> <span class="n">nub</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">6</span><span class="p">]</span>
+<span class="o">&lt;</span><span class="n">interactive</span><span class="o">&gt;:</span><span class="mi">2</span><span class="o">:</span><span class="mi">1</span><span class="o">:</span> <span class="kt">Not</span> <span class="kr">in</span> <span class="n">scope</span><span class="o">:</span> <span class="err">‘</span><span class="n">nub</span><span class="err">’</span>
+</code></pre>
+</div>
+<p>And now we have all functions from <em><code class="highlighter-rouge">Data.List</code></em> module less the <em><code class="highlighter-rouge">nub</code></em> function.</p>
+
+<p><br /></p>
+
+<p><strong>Qualifying modules</strong></p>
+
+<p>Sometimes two different modules having the same name of function or our project has the same name of function that the module which we are importing has. In this case <em><code class="highlighter-rouge">Haskell</code></em> gives us the opportunity to qualify the imported module to still using the same function.</p>
+<div class="language-haskell highlighter-rouge"><pre class="highlight"><code><span class="o">&gt;</span> <span class="kr">import</span> <span class="k">qualified</span> <span class="nn">Data.List</span> <span class="k">as</span> <span class="n">L</span>
+
+<span class="kt">L</span><span class="o">&gt;</span> <span class="kt">L</span><span class="o">.</span><span class="n">nub</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">6</span><span class="p">]</span>
+<span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">]</span>
+</code></pre>
+</div>
+<p>And now we can use the letter <em><code class="highlighter-rouge">L</code></em> to access the functions from the module.</p>
+
+<p><br /></p>
+
+<p>Today we saw how import modules in <em><code class="highlighter-rouge">Haskell</code></em>.<br />
+Next posts we continue take a looking in how modules work in <em><code class="highlighter-rouge">Haskell</code></em>.</p>
+
+  </div>
+
+  <div class="date">
+    Written on January 14, 2017
+  </div>
+
+  
+<div class="comments">
+	<div id="disqus_thread"></div>
+	<script type="text/javascript">
+
+	    var disqus_shortname = 'rodrigo-morais';
+
+	    (function() {
+	        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+	        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+	        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	    })();
+
+	</script>
+	<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+
+</article>
+
+    </div>
+
+    <div class="wrapper-footer">
+      <div class="container">
+        <footer class="footer">
+          
+<a href="mailto:morais.rm@gmail.com"><i class="svg-icon email"></i></a>
+
+
+<a href="https://github.com/rodrigo-morais"><i class="svg-icon github"></i></a>
+
+<a href="https://www.linkedin.com/in/moraisrm"><i class="svg-icon linkedin"></i></a>
+
+
+<a href="https://www.twitter.com/moraisrm_rs"><i class="svg-icon twitter"></i></a>
+
+
+
+        </footer>
+      </div>
+    </div>
+
+    
+	<!-- Google Analytics -->
+	<script>
+		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+		ga('create', 'UA-87967717-1', 'auto');
+		ga('send', 'pageview', {
+		  'page': '/haskell-marathon-day-forty-forty-one/',
+		  'title': 'Haskell’s marathon - Day Forty to Forty One'
+		});
+	</script>
+	<!-- End Google Analytics -->
+
+
+  </body>
+</html>
