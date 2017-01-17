@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Haskell’s marathon - Day Forty Six to Forty Seven –  – Software Developer</title>
+
+        <meta charset="utf-8" />
+    <meta content='text/html; charset=utf-8' http-equiv='Content-Type'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0'>
+
+    
+    <meta name="description" content="Hey folks!
+
+Last posts we talked about modules. Now we are in the seventh chapter from the book which we are following and we’ll start to talk about how create our own data types.
+
+
+
+Standard Types
+
+First let’s see how Haskell creates the types in standard library. We can see a simple type as Boolean:
+data Boolean = True | False
+
+
+
+" />
+    <meta property="og:description" content="Hey folks!
+
+Last posts we talked about modules. Now we are in the seventh chapter from the book which we are following and we’ll start to talk about how create our own data types.
+
+
+
+Standard Types
+
+First let’s see how Haskell creates the types in standard library. We can see a simple type as Boolean:
+data Boolean = True | False
+
+
+
+" />
+    
+    <meta name="author" content="" />
+
+    
+    <meta property="og:title" content="Haskell’s marathon - Day Forty Six to Forty Seven" />
+    <meta property="twitter:title" content="Haskell’s marathon - Day Forty Six to Forty Seven" />
+    
+
+    <!--[if lt IE 9]>
+      <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <link rel="stylesheet" type="text/css" href="/css/styles.css" />
+    <link rel="alternate" type="application/rss+xml" title=" - Software Developer" href="/pt_BR/feed.xml" />
+
+    <!-- Created with Jekyll Now - http://github.com/barryclark/jekyll-now -->
+  </head>
+
+  <body>
+    <div class="wrapper-masthead">
+      <div class="container">
+        <header class="masthead clearfix">
+          <a href="/pt_BR/" class="site-avatar"><img src="https://avatars.githubusercontent.com/rodrigo-morais" /></a>
+
+          <div class="site-info">
+            <h1 class="site-name"><a href="/pt_BR/">In development</a></h1>
+            <h3 class="site-author">Rodrigo Morais</h3>
+            <p class="site-description">Software Developer</p>
+          </div>
+
+          <nav class="languages"> 
+          
+          </nav>
+
+          <nav>
+            <a href="/pt_BR/">Blog</a>
+            <a href="/pt_BR/about">Sobre</a>
+          </nav>
+        </header>
+      </div>
+    </div>
+
+    <div id="main" role="main" class="container">
+      <article class="post">
+  
+    <nav class="languages"> 
+  
+    
+      <a href="https://rodrigo-morais.github.io/haskell-marathon-day-forty-six-forty-seven/"><img src="https://rodrigo-morais.github.io/images/en-flag.png" /></a>
+    
+  
+    
+    <a href="https://rodrigo-morais.github.io/pt_BR/haskell-marathon-day-forty-six-forty-seven/"><img src="https://rodrigo-morais.github.io/images/pt_BR-flag.png" /></a>
+    
+  
+</nav>
+
+  
+
+  <h1>Haskell’s marathon - Day Forty Six to Forty Seven</h1>
+
+  <div class="entry">
+    <p>Hey folks!</p>
+
+<p>Last posts we talked about modules. Now we are in the seventh chapter from the <a href="http://learnyouahaskell.com/">book</a> which we are following and we’ll start to talk about how create our own data types.</p>
+
+<p><br /></p>
+
+<p><strong>Standard Types</strong></p>
+
+<p>First let’s see how <em><code class="highlighter-rouge">Haskell</code></em> creates the types in standard library. We can see a simple type as <em><code class="highlighter-rouge">Boolean</code></em>:</p>
+<div class="language-haskell highlighter-rouge"><pre class="highlight"><code><span class="kr">data</span> <span class="kt">Boolean</span> <span class="o">=</span> <span class="kt">True</span> <span class="o">|</span> <span class="kt">False</span>
+</code></pre>
+</div>
+<!--more-->
+<p>This line wants to say that we are creating a type <em><code class="highlighter-rouge">Boolean</code></em> with two value constructors. One value constructor is <em><code class="highlighter-rouge">True</code></em> and another is <em><code class="highlighter-rouge">False</code></em>. The character <em><code class="highlighter-rouge">|</code></em> is read as or. So we have value constructor as <em><code class="highlighter-rouge">True</code></em> or <em><code class="highlighter-rouge">False</code></em>. The <em><code class="highlighter-rouge">data</code></em> keyword means a new type.<br />
+Both the type name which is <em><code class="highlighter-rouge">Boolean</code></em> here and the value constructors which are <em><code class="highlighter-rouge">True</code></em> or <em><code class="highlighter-rouge">False</code></em> must start with uppercase letter.</p>
+
+<p><br /></p>
+
+<p><strong>Our own Data Type</strong></p>
+
+<p>Some posts ago when we were working with the <em><code class="highlighter-rouge">BST</code></em> we had to create a new type called <em><code class="highlighter-rouge">Tree</code></em>. Let’s see how we did this:</p>
+<div class="language-haskell highlighter-rouge"><pre class="highlight"><code><span class="kr">data</span> <span class="kt">Tree</span> <span class="n">a</span> <span class="o">=</span> <span class="kt">Empty</span> <span class="o">|</span> <span class="kt">Node</span> <span class="n">a</span> <span class="p">(</span><span class="kt">Tree</span> <span class="n">a</span><span class="p">)</span> <span class="p">(</span><span class="kt">Tree</span> <span class="n">a</span><span class="p">)</span>
+</code></pre>
+</div>
+<p>Similar <em><code class="highlighter-rouge">Boolean</code></em> data type we have a type called <em><code class="highlighter-rouge">Tree</code></em>, and similar <em><code class="highlighter-rouge">Boolean</code></em> value constructors our type has two called <em><code class="highlighter-rouge">Empty</code></em> and <em><code class="highlighter-rouge">Node</code></em>.<br />
+We can run that in <em><code class="highlighter-rouge">GHCI</code></em>:</p>
+<div class="language-haskell highlighter-rouge"><pre class="highlight"><code><span class="kr">data</span> <span class="kt">Tree</span> <span class="n">a</span> <span class="o">=</span> <span class="kt">Empty</span> <span class="o">|</span> <span class="kt">Node</span> <span class="n">a</span> <span class="p">(</span><span class="kt">Tree</span> <span class="n">a</span><span class="p">)</span> <span class="p">(</span><span class="kt">Tree</span> <span class="n">a</span><span class="p">)</span>
+
+<span class="o">&gt;</span> <span class="o">:</span><span class="n">t</span> <span class="kt">Empty</span>
+<span class="kt">Empty</span> <span class="o">::</span> <span class="kt">Tree</span> <span class="n">a</span>
+<span class="o">&gt;</span> <span class="o">:</span><span class="n">t</span> <span class="kt">Node</span>
+<span class="kt">Node</span> <span class="o">::</span> <span class="n">a</span> <span class="o">-&gt;</span> <span class="kt">Tree</span> <span class="n">a</span> <span class="o">-&gt;</span> <span class="kt">Tree</span> <span class="n">a</span> <span class="o">-&gt;</span> <span class="kt">Tree</span> <span class="n">a</span>
+
+<span class="o">&gt;</span> <span class="kr">let</span> <span class="n">empty</span> <span class="o">=</span> <span class="kt">Empty</span>
+<span class="o">&gt;</span> <span class="o">:</span><span class="n">t</span> <span class="n">empty</span>
+<span class="n">empty</span> <span class="o">::</span> <span class="kt">Tree</span> <span class="n">a</span>
+
+<span class="o">&gt;</span> <span class="kr">let</span> <span class="n">node</span> <span class="o">=</span> <span class="kt">Node</span> <span class="mi">3</span> <span class="kt">Empty</span> <span class="kt">Empty</span>
+<span class="o">&gt;</span> <span class="o">:</span><span class="n">t</span> <span class="n">node</span>
+<span class="n">node</span> <span class="o">::</span> <span class="kt">Num</span> <span class="n">a</span> <span class="o">=&gt;</span> <span class="kt">Tree</span> <span class="n">a</span>
+</code></pre>
+</div>
+
+<p>We see that we create a new data type and we are using this.</p>
+
+<p><br /></p>
+
+<p>In the next posts we’ll still working with our own data types.</p>
+
+  </div>
+
+  <div class="date">
+    Written on January 17, 2017
+  </div>
+
+  
+<div class="comments">
+	<div id="disqus_thread"></div>
+	<script type="text/javascript">
+
+	    var disqus_shortname = 'rodrigo-morais';
+
+	    (function() {
+	        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+	        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+	        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	    })();
+
+	</script>
+	<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+
+</article>
+
+    </div>
+
+    <div class="wrapper-footer">
+      <div class="container">
+        <footer class="footer">
+          
+<a href="mailto:morais.rm@gmail.com"><i class="svg-icon email"></i></a>
+
+
+<a href="https://github.com/rodrigo-morais"><i class="svg-icon github"></i></a>
+
+<a href="https://www.linkedin.com/in/moraisrm"><i class="svg-icon linkedin"></i></a>
+
+
+<a href="https://www.twitter.com/moraisrm_rs"><i class="svg-icon twitter"></i></a>
+
+
+
+        </footer>
+      </div>
+    </div>
+
+    
+	<!-- Google Analytics -->
+	<script>
+		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+		ga('create', 'UA-87967717-1', 'auto');
+		ga('send', 'pageview', {
+		  'page': '/haskell-marathon-day-forty-six-forty-seven/',
+		  'title': 'Haskell’s marathon - Day Forty Six to Forty Seven'
+		});
+	</script>
+	<!-- End Google Analytics -->
+
+
+  </body>
+</html>
