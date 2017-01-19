@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Haskell’s marathon - Day Forty Eight –  – Software Developer</title>
+
+        <meta charset="utf-8" />
+    <meta content='text/html; charset=utf-8' http-equiv='Content-Type'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0'>
+
+    
+    <meta name="description" content="Hey folks!
+
+Last posts we learned how to create our own data type. Today we will see how to export our data type in a module.
+
+
+
+Module
+
+Some posts ago we saw how create a module and we created one to our BST. Our module exports some functions to work with a BST:
+
+" />
+    <meta property="og:description" content="Hey folks!
+
+Last posts we learned how to create our own data type. Today we will see how to export our data type in a module.
+
+
+
+Module
+
+Some posts ago we saw how create a module and we created one to our BST. Our module exports some functions to work with a BST:
+
+" />
+    
+    <meta name="author" content="" />
+
+    
+    <meta property="og:title" content="Haskell’s marathon - Day Forty Eight" />
+    <meta property="twitter:title" content="Haskell’s marathon - Day Forty Eight" />
+    
+
+    <!--[if lt IE 9]>
+      <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <link rel="stylesheet" type="text/css" href="/css/styles.css" />
+    <link rel="alternate" type="application/rss+xml" title=" - Software Developer" href="/feed.xml" />
+
+    <!-- Created with Jekyll Now - http://github.com/barryclark/jekyll-now -->
+  </head>
+
+  <body>
+    <div class="wrapper-masthead">
+      <div class="container">
+        <header class="masthead clearfix">
+          <a href="/" class="site-avatar"><img src="https://avatars.githubusercontent.com/rodrigo-morais" /></a>
+
+          <div class="site-info">
+            <h1 class="site-name"><a href="/">In development</a></h1>
+            <h3 class="site-author">Rodrigo Morais</h3>
+            <p class="site-description">Software Developer</p>
+          </div>
+
+          <nav class="languages"> 
+          
+          </nav>
+
+          <nav>
+            <a href="/">Blog</a>
+            <a href="/about">About</a>
+          </nav>
+        </header>
+      </div>
+    </div>
+
+    <div id="main" role="main" class="container">
+      <article class="post">
+  
+
+  <h1>Haskell’s marathon - Day Forty Eight</h1>
+
+  <div class="entry">
+    <p>Hey folks!</p>
+
+<p>Last posts we learned how to create our own data type. Today we will see how to export our data type in a <em><code class="highlighter-rouge">module</code></em>.</p>
+
+<p><br /></p>
+
+<p><strong>Module</strong></p>
+
+<p>Some posts ago we saw how create a <em><code class="highlighter-rouge">module</code></em> and we created one to our <em><code class="highlighter-rouge">BST</code></em>. Our <em><code class="highlighter-rouge">module</code></em> exports some functions to work with a <em><code class="highlighter-rouge">BST</code></em>:
+<!--more--></p>
+<div class="language-haskell highlighter-rouge"><pre class="highlight"><code><span class="kr">module</span> <span class="nn">BST</span>
+<span class="p">(</span> <span class="nf">build</span>
+<span class="p">,</span> <span class="nf">build2</span>
+<span class="p">,</span> <span class="nf">build3</span>
+<span class="p">,</span> <span class="nf">insert</span>
+<span class="p">,</span> <span class="nf">find</span>
+<span class="p">,</span> <span class="nf">findSub</span>
+<span class="p">,</span> <span class="nf">contains</span>
+<span class="p">,</span> <span class="nf">size</span>
+<span class="p">,</span> <span class="nf">height</span>
+<span class="p">,</span> <span class="nf">delete</span>
+<span class="p">)</span> <span class="kr">where</span>
+</code></pre>
+</div>
+<p>But our <em><code class="highlighter-rouge">BST</code></em> has a data type and we can export it.</p>
+<div class="language-haskell highlighter-rouge"><pre class="highlight"><code><span class="kr">module</span> <span class="nn">BST</span>
+<span class="p">(</span> <span class="kt">Tree</span><span class="p">(</span><span class="o">..</span><span class="p">)</span>
+<span class="p">,</span> <span class="nf">build</span>
+<span class="p">,</span> <span class="nf">build2</span>
+<span class="p">,</span> <span class="nf">build3</span>
+<span class="p">,</span> <span class="nf">insert</span>
+<span class="p">,</span> <span class="nf">find</span>
+<span class="p">,</span> <span class="nf">findSub</span>
+<span class="p">,</span> <span class="nf">contains</span>
+<span class="p">,</span> <span class="nf">size</span>
+<span class="p">,</span> <span class="nf">height</span>
+<span class="p">,</span> <span class="nf">delete</span>
+<span class="p">)</span> <span class="kr">where</span>
+</code></pre>
+</div>
+<p>If see the first element exported in the module is our data type as <em><code class="highlighter-rouge">Tree(..)</code></em>. Here we are saying that we are exporting all value constructors from our data type and now we can use them:</p>
+<div class="language-haskell highlighter-rouge"><pre class="highlight"><code><span class="o">&gt;</span> <span class="o">:</span><span class="n">t</span> <span class="kt">Empty</span>
+<span class="kt">Empty</span> <span class="o">::</span> <span class="kt">Tree</span> <span class="n">a</span>
+
+<span class="o">&gt;</span> <span class="o">:</span><span class="n">t</span> <span class="kt">Node</span>
+<span class="kt">Node</span> <span class="o">::</span> <span class="kt">Ord</span> <span class="n">a</span> <span class="o">=&gt;</span> <span class="n">a</span> <span class="o">-&gt;</span> <span class="kt">Tree</span> <span class="n">a</span> <span class="o">-&gt;</span> <span class="kt">Tree</span> <span class="n">a</span> <span class="o">-&gt;</span> <span class="kt">Tree</span> <span class="n">a</span>
+</code></pre>
+</div>
+<p>Cool. Is possible export just some data types as:</p>
+<div class="language-haskell highlighter-rouge"><pre class="highlight"><code><span class="kr">module</span> <span class="nn">BST</span>
+<span class="p">(</span> <span class="kt">Tree</span><span class="p">(</span><span class="kt">Empty</span><span class="p">)</span>
+<span class="p">,</span> <span class="nf">build</span>
+<span class="p">,</span> <span class="nf">build2</span>
+<span class="p">,</span> <span class="nf">build3</span>
+<span class="p">,</span> <span class="nf">insert</span>
+<span class="p">,</span> <span class="nf">find</span>
+<span class="p">,</span> <span class="nf">findSub</span>
+<span class="p">,</span> <span class="nf">contains</span>
+<span class="p">,</span> <span class="nf">size</span>
+<span class="p">,</span> <span class="nf">height</span>
+<span class="p">,</span> <span class="nf">delete</span>
+<span class="p">)</span> <span class="kr">where</span>
+
+<span class="o">&gt;</span> <span class="o">:</span><span class="n">t</span> <span class="kt">Empty</span>
+<span class="kt">Empty</span> <span class="o">::</span> <span class="kt">Tree</span> <span class="n">a</span>
+
+<span class="o">&gt;</span> <span class="o">:</span><span class="n">t</span> <span class="kt">Node</span>
+<span class="o">&lt;</span><span class="n">interactive</span><span class="o">&gt;:</span><span class="mi">1</span><span class="o">:</span><span class="mi">1</span><span class="o">:</span> <span class="kt">Not</span> <span class="kr">in</span> <span class="n">scope</span><span class="o">:</span> <span class="kr">data</span> <span class="n">constructor</span> <span class="err">‘</span><span class="kt">Node</span><span class="err">’</span>
+</code></pre>
+</div>
+<p>Is possible just import only the data type without value constructors:</p>
+<div class="language-haskell highlighter-rouge"><pre class="highlight"><code><span class="kr">module</span> <span class="nn">BST</span>
+<span class="p">(</span> <span class="kt">Tree</span>
+<span class="p">,</span> <span class="nf">build</span>
+<span class="p">,</span> <span class="nf">build2</span>
+<span class="p">,</span> <span class="nf">build3</span>
+<span class="p">,</span> <span class="nf">insert</span>
+<span class="p">,</span> <span class="nf">find</span>
+<span class="p">,</span> <span class="nf">findSub</span>
+<span class="p">,</span> <span class="nf">contains</span>
+<span class="p">,</span> <span class="nf">size</span>
+<span class="p">,</span> <span class="nf">height</span>
+<span class="p">,</span> <span class="nf">delete</span>
+<span class="p">)</span> <span class="kr">where</span>
+
+<span class="o">&gt;</span> <span class="o">:</span><span class="n">t</span> <span class="kt">Empty</span>
+<span class="o">&lt;</span><span class="n">interactive</span><span class="o">&gt;:</span><span class="mi">1</span><span class="o">:</span><span class="mi">1</span><span class="o">:</span> <span class="kt">Not</span> <span class="kr">in</span> <span class="n">scope</span><span class="o">:</span> <span class="kr">data</span> <span class="n">constructor</span> <span class="err">‘</span><span class="kt">Empty</span><span class="err">’</span>
+
+<span class="o">&gt;</span> <span class="o">:</span><span class="n">t</span> <span class="kt">Node</span>
+<span class="o">&lt;</span><span class="n">interactive</span><span class="o">&gt;:</span><span class="mi">1</span><span class="o">:</span><span class="mi">1</span><span class="o">:</span> <span class="kt">Not</span> <span class="kr">in</span> <span class="n">scope</span><span class="o">:</span> <span class="kr">data</span> <span class="n">constructor</span> <span class="err">‘</span><span class="kt">Node</span><span class="err">’</span>
+</code></pre>
+</div>
+<p><br /></p>
+
+<p>Now we already know how export functions and data types in our <em><code class="highlighter-rouge">modules</code></em>.</p>
+
+  </div>
+
+  <div class="date">
+    Written on January 19, 2017
+  </div>
+
+  
+<div class="comments">
+	<div id="disqus_thread"></div>
+	<script type="text/javascript">
+
+	    var disqus_shortname = 'rodrigo-morais';
+
+	    (function() {
+	        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+	        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+	        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	    })();
+
+	</script>
+	<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+
+</article>
+
+    </div>
+
+    <div class="wrapper-footer">
+      <div class="container">
+        <footer class="footer">
+          
+<a href="mailto:morais.rm@gmail.com"><i class="svg-icon email"></i></a>
+
+
+<a href="https://github.com/rodrigo-morais"><i class="svg-icon github"></i></a>
+
+<a href="https://www.linkedin.com/in/moraisrm"><i class="svg-icon linkedin"></i></a>
+
+
+<a href="https://www.twitter.com/moraisrm_rs"><i class="svg-icon twitter"></i></a>
+
+
+
+        </footer>
+      </div>
+    </div>
+
+    
+	<!-- Google Analytics -->
+	<script>
+		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+		ga('create', 'UA-87967717-1', 'auto');
+		ga('send', 'pageview', {
+		  'page': '/haskell-marathon-day-forty-eight/',
+		  'title': 'Haskell’s marathon - Day Forty Eight'
+		});
+	</script>
+	<!-- End Google Analytics -->
+
+
+  </body>
+</html>
