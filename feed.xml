@@ -1,4 +1,94 @@
-<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xml" href="https://rodrigo-morais.github.io/feed.xslt.xml"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.3.1">Jekyll</generator><link href="https://rodrigo-morais.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://rodrigo-morais.github.io/" rel="alternate" type="text/html" /><updated>2017-01-19T23:05:41+01:00</updated><id>https://rodrigo-morais.github.io//</id><title type="html">In development</title><subtitle>Software Developer</subtitle><author><name>Rodrigo Morais</name></author><entry xml:lang="en"><title type="html">Haskell’s marathon - Day Forty Eight</title><link href="https://rodrigo-morais.github.io/haskell-marathon-day-forty-eight/" rel="alternate" type="text/html" title="Haskell’s marathon - Day Forty Eight" /><published>2017-01-19T00:00:00+01:00</published><updated>2017-01-19T00:00:00+01:00</updated><id>https://rodrigo-morais.github.io/haskell-marathon-day-forty-eight.en</id><content type="html" xml:base="https://rodrigo-morais.github.io/haskell-marathon-day-forty-eight/">&lt;p&gt;Hey folks!&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xml" href="https://rodrigo-morais.github.io/feed.xslt.xml"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.3.1">Jekyll</generator><link href="https://rodrigo-morais.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://rodrigo-morais.github.io/" rel="alternate" type="text/html" /><updated>2017-01-20T12:44:05+01:00</updated><id>https://rodrigo-morais.github.io//</id><title type="html">In development</title><subtitle>Software Developer</subtitle><author><name>Rodrigo Morais</name></author><entry xml:lang="en"><title type="html">Haskell’s marathon - Day Forty Nine</title><link href="https://rodrigo-morais.github.io/haskell-marathon-day-forty-nine/" rel="alternate" type="text/html" title="Haskell’s marathon - Day Forty Nine" /><published>2017-01-20T00:00:00+01:00</published><updated>2017-01-20T00:00:00+01:00</updated><id>https://rodrigo-morais.github.io/haskell-marathon-day-forty-nine.en</id><content type="html" xml:base="https://rodrigo-morais.github.io/haskell-marathon-day-forty-nine/">&lt;p&gt;Hey folks!&lt;/p&gt;
+
+&lt;p&gt;Last post we saw how export our own data types with &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;modules&lt;/code&gt;&lt;/em&gt;. Today let’s see how to handle with records as data type.&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Person’s data type&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;If our software needs a data type as &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Person&lt;/code&gt;&lt;/em&gt; to handle with person’s data. Let’s say that we are working with a register in a clinic or any other silly example where we need a person’s representation. As we saw till now we can create a data type with some parameters like:&lt;/p&gt;
+&lt;div class=&quot;language-haskell highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kr&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Person&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Person&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Int&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;
+
+&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;t&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Person&lt;/span&gt;
+&lt;span class=&quot;kt&quot;&gt;Person&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;::&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Int&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Person&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;!--more--&gt;
+&lt;p&gt;Now we have a data type &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Person&lt;/code&gt;&lt;/em&gt; which receives a first name, last name, age and address. We can create functions to handle with our data type to get some informations.&lt;/p&gt;
+&lt;div class=&quot;language-haskell highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kr&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Person&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Person&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Int&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;firstName&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;::&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Person&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;firstName&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;Person&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;firstName&lt;/span&gt; &lt;span class=&quot;kr&quot;&gt;_&lt;/span&gt; &lt;span class=&quot;kr&quot;&gt;_&lt;/span&gt; &lt;span class=&quot;kr&quot;&gt;_&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;firstName&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;lastName&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;::&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Person&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;lastName&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;Person&lt;/span&gt; &lt;span class=&quot;kr&quot;&gt;_&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lastName&lt;/span&gt; &lt;span class=&quot;kr&quot;&gt;_&lt;/span&gt; &lt;span class=&quot;kr&quot;&gt;_&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lastName&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;age&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;::&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Person&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Int&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;age&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;Person&lt;/span&gt; &lt;span class=&quot;kr&quot;&gt;_&lt;/span&gt; &lt;span class=&quot;kr&quot;&gt;_&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;age&lt;/span&gt; &lt;span class=&quot;kr&quot;&gt;_&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;age&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;address&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;::&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Person&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;address&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;Person&lt;/span&gt; &lt;span class=&quot;kr&quot;&gt;_&lt;/span&gt; &lt;span class=&quot;kr&quot;&gt;_&lt;/span&gt; &lt;span class=&quot;kr&quot;&gt;_&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;address&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;address&lt;/span&gt;
+
+&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;kr&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;person&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Person&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;Rodrigo&quot;&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;Morais&quot;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;37&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;Winterfeld 58&quot;&lt;/span&gt;
+
+&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;firstName&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;person&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;&quot;Rodrigo&quot;&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;Main&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lastName&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;person&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;&quot;Morais&quot;&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;Main&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;age&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;person&lt;/span&gt;
+&lt;span class=&quot;mi&quot;&gt;37&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;Main&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;address&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;person&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;&quot;Winterfeld 58&quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;We have two problems here which we can solve with record. First one is that the &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;String&lt;/code&gt;&lt;/em&gt; type doesn’t say what is the data which we need when we are building the data type &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Person&lt;/code&gt;&lt;/em&gt;. The second problem is have to write these bunch of functions to get the data from the data type &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Person&lt;/code&gt;&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Records&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Using records we can improve that and make our data type more readable.&lt;br /&gt;
+Let’s see:&lt;/p&gt;
+&lt;div class=&quot;language-haskell highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kr&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Person&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Person&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;firstName&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;::&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;
+                     &lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lastName&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;::&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;
+                     &lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;age&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;::&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Int&lt;/span&gt;
+                     &lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;address&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;::&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;
+                     &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;kr&quot;&gt;deriving&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Show&lt;/span&gt;
+
+&lt;span class=&quot;kr&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;person&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Person&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;firstName&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Rodrigo&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lastName&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Morais&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;age&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;37&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;address&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Winterfeld 58&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;person&lt;/span&gt;
+&lt;span class=&quot;kt&quot;&gt;Person&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;firstName&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;Rodrigo&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lastName&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;Morais&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;age&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;37&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;address&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;Winterfeld 58&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;Cool. Our first problem was solved. Now we put name to each parameter and we know what is each one.&lt;/p&gt;
+
+&lt;p&gt;We removed all functions that we created before as &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;firstName&lt;/code&gt;&lt;/em&gt;, &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;age&lt;/code&gt;&lt;/em&gt; and &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;address&lt;/code&gt;&lt;/em&gt;, but with &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;records&lt;/code&gt;&lt;/em&gt; we can still use them:&lt;/p&gt;
+&lt;div class=&quot;language-haskell highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;firstName&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;person&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;&quot;Rodrigo&quot;&lt;/span&gt;
+
+&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;age&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;person&lt;/span&gt;
+&lt;span class=&quot;mi&quot;&gt;37&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;address&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;person&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;&quot;Winterfeld 58&quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;Use &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;record&lt;/code&gt;&lt;/em&gt; when we have a structured data type with a lot of parameters is a good idea, beyond that we gain some functions for free.&lt;br /&gt;
+You should use &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;records&lt;/code&gt;&lt;/em&gt; when it makes sense for your problem.&lt;/p&gt;</content><author><name>Rodrigo Morais</name></author><summary type="html">Hey folks!
+
+Last post we saw how export our own data types with modules. Today let’s see how to handle with records as data type.
+
+
+
+Person’s data type
+
+If our software needs a data type as Person to handle with person’s data. Let’s say that we are working with a register in a clinic or any other silly example where we need a person’s representation. As we saw till now we can create a data type with some parameters like:
+data Person = Person String String Int String
+
+&amp;gt; :t Person
+Person :: String -&amp;gt; String -&amp;gt; Int -&amp;gt; String -&amp;gt; Person</summary></entry><entry xml:lang="en"><title type="html">Haskell’s marathon - Day Forty Eight</title><link href="https://rodrigo-morais.github.io/haskell-marathon-day-forty-eight/" rel="alternate" type="text/html" title="Haskell’s marathon - Day Forty Eight" /><published>2017-01-19T00:00:00+01:00</published><updated>2017-01-19T00:00:00+01:00</updated><id>https://rodrigo-morais.github.io/haskell-marathon-day-forty-eight.en</id><content type="html" xml:base="https://rodrigo-morais.github.io/haskell-marathon-day-forty-eight/">&lt;p&gt;Hey folks!&lt;/p&gt;
 
 &lt;p&gt;Last posts we learned how to create our own data type. Today we will see how to export our data type in a &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;module&lt;/code&gt;&lt;/em&gt;.&lt;/p&gt;
 
@@ -975,55 +1065,4 @@ BST Recap
 
 We already know that we have to create a new type to work with a BST:
 data (Ord a, Eq a) =&amp;gt; Tree a = Empty | Node a (Tree a) (Tree a)
-  deriving Show</summary></entry><entry xml:lang="en"><title type="html">Haskell’s Marathon - Days Twenty Three to Twenty Four</title><link href="https://rodrigo-morais.github.io/haskell-marathon-day-twenty-three-twenty-four/" rel="alternate" type="text/html" title="Haskell's Marathon - Days Twenty Three to Twenty Four" /><published>2016-12-24T00:00:00+01:00</published><updated>2016-12-24T00:00:00+01:00</updated><id>https://rodrigo-morais.github.io/haskell-marathon-day-twenty-three-twenty-four.en</id><content type="html" xml:base="https://rodrigo-morais.github.io/haskell-marathon-day-twenty-three-twenty-four/">&lt;p&gt;Hey folks!&lt;/p&gt;
-
-&lt;p&gt;These last days I’m working in some exercises and I want invite you to create a &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Binary Search Tree (BST)&lt;/code&gt;&lt;/em&gt; with me.&lt;br /&gt;
-The &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;BST&lt;/code&gt;&lt;/em&gt; is a data structure which has the data ordered making easier to search for a data inside it. The &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;BST&lt;/code&gt;&lt;/em&gt; follows a rule where the smaller or equal values compared with the root should be on the left side of the root and the bigger values on the right. Because of that the values in a &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;BST&lt;/code&gt;&lt;/em&gt; should be comparable as Int, Char and etc are.&lt;/p&gt;
-
-&lt;!--more--&gt;
-
-&lt;p&gt;Let’s say that we have a list as: [5,3,6,3,2,7,1,8,9]&lt;br /&gt;
-This list will create a tree like that:&lt;/p&gt;
-
-&lt;image src=&quot;https://rodrigo-morais.github.io/images/bst_1.png&quot; /&gt;
-
-&lt;p&gt;Can you see that the numbers in the list just grew to left or right in the tree? In this case we have a tree with left and right side, and a bunch of sub-trees with left or right side just.&lt;/p&gt;
-
-&lt;p&gt;How we created this tree from the list?&lt;br /&gt;
-First we get the first element from the list which was the number 5. After that we get the second value which was 3 and compared with 5. The number 3 is smaller than number 5 and because of that we put on the left side of the root which was the number 5. Now we have a tree which the root is the number 5, the left side has a leaf which is the number 3 and the right side is empty.&lt;br /&gt;
-Following our list the next value is the number 6 which is bigger than the root 5 and should be on the right side. Now we have a tree with two leaves on left and right side.&lt;br /&gt;
-Next value is 3 which is smaller than the root 5 and should be on the left. So we have to compare with the next value which is 3 too and because of that the value should be on the left. Now we have a sub-tree which has the root 3, the left side with the number 3 and the right side empty.&lt;br /&gt;
-This process happened with all numbers in our list and finished creating our tree above.&lt;/p&gt;
-
-&lt;p&gt;Now let’s see how to create a &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;BST&lt;/code&gt;&lt;/em&gt; in &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Haskell&lt;/code&gt;&lt;/em&gt;:&lt;/p&gt;
-&lt;div class=&quot;language-haskell highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kr&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Tree&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Empty&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Node&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;Tree&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;Tree&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-  &lt;span class=&quot;kr&quot;&gt;deriving&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Show&lt;/span&gt;
-
-&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;t&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Node&lt;/span&gt;
-&lt;span class=&quot;kt&quot;&gt;Node&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;::&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Tree&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Tree&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Tree&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;
-
-&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;t&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Empty&lt;/span&gt;
-&lt;span class=&quot;kt&quot;&gt;Empty&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;::&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Tree&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;p&gt;Now we have a type &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Tree a&lt;/code&gt;&lt;/em&gt; with two differents options which are &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Empty&lt;/code&gt;&lt;/em&gt; and &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Node a (Tree a) (Tree a)&lt;/code&gt;&lt;/em&gt;. The &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Tree&lt;/code&gt;&lt;/em&gt;, &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Empty&lt;/code&gt;&lt;/em&gt; and &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Node&lt;/code&gt;&lt;/em&gt; are not types or values from &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Haskell&lt;/code&gt;&lt;/em&gt; but we are creating them to our program. In the future we will talk more about that, but for a while we can think in them as types as Int, Char and etc.&lt;br /&gt;
-Another point is the &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;deriving Show&lt;/code&gt;&lt;/em&gt; which we associated with our type. It is to be possible print our tree.&lt;/p&gt;
-
-&lt;p&gt;Now let’s write a really simple function which say if a &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;BST&lt;/code&gt;&lt;/em&gt; is empty or not. If the &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;BST&lt;/code&gt;&lt;/em&gt; has the value &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Empty&lt;/code&gt;&lt;/em&gt; than it is empty otherwise not.&lt;/p&gt;
-&lt;div class=&quot;language-haskell highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;empty&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;::&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Tree&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Bool&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;empty&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Empty&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;True&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;empty&lt;/span&gt; &lt;span class=&quot;kr&quot;&gt;_&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;False&lt;/span&gt;
-
-&lt;span class=&quot;kr&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;emptyTree&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Empty&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;empty&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;emptyTree&lt;/span&gt;
-&lt;span class=&quot;kt&quot;&gt;True&lt;/span&gt;
-
-&lt;span class=&quot;kr&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tree&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Node&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Empty&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Empty&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;empty&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tree&lt;/span&gt;
-&lt;span class=&quot;kt&quot;&gt;False&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;p&gt;Pretty simple function which say if our &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;BST&lt;/code&gt;&lt;/em&gt; is empty or not.&lt;/p&gt;</content><author><name>Rodrigo Morais</name></author><summary type="html">Hey folks!
-
-These last days I’m working in some exercises and I want invite you to create a Binary Search Tree (BST) with me.
-The BST is a data structure which has the data ordered making easier to search for a data inside it. The BST follows a rule where the smaller or equal values compared with the root should be on the left side of the root and the bigger values on the right. Because of that the values in a BST should be comparable as Int, Char and etc are.</summary></entry></feed>
+  deriving Show</summary></entry></feed>

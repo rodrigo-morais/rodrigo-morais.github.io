@@ -66,6 +66,33 @@
   
     <article class="post">
 
+      <h1><a href="/haskell-marathon-day-forty-nine/">Haskell’s marathon - Day Forty Nine</a></h1>
+
+      <div class="entry">
+        <p>Hey folks!</p>
+
+<p>Last post we saw how export our own data types with <em><code class="highlighter-rouge">modules</code></em>. Today let’s see how to handle with records as data type.</p>
+
+<p><br /></p>
+
+<p><strong>Person’s data type</strong></p>
+
+<p>If our software needs a data type as <em><code class="highlighter-rouge">Person</code></em> to handle with person’s data. Let’s say that we are working with a register in a clinic or any other silly example where we need a person’s representation. As we saw till now we can create a data type with some parameters like:</p>
+<div class="language-haskell highlighter-rouge"><pre class="highlight"><code><span class="kr">data</span> <span class="kt">Person</span> <span class="o">=</span> <span class="kt">Person</span> <span class="kt">String</span> <span class="kt">String</span> <span class="kt">Int</span> <span class="kt">String</span>
+
+<span class="o">&gt;</span> <span class="o">:</span><span class="n">t</span> <span class="kt">Person</span>
+<span class="kt">Person</span> <span class="o">::</span> <span class="kt">String</span> <span class="o">-&gt;</span> <span class="kt">String</span> <span class="o">-&gt;</span> <span class="kt">Int</span> <span class="o">-&gt;</span> <span class="kt">String</span> <span class="o">-&gt;</span> <span class="kt">Person</span>
+</code></pre>
+</div>
+
+
+      </div>
+
+      <a href="/haskell-marathon-day-forty-nine/" class="read-more">Read More</a>
+    </article>
+  
+    <article class="post">
+
       <h1><a href="/haskell-marathon-day-forty-eight/">Haskell’s marathon - Day Forty Eight</a></h1>
 
       <div class="entry">

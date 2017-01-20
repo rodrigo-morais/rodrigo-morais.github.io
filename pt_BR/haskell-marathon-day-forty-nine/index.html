@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Haskell’s marathon - Day Forty Nine –  – Software Developer</title>
+
+        <meta charset="utf-8" />
+    <meta content='text/html; charset=utf-8' http-equiv='Content-Type'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0'>
+
+    
+    <meta name="description" content="Hey folks!
+
+Last post we saw how export our own data types with modules. Today let’s see how to handle with records as data type.
+
+
+
+Person’s data type
+
+If our software needs a data type as Person to handle with person’s data. Let’s say that we are working with a register in a clinic or any other silly example where we need a person’s representation. As we saw till now we can create a data type with some parameters like:
+data Person = Person String String Int String
+
+&gt; :t Person
+Person :: String -&gt; String -&gt; Int -&gt; String -&gt; Person
+
+
+
+" />
+    <meta property="og:description" content="Hey folks!
+
+Last post we saw how export our own data types with modules. Today let’s see how to handle with records as data type.
+
+
+
+Person’s data type
+
+If our software needs a data type as Person to handle with person’s data. Let’s say that we are working with a register in a clinic or any other silly example where we need a person’s representation. As we saw till now we can create a data type with some parameters like:
+data Person = Person String String Int String
+
+&gt; :t Person
+Person :: String -&gt; String -&gt; Int -&gt; String -&gt; Person
+
+
+
+" />
+    
+    <meta name="author" content="" />
+
+    
+    <meta property="og:title" content="Haskell’s marathon - Day Forty Nine" />
+    <meta property="twitter:title" content="Haskell’s marathon - Day Forty Nine" />
+    
+
+    <!--[if lt IE 9]>
+      <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <link rel="stylesheet" type="text/css" href="/css/styles.css" />
+    <link rel="alternate" type="application/rss+xml" title=" - Software Developer" href="/pt_BR/feed.xml" />
+
+    <!-- Created with Jekyll Now - http://github.com/barryclark/jekyll-now -->
+  </head>
+
+  <body>
+    <div class="wrapper-masthead">
+      <div class="container">
+        <header class="masthead clearfix">
+          <a href="/pt_BR/" class="site-avatar"><img src="https://avatars.githubusercontent.com/rodrigo-morais" /></a>
+
+          <div class="site-info">
+            <h1 class="site-name"><a href="/pt_BR/">In development</a></h1>
+            <h3 class="site-author">Rodrigo Morais</h3>
+            <p class="site-description">Software Developer</p>
+          </div>
+
+          <nav class="languages"> 
+          
+          </nav>
+
+          <nav>
+            <a href="/pt_BR/">Blog</a>
+            <a href="/pt_BR/about">Sobre</a>
+          </nav>
+        </header>
+      </div>
+    </div>
+
+    <div id="main" role="main" class="container">
+      <article class="post">
+  
+
+  <h1>Haskell’s marathon - Day Forty Nine</h1>
+
+  <div class="entry">
+    <p>Hey folks!</p>
+
+<p>Last post we saw how export our own data types with <em><code class="highlighter-rouge">modules</code></em>. Today let’s see how to handle with records as data type.</p>
+
+<p><br /></p>
+
+<p><strong>Person’s data type</strong></p>
+
+<p>If our software needs a data type as <em><code class="highlighter-rouge">Person</code></em> to handle with person’s data. Let’s say that we are working with a register in a clinic or any other silly example where we need a person’s representation. As we saw till now we can create a data type with some parameters like:</p>
+<div class="language-haskell highlighter-rouge"><pre class="highlight"><code><span class="kr">data</span> <span class="kt">Person</span> <span class="o">=</span> <span class="kt">Person</span> <span class="kt">String</span> <span class="kt">String</span> <span class="kt">Int</span> <span class="kt">String</span>
+
+<span class="o">&gt;</span> <span class="o">:</span><span class="n">t</span> <span class="kt">Person</span>
+<span class="kt">Person</span> <span class="o">::</span> <span class="kt">String</span> <span class="o">-&gt;</span> <span class="kt">String</span> <span class="o">-&gt;</span> <span class="kt">Int</span> <span class="o">-&gt;</span> <span class="kt">String</span> <span class="o">-&gt;</span> <span class="kt">Person</span>
+</code></pre>
+</div>
+<!--more-->
+<p>Now we have a data type <em><code class="highlighter-rouge">Person</code></em> which receives a first name, last name, age and address. We can create functions to handle with our data type to get some informations.</p>
+<div class="language-haskell highlighter-rouge"><pre class="highlight"><code><span class="kr">data</span> <span class="kt">Person</span> <span class="o">=</span> <span class="kt">Person</span> <span class="kt">String</span> <span class="kt">String</span> <span class="kt">Int</span> <span class="kt">String</span>
+
+<span class="n">firstName</span> <span class="o">::</span> <span class="kt">Person</span> <span class="o">-&gt;</span> <span class="kt">String</span>
+<span class="n">firstName</span> <span class="p">(</span><span class="kt">Person</span> <span class="n">firstName</span> <span class="kr">_</span> <span class="kr">_</span> <span class="kr">_</span><span class="p">)</span> <span class="o">=</span> <span class="n">firstName</span>
+
+<span class="n">lastName</span> <span class="o">::</span> <span class="kt">Person</span> <span class="o">-&gt;</span> <span class="kt">String</span>
+<span class="n">lastName</span> <span class="p">(</span><span class="kt">Person</span> <span class="kr">_</span> <span class="n">lastName</span> <span class="kr">_</span> <span class="kr">_</span><span class="p">)</span> <span class="o">=</span> <span class="n">lastName</span>
+
+<span class="n">age</span> <span class="o">::</span> <span class="kt">Person</span> <span class="o">-&gt;</span> <span class="kt">Int</span>
+<span class="n">age</span> <span class="p">(</span><span class="kt">Person</span> <span class="kr">_</span> <span class="kr">_</span> <span class="n">age</span> <span class="kr">_</span><span class="p">)</span> <span class="o">=</span> <span class="n">age</span>
+
+<span class="n">address</span> <span class="o">::</span> <span class="kt">Person</span> <span class="o">-&gt;</span> <span class="kt">String</span>
+<span class="n">address</span> <span class="p">(</span><span class="kt">Person</span> <span class="kr">_</span> <span class="kr">_</span> <span class="kr">_</span> <span class="n">address</span><span class="p">)</span> <span class="o">=</span> <span class="n">address</span>
+
+<span class="o">&gt;</span> <span class="kr">let</span> <span class="n">person</span> <span class="o">=</span> <span class="kt">Person</span> <span class="s">"Rodrigo"</span> <span class="s">"Morais"</span> <span class="mi">37</span> <span class="s">"Winterfeld 58"</span>
+
+<span class="o">&gt;</span> <span class="n">firstName</span> <span class="n">person</span>
+<span class="s">"Rodrigo"</span>
+<span class="o">*</span><span class="kt">Main</span><span class="o">&gt;</span> <span class="n">lastName</span> <span class="n">person</span>
+<span class="s">"Morais"</span>
+<span class="o">*</span><span class="kt">Main</span><span class="o">&gt;</span> <span class="n">age</span> <span class="n">person</span>
+<span class="mi">37</span>
+<span class="o">*</span><span class="kt">Main</span><span class="o">&gt;</span> <span class="n">address</span> <span class="n">person</span>
+<span class="s">"Winterfeld 58"</span>
+</code></pre>
+</div>
+<p>We have two problems here which we can solve with record. First one is that the <em><code class="highlighter-rouge">String</code></em> type doesn’t say what is the data which we need when we are building the data type <em><code class="highlighter-rouge">Person</code></em>. The second problem is have to write these bunch of functions to get the data from the data type <em><code class="highlighter-rouge">Person</code></em>.</p>
+
+<p><br /></p>
+
+<p><strong>Records</strong></p>
+
+<p>Using records we can improve that and make our data type more readable.<br />
+Let’s see:</p>
+<div class="language-haskell highlighter-rouge"><pre class="highlight"><code><span class="kr">data</span> <span class="kt">Person</span> <span class="o">=</span> <span class="kt">Person</span> <span class="p">{</span> <span class="n">firstName</span> <span class="o">::</span> <span class="kt">String</span>
+                     <span class="p">,</span> <span class="n">lastName</span> <span class="o">::</span> <span class="kt">String</span>
+                     <span class="p">,</span> <span class="n">age</span> <span class="o">::</span> <span class="kt">Int</span>
+                     <span class="p">,</span> <span class="n">address</span> <span class="o">::</span> <span class="kt">String</span>
+                     <span class="p">}</span> <span class="kr">deriving</span> <span class="kt">Show</span>
+
+<span class="kr">let</span> <span class="n">person</span> <span class="o">=</span> <span class="kt">Person</span> <span class="p">{</span><span class="n">firstName</span><span class="o">=</span><span class="s">"Rodrigo"</span><span class="p">,</span> <span class="n">lastName</span><span class="o">=</span><span class="s">"Morais"</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">37</span><span class="p">,</span> <span class="n">address</span><span class="o">=</span><span class="s">"Winterfeld 58"</span><span class="p">}</span>
+<span class="o">&gt;</span> <span class="n">person</span>
+<span class="kt">Person</span> <span class="p">{</span><span class="n">firstName</span> <span class="o">=</span> <span class="s">"Rodrigo"</span><span class="p">,</span> <span class="n">lastName</span> <span class="o">=</span> <span class="s">"Morais"</span><span class="p">,</span> <span class="n">age</span> <span class="o">=</span> <span class="mi">37</span><span class="p">,</span> <span class="n">address</span> <span class="o">=</span> <span class="s">"Winterfeld 58"</span><span class="p">}</span>
+</code></pre>
+</div>
+<p>Cool. Our first problem was solved. Now we put name to each parameter and we know what is each one.</p>
+
+<p>We removed all functions that we created before as <em><code class="highlighter-rouge">firstName</code></em>, <em><code class="highlighter-rouge">age</code></em> and <em><code class="highlighter-rouge">address</code></em>, but with <em><code class="highlighter-rouge">records</code></em> we can still use them:</p>
+<div class="language-haskell highlighter-rouge"><pre class="highlight"><code><span class="o">&gt;</span> <span class="n">firstName</span> <span class="n">person</span>
+<span class="s">"Rodrigo"</span>
+
+<span class="o">&gt;</span> <span class="n">age</span> <span class="n">person</span>
+<span class="mi">37</span>
+<span class="o">&gt;</span> <span class="n">address</span> <span class="n">person</span>
+<span class="s">"Winterfeld 58"</span>
+</code></pre>
+</div>
+
+<p><br /></p>
+
+<p>Use <em><code class="highlighter-rouge">record</code></em> when we have a structured data type with a lot of parameters is a good idea, beyond that we gain some functions for free.<br />
+You should use <em><code class="highlighter-rouge">records</code></em> when it makes sense for your problem.</p>
+
+  </div>
+
+  <div class="date">
+    Written on January 20, 2017
+  </div>
+
+  
+<div class="comments">
+	<div id="disqus_thread"></div>
+	<script type="text/javascript">
+
+	    var disqus_shortname = 'rodrigo-morais';
+
+	    (function() {
+	        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+	        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+	        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	    })();
+
+	</script>
+	<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+
+</article>
+
+    </div>
+
+    <div class="wrapper-footer">
+      <div class="container">
+        <footer class="footer">
+          
+<a href="mailto:morais.rm@gmail.com"><i class="svg-icon email"></i></a>
+
+
+<a href="https://github.com/rodrigo-morais"><i class="svg-icon github"></i></a>
+
+<a href="https://www.linkedin.com/in/moraisrm"><i class="svg-icon linkedin"></i></a>
+
+
+<a href="https://www.twitter.com/moraisrm_rs"><i class="svg-icon twitter"></i></a>
+
+
+
+        </footer>
+      </div>
+    </div>
+
+    
+	<!-- Google Analytics -->
+	<script>
+		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+		ga('create', 'UA-87967717-1', 'auto');
+		ga('send', 'pageview', {
+		  'page': '/haskell-marathon-day-forty-nine/',
+		  'title': 'Haskell’s marathon - Day Forty Nine'
+		});
+	</script>
+	<!-- End Google Analytics -->
+
+
+  </body>
+</html>
