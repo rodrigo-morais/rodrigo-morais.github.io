@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>React - Creating a Dropdown component - Post 1 –  – Software Developer</title>
+
+        <meta charset="utf-8" />
+    <meta content='text/html; charset=utf-8' http-equiv='Content-Type'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0'>
+
+    
+    <meta name="description" content="Hey folks!
+
+I’m working with React, which is a JavaScript library to build user interfaces, in the last months and I guess there are really some subjects that we can discuss here.
+My previous project was a website to booking air tickets to the biggest air company in South America and my current project is a language learning app. In the previous project we had really complex React components which gave a lot of fun to work with, and my current project has more simpler components with more focus in the presentation. In the last week a work in a component that have more user interaction and this kind of component is a good one to discuss here because it has some details which worth to discuss.
+
+" />
+    <meta property="og:description" content="Hey folks!
+
+I’m working with React, which is a JavaScript library to build user interfaces, in the last months and I guess there are really some subjects that we can discuss here.
+My previous project was a website to booking air tickets to the biggest air company in South America and my current project is a language learning app. In the previous project we had really complex React components which gave a lot of fun to work with, and my current project has more simpler components with more focus in the presentation. In the last week a work in a component that have more user interaction and this kind of component is a good one to discuss here because it has some details which worth to discuss.
+
+" />
+    
+    <meta name="author" content="" />
+
+    
+    <meta property="og:title" content="React - Creating a Dropdown component - Post 1" />
+    <meta property="twitter:title" content="React - Creating a Dropdown component - Post 1" />
+    
+
+    <!--[if lt IE 9]>
+      <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <link rel="stylesheet" type="text/css" href="/css/styles.css" />
+    <link rel="alternate" type="application/rss+xml" title=" - Software Developer" href="/feed.xml" />
+
+    <!-- Created with Jekyll Now - http://github.com/barryclark/jekyll-now -->
+  </head>
+
+  <body>
+    <div class="wrapper-masthead">
+      <div class="container">
+        <header class="masthead clearfix">
+          <a href="/" class="site-avatar"><img src="https://avatars.githubusercontent.com/rodrigo-morais" /></a>
+
+          <div class="site-info">
+            <h1 class="site-name"><a href="/">In development</a></h1>
+            <h3 class="site-author">Rodrigo Morais</h3>
+            <p class="site-description">Software Developer</p>
+          </div>
+
+          <nav class="languages"> 
+          
+          </nav>
+
+          <nav>
+            <a href="/">Blog</a>
+            <a href="/about">About</a>
+          </nav>
+        </header>
+      </div>
+    </div>
+
+    <div id="main" role="main" class="container">
+      <article class="post">
+  
+
+  <h1>React - Creating a Dropdown component - Post 1</h1>
+
+  <div class="entry">
+    <p>Hey folks!</p>
+
+<p>I’m working with <a href="https://facebook.github.io/react/"><em><code class="highlighter-rouge">React</code></em></a>, which is a JavaScript library to build user interfaces, in the last months and I guess there are really some subjects that we can discuss here.<br />
+My previous project was a website to booking air tickets to the biggest air company in South America and my current project is a language learning app. In the previous project we had really complex <em><code class="highlighter-rouge">React</code></em> components which gave a lot of fun to work with, and my current project has more simpler components with more focus in the presentation. In the last week a work in a component that have more user interaction and this kind of component is a good one to discuss here because it has some details which worth to discuss.<br />
+<!--more-->
+So, in the next posts we will build a dropdown where we can select some information. This is the idea of our component, and we have some requirements for it:</p>
+
+<p>The trigger to open the dropdown should be a link with an icon beside;
+When the dropdown is opened and the link(trigger) is clicked it must close;
+When the dropdown is opened and is clicked in other element it must close;
+When one item of the list is selected it should call an external callback;
+Items can or can’t have images beside;
+Items always have a text;
+Accessibility:
+User can navigate with keyboard;
+Must be navigable using a screen reader;
+Tests:
+Unit;
+Integration;
+Functional;</p>
+
+<p>These are the requirements to our component.</p>
+
+<p><br /></p>
+
+<p><strong>Configuration</strong></p>
+
+<p>Today we will start just creating a simple configuration to the first interaction. After in each new interaction we will add new libraries to it if was necessary.<br />
+So to begin we create a <em><code class="highlighter-rouge">package.json</code></em> file where we are installing <em><code class="highlighter-rouge">React</code></em>, <em><code class="highlighter-rouge">Webpack</code></em>, <em><code class="highlighter-rouge">ESLint</code></em> and <em><code class="highlighter-rouge">Babel</code></em>.<br />
+Beyond that we configure the <em><code class="highlighter-rouge">Webpack</code></em>:</p>
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">entry</span><span class="p">:</span> <span class="s1">'./app/main.js'</span><span class="p">,</span>
+    <span class="na">output</span><span class="p">:</span> <span class="p">{</span>
+      <span class="na">path</span><span class="p">:</span> <span class="s1">'./dist'</span><span class="p">,</span>
+      <span class="na">filename</span><span class="p">:</span> <span class="s1">'index.js'</span>
+    <span class="p">},</span>
+  <span class="na">devServer</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">inline</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="na">port</span><span class="p">:</span> <span class="mi">3333</span>
+  <span class="p">},</span>
+  <span class="na">module</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">loaders</span><span class="p">:</span> <span class="p">[</span>
+      <span class="p">{</span>
+        <span class="na">test</span><span class="p">:</span> <span class="sr">/</span><span class="se">\.</span><span class="sr">jsx</span><span class="se">?</span><span class="sr">$/</span><span class="p">,</span>
+        <span class="na">exclude</span><span class="p">:</span> <span class="sr">/node_modules/</span><span class="p">,</span>
+        <span class="na">loader</span><span class="p">:</span> <span class="s1">'babel-loader'</span><span class="p">,</span>
+        <span class="na">query</span><span class="p">:</span> <span class="p">{</span>
+          <span class="na">presets</span><span class="p">:</span> <span class="p">[</span><span class="s1">'es2015'</span><span class="p">,</span> <span class="s1">'react'</span><span class="p">,</span> <span class="s1">'stage-0'</span><span class="p">],</span>
+          <span class="na">plugins</span><span class="p">:</span> <span class="p">[</span><span class="s2">"transform-object-rest-spread"</span><span class="p">]</span>
+        <span class="p">}</span>
+      <span class="p">}</span>
+    <span class="p">]</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+<p>And the <em><code class="highlighter-rouge">ESLint</code></em>. To configure the <em><code class="highlighter-rouge">ESLint</code></em> we call a command:</p>
+<div class="language-shell highlighter-rouge"><pre class="highlight"><code>./node_modules/.bin/eslint --init
+</code></pre>
+</div>
+<p>This command will ask us some questions and will create a <em><code class="highlighter-rouge">.eslintrc.*</code></em> file. We add some configurations to this file:</p>
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="p">{</span>
+    <span class="s2">"extends"</span><span class="err">:</span> <span class="s2">"airbnb"</span><span class="p">,</span>
+    <span class="s2">"plugins"</span><span class="err">:</span> <span class="p">[</span>
+        <span class="s2">"react"</span><span class="p">,</span>
+        <span class="s2">"jsx-a11y"</span><span class="p">,</span>
+        <span class="s2">"import"</span>
+    <span class="p">],</span>
+    <span class="s2">"rules"</span><span class="err">:</span> <span class="p">{</span>
+      <span class="s2">"comma-dangle"</span><span class="err">:</span> <span class="p">[</span><span class="s2">"error"</span><span class="p">,</span> <span class="s2">"never"</span><span class="p">],</span>
+      <span class="s2">"semi"</span><span class="err">:</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="s2">"never"</span><span class="p">]</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+<p>These are the basic configurations to our <em><code class="highlighter-rouge">lint</code></em> and in the next postis we will improve it.</p>
+
+<p><br /></p>
+
+<p>It is enough to start our project. In the next post we will start to build our dropdown.<br />
+You can see the code <a href="https://github.com/rodrigo-morais/react-dropdown/tree/post-1">here</a>.</p>
+
+  </div>
+
+  <div class="date">
+    Written on January 23, 2017
+  </div>
+
+  
+<div class="comments">
+	<div id="disqus_thread"></div>
+	<script type="text/javascript">
+
+	    var disqus_shortname = 'rodrigo-morais';
+
+	    (function() {
+	        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+	        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+	        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	    })();
+
+	</script>
+	<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+
+</article>
+
+    </div>
+
+    <div class="wrapper-footer">
+      <div class="container">
+        <footer class="footer">
+          
+<a href="mailto:morais.rm@gmail.com"><i class="svg-icon email"></i></a>
+
+
+<a href="https://github.com/rodrigo-morais"><i class="svg-icon github"></i></a>
+
+<a href="https://www.linkedin.com/in/moraisrm"><i class="svg-icon linkedin"></i></a>
+
+
+<a href="https://www.twitter.com/moraisrm_rs"><i class="svg-icon twitter"></i></a>
+
+
+
+        </footer>
+      </div>
+    </div>
+
+    
+	<!-- Google Analytics -->
+	<script>
+		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+		ga('create', 'UA-87967717-1', 'auto');
+		ga('send', 'pageview', {
+		  'page': '/react-dropdown-post-1/',
+		  'title': 'React - Creating a Dropdown component - Post 1'
+		});
+	</script>
+	<!-- End Google Analytics -->
+
+
+  </body>
+</html>
