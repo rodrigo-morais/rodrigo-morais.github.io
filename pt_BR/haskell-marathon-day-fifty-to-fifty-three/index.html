@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Haskell’s marathon - Day Fifty to Fifty Three –  – Software Developer</title>
+
+        <meta charset="utf-8" />
+    <meta content='text/html; charset=utf-8' http-equiv='Content-Type'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0'>
+
+    
+    <meta name="description" content="Hey folks!
+
+Last post we saw how create records in Haskell. Today let’s see how to work with Type Synonyms.
+
+
+
+What is Type Synonyms
+
+Type Synonyms is one way to give a new name for a type which already exist. The most popular example is the type [Char] that have a synonym String.
+If we take a look how String is declared in Haskell we can see that:
+
+" />
+    <meta property="og:description" content="Hey folks!
+
+Last post we saw how create records in Haskell. Today let’s see how to work with Type Synonyms.
+
+
+
+What is Type Synonyms
+
+Type Synonyms is one way to give a new name for a type which already exist. The most popular example is the type [Char] that have a synonym String.
+If we take a look how String is declared in Haskell we can see that:
+
+" />
+    
+    <meta name="author" content="" />
+
+    
+    <meta property="og:title" content="Haskell’s marathon - Day Fifty to Fifty Three" />
+    <meta property="twitter:title" content="Haskell’s marathon - Day Fifty to Fifty Three" />
+    
+
+    <!--[if lt IE 9]>
+      <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <link rel="stylesheet" type="text/css" href="/css/styles.css" />
+    <link rel="alternate" type="application/rss+xml" title=" - Software Developer" href="/pt_BR/feed.xml" />
+
+    <!-- Created with Jekyll Now - http://github.com/barryclark/jekyll-now -->
+  </head>
+
+  <body>
+    <div class="wrapper-masthead">
+      <div class="container">
+        <header class="masthead clearfix">
+          <a href="/pt_BR/" class="site-avatar"><img src="https://avatars.githubusercontent.com/rodrigo-morais" /></a>
+
+          <div class="site-info">
+            <h1 class="site-name"><a href="/pt_BR/">In development</a></h1>
+            <h3 class="site-author">Rodrigo Morais</h3>
+            <p class="site-description">Software Developer</p>
+          </div>
+
+          <nav class="languages"> 
+          
+          </nav>
+
+          <nav>
+            <a href="/pt_BR/">Blog</a>
+            <a href="/pt_BR/about">Sobre</a>
+          </nav>
+        </header>
+      </div>
+    </div>
+
+    <div id="main" role="main" class="container">
+      <article class="post">
+  
+
+  <h1>Haskell’s marathon - Day Fifty to Fifty Three</h1>
+
+  <div class="entry">
+    <p>Hey folks!</p>
+
+<p>Last post we saw how create <em><code class="highlighter-rouge">records</code></em> in <em><code class="highlighter-rouge">Haskell</code></em>. Today let’s see how to work with <em><code class="highlighter-rouge">Type Synonyms</code></em>.</p>
+
+<p><br /></p>
+
+<p><strong>What is <em><code class="highlighter-rouge">Type Synonyms</code></em></strong></p>
+
+<p><em><code class="highlighter-rouge">Type Synonyms</code></em> is one way to give a new name for a type which already exist. The most popular example is the type <em><code class="highlighter-rouge">[Char]</code></em> that have a synonym <em><code class="highlighter-rouge">String</code></em>.<br />
+If we take a look how <em><code class="highlighter-rouge">String</code></em> is declared in <em><code class="highlighter-rouge">Haskell</code></em> we can see that:
+<!--more--></p>
+<div class="language-haskell highlighter-rouge"><pre class="highlight"><code><span class="kr">type</span> <span class="kt">String</span> <span class="o">=</span> <span class="p">[</span><span class="kt">Char</span><span class="p">]</span>
+</code></pre>
+</div>
+<p>We can create our <em><code class="highlighter-rouge">String</code></em> from <em><code class="highlighter-rouge">[Char]</code></em>:</p>
+<div class="language-haskell highlighter-rouge"><pre class="highlight"><code><span class="kr">type</span> <span class="kt">OurString</span> <span class="o">=</span> <span class="p">[</span><span class="kt">Char</span><span class="p">]</span>
+<span class="kr">let</span> <span class="n">test</span> <span class="o">=</span> <span class="err">“</span><span class="kt">Test</span><span class="err">”</span> <span class="o">::</span> <span class="kt">OurString</span>
+
+<span class="o">:</span><span class="n">t</span> <span class="n">test</span>
+<span class="n">test</span> <span class="o">::</span> <span class="kt">OurString</span>
+</code></pre>
+</div>
+<p>In the end the keyword <em><code class="highlighter-rouge">type</code></em> just gives a new name for a type which already exist.<br />
+We can use <em><code class="highlighter-rouge">Type Synonyms</code></em> to do our code more meaningful when necessary.</p>
+
+<p><br /></p>
+
+<p><strong>Phonebook</strong></p>
+
+<p>Let’s do an example called phonebook which is a list of pairs of name and telephone numbers. We can see first how to do that without <em><code class="highlighter-rouge">Type Synonyms</code></em>:</p>
+<div class="language-haskell highlighter-rouge"><pre class="highlight"><code><span class="n">phoneBook</span> <span class="o">::</span> <span class="p">[(</span><span class="kt">String</span><span class="p">,</span> <span class="kt">String</span><span class="p">)]</span>
+<span class="n">phoneBook</span> <span class="o">=</span> <span class="p">[(</span><span class="s">"Rodrigo"</span><span class="p">,</span> <span class="s">"3226-9772"</span><span class="p">)</span>
+            <span class="p">,(</span><span class="s">"Sybila"</span><span class="p">,</span> <span class="s">"9232-7098"</span><span class="p">)</span>
+            <span class="p">,(</span><span class="s">"Carlos"</span><span class="p">,</span> <span class="s">"3765-0987"</span><span class="p">)</span>
+            <span class="p">]</span>
+
+<span class="n">getPhone</span> <span class="o">::</span> <span class="p">[(</span><span class="kt">String</span><span class="p">,</span> <span class="kt">String</span><span class="p">)]</span> <span class="o">-&gt;</span> <span class="kt">String</span> <span class="o">-&gt;</span> <span class="kt">Maybe</span> <span class="kt">String</span>
+<span class="n">getPhone</span> <span class="kt">[]</span> <span class="kr">_</span> <span class="o">=</span> <span class="kt">Nothing</span>
+<span class="n">getPhone</span> <span class="p">(</span><span class="n">register</span><span class="o">:</span><span class="n">xs</span><span class="p">)</span> <span class="n">name</span>
+  <span class="o">|</span> <span class="n">name</span> <span class="o">==</span> <span class="n">fst</span> <span class="n">register</span> <span class="o">=</span> <span class="kt">Just</span> <span class="p">(</span><span class="n">snd</span> <span class="n">register</span><span class="p">)</span>
+  <span class="o">|</span> <span class="n">otherwise</span> <span class="o">=</span> <span class="n">getPhone</span> <span class="n">xs</span> <span class="n">name</span>
+
+</code></pre>
+</div>
+<p>Now we can looking for a phone number in the phonebook:</p>
+<div class="language-haskell highlighter-rouge"><pre class="highlight"><code><span class="o">&gt;</span> <span class="n">getPhone</span> <span class="n">phoneBook</span> <span class="s">"Rodrigos"</span>
+<span class="kt">Nothing</span>
+
+<span class="o">&gt;</span> <span class="n">getPhone</span> <span class="n">phoneBook</span> <span class="s">"Sybila"</span>
+<span class="kt">Just</span> <span class="s">"9232-7098"</span>
+
+<span class="o">&gt;</span> <span class="n">getPhone</span> <span class="n">phoneBook</span> <span class="s">"Rodrigo"</span>
+<span class="kt">Just</span> <span class="s">"3226-9772"</span>
+</code></pre>
+</div>
+<p>We have a bunch of <em><code class="highlighter-rouge">String</code></em>’s in our code, but we don’t know what is each one. We can improve that using <em><code class="highlighter-rouge">Type Synonyms</code></em>:</p>
+<div class="language-haskell highlighter-rouge"><pre class="highlight"><code><span class="kr">type</span> <span class="kt">Name</span> <span class="o">=</span> <span class="kt">String</span>
+<span class="kr">type</span> <span class="kt">PhoneNumber</span> <span class="o">=</span> <span class="kt">String</span>
+<span class="kr">type</span> <span class="kt">PhoneBook</span> <span class="o">=</span> <span class="p">[(</span><span class="kt">Name</span><span class="p">,</span> <span class="kt">PhoneNumber</span><span class="p">)]</span>
+
+<span class="n">phoneBook</span> <span class="o">::</span> <span class="kt">PhoneBook</span>
+<span class="n">phoneBook</span> <span class="o">=</span> <span class="p">[(</span><span class="s">"Rodrigo"</span><span class="p">,</span> <span class="s">"3226-9772"</span><span class="p">)</span>
+            <span class="p">,(</span><span class="s">"Sybila"</span><span class="p">,</span> <span class="s">"9232-7098"</span><span class="p">)</span>
+            <span class="p">,(</span><span class="s">"Carlos"</span><span class="p">,</span> <span class="s">"3765-0987"</span><span class="p">)</span>
+            <span class="p">]</span>
+
+<span class="n">getPhone</span> <span class="o">::</span> <span class="kt">PhoneBook</span> <span class="o">-&gt;</span> <span class="kt">Name</span> <span class="o">-&gt;</span> <span class="kt">Maybe</span> <span class="kt">PhoneNumber</span>
+<span class="n">getPhone</span> <span class="kt">[]</span> <span class="kr">_</span> <span class="o">=</span> <span class="kt">Nothing</span>
+<span class="n">getPhone</span> <span class="p">(</span><span class="n">register</span><span class="o">:</span><span class="n">xs</span><span class="p">)</span> <span class="n">name</span>
+  <span class="o">|</span> <span class="n">name</span> <span class="o">==</span> <span class="n">fst</span> <span class="n">register</span> <span class="o">=</span> <span class="kt">Just</span> <span class="p">(</span><span class="n">snd</span> <span class="n">register</span><span class="p">)</span>
+  <span class="o">|</span> <span class="n">otherwise</span> <span class="o">=</span> <span class="n">getPhone</span> <span class="n">xs</span> <span class="n">name</span>
+</code></pre>
+</div>
+<p>Now we have three <em><code class="highlighter-rouge">Type Synonyms</code></em> which made our code much more meaningful and readable. With this code we know what is a <em><code class="highlighter-rouge">PhoneBook</code></em> and that the function <em><code class="highlighter-rouge">getPhone</code></em> needs a <em><code class="highlighter-rouge">Name</code></em> to return a <em><code class="highlighter-rouge">PhoneNumber</code></em>.</p>
+
+<div class="language-haskell highlighter-rouge"><pre class="highlight"><code><span class="o">&gt;</span> <span class="n">getPhone</span> <span class="n">phoneBook</span> <span class="s">"Rodrigos"</span>
+<span class="kt">Nothing</span>
+
+<span class="o">&gt;</span> <span class="n">getPhone</span> <span class="n">phoneBook</span> <span class="s">"Sybila"</span>
+<span class="kt">Just</span> <span class="s">"9232-7098"</span>
+
+<span class="o">&gt;</span> <span class="n">getPhone</span> <span class="n">phoneBook</span> <span class="s">"Rodrigo"</span>
+<span class="kt">Just</span> <span class="s">"3226-9772"</span>
+</code></pre>
+</div>
+
+<p><br /></p>
+
+<p><em><code class="highlighter-rouge">Type Synonyms</code></em> is important to improve the readability of our code and make it much more meaningful, but we have to be prudent and not use it for everything and just when we need to give a better understanding to other developers who are reading our code or make it more expressive.</p>
+
+  </div>
+
+  <div class="date">
+    Written on January 20, 2017
+  </div>
+
+  
+<div class="comments">
+	<div id="disqus_thread"></div>
+	<script type="text/javascript">
+
+	    var disqus_shortname = 'rodrigo-morais';
+
+	    (function() {
+	        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+	        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+	        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	    })();
+
+	</script>
+	<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+
+</article>
+
+    </div>
+
+    <div class="wrapper-footer">
+      <div class="container">
+        <footer class="footer">
+          
+<a href="mailto:morais.rm@gmail.com"><i class="svg-icon email"></i></a>
+
+
+<a href="https://github.com/rodrigo-morais"><i class="svg-icon github"></i></a>
+
+<a href="https://www.linkedin.com/in/moraisrm"><i class="svg-icon linkedin"></i></a>
+
+
+<a href="https://www.twitter.com/moraisrm_rs"><i class="svg-icon twitter"></i></a>
+
+
+
+        </footer>
+      </div>
+    </div>
+
+    
+	<!-- Google Analytics -->
+	<script>
+		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+		ga('create', 'UA-87967717-1', 'auto');
+		ga('send', 'pageview', {
+		  'page': '/haskell-marathon-day-fifty-to-fifty-three/',
+		  'title': 'Haskell’s marathon - Day Fifty to Fifty Three'
+		});
+	</script>
+	<!-- End Google Analytics -->
+
+
+  </body>
+</html>
