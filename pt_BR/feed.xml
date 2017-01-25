@@ -1,4 +1,95 @@
-<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xml" href="https://rodrigo-morais.github.io/feed.xslt.xml"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.3.1">Jekyll</generator><link href="https://rodrigo-morais.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://rodrigo-morais.github.io/" rel="alternate" type="text/html" /><updated>2017-01-25T21:22:59+01:00</updated><id>https://rodrigo-morais.github.io//</id><title type="html">In development</title><subtitle>Software Developer</subtitle><author><name>Rodrigo Morais</name></author><entry xml:lang="en"><title type="html">React - Creating a Dropdown component - Part 1</title><link href="https://rodrigo-morais.github.io/react-dropdown-post-1/" rel="alternate" type="text/html" title="React - Creating a Dropdown component - Part 1" /><published>2017-01-23T00:00:00+01:00</published><updated>2017-01-23T00:00:00+01:00</updated><id>https://rodrigo-morais.github.io/react-dropdown-post-1.en</id><content type="html" xml:base="https://rodrigo-morais.github.io/react-dropdown-post-1/">&lt;p&gt;Hey folks!&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xml" href="https://rodrigo-morais.github.io/feed.xslt.xml"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.3.1">Jekyll</generator><link href="https://rodrigo-morais.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://rodrigo-morais.github.io/" rel="alternate" type="text/html" /><updated>2017-01-25T21:31:53+01:00</updated><id>https://rodrigo-morais.github.io//</id><title type="html">In development</title><subtitle>Software Developer</subtitle><author><name>Rodrigo Morais</name></author><entry xml:lang="en"><title type="html">Haskell’s marathon - Day Fifty to Fifty Three</title><link href="https://rodrigo-morais.github.io/haskell-marathon-day-fifty-to-fifty-three/" rel="alternate" type="text/html" title="Haskell’s marathon - Day Fifty to Fifty Three" /><published>2017-01-25T00:00:00+01:00</published><updated>2017-01-25T00:00:00+01:00</updated><id>https://rodrigo-morais.github.io/haskell-marathon-day-fifty-to-fifty-three.en</id><content type="html" xml:base="https://rodrigo-morais.github.io/haskell-marathon-day-fifty-to-fifty-three/">&lt;p&gt;Hey folks!!&lt;/p&gt;
+
+&lt;p&gt;Last post we saw how create &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;records&lt;/code&gt;&lt;/em&gt; in &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Haskell&lt;/code&gt;&lt;/em&gt;. Today let’s see how to work with &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Type Synonyms&lt;/code&gt;&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;What is &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Type Synonyms&lt;/code&gt;&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Type Synonyms&lt;/code&gt;&lt;/em&gt; is one way to give a new name for a type which already exist. The most popular example is the type &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;[Char]&lt;/code&gt;&lt;/em&gt; that have a synonym &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;String&lt;/code&gt;&lt;/em&gt;.&lt;br /&gt;
+If we take a look how &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;String&lt;/code&gt;&lt;/em&gt; is declared in &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Haskell&lt;/code&gt;&lt;/em&gt; we can see that:
+&lt;!--more--&gt;&lt;/p&gt;
+&lt;div class=&quot;language-haskell highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kr&quot;&gt;type&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;Char&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;We can create our &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;String&lt;/code&gt;&lt;/em&gt; from &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;[Char]&lt;/code&gt;&lt;/em&gt;:&lt;/p&gt;
+&lt;div class=&quot;language-haskell highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kr&quot;&gt;type&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;OurString&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;Char&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;kr&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;test&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;“&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;Test&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;”&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;::&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;OurString&lt;/span&gt;
+
+&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;t&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;test&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;test&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;::&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;OurString&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;In the end the keyword &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;type&lt;/code&gt;&lt;/em&gt; just gives a new name for a type which already exist.&lt;br /&gt;
+We can use &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Type Synonyms&lt;/code&gt;&lt;/em&gt; to do our code more meaningful when necessary.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Phonebook&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Let’s do an example called phonebook which is a list of pairs of name and telephone numbers. We can see first how to do that without &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Type Synonyms&lt;/code&gt;&lt;/em&gt;:&lt;/p&gt;
+&lt;div class=&quot;language-haskell highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;phoneBook&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;::&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)]&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;phoneBook&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Rodrigo&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;3226-9772&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+            &lt;span class=&quot;p&quot;&gt;,(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Sybila&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;9232-7098&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+            &lt;span class=&quot;p&quot;&gt;,(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Carlos&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;3765-0987&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+            &lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;getPhone&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;::&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Maybe&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;getPhone&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;[]&lt;/span&gt; &lt;span class=&quot;kr&quot;&gt;_&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Nothing&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;getPhone&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;register&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;xs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;name&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fst&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;register&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Just&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;snd&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;register&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;otherwise&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;getPhone&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;xs&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;Now we can looking for a phone number in the phonebook:&lt;/p&gt;
+&lt;div class=&quot;language-haskell highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;getPhone&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;phoneBook&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;Rodrigos&quot;&lt;/span&gt;
+&lt;span class=&quot;kt&quot;&gt;Nothing&lt;/span&gt;
+
+&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;getPhone&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;phoneBook&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;Sybila&quot;&lt;/span&gt;
+&lt;span class=&quot;kt&quot;&gt;Just&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;9232-7098&quot;&lt;/span&gt;
+
+&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;getPhone&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;phoneBook&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;Rodrigo&quot;&lt;/span&gt;
+&lt;span class=&quot;kt&quot;&gt;Just&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;3226-9772&quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;We have a bunch of &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;String&lt;/code&gt;&lt;/em&gt;’s in our code, but we don’t know what is each one. We can improve that using &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Type Synonyms&lt;/code&gt;&lt;/em&gt;:&lt;/p&gt;
+&lt;div class=&quot;language-haskell highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kr&quot;&gt;type&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Name&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;
+&lt;span class=&quot;kr&quot;&gt;type&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;PhoneNumber&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;
+&lt;span class=&quot;kr&quot;&gt;type&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;PhoneBook&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;Name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;PhoneNumber&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)]&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;phoneBook&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;::&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;PhoneBook&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;phoneBook&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Rodrigo&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;3226-9772&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+            &lt;span class=&quot;p&quot;&gt;,(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Sybila&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;9232-7098&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+            &lt;span class=&quot;p&quot;&gt;,(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Carlos&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;3765-0987&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+            &lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;getPhone&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;::&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;PhoneBook&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Name&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Maybe&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;PhoneNumber&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;getPhone&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;[]&lt;/span&gt; &lt;span class=&quot;kr&quot;&gt;_&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Nothing&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;getPhone&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;register&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;xs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;name&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fst&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;register&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Just&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;snd&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;register&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;otherwise&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;getPhone&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;xs&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;Now we have three &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Type Synonyms&lt;/code&gt;&lt;/em&gt; which made our code much more meaningful and readable. With this code we know what is a &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;PhoneBook&lt;/code&gt;&lt;/em&gt; and that the function &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;getPhone&lt;/code&gt;&lt;/em&gt; needs a &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Name&lt;/code&gt;&lt;/em&gt; to return a &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;PhoneNumber&lt;/code&gt;&lt;/em&gt;.&lt;/p&gt;
+
+&lt;div class=&quot;language-haskell highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;getPhone&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;phoneBook&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;Rodrigos&quot;&lt;/span&gt;
+&lt;span class=&quot;kt&quot;&gt;Nothing&lt;/span&gt;
+
+&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;getPhone&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;phoneBook&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;Sybila&quot;&lt;/span&gt;
+&lt;span class=&quot;kt&quot;&gt;Just&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;9232-7098&quot;&lt;/span&gt;
+
+&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;getPhone&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;phoneBook&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;Rodrigo&quot;&lt;/span&gt;
+&lt;span class=&quot;kt&quot;&gt;Just&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;3226-9772&quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Type Synonyms&lt;/code&gt;&lt;/em&gt; is important to improve the readability of our code and make it much more meaningful, but we have to be prudent and not use it for everything and just when we need to give a better understanding to other developers who are reading our code or make it more expressive.&lt;/p&gt;</content><author><name>Rodrigo Morais</name></author><summary type="html">Hey folks!!
+
+Last post we saw how create records in Haskell. Today let’s see how to work with Type Synonyms.
+
+What is Type Synonyms
+
+Type Synonyms is one way to give a new name for a type which already exist. The most popular example is the type [Char] that have a synonym String.
+If we take a look how String is declared in Haskell we can see that:</summary></entry><entry xml:lang="en"><title type="html">React - Creating a Dropdown component - Part 1</title><link href="https://rodrigo-morais.github.io/react-dropdown-post-1/" rel="alternate" type="text/html" title="React - Creating a Dropdown component - Part 1" /><published>2017-01-23T00:00:00+01:00</published><updated>2017-01-23T00:00:00+01:00</updated><id>https://rodrigo-morais.github.io/react-dropdown-post-1.en</id><content type="html" xml:base="https://rodrigo-morais.github.io/react-dropdown-post-1/">&lt;p&gt;Hey folks!&lt;/p&gt;
 
 &lt;p&gt;I’m working with &lt;a href=&quot;https://facebook.github.io/react/&quot;&gt;&lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;React&lt;/code&gt;&lt;/em&gt;&lt;/a&gt;, which is a JavaScript library to build user interfaces, in the last months and I guess there are really some subjects that we can discuss here.&lt;br /&gt;
 My previous project was a website to booking air tickets to the biggest air company in South America and my current project is a language learning app. In the previous project we had really complex &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;React&lt;/code&gt;&lt;/em&gt; components which gave a lot of fun to work with, and my current project has more simpler components with more focus in the presentation. In the last week a work in a component that have more user interaction and this kind of component is a good one to discuss here because it has some details which worth to discuss.&lt;br /&gt;
@@ -171,104 +262,7 @@ If our software needs a data type as Person to handle with person’s data. Let�
 data Person = Person String String Int String
 
 &amp;gt; :t Person
-Person :: String -&amp;gt; String -&amp;gt; Int -&amp;gt; String -&amp;gt; Person</summary></entry><entry xml:lang="en"><title type="html">Haskell’s marathon - Day Fifty to Fifty Three</title><link href="https://rodrigo-morais.github.io/haskell-marathon-day-fifty-to-fifty-three/" rel="alternate" type="text/html" title="Haskell’s marathon - Day Fifty to Fifty Three" /><published>2017-01-20T00:00:00+01:00</published><updated>2017-01-20T00:00:00+01:00</updated><id>https://rodrigo-morais.github.io/haskell-marathon-day-fifty-to-fifty-three.en</id><content type="html" xml:base="https://rodrigo-morais.github.io/haskell-marathon-day-fifty-to-fifty-three/">&lt;p&gt;Hey folks!&lt;/p&gt;
-
-&lt;p&gt;Last post we saw how create &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;records&lt;/code&gt;&lt;/em&gt; in &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Haskell&lt;/code&gt;&lt;/em&gt;. Today let’s see how to work with &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Type Synonyms&lt;/code&gt;&lt;/em&gt;.&lt;/p&gt;
-
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;What is &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Type Synonyms&lt;/code&gt;&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Type Synonyms&lt;/code&gt;&lt;/em&gt; is one way to give a new name for a type which already exist. The most popular example is the type &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;[Char]&lt;/code&gt;&lt;/em&gt; that have a synonym &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;String&lt;/code&gt;&lt;/em&gt;.&lt;br /&gt;
-If we take a look how &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;String&lt;/code&gt;&lt;/em&gt; is declared in &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Haskell&lt;/code&gt;&lt;/em&gt; we can see that:
-&lt;!--more--&gt;&lt;/p&gt;
-&lt;div class=&quot;language-haskell highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kr&quot;&gt;type&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;Char&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;p&gt;We can create our &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;String&lt;/code&gt;&lt;/em&gt; from &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;[Char]&lt;/code&gt;&lt;/em&gt;:&lt;/p&gt;
-&lt;div class=&quot;language-haskell highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kr&quot;&gt;type&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;OurString&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;Char&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
-&lt;span class=&quot;kr&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;test&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;“&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;Test&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;”&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;::&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;OurString&lt;/span&gt;
-
-&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;t&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;test&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;test&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;::&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;OurString&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;p&gt;In the end the keyword &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;type&lt;/code&gt;&lt;/em&gt; just gives a new name for a type which already exist.&lt;br /&gt;
-We can use &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Type Synonyms&lt;/code&gt;&lt;/em&gt; to do our code more meaningful when necessary.&lt;/p&gt;
-
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Phonebook&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;Let’s do an example called phonebook which is a list of pairs of name and telephone numbers. We can see first how to do that without &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Type Synonyms&lt;/code&gt;&lt;/em&gt;:&lt;/p&gt;
-&lt;div class=&quot;language-haskell highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;phoneBook&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;::&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)]&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;phoneBook&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Rodrigo&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;3226-9772&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-            &lt;span class=&quot;p&quot;&gt;,(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Sybila&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;9232-7098&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-            &lt;span class=&quot;p&quot;&gt;,(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Carlos&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;3765-0987&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-            &lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;getPhone&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;::&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Maybe&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;getPhone&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;[]&lt;/span&gt; &lt;span class=&quot;kr&quot;&gt;_&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Nothing&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;getPhone&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;register&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;xs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;
-  &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;name&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fst&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;register&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Just&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;snd&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;register&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-  &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;otherwise&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;getPhone&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;xs&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;
-
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;p&gt;Now we can looking for a phone number in the phonebook:&lt;/p&gt;
-&lt;div class=&quot;language-haskell highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;getPhone&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;phoneBook&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;Rodrigos&quot;&lt;/span&gt;
-&lt;span class=&quot;kt&quot;&gt;Nothing&lt;/span&gt;
-
-&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;getPhone&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;phoneBook&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;Sybila&quot;&lt;/span&gt;
-&lt;span class=&quot;kt&quot;&gt;Just&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;9232-7098&quot;&lt;/span&gt;
-
-&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;getPhone&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;phoneBook&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;Rodrigo&quot;&lt;/span&gt;
-&lt;span class=&quot;kt&quot;&gt;Just&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;3226-9772&quot;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;p&gt;We have a bunch of &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;String&lt;/code&gt;&lt;/em&gt;’s in our code, but we don’t know what is each one. We can improve that using &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Type Synonyms&lt;/code&gt;&lt;/em&gt;:&lt;/p&gt;
-&lt;div class=&quot;language-haskell highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kr&quot;&gt;type&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Name&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;
-&lt;span class=&quot;kr&quot;&gt;type&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;PhoneNumber&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;
-&lt;span class=&quot;kr&quot;&gt;type&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;PhoneBook&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;Name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;PhoneNumber&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)]&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;phoneBook&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;::&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;PhoneBook&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;phoneBook&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Rodrigo&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;3226-9772&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-            &lt;span class=&quot;p&quot;&gt;,(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Sybila&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;9232-7098&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-            &lt;span class=&quot;p&quot;&gt;,(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Carlos&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;3765-0987&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-            &lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;getPhone&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;::&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;PhoneBook&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Name&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Maybe&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;PhoneNumber&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;getPhone&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;[]&lt;/span&gt; &lt;span class=&quot;kr&quot;&gt;_&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Nothing&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;getPhone&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;register&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;xs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;
-  &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;name&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fst&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;register&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Just&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;snd&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;register&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-  &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;otherwise&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;getPhone&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;xs&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;p&gt;Now we have three &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Type Synonyms&lt;/code&gt;&lt;/em&gt; which made our code much more meaningful and readable. With this code we know what is a &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;PhoneBook&lt;/code&gt;&lt;/em&gt; and that the function &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;getPhone&lt;/code&gt;&lt;/em&gt; needs a &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Name&lt;/code&gt;&lt;/em&gt; to return a &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;PhoneNumber&lt;/code&gt;&lt;/em&gt;.&lt;/p&gt;
-
-&lt;div class=&quot;language-haskell highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;getPhone&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;phoneBook&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;Rodrigos&quot;&lt;/span&gt;
-&lt;span class=&quot;kt&quot;&gt;Nothing&lt;/span&gt;
-
-&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;getPhone&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;phoneBook&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;Sybila&quot;&lt;/span&gt;
-&lt;span class=&quot;kt&quot;&gt;Just&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;9232-7098&quot;&lt;/span&gt;
-
-&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;getPhone&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;phoneBook&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;Rodrigo&quot;&lt;/span&gt;
-&lt;span class=&quot;kt&quot;&gt;Just&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;3226-9772&quot;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Type Synonyms&lt;/code&gt;&lt;/em&gt; is important to improve the readability of our code and make it much more meaningful, but we have to be prudent and not use it for everything and just when we need to give a better understanding to other developers who are reading our code or make it more expressive.&lt;/p&gt;</content><author><name>Rodrigo Morais</name></author><summary type="html">Hey folks!
-
-Last post we saw how create records in Haskell. Today let’s see how to work with Type Synonyms.
-
-
-
-What is Type Synonyms
-
-Type Synonyms is one way to give a new name for a type which already exist. The most popular example is the type [Char] that have a synonym String.
-If we take a look how String is declared in Haskell we can see that:</summary></entry><entry xml:lang="en"><title type="html">Haskell’s marathon - Day Forty Eight</title><link href="https://rodrigo-morais.github.io/haskell-marathon-day-forty-eight/" rel="alternate" type="text/html" title="Haskell’s marathon - Day Forty Eight" /><published>2017-01-19T00:00:00+01:00</published><updated>2017-01-19T00:00:00+01:00</updated><id>https://rodrigo-morais.github.io/haskell-marathon-day-forty-eight.en</id><content type="html" xml:base="https://rodrigo-morais.github.io/haskell-marathon-day-forty-eight/">&lt;p&gt;Hey folks!&lt;/p&gt;
+Person :: String -&amp;gt; String -&amp;gt; Int -&amp;gt; String -&amp;gt; Person</summary></entry><entry xml:lang="en"><title type="html">Haskell’s marathon - Day Forty Eight</title><link href="https://rodrigo-morais.github.io/haskell-marathon-day-forty-eight/" rel="alternate" type="text/html" title="Haskell’s marathon - Day Forty Eight" /><published>2017-01-19T00:00:00+01:00</published><updated>2017-01-19T00:00:00+01:00</updated><id>https://rodrigo-morais.github.io/haskell-marathon-day-forty-eight.en</id><content type="html" xml:base="https://rodrigo-morais.github.io/haskell-marathon-day-forty-eight/">&lt;p&gt;Hey folks!&lt;/p&gt;
 
 &lt;p&gt;Last posts we learned how to create our own data type. Today we will see how to export our data type in a &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;module&lt;/code&gt;&lt;/em&gt;.&lt;/p&gt;
 
