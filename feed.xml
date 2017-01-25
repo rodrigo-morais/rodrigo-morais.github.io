@@ -1,6 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xml" href="https://rodrigo-morais.github.io/feed.xslt.xml"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.3.1">Jekyll</generator><link href="https://rodrigo-morais.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://rodrigo-morais.github.io/" rel="alternate" type="text/html" /><updated>2017-01-25T21:33:40+01:00</updated><id>https://rodrigo-morais.github.io//</id><title type="html">In development</title><subtitle>Software Developer</subtitle><author><name>Rodrigo Morais</name></author><entry xml:lang="en"><title type="html">Haskell’s marathon - Day Fifty to Fifty Three</title><link href="https://rodrigo-morais.github.io/haskell-marathon-day-fifty-to-fifty-three/" rel="alternate" type="text/html" title="Haskell’s marathon - Day Fifty to Fifty Three" /><published>2017-01-25T00:00:00+01:00</published><updated>2017-01-25T00:00:00+01:00</updated><id>https://rodrigo-morais.github.io/haskell-marathon-day-fifty-to-fifty-three.en</id><content type="html" xml:base="https://rodrigo-morais.github.io/haskell-marathon-day-fifty-to-fifty-three/">&lt;p&gt;Hey folks!!&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xml" href="https://rodrigo-morais.github.io/feed.xslt.xml"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.3.1">Jekyll</generator><link href="https://rodrigo-morais.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://rodrigo-morais.github.io/" rel="alternate" type="text/html" /><updated>2017-01-25T21:40:54+01:00</updated><id>https://rodrigo-morais.github.io//</id><title type="html">In development</title><subtitle>Software Developer</subtitle><author><name>Rodrigo Morais</name></author><entry xml:lang="en"><title type="html">Haskell’s marathon - Day Fifty to Fifty Three</title><link href="https://rodrigo-morais.github.io/haskell-marathon-day-fifty-to-fifty-three/" rel="alternate" type="text/html" title="Haskell’s marathon - Day Fifty to Fifty Three" /><published>2017-01-25T00:00:00+01:00</published><updated>2017-01-25T00:00:00+01:00</updated><id>https://rodrigo-morais.github.io/haskell-marathon-day-fifty-to-fifty-three.en</id><content type="html" xml:base="https://rodrigo-morais.github.io/haskell-marathon-day-fifty-to-fifty-three/">&lt;p&gt;Hey folks!!&lt;/p&gt;
 
 &lt;p&gt;Last post we saw how create &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;records&lt;/code&gt;&lt;/em&gt; in &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Haskell&lt;/code&gt;&lt;/em&gt;. Today let’s see how to work with &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Type Synonyms&lt;/code&gt;&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;What is &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Type Synonyms&lt;/code&gt;&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;
 
@@ -20,6 +22,8 @@ If we take a look how &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;
 &lt;/div&gt;
 &lt;p&gt;In the end the keyword &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;type&lt;/code&gt;&lt;/em&gt; just gives a new name for a type which already exist.&lt;br /&gt;
 We can use &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Type Synonyms&lt;/code&gt;&lt;/em&gt; to do our code more meaningful when necessary.&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;Phonebook&lt;/strong&gt;&lt;/p&gt;
 
@@ -85,6 +89,8 @@ We can use &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Type Synony
 &lt;p&gt;&lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Type Synonyms&lt;/code&gt;&lt;/em&gt; is important to improve the readability of our code and make it much more meaningful, but we have to be prudent and not use it for everything and just when we need to give a better understanding to other developers who are reading our code or make it more expressive.&lt;/p&gt;</content><author><name>Rodrigo Morais</name></author><summary type="html">Hey folks!!
 
 Last post we saw how create records in Haskell. Today let’s see how to work with Type Synonyms.
+
+
 
 What is Type Synonyms
 
