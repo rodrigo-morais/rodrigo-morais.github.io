@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>React - Creating a Dropdown component - Part 2 –  – Software Developer</title>
+
+        <meta charset="utf-8" />
+    <meta content='text/html; charset=utf-8' http-equiv='Content-Type'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0'>
+
+    
+    <meta name="description" content="Hey folks!
+
+In the first part we saw how configure our project to build a component using React.
+Today we will start to build our component. Our dropdown is compounded from small components building in the end the final component which is our dropdown.
+I defend that always when we build a component as a dropdown we have to do that thinking as a third party component but just having what is really necessary and not trying to predict what the component will need in the future.
+
+" />
+    <meta property="og:description" content="Hey folks!
+
+In the first part we saw how configure our project to build a component using React.
+Today we will start to build our component. Our dropdown is compounded from small components building in the end the final component which is our dropdown.
+I defend that always when we build a component as a dropdown we have to do that thinking as a third party component but just having what is really necessary and not trying to predict what the component will need in the future.
+
+" />
+    
+    <meta name="author" content="" />
+
+    
+    <meta property="og:title" content="React - Creating a Dropdown component - Part 2" />
+    <meta property="twitter:title" content="React - Creating a Dropdown component - Part 2" />
+    
+
+    <!--[if lt IE 9]>
+      <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <link rel="stylesheet" type="text/css" href="/css/styles.css" />
+    <link rel="alternate" type="application/rss+xml" title=" - Software Developer" href="/pt_BR/feed.xml" />
+
+    <!-- Created with Jekyll Now - http://github.com/barryclark/jekyll-now -->
+  </head>
+
+  <body>
+    <div class="wrapper-masthead">
+      <div class="container">
+        <header class="masthead clearfix">
+          <a href="/pt_BR/" class="site-avatar"><img src="https://avatars.githubusercontent.com/rodrigo-morais" /></a>
+
+          <div class="site-info">
+            <h1 class="site-name"><a href="/pt_BR/">In development</a></h1>
+            <h3 class="site-author">Rodrigo Morais</h3>
+            <p class="site-description">Software Developer</p>
+          </div>
+
+          <nav class="languages"> 
+          
+          </nav>
+
+          <nav>
+            <a href="/pt_BR/">Blog</a>
+            <a href="/pt_BR/about">Sobre</a>
+          </nav>
+        </header>
+      </div>
+    </div>
+
+    <div id="main" role="main" class="container">
+      <article class="post">
+  
+
+  <h1>React - Creating a Dropdown component - Part 2</h1>
+
+  <div class="entry">
+    <p>Hey folks!</p>
+
+<p>In the first part we saw how configure our project to build a component using <em><code class="highlighter-rouge">React</code></em>.<br />
+Today we will start to build our component. Our dropdown is compounded from small components building in the end the final component which is our dropdown.<br />
+I defend that always when we build a component as a dropdown we have to do that thinking as a third party component but just having what is really necessary and not trying to predict what the component will need in the future.
+<!--more--></p>
+
+<p><br /></p>
+
+<p><strong>Puzzle</strong></p>
+
+<p>A component in <em><code class="highlighter-rouge">React</code></em> is a puzzle where we match small components to have our final product. Our dropdown is one of this cases, we have some small components to build it. For example, a dropdown has a trigger which is an element that the user can interact to open nor close the dropdown. Another component could be a list of items inside our dropdown and depending how complex is each item we can extract a new component from it.</p>
+
+<p><br /></p>
+
+<p><strong>Third Party component</strong></p>
+
+<p>Majority of components that we build can be reused in our project, in different projects or even for other teams. The cost to create a generic component is not much bigger than create an exclusive one to our problem, at least in the majority of the cases. Because of that, I defend the idea to create third party components to be reused.</p>
+
+<p><br /></p>
+
+<p><strong>First Component</strong></p>
+
+<p>We will start building a trigger to our dropdown. The requirements are:</p>
+<ul>
+  <li>A text which should be configurable</li>
+  <li>A icone as an arrow showing if the dropdown is opened or closed</li>
+  <li>A click event which open or close the dropdown</li>
+</ul>
+
+<p>We should start our trigger component as much simple as possible and in each new interaction we can improve it. Is very common when we start to compound the components to work together realize that we need add more features in them.</p>
+
+<p>This is the visual idea that I have to our component:</p>
+
+<image src="https://rodrigo-morais.github.io/images/react_1.png" />
+
+<p><br /></p>
+
+<p><strong>TDD</strong></p>
+
+<p>We will use <em><code class="highlighter-rouge">TDD</code></em> to build our trigger. This wants to say that we will write tests before write the component’s code to them guide our design.<br />
+To do it we have to import some libraries:</p>
+<div class="language-shell highlighter-rouge"><pre class="highlight"><code>npm i --save-dev mocha
+npm i --save-dev chai
+npm i --save-dev enzyme
+npm i --save-dev babel-plugin-module-resolver
+npm i --save-dev react-addons-test-utils
+</code></pre>
+</div>
+<p>Here we are importing <a href="https://mochajs.org/"><em><code class="highlighter-rouge">Mocha</code></em></a> which is a good framework to write JavaScript tests, <a href="http://chaijs.com/"><em><code class="highlighter-rouge">Chai</code></em></a> which is an assertion library to complement <em><code class="highlighter-rouge">Mocha</code></em> and <a href="https://github.com/airbnb/enzyme"><em><code class="highlighter-rouge">Enzyme</code></em></a> that is a library to test <em><code class="highlighter-rouge">React</code></em> components.<br />
+We are importing a plugin to Babel which we will configure to say where are the source files and can use relative path to them in our tests.  And we importing a <em><code class="highlighter-rouge">React</code></em> plugin called <em><code class="highlighter-rouge">react-addons-test-utils</code></em> which make easier create tests.</p>
+
+<p>Beyond that we will add an script to our <em><code class="highlighter-rouge">package.json</code></em> file to make the action of run tests easier:</p>
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="s2">"test"</span><span class="err">:</span> <span class="s2">"npm run test:unit"</span><span class="p">,</span>
+<span class="s2">"test:unit"</span><span class="err">:</span> <span class="s2">"./node_modules/mocha/bin/mocha --opts spec/mocha.opts"</span><span class="p">,</span>
+</code></pre>
+</div>
+<p>And we have a file called <em><code class="highlighter-rouge">mocha.opts</code></em> with some <em><code class="highlighter-rouge">Mocha</code></em>’s configurations:</p>
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="o">-</span><span class="nx">inline</span><span class="o">-</span><span class="nx">diffs</span>
+<span class="o">--</span><span class="nx">reporter</span> <span class="nx">spec</span>
+<span class="o">--</span><span class="nx">compilers</span> <span class="nx">js</span><span class="err">:</span><span class="nx">babel</span><span class="o">-</span><span class="nx">register</span>
+<span class="nx">spec</span><span class="cm">/**/</span><span class="o">*</span><span class="nx">Spec</span><span class="p">.</span><span class="nx">js</span>
+</code></pre>
+</div>
+<p>In this file we are saying to <em><code class="highlighter-rouge">Mocha</code></em> where are our tests and that we are using <em><code class="highlighter-rouge">Babel</code></em> to transpile our code.</p>
+
+<p>The last configuration is the <em><code class="highlighter-rouge">.babelrc</code></em> file where we configure the presets and plugins:</p>
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="p">{</span>
+  <span class="s2">"presets"</span><span class="err">:</span> <span class="p">[</span><span class="s2">"es2015"</span><span class="p">,</span> <span class="s2">"react"</span><span class="p">],</span>
+  <span class="s2">"plugins"</span><span class="err">:</span> <span class="p">[</span>
+    <span class="p">[</span>
+      <span class="s2">"module-resolver"</span><span class="p">,</span> <span class="p">{</span>
+        <span class="s2">"root"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"./src/"</span><span class="p">],</span>
+        <span class="s2">"alias"</span><span class="p">:</span> <span class="p">{</span>
+          <span class="s2">"src"</span><span class="p">:</span> <span class="s2">"./src"</span>
+        <span class="p">}</span>
+      <span class="p">}</span>
+    <span class="p">]</span>
+  <span class="p">]</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p><br /></p>
+
+<p><strong>First requirement</strong></p>
+
+<p>Let’s start testing if the text which we pass to our trigger is exhibited or not. This is the test:</p>
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kr">import</span> <span class="p">{</span> <span class="nx">expect</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">'chai'</span><span class="p">;</span>
+<span class="kr">import</span> <span class="nx">React</span> <span class="nx">from</span> <span class="s1">'react'</span><span class="p">;</span>
+<span class="kr">import</span> <span class="nx">Trigger</span> <span class="nx">from</span> <span class="s1">'src/components/Trigger'</span><span class="p">;</span>
+<span class="kr">import</span> <span class="p">{</span> <span class="nx">shallow</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">'enzyme'</span><span class="p">;</span>
+
+<span class="nx">describe</span><span class="p">(</span><span class="s1">'Trigger Component'</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="kr">const</span> <span class="nx">text</span> <span class="o">=</span> <span class="s1">'Select'</span><span class="p">;</span>
+  <span class="kr">const</span> <span class="nx">props</span> <span class="o">=</span> <span class="p">{</span> <span class="nx">text</span> <span class="p">};</span>
+  <span class="kr">const</span> <span class="nx">trigger</span> <span class="o">=</span> <span class="nx">shallow</span><span class="p">(</span><span class="o">&lt;</span><span class="nx">Trigger</span> <span class="p">{...</span><span class="nx">props</span><span class="p">}</span> <span class="sr">/&gt;</span><span class="se">)</span><span class="err">;
+</span>
+  <span class="nx">it</span><span class="p">(</span><span class="s1">'renders a text'</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">expect</span><span class="p">(</span><span class="nx">trigger</span><span class="p">.</span><span class="nx">props</span><span class="p">().</span><span class="nx">children</span><span class="p">).</span><span class="nx">to</span><span class="p">.</span><span class="nx">be</span><span class="p">.</span><span class="nx">equal</span><span class="p">(</span><span class="nx">text</span><span class="p">);</span>
+  <span class="p">});</span>
+<span class="p">});</span>
+</code></pre>
+</div>
+<p>We created the test in this path: <em><code class="highlighter-rouge">spec/components/TriggerSpec.js</code></em><br />
+In this test we are importing the libraries <em><code class="highlighter-rouge">React</code></em>, <em><code class="highlighter-rouge">chai</code></em>, <em><code class="highlighter-rouge">enzyme</code></em> and our component. Then we use <em><code class="highlighter-rouge">shallow</code></em> from <em><code class="highlighter-rouge">enzyme</code></em> to build our component and we verify that the text which we passed is contained in our component. If we run the test now it must fail because we don’t have the <em><code class="highlighter-rouge">Trigger</code></em> component.<br />
+Let’s build it:</p>
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kr">import</span> <span class="nx">React</span><span class="p">,</span> <span class="p">{</span> <span class="nx">PropTypes</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">'react'</span><span class="p">;</span>
+
+<span class="kd">function</span> <span class="nx">Trigger</span><span class="p">({</span> <span class="nx">text</span> <span class="p">})</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="p">(</span>
+    <span class="o">&lt;</span><span class="nx">a</span><span class="o">&gt;</span><span class="p">{</span><span class="nx">text</span><span class="p">}</span><span class="o">&lt;</span><span class="sr">/a</span><span class="err">&gt;
+</span>  <span class="p">);</span>
+<span class="p">}</span>
+
+<span class="nx">Trigger</span><span class="p">.</span><span class="nx">propTypes</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">text</span><span class="p">:</span> <span class="nx">PropTypes</span><span class="p">.</span><span class="nx">string</span><span class="p">.</span><span class="nx">isRequired</span>
+<span class="p">};</span>
+
+<span class="kr">export</span> <span class="k">default</span> <span class="nx">Trigger</span><span class="p">;</span>
+</code></pre>
+</div>
+<p>Our component was created in this path: <em><code class="highlighter-rouge">src/components/Trigger.js</code></em><br />
+Right now this component is really simple and we even don’t need create a component to it. But when we add more features this component will make sense.</p>
+
+<p>If we run the test now it will pass:</p>
+<div class="language-shell highlighter-rouge"><pre class="highlight"><code>npm <span class="nb">test</span>
+</code></pre>
+</div>
+
+<p><br /></p>
+
+<p>And now we have our component with the first requirement. 
+You can see the code <a href="https://github.com/rodrigo-morais/react-dropdown/tree/post-2">here</a>.<br />
+In the next post we will add the other requirements.</p>
+
+  </div>
+
+  <div class="date">
+    Written on January 30, 2017
+  </div>
+
+  
+<div class="comments">
+	<div id="disqus_thread"></div>
+	<script type="text/javascript">
+
+	    var disqus_shortname = 'rodrigo-morais';
+
+	    (function() {
+	        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+	        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+	        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	    })();
+
+	</script>
+	<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+
+</article>
+
+    </div>
+
+    <div class="wrapper-footer">
+      <div class="container">
+        <footer class="footer">
+          
+<a href="mailto:morais.rm@gmail.com"><i class="svg-icon email"></i></a>
+
+
+<a href="https://github.com/rodrigo-morais"><i class="svg-icon github"></i></a>
+
+<a href="https://www.linkedin.com/in/moraisrm"><i class="svg-icon linkedin"></i></a>
+
+
+<a href="https://www.twitter.com/moraisrm_rs"><i class="svg-icon twitter"></i></a>
+
+
+
+        </footer>
+      </div>
+    </div>
+
+    
+	<!-- Google Analytics -->
+	<script>
+		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+		ga('create', 'UA-87967717-1', 'auto');
+		ga('send', 'pageview', {
+		  'page': '/react-dropdown-post-2/',
+		  'title': 'React - Creating a Dropdown component - Part 2'
+		});
+	</script>
+	<!-- End Google Analytics -->
+
+
+  </body>
+</html>

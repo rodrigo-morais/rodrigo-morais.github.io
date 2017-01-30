@@ -1,4 +1,142 @@
-<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xml" href="https://rodrigo-morais.github.io/feed.xslt.xml"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.3.1">Jekyll</generator><link href="https://rodrigo-morais.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://rodrigo-morais.github.io/" rel="alternate" type="text/html" /><updated>2017-01-25T21:40:54+01:00</updated><id>https://rodrigo-morais.github.io//</id><title type="html">In development</title><subtitle>Software Developer</subtitle><author><name>Rodrigo Morais</name></author><entry xml:lang="en"><title type="html">Haskell’s marathon - Day Fifty to Fifty Three</title><link href="https://rodrigo-morais.github.io/haskell-marathon-day-fifty-to-fifty-three/" rel="alternate" type="text/html" title="Haskell’s marathon - Day Fifty to Fifty Three" /><published>2017-01-25T00:00:00+01:00</published><updated>2017-01-25T00:00:00+01:00</updated><id>https://rodrigo-morais.github.io/haskell-marathon-day-fifty-to-fifty-three.en</id><content type="html" xml:base="https://rodrigo-morais.github.io/haskell-marathon-day-fifty-to-fifty-three/">&lt;p&gt;Hey folks!!&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xml" href="https://rodrigo-morais.github.io/feed.xslt.xml"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.3.1">Jekyll</generator><link href="https://rodrigo-morais.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://rodrigo-morais.github.io/" rel="alternate" type="text/html" /><updated>2017-01-30T20:11:46+01:00</updated><id>https://rodrigo-morais.github.io//</id><title type="html">In development</title><subtitle>Software Developer</subtitle><author><name>Rodrigo Morais</name></author><entry xml:lang="en"><title type="html">React - Creating a Dropdown component - Part 2</title><link href="https://rodrigo-morais.github.io/react-dropdown-post-2/" rel="alternate" type="text/html" title="React - Creating a Dropdown component - Part 2" /><published>2017-01-30T00:00:00+01:00</published><updated>2017-01-30T00:00:00+01:00</updated><id>https://rodrigo-morais.github.io/react-dropdown-post-2.en</id><content type="html" xml:base="https://rodrigo-morais.github.io/react-dropdown-post-2/">&lt;p&gt;Hey folks!&lt;/p&gt;
+
+&lt;p&gt;In the first part we saw how configure our project to build a component using &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;React&lt;/code&gt;&lt;/em&gt;.&lt;br /&gt;
+Today we will start to build our component. Our dropdown is compounded from small components building in the end the final component which is our dropdown.&lt;br /&gt;
+I defend that always when we build a component as a dropdown we have to do that thinking as a third party component but just having what is really necessary and not trying to predict what the component will need in the future.
+&lt;!--more--&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Puzzle&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;A component in &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;React&lt;/code&gt;&lt;/em&gt; is a puzzle where we match small components to have our final product. Our dropdown is one of this cases, we have some small components to build it. For example, a dropdown has a trigger which is an element that the user can interact to open nor close the dropdown. Another component could be a list of items inside our dropdown and depending how complex is each item we can extract a new component from it.&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Third Party component&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Majority of components that we build can be reused in our project, in different projects or even for other teams. The cost to create a generic component is not much bigger than create an exclusive one to our problem, at least in the majority of the cases. Because of that, I defend the idea to create third party components to be reused.&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;First Component&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;We will start building a trigger to our dropdown. The requirements are:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;A text which should be configurable&lt;/li&gt;
+  &lt;li&gt;A icone as an arrow showing if the dropdown is opened or closed&lt;/li&gt;
+  &lt;li&gt;A click event which open or close the dropdown&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;We should start our trigger component as much simple as possible and in each new interaction we can improve it. Is very common when we start to compound the components to work together realize that we need add more features in them.&lt;/p&gt;
+
+&lt;p&gt;This is the visual idea that I have to our component:&lt;/p&gt;
+
+&lt;image src=&quot;https://rodrigo-morais.github.io/images/react_1.png&quot; /&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;TDD&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;We will use &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;TDD&lt;/code&gt;&lt;/em&gt; to build our trigger. This wants to say that we will write tests before write the component’s code to them guide our design.&lt;br /&gt;
+To do it we have to import some libraries:&lt;/p&gt;
+&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;npm i --save-dev mocha
+npm i --save-dev chai
+npm i --save-dev enzyme
+npm i --save-dev babel-plugin-module-resolver
+npm i --save-dev react-addons-test-utils
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;Here we are importing &lt;a href=&quot;https://mochajs.org/&quot;&gt;&lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Mocha&lt;/code&gt;&lt;/em&gt;&lt;/a&gt; which is a good framework to write JavaScript tests, &lt;a href=&quot;http://chaijs.com/&quot;&gt;&lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Chai&lt;/code&gt;&lt;/em&gt;&lt;/a&gt; which is an assertion library to complement &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Mocha&lt;/code&gt;&lt;/em&gt; and &lt;a href=&quot;https://github.com/airbnb/enzyme&quot;&gt;&lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Enzyme&lt;/code&gt;&lt;/em&gt;&lt;/a&gt; that is a library to test &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;React&lt;/code&gt;&lt;/em&gt; components.&lt;br /&gt;
+We are importing a plugin to Babel which we will configure to say where are the source files and can use relative path to them in our tests.  And we importing a &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;React&lt;/code&gt;&lt;/em&gt; plugin called &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;react-addons-test-utils&lt;/code&gt;&lt;/em&gt; which make easier create tests.&lt;/p&gt;
+
+&lt;p&gt;Beyond that we will add an script to our &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;package.json&lt;/code&gt;&lt;/em&gt; file to make the action of run tests easier:&lt;/p&gt;
+&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;s2&quot;&gt;&quot;test&quot;&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;npm run test:unit&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;s2&quot;&gt;&quot;test:unit&quot;&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;./node_modules/mocha/bin/mocha --opts spec/mocha.opts&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;And we have a file called &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;mocha.opts&lt;/code&gt;&lt;/em&gt; with some &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Mocha&lt;/code&gt;&lt;/em&gt;’s configurations:&lt;/p&gt;
+&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;inline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;diffs&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;--&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;reporter&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;spec&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;--&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;compilers&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;js&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;babel&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;register&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;spec&lt;/span&gt;&lt;span class=&quot;cm&quot;&gt;/**/&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;Spec&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;js&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;In this file we are saying to &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Mocha&lt;/code&gt;&lt;/em&gt; where are our tests and that we are using &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Babel&lt;/code&gt;&lt;/em&gt; to transpile our code.&lt;/p&gt;
+
+&lt;p&gt;The last configuration is the &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;.babelrc&lt;/code&gt;&lt;/em&gt; file where we configure the presets and plugins:&lt;/p&gt;
+&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;s2&quot;&gt;&quot;presets&quot;&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;es2015&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;react&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt;
+  &lt;span class=&quot;s2&quot;&gt;&quot;plugins&quot;&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
+      &lt;span class=&quot;s2&quot;&gt;&quot;module-resolver&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;s2&quot;&gt;&quot;root&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;./src/&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt;
+        &lt;span class=&quot;s2&quot;&gt;&quot;alias&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+          &lt;span class=&quot;s2&quot;&gt;&quot;src&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;./src&quot;&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+      &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;First requirement&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Let’s start testing if the text which we pass to our trigger is exhibited or not. This is the test:&lt;/p&gt;
+&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kr&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;expect&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'chai'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;kr&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;React&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'react'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;kr&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Trigger&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'src/components/Trigger'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;kr&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;shallow&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'enzyme'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;nx&quot;&gt;describe&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'Trigger Component'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;text&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'Select'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;props&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;text&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;};&lt;/span&gt;
+  &lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;trigger&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;shallow&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;Trigger&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{...&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;props&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;sr&quot;&gt;/&amp;gt;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;;
+&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;it&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'renders a text'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;expect&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;trigger&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;props&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;children&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;to&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;be&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;equal&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;We created the test in this path: &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;spec/components/TriggerSpec.js&lt;/code&gt;&lt;/em&gt;&lt;br /&gt;
+In this test we are importing the libraries &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;React&lt;/code&gt;&lt;/em&gt;, &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;chai&lt;/code&gt;&lt;/em&gt;, &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;enzyme&lt;/code&gt;&lt;/em&gt; and our component. Then we use &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;shallow&lt;/code&gt;&lt;/em&gt; from &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;enzyme&lt;/code&gt;&lt;/em&gt; to build our component and we verify that the text which we passed is contained in our component. If we run the test now it must fail because we don’t have the &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Trigger&lt;/code&gt;&lt;/em&gt; component.&lt;br /&gt;
+Let’s build it:&lt;/p&gt;
+&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kr&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;React&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;PropTypes&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'react'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Trigger&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;({&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;text&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;})&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;sr&quot;&gt;/a&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;&amp;gt;
+&lt;/span&gt;  &lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;nx&quot;&gt;Trigger&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;propTypes&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;PropTypes&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;isRequired&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;};&lt;/span&gt;
+
+&lt;span class=&quot;kr&quot;&gt;export&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;default&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Trigger&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;Our component was created in this path: &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;src/components/Trigger.js&lt;/code&gt;&lt;/em&gt;&lt;br /&gt;
+Right now this component is really simple and we even don’t need create a component to it. But when we add more features this component will make sense.&lt;/p&gt;
+
+&lt;p&gt;If we run the test now it will pass:&lt;/p&gt;
+&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;npm &lt;span class=&quot;nb&quot;&gt;test&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;And now we have our component with the first requirement. 
+You can see the code &lt;a href=&quot;https://github.com/rodrigo-morais/react-dropdown/tree/post-2&quot;&gt;here&lt;/a&gt;.&lt;br /&gt;
+In the next post we will add the other requirements.&lt;/p&gt;</content><author><name>Rodrigo Morais</name></author><summary type="html">Hey folks!
+
+In the first part we saw how configure our project to build a component using React.
+Today we will start to build our component. Our dropdown is compounded from small components building in the end the final component which is our dropdown.
+I defend that always when we build a component as a dropdown we have to do that thinking as a third party component but just having what is really necessary and not trying to predict what the component will need in the future.</summary></entry><entry xml:lang="en"><title type="html">Haskell’s marathon - Day Fifty to Fifty Three</title><link href="https://rodrigo-morais.github.io/haskell-marathon-day-fifty-to-fifty-three/" rel="alternate" type="text/html" title="Haskell’s marathon - Day Fifty to Fifty Three" /><published>2017-01-25T00:00:00+01:00</published><updated>2017-01-25T00:00:00+01:00</updated><id>https://rodrigo-morais.github.io/haskell-marathon-day-fifty-to-fifty-three.en</id><content type="html" xml:base="https://rodrigo-morais.github.io/haskell-marathon-day-fifty-to-fifty-three/">&lt;p&gt;Hey folks!!&lt;/p&gt;
 
 &lt;p&gt;Last post we saw how create &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;records&lt;/code&gt;&lt;/em&gt; in &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Haskell&lt;/code&gt;&lt;/em&gt;. Today let’s see how to work with &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Type Synonyms&lt;/code&gt;&lt;/em&gt;.&lt;/p&gt;
 
@@ -912,132 +1050,4 @@ find Empty _ = Empty
 find (Node a left right) x
   | a == x = Node a left right
   | a &amp;gt;= x = find left x
-  | otherwise = find right x</summary></entry><entry xml:lang="pt_BR"><title type="html">Maratona de Haskell - Vigésimo Nono à Trigésimo Primeiro Dia</title><link href="https://rodrigo-morais.github.io/haskell-marathon-day-twenty-nine-thirty-one/" rel="alternate" type="text/html" title="Maratona de Haskell - Vigésimo Nono à Trigésimo Primeiro Dia" /><published>2016-12-31T00:00:00+01:00</published><updated>2016-12-31T00:00:00+01:00</updated><id>https://rodrigo-morais.github.io/haskell-marathon-day-twenty-nine-thirty-one.pt_BR</id><content type="html" xml:base="https://rodrigo-morais.github.io/haskell-marathon-day-twenty-nine-thirty-one/">&lt;p&gt;Fala galera!&lt;/p&gt;
-
-&lt;p&gt;No último post nós melhoramos a nossa função &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;build&lt;/code&gt;&lt;/em&gt; e vimos algumas opções usando a função &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;insert&lt;/code&gt;&lt;/em&gt; que nós criamos para adicionar nodos na nossa &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;BST&lt;/code&gt;&lt;/em&gt;.&lt;br /&gt;
-Agora vamos ver algumas funções para encontrar um elemento na árvore ou confirmar se a árvore contém ou não um elemento.&lt;/p&gt;
-
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Recapitulando&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;Primeiro vamos fazer uma rápida revisão de como chegamos até aqui.&lt;/p&gt;
-
-&lt;p&gt;Nós começamos criando um tipo para a nossa &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;BST&lt;/code&gt;&lt;/em&gt;.&lt;/p&gt;
-&lt;div class=&quot;language-haskell highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kr&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;Ord&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Eq&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Tree&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Empty&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Node&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;Tree&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;Tree&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-  &lt;span class=&quot;kr&quot;&gt;deriving&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Show&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;!--more--&gt;
-&lt;p&gt;No segundo post vimos como contruir uma &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;BST&lt;/code&gt;&lt;/em&gt; a partir de uma lista.&lt;/p&gt;
-&lt;div class=&quot;language-haskell highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;build'&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;::&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;Ord&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Eq&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Tree&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Tree&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;build'&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;[]&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tree&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tree&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;build'&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;xs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Empty&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;build'&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;xs&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;Node&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Empty&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Empty&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;build'&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;xs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;Node&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;left&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;right&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-  &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;build'&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;xs&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;Node&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;build'&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;left&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;right&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-  &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;otherwise&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;build'&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;xs&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;Node&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;left&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;build'&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;right&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;build&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;::&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;Ord&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Eq&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Tree&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;build&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;xs&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;build'&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;xs&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Empty&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;No último post criamos a função &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;insert&lt;/code&gt;&lt;/em&gt;.&lt;/p&gt;
-&lt;div class=&quot;language-haskell highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;singleNode&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;::&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;Ord&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Tree&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;singleNode&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Node&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Empty&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Empty&lt;/span&gt;
-
-
-&lt;span class=&quot;n&quot;&gt;insert&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;::&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;Ord&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Tree&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Tree&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;insert&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Empty&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;singleNode&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;insert&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;Node&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;left&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;right&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;
-  &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Node&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;insert&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;left&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;right&lt;/span&gt;
-  &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;otherwise&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Node&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;left&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;insert&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;right&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;Usando a nossa função &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;insert&lt;/code&gt;&lt;/em&gt; nós vimos algumas opções de melhoria para a função &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;build&lt;/code&gt;&lt;/em&gt;:&lt;/p&gt;
-&lt;div class=&quot;language-haskell highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;build'&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;::&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;Ord&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Eq&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Tree&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Tree&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;build'&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;[]&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tree&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tree&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;build'&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;xs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tree&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;build'&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;xs&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;$&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;insert&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tree&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;build&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;::&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;Ord&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Eq&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Tree&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;build&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;xs&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;build'&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;xs&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Empty&lt;/span&gt;
-
-
-&lt;span class=&quot;n&quot;&gt;build2&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;::&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;Ord&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Tree&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;build2&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;[]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Empty&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;build2&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;xs&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;build2'&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;xs&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Empty&lt;/span&gt;
-  &lt;span class=&quot;kr&quot;&gt;where&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;build2'&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ys&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Empty&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;build2'&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ys&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;$&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;insert&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Empty&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;y&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;build2'&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ys&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tree&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;build2'&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ys&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;$&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;insert&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tree&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;y&lt;/span&gt;
-
-
-&lt;span class=&quot;n&quot;&gt;build3&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;::&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;Ord&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Tree&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Tree&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;build3&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;[]&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tree&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tree&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;build3&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;xs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tree&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;build3&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;xs&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;$&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;insert&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tree&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Encontrar um Nodo na Árvore&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;Agora vamos procurar um nodo na &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;BST&lt;/code&gt;&lt;/em&gt; e vamos retorna-lo como uma árvore.&lt;/p&gt;
-&lt;div class=&quot;language-haskell highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;find&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;::&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;Ord&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Tree&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Tree&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;find&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Empty&lt;/span&gt; &lt;span class=&quot;kr&quot;&gt;_&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Empty&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;find&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;Node&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;left&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;right&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;
-  &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Node&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;left&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;right&lt;/span&gt;
-  &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;find&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;left&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;
-  &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;otherwise&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;find&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;right&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;p&gt;Essa função retorna um nodo com os lados esquerdo e direito de acordo com o valor recebido.&lt;br /&gt;
-Vamos dizer que temos essa árvore:&lt;/p&gt;
-
-&lt;image src=&quot;https://rodrigo-morais.github.io/images/bst_2.png&quot; /&gt;
-
-&lt;p&gt;Se chamarmos a função &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;find&lt;/code&gt;&lt;/em&gt; com o valor 6 nós receberemos essa &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;BST&lt;/code&gt;&lt;/em&gt; como resultado:&lt;/p&gt;
-
-&lt;image src=&quot;https://rodrigo-morais.github.io/images/bst_3.png&quot; /&gt;
-
-&lt;p&gt;&lt;strong&gt;Encontrar um Nodo na Árvore que não seja Raíz&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;Legal, mas nossa &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;BST&lt;/code&gt;&lt;/em&gt; tem dois números 6 e se nós chamarmos a função &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;find&lt;/code&gt;&lt;/em&gt; sobre a árvore original, recebermos a nova árvore com 6 como raíz e tentarmos obter o segundo 6. Não receberemos o segundo 6 como resposta.&lt;br /&gt;
-Então criamos uma nova função para obter o segundo 6:&lt;/p&gt;
-&lt;div class=&quot;language-haskell highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;findSub&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;::&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;Ord&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Tree&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Tree&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;findSub&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Empty&lt;/span&gt; &lt;span class=&quot;kr&quot;&gt;_&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Empty&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;findSub&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;Node&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;left&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;right&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;
-  &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;find&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;left&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;
-  &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;otherwise&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;find&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;right&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;p&gt;Nós podiamos fazer isso sem uma função, mas a função faz o processo mais fácil.&lt;/p&gt;
-
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Verificar se a Árvore Contém um Elemento&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;Nossa última função é para verificar se uma &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;BST&lt;/code&gt;&lt;/em&gt; contém ou não um valor:&lt;/p&gt;
-&lt;div class=&quot;language-haskell highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;contains&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;::&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;Ord&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Tree&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Bool&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;contains&lt;/span&gt; &lt;span class=&quot;kr&quot;&gt;_&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Empty&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;False&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;contains&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;Node&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;left&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;right&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-  &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;contains&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;left&lt;/span&gt;
-  &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;contains&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;right&lt;/span&gt;
-  &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;otherwise&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;True&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;p&gt;Pensando na &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;BST&lt;/code&gt;&lt;/em&gt; anterior se chamarmos a função &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;contains&lt;/code&gt;&lt;/em&gt; com o valor 7 ela retornará &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;True&lt;/code&gt;&lt;/em&gt; e se chamarmos com o valor 5 ela retornará &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;False&lt;/code&gt;&lt;/em&gt;.&lt;/p&gt;</content><author><name>Rodrigo Morais</name></author><summary type="html">Fala galera!
-
-No último post nós melhoramos a nossa função build e vimos algumas opções usando a função insert que nós criamos para adicionar nodos na nossa BST.
-Agora vamos ver algumas funções para encontrar um elemento na árvore ou confirmar se a árvore contém ou não um elemento.
-
-
-
-Recapitulando
-
-Primeiro vamos fazer uma rápida revisão de como chegamos até aqui.
-
-Nós começamos criando um tipo para a nossa BST.
-data (Ord a, Eq a) =&amp;gt; Tree a = Empty | Node a (Tree a) (Tree a)
-  deriving Show</summary></entry></feed>
+  | otherwise = find right x</summary></entry></feed>
