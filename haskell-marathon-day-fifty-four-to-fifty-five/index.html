@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Haskell’s marathon - Day Fifty Four to Fifty Five –  – Software Developer</title>
+
+        <meta charset="utf-8" />
+    <meta content='text/html; charset=utf-8' http-equiv='Content-Type'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0'>
+
+    
+    <meta name="description" content="Hey folks!
+
+Today we will take a look in type classes which we already learnt in the first posts. Now we will see how to use them.
+
+
+
+What are Type Classes
+
+How we already saw type classes are not classes as in Object Oriented languages. We can use than as a sort of interfaces to reuse some functionalities in types which we are creating.
+There are some type classes that we already took a look as Eq, Ord, Show and etc.
+
+" />
+    <meta property="og:description" content="Hey folks!
+
+Today we will take a look in type classes which we already learnt in the first posts. Now we will see how to use them.
+
+
+
+What are Type Classes
+
+How we already saw type classes are not classes as in Object Oriented languages. We can use than as a sort of interfaces to reuse some functionalities in types which we are creating.
+There are some type classes that we already took a look as Eq, Ord, Show and etc.
+
+" />
+    
+    <meta name="author" content="" />
+
+    
+    <meta property="og:title" content="Haskell’s marathon - Day Fifty Four to Fifty Five" />
+    <meta property="twitter:title" content="Haskell’s marathon - Day Fifty Four to Fifty Five" />
+    
+
+    <!--[if lt IE 9]>
+      <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <link rel="stylesheet" type="text/css" href="/css/styles.css" />
+    <link rel="alternate" type="application/rss+xml" title=" - Software Developer" href="/feed.xml" />
+
+    <!-- Created with Jekyll Now - http://github.com/barryclark/jekyll-now -->
+  </head>
+
+  <body>
+    <div class="wrapper-masthead">
+      <div class="container">
+        <header class="masthead clearfix">
+          <a href="/" class="site-avatar"><img src="https://avatars.githubusercontent.com/rodrigo-morais" /></a>
+
+          <div class="site-info">
+            <h1 class="site-name"><a href="/">In development</a></h1>
+            <h3 class="site-author">Rodrigo Morais</h3>
+            <p class="site-description">Software Developer</p>
+          </div>
+
+          <nav class="languages"> 
+          
+          </nav>
+
+          <nav>
+            <a href="/">Blog</a>
+            <a href="/about">About</a>
+          </nav>
+        </header>
+      </div>
+    </div>
+
+    <div id="main" role="main" class="container">
+      <article class="post">
+  
+
+  <h1>Haskell’s marathon - Day Fifty Four to Fifty Five</h1>
+
+  <div class="entry">
+    <p>Hey folks!</p>
+
+<p>Today we will take a look in <em><code class="highlighter-rouge">type classes</code></em> which we already learnt in the first posts. Now we will see how to use them.</p>
+
+<p><br /></p>
+
+<p><strong>What are <em><code class="highlighter-rouge">Type Classes</code></em></strong></p>
+
+<p>How we already saw <em><code class="highlighter-rouge">type classes</code></em> are not <em><code class="highlighter-rouge">classes</code></em> as in <em><code class="highlighter-rouge">Object Oriented</code></em> languages. We can use than as a sort of interfaces to reuse some functionalities in types which we are creating.<br />
+There are some <em><code class="highlighter-rouge">type classes</code></em> that we already took a look as <em><code class="highlighter-rouge">Eq</code></em>, <em><code class="highlighter-rouge">Ord</code></em>, <em><code class="highlighter-rouge">Show</code></em> and etc.
+<!--more--></p>
+
+<p><br /></p>
+
+<p><strong><em><code class="highlighter-rouge">Eq type class</code></em></strong></p>
+
+<p>Let’s start creating a type and deriving the <em><code class="highlighter-rouge">type class Eq</code></em> to it.</p>
+<div class="language-haskell highlighter-rouge"><pre class="highlight"><code><span class="kr">data</span> <span class="kt">Person</span> <span class="o">=</span> <span class="kt">Person</span> <span class="p">{</span>
+  <span class="n">firstName</span> <span class="o">::</span> <span class="kt">String</span><span class="p">,</span>
+  <span class="n">lastName</span> <span class="o">::</span> <span class="kt">String</span><span class="p">,</span>
+  <span class="n">age</span> <span class="o">::</span> <span class="kt">Int</span>
+<span class="p">}</span> <span class="kr">deriving</span> <span class="p">(</span><span class="kt">Eq</span><span class="p">)</span>
+
+<span class="kr">let</span> <span class="n">rodrigo</span> <span class="o">=</span> <span class="kt">Person</span> <span class="p">{</span> <span class="n">firstName</span> <span class="o">=</span> <span class="s">"Rodrigo"</span><span class="p">,</span> <span class="n">lastName</span> <span class="o">=</span> <span class="s">"Morais"</span><span class="p">,</span> <span class="n">age</span> <span class="o">=</span> <span class="mi">37</span> <span class="p">}</span>
+<span class="kr">let</span> <span class="n">rodrigo1</span> <span class="o">=</span> <span class="kt">Person</span> <span class="p">{</span> <span class="n">firstName</span> <span class="o">=</span> <span class="s">"Rodrigo"</span><span class="p">,</span> <span class="n">lastName</span> <span class="o">=</span> <span class="s">"Morais"</span><span class="p">,</span> <span class="n">age</span> <span class="o">=</span> <span class="mi">37</span> <span class="p">}</span>
+<span class="kr">let</span> <span class="n">sybila</span> <span class="o">=</span> <span class="kt">Person</span> <span class="p">{</span> <span class="n">firstName</span> <span class="o">=</span> <span class="s">"Sybila"</span><span class="p">,</span> <span class="n">lastName</span> <span class="o">=</span> <span class="s">"Esteves"</span><span class="p">,</span> <span class="n">age</span> <span class="o">=</span> <span class="mi">32</span> <span class="p">}</span>
+</code></pre>
+</div>
+<p>So we created a type called <em><code class="highlighter-rouge">Person</code></em> and some values to it. When a person has the same first, last name and age in two different instances they are the same.<br />
+Let’s test:</p>
+<div class="language-haskell highlighter-rouge"><pre class="highlight"><code><span class="o">&gt;</span> <span class="n">rodrigo</span> <span class="o">==</span> <span class="n">rodrigo1</span>
+<span class="kt">True</span>
+
+<span class="o">&gt;</span> <span class="n">rodrigo</span> <span class="o">/=</span> <span class="n">rodrigo1</span>
+<span class="kt">False</span>
+
+<span class="o">&gt;</span> <span class="n">rodrigo</span> <span class="o">/=</span> <span class="n">sybila</span>
+<span class="kt">True</span>
+
+<span class="o">&gt;</span> <span class="n">rodrigo</span> <span class="o">==</span> <span class="n">sybila</span>
+<span class="kt">False</span>
+
+<span class="o">&gt;</span> <span class="n">rodrigo1</span> <span class="o">==</span> <span class="n">sybila</span>
+<span class="kt">False</span>
+
+<span class="o">&gt;</span> <span class="n">rodrigo1</span> <span class="o">/=</span> <span class="n">sybila</span>
+<span class="kt">True</span>
+</code></pre>
+</div>
+<p>Here we can see that <em><code class="highlighter-rouge">rodrigo</code></em> and <em><code class="highlighter-rouge">rodrigo1</code></em> are the same person, but <em><code class="highlighter-rouge">sybila</code></em> is different to them.</p>
+
+<p><br /></p>
+
+<p><strong><em><code class="highlighter-rouge">Show type class</code></em></strong></p>
+
+<p>So let’s say that we want to print on the screen the people which we created before.</p>
+<div class="language-haskell highlighter-rouge"><pre class="highlight"><code><span class="o">&gt;</span> <span class="n">rodrigo</span>
+
+<span class="o">&lt;</span><span class="n">interactive</span><span class="o">&gt;:</span><span class="mi">16</span><span class="o">:</span><span class="mi">1</span><span class="o">:</span>
+    <span class="kt">No</span> <span class="kr">instance</span> <span class="n">for</span> <span class="p">(</span><span class="kt">Show</span> <span class="kt">Person</span><span class="p">)</span> <span class="n">arising</span> <span class="n">from</span> <span class="n">a</span> <span class="n">use</span> <span class="kr">of</span> <span class="err">‘</span><span class="n">print</span><span class="err">’</span>
+    <span class="kt">In</span> <span class="n">a</span> <span class="n">stmt</span> <span class="kr">of</span> <span class="n">an</span> <span class="n">interactive</span> <span class="kt">GHCi</span> <span class="n">command</span><span class="o">:</span> <span class="n">print</span> <span class="n">it</span>
+</code></pre>
+</div>
+<p>When we try it <em><code class="highlighter-rouge">Haskell</code></em> uses the function <em><code class="highlighter-rouge">Show</code></em>, but our type does have this function. This function is part of the <em><code class="highlighter-rouge">Show type class</code></em> then let’s derive it in our type:</p>
+<div class="language-haskell highlighter-rouge"><pre class="highlight"><code><span class="kr">data</span> <span class="kt">Person</span> <span class="o">=</span> <span class="kt">Person</span> <span class="p">{</span>
+  <span class="n">firstName</span> <span class="o">::</span> <span class="kt">String</span><span class="p">,</span>
+  <span class="n">lastName</span> <span class="o">::</span> <span class="kt">String</span><span class="p">,</span>
+  <span class="n">age</span> <span class="o">::</span> <span class="kt">Int</span>
+<span class="p">}</span> <span class="kr">deriving</span> <span class="p">(</span><span class="kt">Eq</span><span class="p">,</span> <span class="kt">Show</span><span class="p">)</span>
+</code></pre>
+</div>
+<p>Now our type is deriving the <em><code class="highlighter-rouge">type classes Eq </code></em> and <em><code class="highlighter-rouge">Show</code></em>. And because of that we can print our people on the screen.</p>
+<div class="language-haskell highlighter-rouge"><pre class="highlight"><code><span class="o">&gt;</span> <span class="n">rodrigo</span>
+<span class="kt">Person</span> <span class="p">{</span><span class="n">firstName</span> <span class="o">=</span> <span class="s">"Rodrigo"</span><span class="p">,</span> <span class="n">lastName</span> <span class="o">=</span> <span class="s">"Morais"</span><span class="p">,</span> <span class="n">age</span> <span class="o">=</span> <span class="mi">37</span><span class="p">}</span>
+</code></pre>
+</div>
+
+<p><br /></p>
+
+<p>Today we made a review about what <em><code class="highlighter-rouge">type classes</code></em> are and saw how to use them. <em><code class="highlighter-rouge">Type Classes</code></em> are important to reuse code in <em><code class="highlighter-rouge">Haskell</code></em>.</p>
+
+  </div>
+
+  <div class="date">
+    Written on February  1, 2017
+  </div>
+
+  
+<div class="comments">
+	<div id="disqus_thread"></div>
+	<script type="text/javascript">
+
+	    var disqus_shortname = 'rodrigo-morais';
+
+	    (function() {
+	        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+	        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+	        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	    })();
+
+	</script>
+	<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+
+</article>
+
+    </div>
+
+    <div class="wrapper-footer">
+      <div class="container">
+        <footer class="footer">
+          
+<a href="mailto:morais.rm@gmail.com"><i class="svg-icon email"></i></a>
+
+
+<a href="https://github.com/rodrigo-morais"><i class="svg-icon github"></i></a>
+
+<a href="https://www.linkedin.com/in/moraisrm"><i class="svg-icon linkedin"></i></a>
+
+
+<a href="https://www.twitter.com/moraisrm_rs"><i class="svg-icon twitter"></i></a>
+
+
+
+        </footer>
+      </div>
+    </div>
+
+    
+	<!-- Google Analytics -->
+	<script>
+		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+		ga('create', 'UA-87967717-1', 'auto');
+		ga('send', 'pageview', {
+		  'page': '/haskell-marathon-day-fifty-four-to-fifty-five/',
+		  'title': 'Haskell’s marathon - Day Fifty Four to Fifty Five'
+		});
+	</script>
+	<!-- End Google Analytics -->
+
+
+  </body>
+</html>

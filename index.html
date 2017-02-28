@@ -66,6 +66,184 @@
   
     <article class="post">
 
+      <h1><a href="/react-dropdown-post-3/">React - Creating a Dropdown component - Part 3</a></h1>
+
+      <div class="entry">
+        <p>Hey folks!</p>
+
+<p>After a vacation I’m back and I’d like to still work in this component with you.</p>
+
+<p>In the second post we start to build the <em><code class="highlighter-rouge">Trigger</code></em> component to our dropdown. Now we will continue building it.</p>
+
+<p><br /></p>
+
+<p><strong>Standard text or Not</strong></p>
+
+<p>We started testing when our component receive a text if it is presented correctly. But if our component doesn’t receive a text should we present a blank string to the user or we can have a default text for this case.
+I think that it is a team decision because we have to decide as team if we will trust in the <em><code class="highlighter-rouge">PropTypes</code></em> and follow their warnings as errors or not. Because the <em><code class="highlighter-rouge">PropTypes</code></em> in our <em><code class="highlighter-rouge">Trigger</code></em> is saying that the text is required.
+If we will trust the <em><code class="highlighter-rouge">PropTypes</code></em> then every time that we have a warning we will fix it. On the other hand if we not rely the <em><code class="highlighter-rouge">PropTypes</code></em> we have to write a defensive code to our component.
+Let’s take a look in the two scenarios.</p>
+
+<p><br /></p>
+
+<p><strong><em>Defensive Code</em></strong></p>
+
+<p>In this case we will rewrite our test when we inform a text to the <em><code class="highlighter-rouge">Trigger</code></em> component.
+Let’s start creating a context to it and put our test inside:</p>
+
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="nx">describe</span><span class="p">(</span><span class="s1">'Trigger Component'</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="kr">const</span> <span class="nx">text</span> <span class="o">=</span> <span class="s1">'Select Something'</span><span class="p">;</span>
+  <span class="kr">const</span> <span class="nx">props</span> <span class="o">=</span> <span class="p">{</span> <span class="nx">text</span> <span class="p">};</span>
+  <span class="kd">let</span> <span class="nx">trigger</span><span class="p">;</span>
+
+  <span class="nx">context</span><span class="p">(</span><span class="s1">'when text is informed'</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">beforeEach</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+      <span class="nx">trigger</span> <span class="o">=</span> <span class="nx">shallow</span><span class="p">(</span><span class="o">&lt;</span><span class="nx">Trigger</span> <span class="p">{...</span><span class="nx">props</span><span class="p">}</span> <span class="sr">/&gt;</span><span class="se">)</span><span class="err">;
+</span>    <span class="p">});</span>
+
+    <span class="nx">it</span><span class="p">(</span><span class="s1">'renders a text'</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+      <span class="nx">expect</span><span class="p">(</span><span class="nx">trigger</span><span class="p">.</span><span class="nx">props</span><span class="p">().</span><span class="nx">children</span><span class="p">).</span><span class="nx">to</span><span class="p">.</span><span class="nx">be</span><span class="p">.</span><span class="nx">equal</span><span class="p">(</span><span class="nx">text</span><span class="p">);</span>
+    <span class="p">});</span>
+  <span class="p">});</span>
+<span class="p">});</span>
+</code></pre>
+</div>
+<p>Our test now is passing the text as <em><code class="highlighter-rouge">Select Something</code></em> and not just select, because the <em><code class="highlighter-rouge">Select</code></em> text will be our default text. If we run the test it still passing.
+So let’s add a new context when the text is not informed:</p>
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="nx">context</span><span class="p">(</span><span class="s1">'when text is not informed'</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">beforeEach</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+      <span class="nx">trigger</span> <span class="o">=</span> <span class="nx">shallow</span><span class="p">(</span><span class="o">&lt;</span><span class="nx">Trigger</span> <span class="o">/&gt;</span><span class="p">);</span>
+    <span class="p">});</span>
+
+    <span class="nx">it</span><span class="p">(</span><span class="s1">'renders a default text when the text is not informed'</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+      <span class="kr">const</span> <span class="nx">defaultText</span> <span class="o">=</span> <span class="s1">'Select'</span><span class="p">;</span>
+
+      <span class="nx">expect</span><span class="p">(</span><span class="nx">trigger</span><span class="p">.</span><span class="nx">props</span><span class="p">().</span><span class="nx">children</span><span class="p">).</span><span class="nx">to</span><span class="p">.</span><span class="nx">be</span><span class="p">.</span><span class="nx">equal</span><span class="p">(</span><span class="nx">defaultText</span><span class="p">);</span>
+    <span class="p">});</span>
+  <span class="p">});</span>
+</code></pre>
+</div>
+<p>Now we are not informing the text, but we are asserting that the text is <em><code class="highlighter-rouge">Select</code></em> because it is our default text which will be presented when we not inform the text as props.
+If we run the tests this new one will break, because our <em><code class="highlighter-rouge">Trigger</code></em> component doesn’t have a default text.
+Let’s add a default text to our component:</p>
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kr">import</span> <span class="nx">React</span><span class="p">,</span> <span class="p">{</span> <span class="nx">PropTypes</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">'react'</span><span class="p">;</span>
+
+<span class="kd">function</span> <span class="nx">Trigger</span><span class="p">({</span> <span class="nx">text</span> <span class="o">=</span> <span class="s1">'Select'</span> <span class="p">})</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="p">(</span>
+    <span class="o">&lt;</span><span class="nx">a</span><span class="o">&gt;</span><span class="p">{</span><span class="nx">text</span><span class="p">}</span><span class="o">&lt;</span><span class="sr">/a</span><span class="err">&gt;
+</span>  <span class="p">);</span>
+<span class="p">}</span>
+
+<span class="nx">Trigger</span><span class="p">.</span><span class="nx">propTypes</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">text</span><span class="p">:</span> <span class="nx">PropTypes</span><span class="p">.</span><span class="nx">string</span><span class="p">.</span><span class="nx">isRequired</span>
+<span class="p">};</span>
+
+<span class="kr">export</span> <span class="k">default</span> <span class="nx">Trigger</span><span class="p">;</span>
+</code></pre>
+</div>
+<p>This version of our component is receiving <em><code class="highlighter-rouge">Select</code></em> as default text and if we run the tests again all will pass.</p>
+
+<p>What happens if our text is <em><code class="highlighter-rouge">undefined</code></em> or <em><code class="highlighter-rouge">null</code></em>? Is a default text enough to these cases?
+Let’s see what happens when the text is <em><code class="highlighter-rouge">undefined</code></em>.</p>
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="nx">context</span><span class="p">(</span><span class="s1">'when text is undefined'</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="kr">const</span> <span class="nx">defaultText</span> <span class="o">=</span> <span class="s1">'Select'</span><span class="p">;</span>
+
+    <span class="nx">it</span><span class="p">(</span><span class="s1">'renders a default text when the text is undefined'</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+      <span class="kr">const</span> <span class="nx">text</span> <span class="o">=</span> <span class="kc">undefined</span><span class="p">;</span>
+      <span class="kr">const</span> <span class="nx">props</span> <span class="o">=</span> <span class="p">{</span> <span class="nx">text</span> <span class="p">};</span>
+
+      <span class="nx">trigger</span> <span class="o">=</span> <span class="nx">shallow</span><span class="p">(</span><span class="o">&lt;</span><span class="nx">Trigger</span> <span class="p">{...</span><span class="nx">props</span> <span class="p">}</span> <span class="sr">/&gt;</span><span class="se">)</span><span class="err">;
+</span>
+      <span class="nx">expect</span><span class="p">(</span><span class="nx">trigger</span><span class="p">.</span><span class="nx">props</span><span class="p">().</span><span class="nx">children</span><span class="p">).</span><span class="nx">to</span><span class="p">.</span><span class="nx">be</span><span class="p">.</span><span class="nx">equal</span><span class="p">(</span><span class="nx">defaultText</span><span class="p">);</span>
+    <span class="p">});</span>
+  <span class="p">});</span>
+</code></pre>
+</div>
+<p>If we run the tests the new one will pass and we don’t need change our code. But if the text receives null?</p>
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="nx">it</span><span class="p">(</span><span class="s1">'renders a default text when the text is null'</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+      <span class="kr">const</span> <span class="nx">text</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+      <span class="kr">const</span> <span class="nx">props</span> <span class="o">=</span> <span class="p">{</span> <span class="nx">text</span> <span class="p">};</span>
+
+      <span class="nx">trigger</span> <span class="o">=</span> <span class="nx">shallow</span><span class="p">(</span><span class="o">&lt;</span><span class="nx">Trigger</span> <span class="p">{...</span><span class="nx">props</span> <span class="p">}</span> <span class="sr">/&gt;</span><span class="se">)</span><span class="err">;
+</span>
+      <span class="nx">expect</span><span class="p">(</span><span class="nx">trigger</span><span class="p">.</span><span class="nx">props</span><span class="p">().</span><span class="nx">children</span><span class="p">).</span><span class="nx">to</span><span class="p">.</span><span class="nx">be</span><span class="p">.</span><span class="nx">equal</span><span class="p">(</span><span class="nx">defaultText</span><span class="p">);</span>
+    <span class="p">});</span>
+</code></pre>
+</div>
+<p>When we run this test we receive an error because the code in our <em><code class="highlighter-rouge">Trigger</code></em> component is not enough to guarantee that we will present the default text.
+Easily we can fix it just adding more one defensive code in our component:</p>
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kr">import</span> <span class="nx">React</span><span class="p">,</span> <span class="p">{</span> <span class="nx">PropTypes</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">'react'</span><span class="p">;</span>
+
+<span class="kd">function</span> <span class="nx">Trigger</span><span class="p">({</span> <span class="nx">text</span> <span class="o">=</span> <span class="s1">'Select'</span> <span class="p">})</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="p">(</span>
+    <span class="o">&lt;</span><span class="nx">a</span><span class="o">&gt;</span><span class="p">{</span> <span class="nx">text</span> <span class="o">||</span> <span class="s1">'Select'</span> <span class="p">}</span><span class="o">&lt;</span><span class="sr">/a</span><span class="err">&gt;
+</span>  <span class="p">);</span>
+<span class="p">}</span>
+
+<span class="nx">Trigger</span><span class="p">.</span><span class="nx">propTypes</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">text</span><span class="p">:</span> <span class="nx">PropTypes</span><span class="p">.</span><span class="nx">string</span><span class="p">.</span><span class="nx">isRequired</span>
+<span class="p">};</span>
+
+<span class="kr">export</span> <span class="k">default</span> <span class="nx">Trigger</span><span class="p">;</span>
+</code></pre>
+</div>
+<p>And we run the tests and all will pass.</p>
+
+<p>We cover how to treat the props when we don’t trust in the component’s <em><code class="highlighter-rouge">PropTypes</code></em>.</p>
+
+<p><br /></p>
+
+<p><strong>PropTypes warnings</strong></p>
+
+<p><em><code class="highlighter-rouge">React</code></em> already add to us some warnings when a <em><code class="highlighter-rouge">PropType</code></em> is not informed. These warnings are presented when we run our tests and in the Browser console.
+We can test it. Returning to original code before we had add the defensive code we can test it in our tests. Let’s add a new test where we don’t pass the <em><code class="highlighter-rouge">text</code></em> property to our <em><code class="highlighter-rouge">Trigger</code></em> component.</p>
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="nx">it</span><span class="p">(</span><span class="s1">'renders a text 2'</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="kr">const</span> <span class="nx">trigger2</span> <span class="o">=</span> <span class="nx">shallow</span><span class="p">(</span><span class="o">&lt;</span><span class="nx">Trigger</span> <span class="o">/&gt;</span><span class="p">)</span>
+    <span class="nx">expect</span><span class="p">(</span><span class="nx">trigger2</span><span class="p">.</span><span class="nx">props</span><span class="p">().</span><span class="nx">children</span><span class="p">).</span><span class="nx">to</span><span class="p">.</span><span class="nx">be</span><span class="p">.</span><span class="nx">equal</span><span class="p">(</span><span class="kc">undefined</span><span class="p">)</span>
+  <span class="p">})</span>
+</code></pre>
+</div>
+<p>And now when we run our tests we can see a warning like: <em>Warning: Failed prop type: The prop <code class="highlighter-rouge">text</code> is marked as required in <code class="highlighter-rouge">Trigger</code>, but its value is <code class="highlighter-rouge">undefined</code>.</em></p>
+
+<p>This same warning will appear in the Browser console if we don’t pass <em><code class="highlighter-rouge">text</code></em> to our component when we use it.</p>
+
+<p>In this case we have to be always aware for these warnings and not accept them to make our code reliable.</p>
+
+<p><strong>Conclusion</strong></p>
+
+<p>In the end the decision of the best approach is from the team. Each team can think that one approach is better than another and there isn’t anything wrong in that.</p>
+
+<p>To our component we will rely in the <em><code class="highlighter-rouge">PropTypes</code></em> warnings and never accept them.</p>
+
+      </div>
+
+      <a href="/react-dropdown-post-3/" class="read-more">Read More</a>
+    </article>
+  
+    <article class="post">
+
+      <h1><a href="/haskell-marathon-day-fifty-four-to-fifty-five/">Haskell’s marathon - Day Fifty Four to Fifty Five</a></h1>
+
+      <div class="entry">
+        <p>Hey folks!</p>
+
+<p>Today we will take a look in <em><code class="highlighter-rouge">type classes</code></em> which we already learnt in the first posts. Now we will see how to use them.</p>
+
+<p><br /></p>
+
+<p><strong>What are <em><code class="highlighter-rouge">Type Classes</code></em></strong></p>
+
+<p>How we already saw <em><code class="highlighter-rouge">type classes</code></em> are not <em><code class="highlighter-rouge">classes</code></em> as in <em><code class="highlighter-rouge">Object Oriented</code></em> languages. We can use than as a sort of interfaces to reuse some functionalities in types which we are creating.<br />
+There are some <em><code class="highlighter-rouge">type classes</code></em> that we already took a look as <em><code class="highlighter-rouge">Eq</code></em>, <em><code class="highlighter-rouge">Ord</code></em>, <em><code class="highlighter-rouge">Show</code></em> and etc.</p>
+
+
+      </div>
+
+      <a href="/haskell-marathon-day-fifty-four-to-fifty-five/" class="read-more">Read More</a>
+    </article>
+  
+    <article class="post">
+
       <h1><a href="/react-dropdown-post-2/">React - Creating a Dropdown component - Part 2</a></h1>
 
       <div class="entry">

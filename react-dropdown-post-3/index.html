@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>React - Creating a Dropdown component - Part 3 –  – Software Developer</title>
+
+        <meta charset="utf-8" />
+    <meta content='text/html; charset=utf-8' http-equiv='Content-Type'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0'>
+
+    
+    <meta name="description" content="Hey folks!
+
+After a vacation I’m back and I’d like to still work in this component with you.
+
+In the second post we start to build the Trigger component to our dropdown. Now we will continue building it.
+
+
+
+Standard text or Not
+
+We started testing when our component receive a text if it is presented correctly. But if our component doesn’t receive a text should we present a blank string to the user or we can have a default text for this case.
+I think that it is a team decision because we have to decide as team if we will trust in the PropTypes and follow their warnings as errors or not. Because the PropTypes in our Trigger is saying that the text is required.
+If we will trust the PropTypes then every time that we have a warning we will fix it. On the other hand if we not rely the PropTypes we have to write a defensive code to our component.
+Let’s take a look in the two scenarios.
+
+
+
+Defensive Code
+
+In this case we will rewrite our test when we inform a text to the Trigger component.
+Let’s start creating a context to it and put our test inside:
+
+describe('Trigger Component', () =&gt; {
+  const text = 'Select Something';
+  const props = { text };
+  let trigger;
+
+  context('when text is informed', () =&gt; {
+    beforeEach(() =&gt; {
+      trigger = shallow(&lt;Trigger {...props} /&gt;);
+    });
+
+    it('renders a text', () =&gt; {
+      expect(trigger.props().children).to.be.equal(text);
+    });
+  });
+});
+
+
+Our test now is passing the text as Select Something and not just select, because the Select text will be our default text. If we run the test it still passing.
+So let’s add a new context when the text is not informed:
+context('when text is not informed', () =&gt; {
+    beforeEach(() =&gt; {
+      trigger = shallow(&lt;Trigger /&gt;);
+    });
+
+    it('renders a default text when the text is not informed', () =&gt; {
+      const defaultText = 'Select';
+
+      expect(trigger.props().children).to.be.equal(defaultText);
+    });
+  });
+
+
+Now we are not informing the text, but we are asserting that the text is Select because it is our default text which will be presented when we not inform the text as props.
+If we run the tests this new one will break, because our Trigger component doesn’t have a default text.
+Let’s add a default text to our component:
+import React, { PropTypes } from 'react';
+
+function Trigger({ text = 'Select' }) {
+  return (
+    &lt;a&gt;{text}&lt;/a&gt;
+  );
+}
+
+Trigger.propTypes = {
+  text: PropTypes.string.isRequired
+};
+
+export default Trigger;
+
+
+This version of our component is receiving Select as default text and if we run the tests again all will pass.
+
+What happens if our text is undefined or null? Is a default text enough to these cases?
+Let’s see what happens when the text is undefined.
+context('when text is undefined', () =&gt; {
+    const defaultText = 'Select';
+
+    it('renders a default text when the text is undefined', () =&gt; {
+      const text = undefined;
+      const props = { text };
+
+      trigger = shallow(&lt;Trigger {...props } /&gt;);
+
+      expect(trigger.props().children).to.be.equal(defaultText);
+    });
+  });
+
+
+If we run the tests the new one will pass and we don’t need change our code. But if the text receives null?
+it('renders a default text when the text is null', () =&gt; {
+      const text = null;
+      const props = { text };
+
+      trigger = shallow(&lt;Trigger {...props } /&gt;);
+
+      expect(trigger.props().children).to.be.equal(defaultText);
+    });
+
+
+When we run this test we receive an error because the code in our Trigger component is not enough to guarantee that we will present the default text.
+Easily we can fix it just adding more one defensive code in our component:
+import React, { PropTypes } from 'react';
+
+function Trigger({ text = 'Select' }) {
+  return (
+    &lt;a&gt;{ text || 'Select' }&lt;/a&gt;
+  );
+}
+
+Trigger.propTypes = {
+  text: PropTypes.string.isRequired
+};
+
+export default Trigger;
+
+
+And we run the tests and all will pass.
+
+We cover how to treat the props when we don’t trust in the component’s PropTypes.
+
+
+
+PropTypes warnings
+
+React already add to us some warnings when a PropType is not informed. These warnings are presented when we run our tests and in the Browser console.
+We can test it. Returning to original code before we had add the defensive code we can test it in our tests. Let’s add a new test where we don’t pass the text property to our Trigger component.
+it('renders a text 2', () =&gt; {
+    const trigger2 = shallow(&lt;Trigger /&gt;)
+    expect(trigger2.props().children).to.be.equal(undefined)
+  })
+
+
+And now when we run our tests we can see a warning like: Warning: Failed prop type: The prop text is marked as required in Trigger, but its value is undefined.
+
+This same warning will appear in the Browser console if we don’t pass text to our component when we use it.
+
+In this case we have to be always aware for these warnings and not accept them to make our code reliable.
+
+Conclusion
+
+In the end the decision of the best approach is from the team. Each team can think that one approach is better than another and there isn’t anything wrong in that.
+
+To our component we will rely in the PropTypes warnings and never accept them.
+" />
+    <meta property="og:description" content="Hey folks!
+
+After a vacation I’m back and I’d like to still work in this component with you.
+
+In the second post we start to build the Trigger component to our dropdown. Now we will continue building it.
+
+
+
+Standard text or Not
+
+We started testing when our component receive a text if it is presented correctly. But if our component doesn’t receive a text should we present a blank string to the user or we can have a default text for this case.
+I think that it is a team decision because we have to decide as team if we will trust in the PropTypes and follow their warnings as errors or not. Because the PropTypes in our Trigger is saying that the text is required.
+If we will trust the PropTypes then every time that we have a warning we will fix it. On the other hand if we not rely the PropTypes we have to write a defensive code to our component.
+Let’s take a look in the two scenarios.
+
+
+
+Defensive Code
+
+In this case we will rewrite our test when we inform a text to the Trigger component.
+Let’s start creating a context to it and put our test inside:
+
+describe('Trigger Component', () =&gt; {
+  const text = 'Select Something';
+  const props = { text };
+  let trigger;
+
+  context('when text is informed', () =&gt; {
+    beforeEach(() =&gt; {
+      trigger = shallow(&lt;Trigger {...props} /&gt;);
+    });
+
+    it('renders a text', () =&gt; {
+      expect(trigger.props().children).to.be.equal(text);
+    });
+  });
+});
+
+
+Our test now is passing the text as Select Something and not just select, because the Select text will be our default text. If we run the test it still passing.
+So let’s add a new context when the text is not informed:
+context('when text is not informed', () =&gt; {
+    beforeEach(() =&gt; {
+      trigger = shallow(&lt;Trigger /&gt;);
+    });
+
+    it('renders a default text when the text is not informed', () =&gt; {
+      const defaultText = 'Select';
+
+      expect(trigger.props().children).to.be.equal(defaultText);
+    });
+  });
+
+
+Now we are not informing the text, but we are asserting that the text is Select because it is our default text which will be presented when we not inform the text as props.
+If we run the tests this new one will break, because our Trigger component doesn’t have a default text.
+Let’s add a default text to our component:
+import React, { PropTypes } from 'react';
+
+function Trigger({ text = 'Select' }) {
+  return (
+    &lt;a&gt;{text}&lt;/a&gt;
+  );
+}
+
+Trigger.propTypes = {
+  text: PropTypes.string.isRequired
+};
+
+export default Trigger;
+
+
+This version of our component is receiving Select as default text and if we run the tests again all will pass.
+
+What happens if our text is undefined or null? Is a default text enough to these cases?
+Let’s see what happens when the text is undefined.
+context('when text is undefined', () =&gt; {
+    const defaultText = 'Select';
+
+    it('renders a default text when the text is undefined', () =&gt; {
+      const text = undefined;
+      const props = { text };
+
+      trigger = shallow(&lt;Trigger {...props } /&gt;);
+
+      expect(trigger.props().children).to.be.equal(defaultText);
+    });
+  });
+
+
+If we run the tests the new one will pass and we don’t need change our code. But if the text receives null?
+it('renders a default text when the text is null', () =&gt; {
+      const text = null;
+      const props = { text };
+
+      trigger = shallow(&lt;Trigger {...props } /&gt;);
+
+      expect(trigger.props().children).to.be.equal(defaultText);
+    });
+
+
+When we run this test we receive an error because the code in our Trigger component is not enough to guarantee that we will present the default text.
+Easily we can fix it just adding more one defensive code in our component:
+import React, { PropTypes } from 'react';
+
+function Trigger({ text = 'Select' }) {
+  return (
+    &lt;a&gt;{ text || 'Select' }&lt;/a&gt;
+  );
+}
+
+Trigger.propTypes = {
+  text: PropTypes.string.isRequired
+};
+
+export default Trigger;
+
+
+And we run the tests and all will pass.
+
+We cover how to treat the props when we don’t trust in the component’s PropTypes.
+
+
+
+PropTypes warnings
+
+React already add to us some warnings when a PropType is not informed. These warnings are presented when we run our tests and in the Browser console.
+We can test it. Returning to original code before we had add the defensive code we can test it in our tests. Let’s add a new test where we don’t pass the text property to our Trigger component.
+it('renders a text 2', () =&gt; {
+    const trigger2 = shallow(&lt;Trigger /&gt;)
+    expect(trigger2.props().children).to.be.equal(undefined)
+  })
+
+
+And now when we run our tests we can see a warning like: Warning: Failed prop type: The prop text is marked as required in Trigger, but its value is undefined.
+
+This same warning will appear in the Browser console if we don’t pass text to our component when we use it.
+
+In this case we have to be always aware for these warnings and not accept them to make our code reliable.
+
+Conclusion
+
+In the end the decision of the best approach is from the team. Each team can think that one approach is better than another and there isn’t anything wrong in that.
+
+To our component we will rely in the PropTypes warnings and never accept them.
+" />
+    
+    <meta name="author" content="" />
+
+    
+    <meta property="og:title" content="React - Creating a Dropdown component - Part 3" />
+    <meta property="twitter:title" content="React - Creating a Dropdown component - Part 3" />
+    
+
+    <!--[if lt IE 9]>
+      <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <link rel="stylesheet" type="text/css" href="/css/styles.css" />
+    <link rel="alternate" type="application/rss+xml" title=" - Software Developer" href="/feed.xml" />
+
+    <!-- Created with Jekyll Now - http://github.com/barryclark/jekyll-now -->
+  </head>
+
+  <body>
+    <div class="wrapper-masthead">
+      <div class="container">
+        <header class="masthead clearfix">
+          <a href="/" class="site-avatar"><img src="https://avatars.githubusercontent.com/rodrigo-morais" /></a>
+
+          <div class="site-info">
+            <h1 class="site-name"><a href="/">In development</a></h1>
+            <h3 class="site-author">Rodrigo Morais</h3>
+            <p class="site-description">Software Developer</p>
+          </div>
+
+          <nav class="languages"> 
+          
+          </nav>
+
+          <nav>
+            <a href="/">Blog</a>
+            <a href="/about">About</a>
+          </nav>
+        </header>
+      </div>
+    </div>
+
+    <div id="main" role="main" class="container">
+      <article class="post">
+  
+
+  <h1>React - Creating a Dropdown component - Part 3</h1>
+
+  <div class="entry">
+    <p>Hey folks!</p>
+
+<p>After a vacation I’m back and I’d like to still work in this component with you.</p>
+
+<p>In the second post we start to build the <em><code class="highlighter-rouge">Trigger</code></em> component to our dropdown. Now we will continue building it.</p>
+
+<p><br /></p>
+
+<p><strong>Standard text or Not</strong></p>
+
+<p>We started testing when our component receive a text if it is presented correctly. But if our component doesn’t receive a text should we present a blank string to the user or we can have a default text for this case.
+I think that it is a team decision because we have to decide as team if we will trust in the <em><code class="highlighter-rouge">PropTypes</code></em> and follow their warnings as errors or not. Because the <em><code class="highlighter-rouge">PropTypes</code></em> in our <em><code class="highlighter-rouge">Trigger</code></em> is saying that the text is required.
+If we will trust the <em><code class="highlighter-rouge">PropTypes</code></em> then every time that we have a warning we will fix it. On the other hand if we not rely the <em><code class="highlighter-rouge">PropTypes</code></em> we have to write a defensive code to our component.
+Let’s take a look in the two scenarios.</p>
+
+<p><br /></p>
+
+<p><strong><em>Defensive Code</em></strong></p>
+
+<p>In this case we will rewrite our test when we inform a text to the <em><code class="highlighter-rouge">Trigger</code></em> component.
+Let’s start creating a context to it and put our test inside:</p>
+
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="nx">describe</span><span class="p">(</span><span class="s1">'Trigger Component'</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="kr">const</span> <span class="nx">text</span> <span class="o">=</span> <span class="s1">'Select Something'</span><span class="p">;</span>
+  <span class="kr">const</span> <span class="nx">props</span> <span class="o">=</span> <span class="p">{</span> <span class="nx">text</span> <span class="p">};</span>
+  <span class="kd">let</span> <span class="nx">trigger</span><span class="p">;</span>
+
+  <span class="nx">context</span><span class="p">(</span><span class="s1">'when text is informed'</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">beforeEach</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+      <span class="nx">trigger</span> <span class="o">=</span> <span class="nx">shallow</span><span class="p">(</span><span class="o">&lt;</span><span class="nx">Trigger</span> <span class="p">{...</span><span class="nx">props</span><span class="p">}</span> <span class="sr">/&gt;</span><span class="se">)</span><span class="err">;
+</span>    <span class="p">});</span>
+
+    <span class="nx">it</span><span class="p">(</span><span class="s1">'renders a text'</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+      <span class="nx">expect</span><span class="p">(</span><span class="nx">trigger</span><span class="p">.</span><span class="nx">props</span><span class="p">().</span><span class="nx">children</span><span class="p">).</span><span class="nx">to</span><span class="p">.</span><span class="nx">be</span><span class="p">.</span><span class="nx">equal</span><span class="p">(</span><span class="nx">text</span><span class="p">);</span>
+    <span class="p">});</span>
+  <span class="p">});</span>
+<span class="p">});</span>
+</code></pre>
+</div>
+<p>Our test now is passing the text as <em><code class="highlighter-rouge">Select Something</code></em> and not just select, because the <em><code class="highlighter-rouge">Select</code></em> text will be our default text. If we run the test it still passing.
+So let’s add a new context when the text is not informed:</p>
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="nx">context</span><span class="p">(</span><span class="s1">'when text is not informed'</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">beforeEach</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+      <span class="nx">trigger</span> <span class="o">=</span> <span class="nx">shallow</span><span class="p">(</span><span class="o">&lt;</span><span class="nx">Trigger</span> <span class="o">/&gt;</span><span class="p">);</span>
+    <span class="p">});</span>
+
+    <span class="nx">it</span><span class="p">(</span><span class="s1">'renders a default text when the text is not informed'</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+      <span class="kr">const</span> <span class="nx">defaultText</span> <span class="o">=</span> <span class="s1">'Select'</span><span class="p">;</span>
+
+      <span class="nx">expect</span><span class="p">(</span><span class="nx">trigger</span><span class="p">.</span><span class="nx">props</span><span class="p">().</span><span class="nx">children</span><span class="p">).</span><span class="nx">to</span><span class="p">.</span><span class="nx">be</span><span class="p">.</span><span class="nx">equal</span><span class="p">(</span><span class="nx">defaultText</span><span class="p">);</span>
+    <span class="p">});</span>
+  <span class="p">});</span>
+</code></pre>
+</div>
+<p>Now we are not informing the text, but we are asserting that the text is <em><code class="highlighter-rouge">Select</code></em> because it is our default text which will be presented when we not inform the text as props.
+If we run the tests this new one will break, because our <em><code class="highlighter-rouge">Trigger</code></em> component doesn’t have a default text.
+Let’s add a default text to our component:</p>
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kr">import</span> <span class="nx">React</span><span class="p">,</span> <span class="p">{</span> <span class="nx">PropTypes</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">'react'</span><span class="p">;</span>
+
+<span class="kd">function</span> <span class="nx">Trigger</span><span class="p">({</span> <span class="nx">text</span> <span class="o">=</span> <span class="s1">'Select'</span> <span class="p">})</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="p">(</span>
+    <span class="o">&lt;</span><span class="nx">a</span><span class="o">&gt;</span><span class="p">{</span><span class="nx">text</span><span class="p">}</span><span class="o">&lt;</span><span class="sr">/a</span><span class="err">&gt;
+</span>  <span class="p">);</span>
+<span class="p">}</span>
+
+<span class="nx">Trigger</span><span class="p">.</span><span class="nx">propTypes</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">text</span><span class="p">:</span> <span class="nx">PropTypes</span><span class="p">.</span><span class="nx">string</span><span class="p">.</span><span class="nx">isRequired</span>
+<span class="p">};</span>
+
+<span class="kr">export</span> <span class="k">default</span> <span class="nx">Trigger</span><span class="p">;</span>
+</code></pre>
+</div>
+<p>This version of our component is receiving <em><code class="highlighter-rouge">Select</code></em> as default text and if we run the tests again all will pass.</p>
+
+<p>What happens if our text is <em><code class="highlighter-rouge">undefined</code></em> or <em><code class="highlighter-rouge">null</code></em>? Is a default text enough to these cases?
+Let’s see what happens when the text is <em><code class="highlighter-rouge">undefined</code></em>.</p>
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="nx">context</span><span class="p">(</span><span class="s1">'when text is undefined'</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="kr">const</span> <span class="nx">defaultText</span> <span class="o">=</span> <span class="s1">'Select'</span><span class="p">;</span>
+
+    <span class="nx">it</span><span class="p">(</span><span class="s1">'renders a default text when the text is undefined'</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+      <span class="kr">const</span> <span class="nx">text</span> <span class="o">=</span> <span class="kc">undefined</span><span class="p">;</span>
+      <span class="kr">const</span> <span class="nx">props</span> <span class="o">=</span> <span class="p">{</span> <span class="nx">text</span> <span class="p">};</span>
+
+      <span class="nx">trigger</span> <span class="o">=</span> <span class="nx">shallow</span><span class="p">(</span><span class="o">&lt;</span><span class="nx">Trigger</span> <span class="p">{...</span><span class="nx">props</span> <span class="p">}</span> <span class="sr">/&gt;</span><span class="se">)</span><span class="err">;
+</span>
+      <span class="nx">expect</span><span class="p">(</span><span class="nx">trigger</span><span class="p">.</span><span class="nx">props</span><span class="p">().</span><span class="nx">children</span><span class="p">).</span><span class="nx">to</span><span class="p">.</span><span class="nx">be</span><span class="p">.</span><span class="nx">equal</span><span class="p">(</span><span class="nx">defaultText</span><span class="p">);</span>
+    <span class="p">});</span>
+  <span class="p">});</span>
+</code></pre>
+</div>
+<p>If we run the tests the new one will pass and we don’t need change our code. But if the text receives null?</p>
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="nx">it</span><span class="p">(</span><span class="s1">'renders a default text when the text is null'</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+      <span class="kr">const</span> <span class="nx">text</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+      <span class="kr">const</span> <span class="nx">props</span> <span class="o">=</span> <span class="p">{</span> <span class="nx">text</span> <span class="p">};</span>
+
+      <span class="nx">trigger</span> <span class="o">=</span> <span class="nx">shallow</span><span class="p">(</span><span class="o">&lt;</span><span class="nx">Trigger</span> <span class="p">{...</span><span class="nx">props</span> <span class="p">}</span> <span class="sr">/&gt;</span><span class="se">)</span><span class="err">;
+</span>
+      <span class="nx">expect</span><span class="p">(</span><span class="nx">trigger</span><span class="p">.</span><span class="nx">props</span><span class="p">().</span><span class="nx">children</span><span class="p">).</span><span class="nx">to</span><span class="p">.</span><span class="nx">be</span><span class="p">.</span><span class="nx">equal</span><span class="p">(</span><span class="nx">defaultText</span><span class="p">);</span>
+    <span class="p">});</span>
+</code></pre>
+</div>
+<p>When we run this test we receive an error because the code in our <em><code class="highlighter-rouge">Trigger</code></em> component is not enough to guarantee that we will present the default text.
+Easily we can fix it just adding more one defensive code in our component:</p>
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kr">import</span> <span class="nx">React</span><span class="p">,</span> <span class="p">{</span> <span class="nx">PropTypes</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">'react'</span><span class="p">;</span>
+
+<span class="kd">function</span> <span class="nx">Trigger</span><span class="p">({</span> <span class="nx">text</span> <span class="o">=</span> <span class="s1">'Select'</span> <span class="p">})</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="p">(</span>
+    <span class="o">&lt;</span><span class="nx">a</span><span class="o">&gt;</span><span class="p">{</span> <span class="nx">text</span> <span class="o">||</span> <span class="s1">'Select'</span> <span class="p">}</span><span class="o">&lt;</span><span class="sr">/a</span><span class="err">&gt;
+</span>  <span class="p">);</span>
+<span class="p">}</span>
+
+<span class="nx">Trigger</span><span class="p">.</span><span class="nx">propTypes</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">text</span><span class="p">:</span> <span class="nx">PropTypes</span><span class="p">.</span><span class="nx">string</span><span class="p">.</span><span class="nx">isRequired</span>
+<span class="p">};</span>
+
+<span class="kr">export</span> <span class="k">default</span> <span class="nx">Trigger</span><span class="p">;</span>
+</code></pre>
+</div>
+<p>And we run the tests and all will pass.</p>
+
+<p>We cover how to treat the props when we don’t trust in the component’s <em><code class="highlighter-rouge">PropTypes</code></em>.</p>
+
+<p><br /></p>
+
+<p><strong>PropTypes warnings</strong></p>
+
+<p><em><code class="highlighter-rouge">React</code></em> already add to us some warnings when a <em><code class="highlighter-rouge">PropType</code></em> is not informed. These warnings are presented when we run our tests and in the Browser console.
+We can test it. Returning to original code before we had add the defensive code we can test it in our tests. Let’s add a new test where we don’t pass the <em><code class="highlighter-rouge">text</code></em> property to our <em><code class="highlighter-rouge">Trigger</code></em> component.</p>
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="nx">it</span><span class="p">(</span><span class="s1">'renders a text 2'</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="kr">const</span> <span class="nx">trigger2</span> <span class="o">=</span> <span class="nx">shallow</span><span class="p">(</span><span class="o">&lt;</span><span class="nx">Trigger</span> <span class="o">/&gt;</span><span class="p">)</span>
+    <span class="nx">expect</span><span class="p">(</span><span class="nx">trigger2</span><span class="p">.</span><span class="nx">props</span><span class="p">().</span><span class="nx">children</span><span class="p">).</span><span class="nx">to</span><span class="p">.</span><span class="nx">be</span><span class="p">.</span><span class="nx">equal</span><span class="p">(</span><span class="kc">undefined</span><span class="p">)</span>
+  <span class="p">})</span>
+</code></pre>
+</div>
+<p>And now when we run our tests we can see a warning like: <em>Warning: Failed prop type: The prop <code class="highlighter-rouge">text</code> is marked as required in <code class="highlighter-rouge">Trigger</code>, but its value is <code class="highlighter-rouge">undefined</code>.</em></p>
+
+<p>This same warning will appear in the Browser console if we don’t pass <em><code class="highlighter-rouge">text</code></em> to our component when we use it.</p>
+
+<p>In this case we have to be always aware for these warnings and not accept them to make our code reliable.</p>
+
+<p><strong>Conclusion</strong></p>
+
+<p>In the end the decision of the best approach is from the team. Each team can think that one approach is better than another and there isn’t anything wrong in that.</p>
+
+<p>To our component we will rely in the <em><code class="highlighter-rouge">PropTypes</code></em> warnings and never accept them.</p>
+
+  </div>
+
+  <div class="date">
+    Written on February 28, 2017
+  </div>
+
+  
+<div class="comments">
+	<div id="disqus_thread"></div>
+	<script type="text/javascript">
+
+	    var disqus_shortname = 'rodrigo-morais';
+
+	    (function() {
+	        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+	        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+	        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	    })();
+
+	</script>
+	<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+
+</article>
+
+    </div>
+
+    <div class="wrapper-footer">
+      <div class="container">
+        <footer class="footer">
+          
+<a href="mailto:morais.rm@gmail.com"><i class="svg-icon email"></i></a>
+
+
+<a href="https://github.com/rodrigo-morais"><i class="svg-icon github"></i></a>
+
+<a href="https://www.linkedin.com/in/moraisrm"><i class="svg-icon linkedin"></i></a>
+
+
+<a href="https://www.twitter.com/moraisrm_rs"><i class="svg-icon twitter"></i></a>
+
+
+
+        </footer>
+      </div>
+    </div>
+
+    
+	<!-- Google Analytics -->
+	<script>
+		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+		ga('create', 'UA-87967717-1', 'auto');
+		ga('send', 'pageview', {
+		  'page': '/react-dropdown-post-3/',
+		  'title': 'React - Creating a Dropdown component - Part 3'
+		});
+	</script>
+	<!-- End Google Analytics -->
+
+
+  </body>
+</html>
