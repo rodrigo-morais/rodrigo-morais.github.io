@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xml" href="https://rodrigo-morais.github.io/feed.xslt.xml"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.3.1">Jekyll</generator><link href="https://rodrigo-morais.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://rodrigo-morais.github.io/" rel="alternate" type="text/html" /><updated>2017-02-28T17:38:12+01:00</updated><id>https://rodrigo-morais.github.io//</id><title type="html">In development</title><subtitle>Software Developer</subtitle><author><name>Rodrigo Morais</name></author><entry xml:lang="en"><title type="html">React - Creating a Dropdown component - Part 3</title><link href="https://rodrigo-morais.github.io/react-dropdown-post-3/" rel="alternate" type="text/html" title="React - Creating a Dropdown component - Part 3" /><published>2017-02-28T00:00:00+01:00</published><updated>2017-02-28T00:00:00+01:00</updated><id>https://rodrigo-morais.github.io/react-dropdown-post-3.en</id><content type="html" xml:base="https://rodrigo-morais.github.io/react-dropdown-post-3/">&lt;p&gt;Hey folks!&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xml" href="https://rodrigo-morais.github.io/feed.xslt.xml"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.3.1">Jekyll</generator><link href="https://rodrigo-morais.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://rodrigo-morais.github.io/" rel="alternate" type="text/html" /><updated>2017-02-28T17:39:24+01:00</updated><id>https://rodrigo-morais.github.io//</id><title type="html">In development</title><subtitle>Software Developer</subtitle><author><name>Rodrigo Morais</name></author><entry xml:lang="en"><title type="html">React - Creating a Dropdown component - Part 3</title><link href="https://rodrigo-morais.github.io/react-dropdown-post-3/" rel="alternate" type="text/html" title="React - Creating a Dropdown component - Part 3" /><published>2017-02-28T00:00:00+01:00</published><updated>2017-02-28T00:00:00+01:00</updated><id>https://rodrigo-morais.github.io/react-dropdown-post-3.en</id><content type="html" xml:base="https://rodrigo-morais.github.io/react-dropdown-post-3/">&lt;p&gt;Hey folks!&lt;/p&gt;
 
 &lt;p&gt;After a vacation I’m back and I’d like to still work in this component with you.&lt;/p&gt;
 
-&lt;p&gt;In the second post we start to build the &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Trigger&lt;/code&gt;&lt;/em&gt; component to our dropdown. Now we will continue building it.&lt;/p&gt;
-
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p&gt;In the second post we start to build the &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Trigger&lt;/code&gt;&lt;/em&gt; component to our dropdown. Now we will continue building it.
+&lt;!--more--&gt;
+&lt;br /&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;Standard text or Not&lt;/strong&gt;&lt;/p&gt;
 
@@ -146,147 +146,7 @@ We can test it. Returning to original code before we had add the defensive code 
 
 After a vacation I’m back and I’d like to still work in this component with you.
 
-In the second post we start to build the Trigger component to our dropdown. Now we will continue building it.
-
-
-
-Standard text or Not
-
-We started testing when our component receive a text if it is presented correctly. But if our component doesn’t receive a text should we present a blank string to the user or we can have a default text for this case.
-I think that it is a team decision because we have to decide as team if we will trust in the PropTypes and follow their warnings as errors or not. Because the PropTypes in our Trigger is saying that the text is required.
-If we will trust the PropTypes then every time that we have a warning we will fix it. On the other hand if we not rely the PropTypes we have to write a defensive code to our component.
-Let’s take a look in the two scenarios.
-
-
-
-Defensive Code
-
-In this case we will rewrite our test when we inform a text to the Trigger component.
-Let’s start creating a context to it and put our test inside:
-
-describe('Trigger Component', () =&amp;gt; {
-  const text = 'Select Something';
-  const props = { text };
-  let trigger;
-
-  context('when text is informed', () =&amp;gt; {
-    beforeEach(() =&amp;gt; {
-      trigger = shallow(&amp;lt;Trigger {...props} /&amp;gt;);
-    });
-
-    it('renders a text', () =&amp;gt; {
-      expect(trigger.props().children).to.be.equal(text);
-    });
-  });
-});
-
-
-Our test now is passing the text as Select Something and not just select, because the Select text will be our default text. If we run the test it still passing.
-So let’s add a new context when the text is not informed:
-context('when text is not informed', () =&amp;gt; {
-    beforeEach(() =&amp;gt; {
-      trigger = shallow(&amp;lt;Trigger /&amp;gt;);
-    });
-
-    it('renders a default text when the text is not informed', () =&amp;gt; {
-      const defaultText = 'Select';
-
-      expect(trigger.props().children).to.be.equal(defaultText);
-    });
-  });
-
-
-Now we are not informing the text, but we are asserting that the text is Select because it is our default text which will be presented when we not inform the text as props.
-If we run the tests this new one will break, because our Trigger component doesn’t have a default text.
-Let’s add a default text to our component:
-import React, { PropTypes } from 'react';
-
-function Trigger({ text = 'Select' }) {
-  return (
-    &amp;lt;a&amp;gt;{text}&amp;lt;/a&amp;gt;
-  );
-}
-
-Trigger.propTypes = {
-  text: PropTypes.string.isRequired
-};
-
-export default Trigger;
-
-
-This version of our component is receiving Select as default text and if we run the tests again all will pass.
-
-What happens if our text is undefined or null? Is a default text enough to these cases?
-Let’s see what happens when the text is undefined.
-context('when text is undefined', () =&amp;gt; {
-    const defaultText = 'Select';
-
-    it('renders a default text when the text is undefined', () =&amp;gt; {
-      const text = undefined;
-      const props = { text };
-
-      trigger = shallow(&amp;lt;Trigger {...props } /&amp;gt;);
-
-      expect(trigger.props().children).to.be.equal(defaultText);
-    });
-  });
-
-
-If we run the tests the new one will pass and we don’t need change our code. But if the text receives null?
-it('renders a default text when the text is null', () =&amp;gt; {
-      const text = null;
-      const props = { text };
-
-      trigger = shallow(&amp;lt;Trigger {...props } /&amp;gt;);
-
-      expect(trigger.props().children).to.be.equal(defaultText);
-    });
-
-
-When we run this test we receive an error because the code in our Trigger component is not enough to guarantee that we will present the default text.
-Easily we can fix it just adding more one defensive code in our component:
-import React, { PropTypes } from 'react';
-
-function Trigger({ text = 'Select' }) {
-  return (
-    &amp;lt;a&amp;gt;{ text || 'Select' }&amp;lt;/a&amp;gt;
-  );
-}
-
-Trigger.propTypes = {
-  text: PropTypes.string.isRequired
-};
-
-export default Trigger;
-
-
-And we run the tests and all will pass.
-
-We cover how to treat the props when we don’t trust in the component’s PropTypes.
-
-
-
-PropTypes warnings
-
-React already add to us some warnings when a PropType is not informed. These warnings are presented when we run our tests and in the Browser console.
-We can test it. Returning to original code before we had add the defensive code we can test it in our tests. Let’s add a new test where we don’t pass the text property to our Trigger component.
-it('renders a text 2', () =&amp;gt; {
-    const trigger2 = shallow(&amp;lt;Trigger /&amp;gt;)
-    expect(trigger2.props().children).to.be.equal(undefined)
-  })
-
-
-And now when we run our tests we can see a warning like: Warning: Failed prop type: The prop text is marked as required in Trigger, but its value is undefined.
-
-This same warning will appear in the Browser console if we don’t pass text to our component when we use it.
-
-In this case we have to be always aware for these warnings and not accept them to make our code reliable.
-
-Conclusion
-
-In the end the decision of the best approach is from the team. Each team can think that one approach is better than another and there isn’t anything wrong in that.
-
-To our component we will rely in the PropTypes warnings and never accept them.</summary></entry><entry xml:lang="en"><title type="html">Haskell’s marathon - Day Fifty Four to Fifty Five</title><link href="https://rodrigo-morais.github.io/haskell-marathon-day-fifty-four-to-fifty-five/" rel="alternate" type="text/html" title="Haskell’s marathon - Day Fifty Four to Fifty Five" /><published>2017-02-01T00:00:00+01:00</published><updated>2017-02-01T00:00:00+01:00</updated><id>https://rodrigo-morais.github.io/haskell-marathon-day-fifty-four-to-fifty-five.en</id><content type="html" xml:base="https://rodrigo-morais.github.io/haskell-marathon-day-fifty-four-to-fifty-five/">&lt;p&gt;Hey folks!&lt;/p&gt;
+In the second post we start to build the Trigger component to our dropdown. Now we will continue building it.</summary></entry><entry xml:lang="en"><title type="html">Haskell’s marathon - Day Fifty Four to Fifty Five</title><link href="https://rodrigo-morais.github.io/haskell-marathon-day-fifty-four-to-fifty-five/" rel="alternate" type="text/html" title="Haskell’s marathon - Day Fifty Four to Fifty Five" /><published>2017-02-01T00:00:00+01:00</published><updated>2017-02-01T00:00:00+01:00</updated><id>https://rodrigo-morais.github.io/haskell-marathon-day-fifty-four-to-fifty-five.en</id><content type="html" xml:base="https://rodrigo-morais.github.io/haskell-marathon-day-fifty-four-to-fifty-five/">&lt;p&gt;Hey folks!&lt;/p&gt;
 
 &lt;p&gt;Today we will take a look in &lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;type classes&lt;/code&gt;&lt;/em&gt; which we already learnt in the first posts. Now we will see how to use them.&lt;/p&gt;
 
