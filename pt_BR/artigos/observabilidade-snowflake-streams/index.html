@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Quando Prometheus Não Suportou Mais a Observabilidade do Produto — Rodrigo Morais</title>
+  <meta name="description" content="Como Snowplow, Snowflake Streams e Grafana escalaram análises de usuários, links, páginas, indisponibilidade e comportamento do sistema.">
+  <link rel="canonical" href="https://rodrigo-morais.github.io/pt_BR/artigos/observabilidade-snowflake-streams/">
+  <link rel="alternate" hreflang="en" href="https://rodrigo-morais.github.io/articles/observability-snowflake-streams/">
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <nav class="nav" aria-label="Navegação principal">
+      <a class="brand" href="/pt_BR/"><span class="brand-mark">RM</span><span>Rodrigo Morais</span></a>
+      <div class="nav-links"><a href="/pt_BR/#work">Projetos</a><a href="/pt_BR/#writing">Artigos</a><a class="lang" href="/articles/observability-snowflake-streams/" lang="en">EN</a></div>
+    </nav>
+  </header>
+  <main>
+    <section class="article-hero">
+      <div class="article-hero-inner">
+        <a class="back-link" href="/pt_BR/#writing">← Todas as notas de engenharia</a>
+        <p class="eyebrow">Observabilidade · Snowflake · Custo</p>
+        <h1>Quando Prometheus não suportou mais a observabilidade do produto</h1>
+        <p class="lead">Um estudo de caso anônimo sobre usar Snowplow, Snowflake Streams e Grafana para avaliar usuários, links, páginas, indisponibilidade e o comportamento mais amplo do sistema em escala analítica.</p>
+        <p class="article-meta">Rodrigo Morais · 8 min de leitura · Outubro de 2026</p>
+      </div>
+    </section>
+    <article class="article-body">
+      <p>Prometheus como backend de dados e Grafana como camada de visualização foram o ponto de partida natural. A combinação tornou dados operacionais visíveis rapidamente e funcionou enquanto o número de séries, dimensões e usuários permaneceu limitado. Então a análise de produto e sistema cresceu para usuários, links, páginas, indisponibilidade e outros sinais comportamentais e operacionais. Volume e cardinalidade ultrapassaram a faixa confortável do Prometheus.</p>
+      <p>Durante o horário de trabalho, consultas caras competiam com ingestão e retenção. Dashboards no Grafana ficavam lentos ou indisponíveis porque o backend Prometheus estava sob pressão. Escalar o mesmo modelo de storage significava pagar mais cloud por um sistema que continuava frágil no uso normal.</p>
+
+      <h2>O problema era adequação ao workload, não ferramentas ruins</h2>
+      <p>Prometheus é excelente para métricas recentes de infraestrutura e conjuntos limitados de labels. O problema surgiu quando pedimos a ele que se comportasse como uma grande plataforma analítica: retenção longa, dimensões de alta cardinalidade, consultas históricas amplas e muitas agregações exploratórias concorrentes. Grafana não era o gargalo, então não havia motivo para substituir a interface já conhecida pelos usuários.</p>
+      <blockquote>Uma ferramenta pode ser excelente em seu trabalho original e ainda ser o modelo errado para um workload que mudou.</blockquote>
+
+      <h2>Os mesmos dados seguiam dois caminhos em paralelo</h2>
+      <p>Dados de produto e sistema eram entregues em paralelo. Prometheus fornecia o caminho de baixa latência usado pelo Grafana, enquanto Snowplow coletava o stream de eventos e o carregava no Snowflake para histórico analítico. Ambos representavam usuários, atividade em páginas e links, disponibilidade, downtime e outras condições operacionais.</p>
+      <div class="code-window">
+        <div class="code-label">Antes: entrega duplicada</div>
+        <pre><code>usuários + páginas + links + eventos do sistema
+  ├─→ Prometheus ─────────────→ Grafana
+  │       caminho em tempo real
+  │
+  └─→ Snowplow → Snowflake
+          histórico analítico</code></pre>
+      </div>
+      <p>Essa duplicação entregava atualização, mas também exigia operar um backend Prometheus cada vez mais caro para dados que já existiam no Snowflake. O objetivo passou a ser consolidar: manter Grafana, tornar Snowflake atualizado o suficiente para uso operacional e remover o caminho Prometheus.</p>
+
+      <h2>Primeiro movimento: Snowflake Tasks agendadas</h2>
+      <p>Como os dados do Snowplow já chegavam ao Snowflake, a primeira tentativa de consolidação usou Tasks agendadas para construir as visões de usuários, páginas, links, disponibilidade e sistema consumidas pelo Grafana. O compute podia escalar e suspender quando ocioso, evitando a pressão de recursos do Prometheus.</p>
+      <p>Mas Tasks agendadas não eram suficientemente próximas de tempo real. A atualização continuava presa à agenda. Intervalos menores aumentavam trabalho repetido e inicializações de warehouse; intervalos maiores deixavam Grafana atrás do estado atual. A arquitetura era estável, mas a experiência ainda não substituía o caminho paralelo do Prometheus.</p>
+
+      <h2>Segundo movimento: mudanças incrementais com Snowflake Streams</h2>
+      <p><a href="https://docs.snowflake.com/en/user-guide/streams-intro">Snowflake Streams</a> mudou a unidade de processamento de “recalcular uma janela” para “consumir as linhas do Snowplow commitadas desde o último offset transacional”. Um consumidor orientado a mudanças atualizava apenas os agregados de usuários, páginas, links, downtime e sistema afetados pelos novos eventos.</p>
+      <div class="code-window">
+        <div class="code-label">Evolução do modelo de processamento</div>
+        <pre><code><span class="cm"># Recálculo agendado</span>
+a_cada_intervalo:
+    varrer_janela_recente
+    reconstruir_agregados
+
+<span class="cm"># Processamento incremental</span>
+quando_stream_tem_mudancas:
+    delta = consumir(stream)
+    validar(delta)
+    merge_agregados_afetados
+    commit_atomico</code></pre>
+      </div>
+      <p>Streams não executavam a transformação. Eles forneciam metadados transacionais de CDC e um offset. A camada de processamento consumia o stream com DML, avançava o offset no commit e podia executar apenas quando havia mudanças.</p>
+      <div class="code-window">
+        <div class="code-label">Depois: um único caminho analítico em tempo real</div>
+        <pre><code>usuários + páginas + links + eventos do sistema
+  → Snowplow
+  → tabelas de eventos no Snowflake
+  → Snowflake Streams
+  → modelos operacionais incrementais
+  → Grafana
+
+caminho Prometheus: removido</code></pre>
+      </div>
+
+      <h2>Por que o design custava menos</h2>
+      <div class="principle"><strong>Menos varreduras repetidas:</strong> o processamento tocava linhas alteradas em vez de reler grandes janelas recentes.</div>
+      <div class="principle"><strong>Compute elástico:</strong> analytics usava warehouses que podiam redimensionar e suspender automaticamente.</div>
+      <div class="principle"><strong>Storage adequado:</strong> histórico operacional volumoso passou para uma plataforma desenhada para retenção e leitura analítica.</div>
+      <div class="principle"><strong>Responsabilidades separadas:</strong> Grafana permaneceu como interface familiar; Snowflake assumiu storage, transformação e consultas analíticas em escala.</div>
+
+      <h2>Por que ficou mais responsivo</h2>
+      <p>Um agendamento fixo pergunta se o trabalho deve rodar porque o tempo passou. Um design orientado a Streams pergunta se dados commitados mudaram. Isso removeu execuções desnecessárias e permitiu processar deltas relevantes muito antes, aproximando analytics operacionais de tempo real sem manter o maior warehouse ligado continuamente.</p>
+
+      <h2>Detalhes de confiabilidade que importam</h2>
+      <p>Designs incrementais movem complexidade; não a eliminam. Cada consumidor independente precisa de seu próprio offset. Streams devem ser consumidos antes de ficarem stale. MERGE precisa ser idempotente, updates e deletes exigem tratamento correto, mudanças de schema pedem compatibilidade e o lag precisa ser observável.</p>
+      <div class="code-window">
+        <div class="code-label">Contrato operacional</div>
+        <pre><code>monitorar:
+  lag_do_stream
+  stale_after
+  linhas_consumidas
+  duracao_do_merge
+  creditos_do_warehouse
+  atualizacao_dos_dados
+
+alertar_quando:
+  lag &gt; slo_de_atualizacao
+  ou stream_perto_de_stale
+  ou merge_falhou</code></pre>
+      </div>
+
+      <h2>O resultado</h2>
+      <p>Snowflake Streams tornou o caminho Snowplow–Snowflake suficientemente próximo de tempo real para substituir a entrega paralela ao Prometheus. Grafana permaneceu como superfície de visualização, mas Snowflake virou seu backend operacional e analítico. O custo de cloud caiu porque a plataforma deixou de operar um Prometheus cada vez mais superdimensionado e de recalcular dados que não mudaram.</p>
+      <p>A lição mais ampla é que visualização e infraestrutura de dados são decisões separáveis. Uma interface familiar pode permanecer enquanto seu modelo de storage e processamento evolui. Coloque histórico operacional de alta cardinalidade e análise exploratória em um sistema projetado para escala analítica, conectando a visualização com contratos explícitos de atualização e custo.</p>
+      <p><em>Este estudo de caso foi anonimizado e simplificado. Ele não identifica a empresa nem expõe dados internos, capacidade ou schemas.</em></p>
+    </article>
+  </main>
+  <footer class="footer"><span>© 2026 Rodrigo Morais</span><a href="mailto:morais.rm@gmail.com">Contato</a></footer>
+</body>
+</html>

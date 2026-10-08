@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Prefect ou Airflow? Uma Decisão Baseada no Workload — Rodrigo Morais</title>
+  <meta name="description" content="Por que Prefect se encaixa em uma plataforma Python de dados de mercado, onde Airflow seria melhor e como projetar pipelines resilientes.">
+  <link rel="canonical" href="https://rodrigo-morais.github.io/pt_BR/artigos/pipelines-de-dados-resilientes/">
+  <link rel="alternate" hreflang="en" href="https://rodrigo-morais.github.io/articles/resilient-data-pipelines/">
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <nav class="nav" aria-label="Navegação principal">
+      <a class="brand" href="/pt_BR/"><span class="brand-mark">RM</span><span>Rodrigo Morais</span></a>
+      <div class="nav-links"><a href="/pt_BR/#work">Projetos</a><a href="/pt_BR/#writing">Artigos</a><a class="lang" href="/articles/resilient-data-pipelines/" lang="en">EN</a></div>
+    </nav>
+  </header>
+  <main>
+    <section class="article-hero">
+      <div class="article-hero-inner">
+        <a class="back-link" href="/pt_BR/#writing">← Todas as notas de engenharia</a>
+        <p class="eyebrow">Plataforma de dados · Orquestração</p>
+        <h1>Prefect ou Airflow? Uma decisão baseada no workload</h1>
+        <p class="lead">A pergunta útil não é qual orquestrador vence. É qual modelo operacional se encaixa no workload, na equipe e nos modos de falha.</p>
+        <p class="article-meta">Rodrigo Morais · 8 min de leitura · Outubro de 2026</p>
+      </div>
+    </section>
+    <article class="article-body">
+      <p>Escolhi Prefect 3 para orquestrar uma plataforma privada de dados de mercado e estratégias. O workload mistura agendas fixas, backfills parametrizados, child flows, cálculos longos e operações manuais. A implementação é majoritariamente Python, e muitos workflows precisam ser acionados por outras ferramentas, além de executados como deployments ou funções comuns em testes.</p>
+
+      <h2>Por que Prefect se encaixa</h2>
+      <p>Prefect mantém a orquestração próxima de Python normal. Isso importa quando as mesmas funções de domínio atendem uma ingestão diária, um backfill histórico limitado e uma correção ad hoc. Parâmetros, ramificações e composição permanecem diretos, sem forçar tudo para o formato de um DAG estático.</p>
+      <div class="principle"><strong>Desenvolvimento rápido:</strong> funções Python ganham tarefas, retentativas e observabilidade sem uma reescrita completa.</div>
+      <div class="principle"><strong>Execução dinâmica:</strong> o workflow deriva símbolos, datas e child deployments em tempo de execução.</div>
+      <div class="principle"><strong>Integração com ferramentas:</strong> APIs e deployments permitem que aplicações e workflows assistidos por IA acionem exatamente o flow necessário.</div>
+      <div class="principle"><strong>Agenda e ad hoc:</strong> o mesmo flow roda agendado ou com parâmetros explícitos.</div>
+      <div class="principle"><strong>Custo e footprint:</strong> nesta escala, a plataforma opera com menos infraestrutura e recursos dedicados.</div>
+
+      <h2>Por que não escolher Airflow automaticamente?</h2>
+      <p>Airflow é excelente quando a organização precisa de um ecossistema maduro, muitos operadores, ownership visível de DAGs e um padrão conhecido por várias equipes. Seu modelo centrado no scheduler é uma força para grandes conjuntos de dependências batch regulares.</p>
+      <p>Essas não eram as restrições dominantes. Esta plataforma é mantida como um produto Python, possui muitos workflows parametrizados e disparados externamente, e evolui rapidamente entre ingestão, analytics e estratégias. Prefect ofereceu desenvolvimento mais rápido, maior flexibilidade de execução e menor carga de infraestrutura.</p>
+
+      <h2>Os trade-offs são reais</h2>
+      <p>Escolher Prefect não elimina trabalho operacional. O control plane exige ajuste de recursos. Catch-up do scheduler e concorrência precisam de limites deliberados. Airflow continua com ecossistema e mercado de talentos maiores.</p>
+      <p>Se a plataforma crescesse para centenas de equipes compartilhando milhares de DAGs batch majoritariamente estáticos, ou dependesse muito de operadores e governança já padronizados em Airflow, eu reavaliaria. Decisões arquiteturais devem expirar quando suas premissas expirarem.</p>
+
+      <h2>O orquestrador não fornece confiabilidade sozinho</h2>
+      <p>Dados de mercado são imperfeitos: provedores atrasam, instrumentos são ilíquidos, calendários diferem e históricos são republicados. A plataforma adiciona políticas explícitas:</p>
+      <ul>
+        <li>resolução por dia útil em vez de aritmética ingênua de calendário;</li>
+        <li>timeouts e margens entre flows pai e filho;</li>
+        <li>backfills retomáveis a partir de fontes oficiais;</li>
+        <li>provedores alternativos sem misturar procedência silenciosamente;</li>
+        <li>verificação de cobertura antes da finalização;</li>
+        <li>finalização idempotente ou atômica para lotes críticos;</li>
+        <li>alertas que distinguem warning de falha terminal.</li>
+      </ul>
+      <div class="code-window">
+        <div class="code-label">Flow resiliente simplificado</div>
+        <pre><code><span class="kw">@flow</span>(timeout_seconds=politica.limite)
+<span class="kw">def</span> <span class="fn">ingerir_dados</span>(data_alvo=None):
+    data = resolver_dia_util(data_alvo)
+    simbolos = executar(buscar_simbolos, politica.busca)
+    precos = executar_em_paralelo(buscar_precos, simbolos)
+    cobertura = validar(precos, data)
+    <span class="kw">if not</span> cobertura.aceitavel:
+        <span class="kw">raise</span> DadosIncompletos(cobertura)
+    finalizar_atomicamente(data, precos, procedencia=True)</code></pre>
+      </div>
+
+      <h2>A decisão em uma frase</h2>
+      <blockquote>Prefect se encaixa porque acelera o desenvolvimento de uma aplicação Python dinâmica, integra-se às outras ferramentas operacionais e atende o workload com uma infraestrutura menor.</blockquote>
+      <p>Airflow continua sendo uma alternativa forte. A decisão sênior não é lealdade a uma ferramenta; é compreender o workload o suficiente para explicar o encaixe, o custo e a condição que levaria a uma mudança.</p>
+    </article>
+  </main>
+  <footer class="footer"><span>© 2026 Rodrigo Morais</span><a href="mailto:morais.rm@gmail.com">Contato</a></footer>
+</body>
+</html>

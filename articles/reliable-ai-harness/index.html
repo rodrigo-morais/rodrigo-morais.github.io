@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Reliable AI Needs Contracts, Not Just Prompts — Rodrigo Morais</title>
+  <meta name="description" content="A practical architecture for reliable AI workflows: explicit routing, bounded retries, validation, redacted telemetry and safe side effects.">
+  <link rel="canonical" href="https://rodrigo-morais.github.io/articles/reliable-ai-harness/">
+  <link rel="alternate" hreflang="pt-BR" href="https://rodrigo-morais.github.io/pt_BR/artigos/harness-ia-confiavel/">
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <nav class="nav" aria-label="Primary navigation">
+      <a class="brand" href="/"><span class="brand-mark">RM</span><span>Rodrigo Morais</span></a>
+      <div class="nav-links">
+        <a href="/#work">Work</a><a href="/#writing">Writing</a>
+        <a class="lang" href="/pt_BR/artigos/harness-ia-confiavel/" lang="pt-BR">PT</a>
+      </div>
+    </nav>
+  </header>
+  <main>
+    <section class="article-hero">
+      <div class="article-hero-inner">
+        <a class="back-link" href="/#writing">← All engineering notes</a>
+        <p class="eyebrow">AI systems · Architecture</p>
+        <h1>Reliable AI needs contracts, not just prompts</h1>
+        <p class="lead">A production AI workflow should be able to explain what ran, why it chose a route, what failed, what was retried and whether the result was validated—without leaking the underlying data.</p>
+        <p class="article-meta">Rodrigo Morais · 7 min read · October 2026</p>
+      </div>
+    </section>
+    <article class="article-body">
+      <p>Prompts are important, but they are not an operating model. As soon as an AI workflow uses multiple models, tools, validators and human decisions, reliability becomes a software architecture problem. The system needs explicit contracts at every boundary.</p>
+
+      <h2>The failure mode: invisible policy</h2>
+      <p>A simplistic agent often hides critical choices inside framework defaults: which model receives the request, how many times a failed call is retried, whether a fallback is allowed and what happens after a tool produces an invalid result. That may be acceptable in a prototype. In production, it makes cost, latency and risk unpredictable.</p>
+      <blockquote>The reliable unit is not the model call. It is the complete, observable execution path.</blockquote>
+
+      <h2>Make execution policy a first-class contract</h2>
+      <p>In the Work Harness I am building, each retryable step declares its own attempts, time budget, retryable failure categories, fallback routes and side-effect classification. Unsafe side effects cannot be retried. Retried operations must have both per-attempt and total deadlines.</p>
+      <div class="code-window">
+        <div class="code-label">Simplified public-safe example</div>
+        <pre><code><span class="kw">class</span> <span class="fn">StepExecutionPolicy</span>:
+    max_attempts: int = 1
+    attempt_timeout: float | None
+    total_deadline: float | None
+    retryable: tuple[FailureCategory, ...]
+    side_effect: <span class="str">"none | idempotent | unsafe"</span>
+
+    <span class="kw">def</span> <span class="fn">validate</span>(self):
+        <span class="kw">if</span> self.max_attempts &gt; 1:
+            require(self.attempt_timeout)
+            require(self.total_deadline)
+            reject(self.side_effect == <span class="str">"unsafe"</span>)</code></pre>
+      </div>
+      <p>This turns behavior that is usually implicit into something reviewable and testable. Authentication or configuration errors fail quickly; transient network and rate-limit failures may retry; output repair follows a separate path rather than being confused with provider availability.</p>
+
+      <h2>Record facts, not private reasoning</h2>
+      <p>Every execution emits versioned events for routing, stages, model attempts, tools, retries, validation, artifacts and human decisions. Events share stable identifiers and ordering. They record observable facts—route, duration, outcome, usage, sanitized error category and artifact references—not private chain-of-thought.</p>
+      <div class="principle"><strong>Canonical record:</strong> structured events are the durable source for evaluation and reproducibility.</div>
+      <div class="principle"><strong>Trace projection:</strong> an external tracing tool receives a redacted subset for interactive debugging.</div>
+      <div class="principle"><strong>Protected content:</strong> prompts, source code, financial data and tool arguments are excluded unless an explicit capture policy allows them.</div>
+
+      <h2>Separate the public capability from internal specialists</h2>
+      <p>A user should choose a capability—such as software architecture or options analysis—not a particular underlying model. Internally, a graph can route between specialists, providers and reasoning levels according to risk and complexity. This keeps the external contract stable while the implementation evolves.</p>
+
+      <h2>What this makes possible</h2>
+      <p>Once execution is explicit, the platform can answer questions that prompt logs cannot: Which paths succeed without human intervention? Which fallback increases cost without improving quality? Which validator catches regressions? Where can a deterministic component replace a model safely?</p>
+      <p>That is the transition from experimenting with AI to engineering an AI system: not removing uncertainty, but making it bounded, observable and governable.</p>
+    </article>
+  </main>
+  <footer class="footer"><span>© 2026 Rodrigo Morais</span><a href="mailto:morais.rm@gmail.com">Contact</a></footer>
+</body>
+</html>

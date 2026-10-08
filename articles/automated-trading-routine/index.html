@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>How I Reduced My Daily Trading Routine to 30 Minutes — Rodrigo Morais</title>
+  <meta name="description" content="How I combined market-data pipelines, strategy automation, reconciliation and controlled review to reduce a daily trading routine from hours to 30 minutes.">
+  <link rel="canonical" href="https://rodrigo-morais.github.io/articles/automated-trading-routine/">
+  <link rel="alternate" hreflang="pt-BR" href="https://rodrigo-morais.github.io/pt_BR/artigos/rotina-de-trading-automatizada/">
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <nav class="nav" aria-label="Primary navigation">
+      <a class="brand" href="/"><span class="brand-mark">RM</span><span>Rodrigo Morais</span></a>
+      <div class="nav-links"><a href="/#work">Work</a><a href="/#writing">Writing</a><a class="lang" href="/pt_BR/artigos/rotina-de-trading-automatizada/" lang="pt-BR">PT</a></div>
+    </nav>
+  </header>
+  <main>
+    <section class="article-hero">
+      <div class="article-hero-inner">
+        <a class="back-link" href="/#writing">← All engineering notes</a>
+        <p class="eyebrow">Automation · Investment technology</p>
+        <h1>How I reduced my daily trading routine from hours to 30 minutes</h1>
+        <p class="lead">The goal was not to automate judgment. It was to automate data collection, repetitive analysis and operational checks so that human attention could focus on the decisions that matter.</p>
+        <p class="article-meta">Rodrigo Morais · 9 min read · October 2026</p>
+      </div>
+    </section>
+    <article class="article-body">
+      <p>My trading routine used to be fragmented across market-data sources, spreadsheets, SQL queries and manual checks. Every day required collecting prices, inspecting positions, finding candidates, checking strategy constraints and translating the result into executable operations. The work took hours, and the repeated handoffs created risk.</p>
+      <p>I treated it as an engineering problem: build a pipeline that produces trustworthy evidence and a product that turns that evidence into a controlled review workflow.</p>
+
+      <h2>1. Build a dependable data foundation</h2>
+      <p>A scheduled Prefect platform ingests equities, options, interest rates, dividends and analytical inputs from multiple providers. Business-day rules replace naive date logic. Backfills are resumable, writes are keyed and source provenance remains visible.</p>
+      <p>Fallbacks do not simply hide upstream failure. The system records which source supplied an observation and checks whether the final coverage is sufficient for the downstream decision.</p>
+
+      <h2>2. Encode repetitive analysis as explicit strategies</h2>
+      <p>Strategy workflows generate candidates for portfolio management, option rolling and risk reduction. Each candidate carries its inputs, source, version and intended action. This changes the daily routine from “search through the market” to “review a bounded set of explainable proposals.”</p>
+      <div class="code-window">
+        <div class="code-label">Conceptual pipeline</div>
+        <pre><code>market sources
+  → normalized observations
+  → portfolio state
+  → strategy candidates
+  → collision + coverage checks
+  → reviewed operations
+  → execution record + reconciliation</code></pre>
+      </div>
+
+      <h2>3. Make conflicting recommendations impossible to ignore</h2>
+      <p>Independent strategies can compete for the same position or inventory. A finalization gate groups related legs, checks parent capacity, detects collisions and fails closed when ownership, quantity or source lineage cannot be proven. No recommendation is considered ready merely because one calculation succeeded.</p>
+
+      <h2>4. Put a controlled product surface over the pipeline</h2>
+      <p>The Investment Manager consolidates reports, portfolio state, tax-supporting outputs, operation registration and reconciliation. Critical operations use preview before apply, explicit transactions, idempotency and audit history. The interface shows what needs attention instead of asking me to reconstruct state from raw tables.</p>
+      <div class="principle"><strong>Preview:</strong> show the exact intended change and its source evidence.</div>
+      <div class="principle"><strong>Apply:</strong> execute atomically against the state that was reviewed.</div>
+      <div class="principle"><strong>Reconcile:</strong> compare the resulting portfolio with broker evidence and preserve the outcome.</div>
+
+      <h2>5. Alert on exceptions, not routine success</h2>
+      <p>Routine success should be quiet. Alerts are reserved for stale data, incomplete coverage, blocked finalization, failed reconciliation or a decision that requires human action. This avoids replacing manual work with notification fatigue.</p>
+
+      <h2>The result: a 30-minute decision window</h2>
+      <p>The daily process now takes about 30 minutes of focused review instead of hours of collection and repetitive checking. Automation prepares the market and portfolio context, generates and validates candidates, and presents a controlled action surface. I remain responsible for the final decision and execution.</p>
+      <blockquote>The real productivity gain came from automating the preparation of judgment—not pretending judgment was unnecessary.</blockquote>
+
+      <h2>Why this matters beyond trading</h2>
+      <p>The same pattern applies to any expert workflow: collect evidence continuously, encode repeatable rules, fail closed on incomplete state, surface exceptions and preserve human authority at consequential boundaries. That is how automation reduces time without reducing accountability.</p>
+      <p><em>This is an engineering case study, not investment advice. Details are intentionally simplified to protect private financial data and strategy logic.</em></p>
+    </article>
+  </main>
+  <footer class="footer"><span>© 2026 Rodrigo Morais</span><a href="mailto:morais.rm@gmail.com">Contact</a></footer>
+</body>
+</html>

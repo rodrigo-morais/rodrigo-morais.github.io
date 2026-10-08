@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>IA Confiável Precisa de Contratos, Não Apenas Prompts — Rodrigo Morais</title>
+  <meta name="description" content="Uma arquitetura prática para workflows de IA confiáveis: roteamento explícito, retentativas limitadas, validação, telemetria anonimizada e efeitos colaterais seguros.">
+  <link rel="canonical" href="https://rodrigo-morais.github.io/pt_BR/artigos/harness-ia-confiavel/">
+  <link rel="alternate" hreflang="en" href="https://rodrigo-morais.github.io/articles/reliable-ai-harness/">
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <nav class="nav" aria-label="Navegação principal">
+      <a class="brand" href="/pt_BR/"><span class="brand-mark">RM</span><span>Rodrigo Morais</span></a>
+      <div class="nav-links"><a href="/pt_BR/#work">Projetos</a><a href="/pt_BR/#writing">Artigos</a><a class="lang" href="/articles/reliable-ai-harness/" lang="en">EN</a></div>
+    </nav>
+  </header>
+  <main>
+    <section class="article-hero">
+      <div class="article-hero-inner">
+        <a class="back-link" href="/pt_BR/#writing">← Todas as notas de engenharia</a>
+        <p class="eyebrow">Sistemas de IA · Arquitetura</p>
+        <h1>IA confiável precisa de contratos, não apenas prompts</h1>
+        <p class="lead">Um workflow de IA em produção deve explicar o que executou, por que escolheu uma rota, o que falhou, o que foi repetido e se o resultado foi validado—sem vazar os dados subjacentes.</p>
+        <p class="article-meta">Rodrigo Morais · 7 min de leitura · Outubro de 2026</p>
+      </div>
+    </section>
+    <article class="article-body">
+      <p>Prompts são importantes, mas não são um modelo operacional. Quando um workflow usa múltiplos modelos, ferramentas, validadores e decisões humanas, confiabilidade se torna um problema de arquitetura de software. O sistema precisa de contratos explícitos em cada fronteira.</p>
+
+      <h2>O problema: políticas invisíveis</h2>
+      <p>Um agente simplista costuma esconder escolhas críticas nos padrões do framework: qual modelo recebe a solicitação, quantas vezes uma chamada com falha é repetida, se fallback é permitido e o que acontece quando uma ferramenta produz um resultado inválido. Isso pode servir em um protótipo. Em produção, torna custo, latência e risco imprevisíveis.</p>
+      <blockquote>A unidade confiável não é a chamada ao modelo. É o caminho de execução completo e observável.</blockquote>
+
+      <h2>Política de execução como contrato de primeira classe</h2>
+      <p>No Work Harness que estou construindo, cada etapa declara tentativas, orçamento de tempo, categorias de falha retentáveis, rotas alternativas e classificação de efeitos colaterais. Efeitos inseguros não podem ser repetidos. Operações retentáveis precisam de limite por tentativa e prazo total.</p>
+      <div class="code-window">
+        <div class="code-label">Exemplo simplificado e público</div>
+        <pre><code><span class="kw">class</span> <span class="fn">PoliticaDeExecucao</span>:
+    max_tentativas: int = 1
+    timeout_tentativa: float | None
+    prazo_total: float | None
+    falhas_retentaveis: tuple
+    efeito: <span class="str">"nenhum | idempotente | inseguro"</span>
+
+    <span class="kw">def</span> <span class="fn">validar</span>(self):
+        <span class="kw">if</span> self.max_tentativas &gt; 1:
+            exigir(self.timeout_tentativa)
+            exigir(self.prazo_total)
+            rejeitar(self.efeito == <span class="str">"inseguro"</span>)</code></pre>
+      </div>
+      <p>Isso transforma comportamento implícito em algo revisável e testável. Erros de autenticação ou configuração falham rapidamente; falhas transitórias de rede e rate limit podem repetir; correção de saída segue um caminho separado.</p>
+
+      <h2>Registrar fatos, não raciocínio privado</h2>
+      <p>Cada execução emite eventos versionados para roteamento, etapas, tentativas de modelo, ferramentas, retentativas, validação, artefatos e decisões humanas. Eles registram fatos observáveis—rota, duração, resultado, uso, categoria de erro anonimizada e referências a artefatos—não cadeia de pensamento privada.</p>
+      <div class="principle"><strong>Registro canônico:</strong> eventos estruturados são a fonte durável para avaliação e reprodutibilidade.</div>
+      <div class="principle"><strong>Projeção de trace:</strong> uma ferramenta externa recebe um subconjunto anonimizado para diagnóstico interativo.</div>
+      <div class="principle"><strong>Conteúdo protegido:</strong> prompts, código-fonte, dados financeiros e argumentos de ferramentas ficam fora por padrão.</div>
+
+      <h2>Separar a capacidade pública dos especialistas internos</h2>
+      <p>O usuário deve escolher uma capacidade—como arquitetura de software ou análise de opções—e não um modelo específico. Internamente, um grafo pode rotear entre especialistas, provedores e níveis de raciocínio conforme risco e complexidade. O contrato externo permanece estável enquanto a implementação evolui.</p>
+
+      <h2>O que isso permite</h2>
+      <p>Com execução explícita, a plataforma responde perguntas que logs de prompts não respondem: quais caminhos funcionam sem intervenção humana? Qual fallback aumenta custo sem melhorar qualidade? Qual validador detecta regressões? Onde um componente determinístico pode substituir um modelo?</p>
+      <p>Essa é a transição de experimentar com IA para engenheirar um sistema de IA: não eliminar a incerteza, mas torná-la limitada, observável e governável.</p>
+    </article>
+  </main>
+  <footer class="footer"><span>© 2026 Rodrigo Morais</span><a href="mailto:morais.rm@gmail.com">Contato</a></footer>
+</body>
+</html>

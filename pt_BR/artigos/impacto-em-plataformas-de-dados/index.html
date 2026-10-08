@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Como Plataformas de Dados Ficam Mais Rápidas, Baratas e Seguras — Rodrigo Morais</title>
+  <meta name="description" content="As práticas de engenharia por trás de 4 vezes mais throughput, 34% menos custo no Snowflake e 72% menos incidentes de dados.">
+  <link rel="canonical" href="https://rodrigo-morais.github.io/pt_BR/artigos/impacto-em-plataformas-de-dados/">
+  <link rel="alternate" hreflang="en" href="https://rodrigo-morais.github.io/articles/data-platform-impact/">
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <nav class="nav" aria-label="Navegação principal">
+      <a class="brand" href="/pt_BR/"><span class="brand-mark">RM</span><span>Rodrigo Morais</span></a>
+      <div class="nav-links"><a href="/pt_BR/#work">Projetos</a><a href="/pt_BR/#writing">Artigos</a><a class="lang" href="/articles/data-platform-impact/" lang="en">EN</a></div>
+    </nav>
+  </header>
+  <main>
+    <section class="article-hero">
+      <div class="article-hero-inner">
+        <a class="back-link" href="/pt_BR/#writing">← Todas as notas de engenharia</a>
+        <p class="eyebrow">Engenharia de dados · Impacto mensurável</p>
+        <h1>Como plataformas de dados ficam mais rápidas, baratas e seguras</h1>
+        <p class="lead">Performance, custo e confiabilidade não são projetos separados. As melhores mudanças melhoram os três ao tornar o trabalho incremental, observável e com ownership claro.</p>
+        <p class="article-meta">Rodrigo Morais · 7 min de leitura · Outubro de 2026</p>
+      </div>
+    </section>
+    <article class="article-body">
+      <p>Entre as plataformas de dados que construí e modernizei, três resultados se destacam: quatro vezes mais throughput, 34% menos custo no Snowflake e 72% menos incidentes de dados. Esses números não vieram de uma única consulta inteligente. Vieram de mudar como a plataforma move, mede e assume responsabilidade pelos dados.</p>
+
+      <h2>Parar de recalcular o que não mudou</h2>
+      <p>Pipelines batch grandes frequentemente pagam para redescobrir o mesmo estado. Migrar para CDC e modelos incrementais reduz dados varridos, encurta o feedback e transforma atualização em capacidade do produto. O trabalho importante não é apenas habilitar uma stream; é definir chaves, ordenação, deduplicação e replay.</p>
+
+      <h2>Projetar Spark em torno do movimento de dados</h2>
+      <p>Throughput melhora quando partições combinam com o workload, joins evitam shuffles desnecessários, skew é visível e fronteiras de serialização são deliberadas. Planos físicos de execução fazem parte da aplicação; não são detalhe do engine.</p>
+      <div class="code-window">
+        <div class="code-label">Ciclo de otimização</div>
+        <pre><code>medir(tempo_da_etapa, shuffle, skew)
+  → isolar o movimento dominante
+  → ajustar particionamento ou limite do modelo
+  → validar com dados representativos
+  → comparar custo e latência
+  → manter ou reverter</code></pre>
+      </div>
+
+      <h2>Tornar o custo do warehouse atribuível</h2>
+      <p>Otimização no Snowflake se sustenta quando consumo pode ser associado a workload, responsável e nível de serviço. Tamanho do warehouse, auto-suspend, modelos incrementais no dbt, clustering e formato das consultas se tornam decisões de produto com trade-offs visíveis.</p>
+
+      <h2>Tratar confiabilidade como contrato</h2>
+      <p>A redução de incidentes veio de antecipar verificações e tornar ownership explícito: schema, atualização, volume, unicidade, integridade referencial e invariantes de negócio. Um pipeline deve falhar com diagnóstico útil antes que dados ruins cheguem a um modelo usado por clientes.</p>
+      <div class="principle"><strong>Atualização:</strong> definir atraso em termos de negócio.</div>
+      <div class="principle"><strong>Replay:</strong> tornar reprocessamento seguro, limitado e observável.</div>
+      <div class="principle"><strong>Ownership:</strong> todo produto de dados tem equipe responsável e escalonamento.</div>
+      <div class="principle"><strong>Custo:</strong> uso é mensurável na mesma fronteira do valor.</div>
+
+      <h2>O efeito composto</h2>
+      <p>Processamento incremental reduz custo e latência. Observabilidade revela gargalos físicos e contratos ruins. Ownership claro encurta resposta. Replay seguro reduz o medo de mudar. Essas melhorias se reforçam.</p>
+      <blockquote>Uma plataforma de dados sênior não é a que tem mais ferramentas. É a que torna atualização, custo e comportamento de falha intencionais.</blockquote>
+      <p>As métricas importam porque mostram que a arquitetura mudou a experiência do negócio: dados mais rápidos, menor custo operacional e menos interrupções para quem depende deles.</p>
+    </article>
+  </main>
+  <footer class="footer"><span>© 2026 Rodrigo Morais</span><a href="mailto:morais.rm@gmail.com">Contato</a></footer>
+</body>
+</html>

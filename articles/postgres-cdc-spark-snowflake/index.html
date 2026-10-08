@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>From PostgreSQL CDC to Near-Real-Time Snowflake with Spark — Rodrigo Morais</title>
+  <meta name="description" content="An anonymized production case study on using Debezium, Pub/Sub, GCS and Spark Structured Streaming to make PostgreSQL changes usable in Snowflake in near real time.">
+  <link rel="canonical" href="https://rodrigo-morais.github.io/articles/postgres-cdc-spark-snowflake/">
+  <link rel="alternate" hreflang="pt-BR" href="https://rodrigo-morais.github.io/pt_BR/artigos/postgres-cdc-spark-snowflake/">
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <nav class="nav" aria-label="Primary navigation">
+      <a class="brand" href="/"><span class="brand-mark">RM</span><span>Rodrigo Morais</span></a>
+      <div class="nav-links"><a href="/#work">Work</a><a href="/#writing">Writing</a><a class="lang" href="/pt_BR/artigos/postgres-cdc-spark-snowflake/" lang="pt-BR">PT</a></div>
+    </nav>
+  </header>
+  <main>
+    <section class="article-hero">
+      <div class="article-hero-inner">
+        <a class="back-link" href="/#writing">← All engineering notes</a>
+        <p class="eyebrow">Streaming · CDC · Snowflake</p>
+        <h1>From PostgreSQL CDC to near-real-time Snowflake with Spark</h1>
+        <p class="lead">An anonymized production case study about moving from durable but slow file-based delivery to continuously transformed analytical data—without confusing downstream streaming with an upstream WAL fix.</p>
+        <p class="article-meta">Rodrigo Morais · 9 min read · October 2026</p>
+      </div>
+    </section>
+    <article class="article-body">
+      <p>The platform had two legitimate but different problems. A high-write PostgreSQL backend produced a large volume of WAL, and business-critical changes took too long to become useful in Snowflake. Treating those as one “CDC scaling” problem would have led to the wrong design.</p>
+
+      <h2>The original path was durable, not fast</h2>
+      <p>Debezium read PostgreSQL logical replication changes and published them to Pub/Sub. Events were persisted to GCS, then discovered and loaded into Snowflake. The object-storage path was valuable for durability, replay and recovery, but its file boundaries put batching directly on the freshness path.</p>
+      <div class="code-window">
+        <div class="code-label">Original critical path</div>
+        <pre><code>PostgreSQL
+  → WAL / logical replication
+  → Debezium
+  → Pub/Sub
+  → GCS files
+  → load discovery
+  → Snowflake
+  → scheduled transformation
+  → usable analytical data</code></pre>
+      </div>
+      <p>Raw events could be available upstream while useful data still waited for files, ingestion and warehouse transformations. The business requirement was not “copy bytes quickly”; it was to make validated, transformed state queryable in near real time.</p>
+
+      <h2>Put Spark where continuous processing was needed</h2>
+      <p>Spark Structured Streaming consumed the Pub/Sub event stream continuously, deserialized Debezium envelopes, normalized schemas, handled ordering and duplicates, applied business transformations and wrote micro-batches to Snowflake. GCS remained as the durable replay path, but it left the real-time critical path.</p>
+      <div class="code-window">
+        <div class="code-label">Separated real-time and replay paths</div>
+        <pre><code>                              ┌─→ GCS
+PostgreSQL → Debezium → Pub/Sub     archive + replay
+                              │
+                              └─→ Spark Structured Streaming
+                                    ├─ validate
+                                    ├─ deduplicate
+                                    ├─ normalize
+                                    ├─ enrich
+                                    └─ aggregate
+                                          ↓
+                                      Snowflake</code></pre>
+      </div>
+
+      <h2>Why Spark, rather than only streaming ingestion?</h2>
+      <p>If the requirement had been to insert unchanged events into Snowflake, a native streaming ingestion service would have been simpler. Spark earned its place because the stream needed substantial processing before it became an analytical product.</p>
+      <div class="principle"><strong>Latency:</strong> transformations ran continuously instead of waiting for the next warehouse task or dbt batch.</div>
+      <div class="principle"><strong>Cost control:</strong> filtering, deduplication and aggregation reduced the volume Snowflake had to store and repeatedly scan.</div>
+      <div class="principle"><strong>Throughput:</strong> sustained high-volume processing used explicitly sized distributed compute.</div>
+      <div class="principle"><strong>Portability:</strong> transformation logic and recovery behavior were not hidden inside one warehouse.</div>
+
+      <h2>The critical boundary: Spark does not fix PostgreSQL WAL</h2>
+      <p>Spark was downstream of Pub/Sub. It could not reduce the WAL already produced by PostgreSQL, and it could not make Debezium consume a replication slot faster. If WAL generation exceeds Debezium's sustainable consumption rate, retention grows regardless of downstream Spark throughput.</p>
+      <blockquote>Downstream speed cannot repair an upstream replication-slot bottleneck.</blockquote>
+      <p>The upstream protections were separate: monitor slot lag and retained WAL, size Debezium for peak sustainable throughput, filter unnecessary change events, bound retained WAL, and maintain recovery paths that do not depend on preserving days of database logs.</p>
+
+      <h2>Correctness under at-least-once delivery</h2>
+      <p>A streaming path must expect duplicates, retries and partial failure. Events carried stable identities and source ordering. Stateful deduplication was bounded by event time and watermark policy. Snowflake writes used deterministic keys and idempotent merge behavior. Checkpoints recorded stream progress, but sink idempotency—not a marketing promise of “exactly once”—protected the business result.</p>
+      <div class="code-window">
+        <div class="code-label">Simplified write contract</div>
+        <pre><code>event_key = (source_table, primary_key, source_version)
+
+micro_batch
+  → reject invalid envelopes
+  → keep latest valid source version
+  → transform deterministically
+  → MERGE on event_key
+  → record batch + source offsets
+  → advance checkpoint</code></pre>
+      </div>
+
+      <h2>The outcome</h2>
+      <p>The architecture moved business-critical freshness from twice-daily delivery to near-real-time usable data. It also shifted high-volume transformation away from repeated Snowflake warehouse work. As part of broader platform optimization, Snowflake operating cost fell by 34% while reliability improved.</p>
+      <p>The important lesson is not “Spark is good for big data.” It is more precise: Spark made sense because a sustained CDC stream needed low-latency transformation, data reduction and controlled delivery before Snowflake. The WAL problem remained a PostgreSQL and Debezium concern—and the design treated it that way.</p>
+      <p><em>This case study is intentionally anonymized and simplified. It describes architecture and engineering trade-offs without identifying the company or exposing proprietary data.</em></p>
+    </article>
+  </main>
+  <footer class="footer"><span>© 2026 Rodrigo Morais</span><a href="mailto:morais.rm@gmail.com">Contact</a></footer>
+</body>
+</html>

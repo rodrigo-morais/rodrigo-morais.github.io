@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>How Data Platforms Become Faster, Cheaper and Safer — Rodrigo Morais</title>
+  <meta name="description" content="The engineering practices behind 4x throughput, 34% lower Snowflake cost and 72% fewer data incidents.">
+  <link rel="canonical" href="https://rodrigo-morais.github.io/articles/data-platform-impact/">
+  <link rel="alternate" hreflang="pt-BR" href="https://rodrigo-morais.github.io/pt_BR/artigos/impacto-em-plataformas-de-dados/">
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <nav class="nav" aria-label="Primary navigation">
+      <a class="brand" href="/"><span class="brand-mark">RM</span><span>Rodrigo Morais</span></a>
+      <div class="nav-links"><a href="/#work">Work</a><a href="/#writing">Writing</a><a class="lang" href="/pt_BR/artigos/impacto-em-plataformas-de-dados/" lang="pt-BR">PT</a></div>
+    </nav>
+  </header>
+  <main>
+    <section class="article-hero">
+      <div class="article-hero-inner">
+        <a class="back-link" href="/#writing">← All engineering notes</a>
+        <p class="eyebrow">Data engineering · Measurable impact</p>
+        <h1>How data platforms become faster, cheaper and safer</h1>
+        <p class="lead">Performance, cost and reliability are not separate optimization projects. The best platform changes improve all three by making work incremental, observable and owned.</p>
+        <p class="article-meta">Rodrigo Morais · 7 min read · October 2026</p>
+      </div>
+    </section>
+    <article class="article-body">
+      <p>Across the data platforms I have built and modernized, three outcomes stand out: four times more processing throughput, 34% lower Snowflake cost and 72% fewer data incidents. Those numbers did not come from one clever query. They came from changing how the platform moves, measures and owns data.</p>
+
+      <h2>Stop recomputing what did not change</h2>
+      <p>Large batch pipelines often pay to rediscover the same state. Moving toward CDC and incremental models reduces scanned data, shortens the feedback loop and makes freshness a product capability. The important work is not merely enabling a stream; it is defining keys, ordering, deduplication and replay behavior.</p>
+
+      <h2>Design Spark work around data movement</h2>
+      <p>Throughput improves when partitions match the workload, joins avoid unnecessary shuffles, skew is visible and serialization boundaries are deliberate. I treat physical execution plans as part of the application, not as an implementation detail owned by the engine.</p>
+      <div class="code-window">
+        <div class="code-label">Optimization loop</div>
+        <pre><code>measure(stage_time, shuffle_bytes, skew)
+  → isolate the dominant movement
+  → change partitioning or model boundary
+  → validate correctness on representative data
+  → compare cost and latency
+  → keep or revert</code></pre>
+      </div>
+
+      <h2>Make warehouse cost attributable</h2>
+      <p>Snowflake optimization becomes sustainable when consumption can be tied to a workload, owner and service level. Warehouse sizing, auto-suspend, incremental dbt models, clustering choices and query shape then become product decisions with visible trade-offs—not periodic cost-cutting.</p>
+
+      <h2>Treat reliability as a contract</h2>
+      <p>Incident reduction came from pushing checks earlier and making ownership explicit: schema expectations, freshness, volume, uniqueness, referential integrity and business invariants. A pipeline should fail with a useful diagnosis before bad data reaches a customer-facing model.</p>
+      <div class="principle"><strong>Freshness:</strong> define when data becomes late in business terms.</div>
+      <div class="principle"><strong>Replay:</strong> make reprocessing safe, bounded and observable.</div>
+      <div class="principle"><strong>Ownership:</strong> every data product has a responsible team and an escalation path.</div>
+      <div class="principle"><strong>Cost:</strong> usage is measurable at the same boundary as value.</div>
+
+      <h2>The compounding effect</h2>
+      <p>Incremental processing lowers cost and latency. Better observability makes physical bottlenecks and bad contracts visible. Clear ownership shortens response time. Safer replay reduces fear of change. These improvements reinforce each other.</p>
+      <blockquote>A senior data platform is not the one with the most tools. It is the one where freshness, cost and failure behavior are intentional.</blockquote>
+      <p>The metrics matter because they show the architecture changed the business experience: faster data, lower operating cost and fewer interruptions for the people depending on it.</p>
+    </article>
+  </main>
+  <footer class="footer"><span>© 2026 Rodrigo Morais</span><a href="mailto:morais.rm@gmail.com">Contact</a></footer>
+</body>
+</html>

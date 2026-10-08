@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>De Sinais de Dados a Oportunidades Operacionais — Rodrigo Morais</title>
+  <meta name="description" content="Como combino um harness de execução, grafos, LLMs, evals e o classificador type-safe JEV para apoiar decisões intradiárias.">
+  <link rel="canonical" href="https://rodrigo-morais.github.io/pt_BR/artigos/apoio-a-decisoes-type-safe/">
+  <link rel="alternate" hreflang="en" href="https://rodrigo-morais.github.io/articles/type-safe-decision-support/">
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <nav class="nav" aria-label="Navegação principal">
+      <a class="brand" href="/pt_BR/"><span class="brand-mark">RM</span><span>Rodrigo Morais</span></a>
+      <div class="nav-links"><a href="/pt_BR/#work">Projetos</a><a href="/pt_BR/#writing">Artigos</a><a class="lang" href="/articles/type-safe-decision-support/" lang="en">EN</a></div>
+    </nav>
+  </header>
+  <main>
+    <section class="article-hero">
+      <div class="article-hero-inner">
+        <a class="back-link" href="/pt_BR/#writing">← Todas as notas de engenharia</a>
+        <p class="eyebrow">Engenharia de IA · Apoio à decisão</p>
+        <h1>De sinais de dados a oportunidades operacionais</h1>
+        <p class="lead">Como combino Harness, workflows em grafos, LLMs, evals e classificações tipadas do JEV para apoiar decisões durante o dia—mantendo cálculos, incerteza e autoridade humana nos lugares certos.</p>
+        <p class="article-meta">Rodrigo Morais · 8 min de leitura · Outubro de 2026</p>
+      </div>
+    </section>
+    <article class="article-body">
+      <p>Plataformas operacionais geram mais sinais do que uma pessoa consegue inspecionar continuamente: mudanças de atualização, cobertura incomum, restrições de carteira, colisões de estratégia, variações de custo e oportunidades emergentes. O desafio não é criar outro dashboard. É decidir quais mudanças merecem atenção agora e apresentar evidência suficiente para agir com responsabilidade.</p>
+
+      <h2>Usar inteligências diferentes para trabalhos diferentes</h2>
+      <p>Eu separo o sistema em componentes com responsabilidades claras. Serviços determinísticos calculam valores financeiros, aplicam invariantes e preservam estado. JEV classifica perguntas limitadas em saídas tipadas. LLMs sintetizam contexto e explicam evidências. Um grafo coordena a sequência. Evals medem se cada componente realmente ajuda.</p>
+      <blockquote>Não peça a um único modelo para calcular, classificar, explicar, rotear e autorizar. Use em cada fronteira a ferramenta capaz mais restrita.</blockquote>
+
+      <h2>Onde JEV se encaixa</h2>
+      <p><a href="https://typesafe.ai/">JEV da TypeSafe AI</a> é um modelo de decisão, não um gerador de texto. Ele recebe estado e perguntas tipadas e devolve valores limitados que o código consome diretamente: uma escolha, um score ordenado ou uma probabilidade de sim/não. Isso o torna adequado para classificação rápida e de alto volume dentro de um grafo.</p>
+      <div class="code-window">
+        <div class="code-label">Decisão tipada conceitual</div>
+        <pre><code>estado = {
+  <span class="str">"cobertura"</span>: resumo_da_cobertura,
+  <span class="str">"mudanca_carteira"</span>: delta_da_posicao,
+  <span class="str">"alertas_risco"</span>: alertas_deterministicos
+}
+
+perguntas = {
+  <span class="str">"tipo_oportunidade"</span>: escolha([
+    <span class="str">"revisar_agora"</span>, <span class="str">"monitorar"</span>, <span class="str">"ignorar"</span>
+  ]),
+  <span class="str">"prioridade"</span>: score(niveis=4),
+  <span class="str">"precisa_humano"</span>: probabilidade_sim_nao()
+}</code></pre>
+      </div>
+      <p>Type safety elimina parsing de texto livre e limita o formato da resposta. Não garante que o julgamento esteja correto. Por isso thresholds, evals representativos e um caminho explícito para incerteza continuam essenciais.</p>
+
+      <h2>Onde o LLM se encaixa</h2>
+      <p>Quando uma barreira tipada marca um item como relevante, um LLM reúne as evidências em uma explicação concisa: o que mudou, quais dados sustentam a conclusão, quais verificações passaram e o que permanece incerto. Ele também pode sugerir a próxima ferramenta analítica, mas não controla cálculos exatos nem permissão para operações relevantes.</p>
+
+      <h2>O grafo torna a política visível</h2>
+      <p>Um grafo transforma o caminho de apoio à decisão em um processo inspecionável, e não em um prompt longo. Ele encerra cedo quando verificações determinísticas rejeitam um item, envia classificações ambíguas para um modelo mais forte, busca evidência ausente ou encaminha um caso de alto impacto para revisão humana.</p>
+      <div class="code-window">
+        <div class="code-label">Grafo de apoio à decisão</div>
+        <pre><code>observar
+  → validação determinística
+  → classificação tipada JEV
+  → gate de confiança
+      ├─ baixo valor → registrar e encerrar
+      ├─ incerto → análise mais profunda
+      └─ relevante → síntese de evidências por LLM
+                        → revisão humana</code></pre>
+      </div>
+
+      <h2>Evals fazem parte da funcionalidade</h2>
+      <p>Uma explicação plausível não prova que o sistema é útil. Eu avalio a própria fronteira de decisão: precisão nas oportunidades que merecem revisão, carga de falsos positivos, casos perdidos, calibração por faixa de confiança, estabilidade, validade de schema e qualidade das evidências citadas.</p>
+      <div class="principle"><strong>Offline:</strong> reprocessar casos históricos rotulados antes de mudar prompts, thresholds, rotas ou versões.</div>
+      <div class="principle"><strong>Shadow:</strong> executar novas políticas sem alterar o resultado operacional e comparar decisões.</div>
+      <div class="principle"><strong>Produção:</strong> registrar recomendações aceitas, rejeitadas e corrigidas como feedback—sem tratar toda ação humana como verdade absoluta.</div>
+
+      <h2>O Harness controla a disciplina de execução</h2>
+      <p>O Harness fornece rotas versionadas, retentativas limitadas, telemetria de custo e latência, anonimização, validação e decisões humanas auditáveis. Um classificador tipado e barato trata pequenas decisões de roteamento; um LLM maior aparece apenas onde síntese agrega valor.</p>
+
+      <h2>O resultado</h2>
+      <p>O resultado não é um trader autônomo. É um sistema de atenção: acompanha evidências estruturadas ao longo do dia, encontra condições operacionais que merecem revisão e as explica de forma consistente. O julgamento humano permanece na fronteira final, aplicado a um conjunto menor e melhor preparado de decisões.</p>
+      <p><em>Esta é uma discussão de arquitetura de engenharia, não uma recomendação de investimento. Os exemplos são simplificados e não expõem dados financeiros ou regras privadas.</em></p>
+    </article>
+  </main>
+  <footer class="footer"><span>© 2026 Rodrigo Morais</span><a href="mailto:morais.rm@gmail.com">Contato</a></footer>
+</body>
+</html>

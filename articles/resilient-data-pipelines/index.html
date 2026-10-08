@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Prefect or Airflow? A Workload-Based Decision — Rodrigo Morais</title>
+  <meta name="description" content="Why Prefect fits a Python-heavy market-data platform, what Airflow would do better, and how to design resilient pipelines around imperfect sources.">
+  <link rel="canonical" href="https://rodrigo-morais.github.io/articles/resilient-data-pipelines/">
+  <link rel="alternate" hreflang="pt-BR" href="https://rodrigo-morais.github.io/pt_BR/artigos/pipelines-de-dados-resilientes/">
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <nav class="nav" aria-label="Primary navigation">
+      <a class="brand" href="/"><span class="brand-mark">RM</span><span>Rodrigo Morais</span></a>
+      <div class="nav-links"><a href="/#work">Work</a><a href="/#writing">Writing</a><a class="lang" href="/pt_BR/artigos/pipelines-de-dados-resilientes/" lang="pt-BR">PT</a></div>
+    </nav>
+  </header>
+  <main>
+    <section class="article-hero">
+      <div class="article-hero-inner">
+        <a class="back-link" href="/#writing">← All engineering notes</a>
+        <p class="eyebrow">Data platform · Orchestration</p>
+        <h1>Prefect or Airflow? A workload-based decision</h1>
+        <p class="lead">The useful question is not which orchestrator wins. It is which operating model fits the workload, team and failure modes.</p>
+        <p class="article-meta">Rodrigo Morais · 8 min read · October 2026</p>
+      </div>
+    </section>
+    <article class="article-body">
+      <p>I chose Prefect 3 to orchestrate a private market-data and strategy platform. The workload mixes fixed schedules with parameterized backfills, event-driven child flows, long-running calculations and manual operations. Most implementation code is Python and many workflows need to be invoked by other tools as well as run as deployments or ordinary functions during testing.</p>
+
+      <h2>Why Prefect fits this workload</h2>
+      <p>Prefect keeps orchestration close to normal Python. That matters when the same domain functions support a scheduled daily ingestion, a bounded historical backfill and an ad-hoc repair. Parameters, branching and composition remain direct rather than being forced into a static DAG shape.</p>
+      <div class="principle"><strong>Dynamic execution:</strong> the workflow can derive symbols, dates and child deployments at runtime.</div>
+      <div class="principle"><strong>Ad-hoc and scheduled parity:</strong> the same flow can run on a schedule or be launched with explicit parameters.</div>
+      <div class="principle"><strong>Incremental adoption:</strong> Python functions can gain task boundaries, retries and observability without a full rewrite.</div>
+      <div class="principle"><strong>Tool integration:</strong> APIs and deployment calls let applications, operational tools and AI-assisted workflows launch the exact bounded flow they need.</div>
+      <div class="principle"><strong>Self-hosted control:</strong> the control plane and workers can remain inside the private operating environment.</div>
+      <div class="principle"><strong>Cost and footprint:</strong> the platform can run with less infrastructure and fewer dedicated resources at this scale.</div>
+
+      <h2>Why not automatically choose Airflow?</h2>
+      <p>Airflow is excellent when an organization needs a mature ecosystem, broad operator support, highly visible DAG ownership and a familiar standard across many data teams. Its scheduler-centric model is a strength for large estates of regular batch dependencies.</p>
+      <p>Those strengths were not the dominant constraint here. This platform is maintained as a Python product, has many parameterized and externally launched workflows, and evolves quickly across ingestion, analytics and strategy logic. Prefect provided faster development, more runtime flexibility and a lower infrastructure burden for the scale of the system.</p>
+
+      <h2>The trade-offs are real</h2>
+      <p>Choosing Prefect does not remove operational work. The control plane needs resource tuning. Scheduler catch-up and concurrency require deliberate limits. Client and server behavior can change across versions, and Airflow still has the larger ecosystem and talent pool.</p>
+      <p>If the platform grew into hundreds of teams sharing thousands of mostly static batch DAGs, or depended heavily on existing Airflow operators and governance, I would reassess. Architecture decisions should expire when their assumptions expire.</p>
+
+      <h2>The orchestrator cannot supply reliability by itself</h2>
+      <p>Market data is imperfect: providers are late, instruments are illiquid, calendars differ and upstream history gets republished. The platform therefore adds explicit policies around the orchestrator:</p>
+      <ul>
+        <li>business-date resolution instead of naive calendar arithmetic;</li>
+        <li>timeouts and parent/child grace periods at every boundary;</li>
+        <li>official-source backfills with resumable keyed writes;</li>
+        <li>fallback providers without silently mixing provenance;</li>
+        <li>coverage checks before strategy outputs are finalized;</li>
+        <li>idempotent or atomic finalization for business-critical batches;</li>
+        <li>alerts that distinguish warnings from terminal failure.</li>
+      </ul>
+      <div class="code-window">
+        <div class="code-label">Simplified resilient flow</div>
+        <pre><code><span class="kw">@flow</span>(timeout_seconds=policy.deadline)
+<span class="kw">def</span> <span class="fn">market_data_ingestion</span>(target_date=None):
+    date = resolve_business_date(target_date)
+    symbols = run(fetch_symbols, policy.fetch)
+    prices = run_parallel(fetch_prices, symbols)
+    coverage = validate(prices, date)
+    <span class="kw">if not</span> coverage.acceptable:
+        <span class="kw">raise</span> IncompleteMarketData(coverage)
+    finalize_atomically(date, prices, provenance=True)</code></pre>
+      </div>
+
+      <h2>The decision in one sentence</h2>
+      <blockquote>Prefect fits because the platform is a dynamic Python application with orchestration needs: it accelerates development, integrates with other operational tools and meets the workload with a smaller infrastructure footprint.</blockquote>
+      <p>Airflow remains a strong alternative. The senior decision is not loyalty to one tool; it is understanding the workload well enough to name the fit, the cost and the condition that would trigger a change.</p>
+    </article>
+  </main>
+  <footer class="footer"><span>© 2026 Rodrigo Morais</span><a href="mailto:morais.rm@gmail.com">Contact</a></footer>
+</body>
+</html>

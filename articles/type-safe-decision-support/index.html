@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>From Data Signals to Operational Opportunities — Rodrigo Morais</title>
+  <meta name="description" content="How I combine an execution harness, graph workflows, LLMs, evals and the type-safe JEV classifier to support intraday data decisions.">
+  <link rel="canonical" href="https://rodrigo-morais.github.io/articles/type-safe-decision-support/">
+  <link rel="alternate" hreflang="pt-BR" href="https://rodrigo-morais.github.io/pt_BR/artigos/apoio-a-decisoes-type-safe/">
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <nav class="nav" aria-label="Primary navigation">
+      <a class="brand" href="/"><span class="brand-mark">RM</span><span>Rodrigo Morais</span></a>
+      <div class="nav-links"><a href="/#work">Work</a><a href="/#writing">Writing</a><a class="lang" href="/pt_BR/artigos/apoio-a-decisoes-type-safe/" lang="pt-BR">PT</a></div>
+    </nav>
+  </header>
+  <main>
+    <section class="article-hero">
+      <div class="article-hero-inner">
+        <a class="back-link" href="/#writing">← All engineering notes</a>
+        <p class="eyebrow">AI engineering · Decision support</p>
+        <h1>From data signals to operational opportunities</h1>
+        <p class="lead">How I combine Harness, graph workflows, LLMs, evals and JEV's typed classifications to support decisions during the day—while keeping calculations, uncertainty and human authority in the right places.</p>
+        <p class="article-meta">Rodrigo Morais · 8 min read · October 2026</p>
+      </div>
+    </section>
+    <article class="article-body">
+      <p>Operational platforms generate more signals than a person can inspect continuously: freshness changes, unusual coverage, portfolio constraints, strategy collisions, cost shifts and evolving opportunities. The challenge is not generating another dashboard. It is deciding which changes deserve attention now and presenting enough evidence to act responsibly.</p>
+
+      <h2>Use different intelligence for different jobs</h2>
+      <p>I separate the system into components with clear responsibilities. Deterministic services calculate financial values, enforce invariants and preserve state. JEV classifies bounded questions into typed outputs. LLMs synthesize context and explain evidence. A graph coordinates the sequence. Evals measure whether each component is actually helping.</p>
+      <blockquote>Do not ask one model to calculate, classify, explain, route and authorize. Give each decision boundary the narrowest capable tool.</blockquote>
+
+      <h2>Where JEV fits</h2>
+      <p><a href="https://typesafe.ai/">JEV from TypeSafe AI</a> is a decision model rather than a text generator. It accepts state plus typed questions and returns bounded values that code can consume directly: a choice, an ordered score or a yes/no probability. That makes it useful for fast, high-volume classification inside a graph.</p>
+      <div class="code-window">
+        <div class="code-label">Conceptual typed decision</div>
+        <pre><code>state = {
+  <span class="str">"coverage"</span>: coverage_summary,
+  <span class="str">"portfolio_change"</span>: position_delta,
+  <span class="str">"risk_flags"</span>: deterministic_flags
+}
+
+questions = {
+  <span class="str">"opportunity_type"</span>: choice([
+    <span class="str">"review_now"</span>, <span class="str">"monitor"</span>, <span class="str">"ignore"</span>
+  ]),
+  <span class="str">"priority"</span>: score(levels=4),
+  <span class="str">"needs_human"</span>: yes_no_probability()
+}</code></pre>
+      </div>
+      <p>Type safety removes free-form parsing and constrains the answer shape. It does not guarantee the judgment is correct. That is why thresholds, representative evals and an explicit uncertain path remain essential.</p>
+
+      <h2>Where the LLM fits</h2>
+      <p>Once a typed gate marks an item as relevant, an LLM can assemble the evidence into a concise explanation: what changed, which data supports it, which checks passed and what remains uncertain. It can also propose the next analytical tool—but it does not own exact calculations or permission to execute consequential operations.</p>
+
+      <h2>The graph makes the policy visible</h2>
+      <p>A graph turns the decision-support path into an inspectable process rather than a long prompt. It can stop early when deterministic checks reject an item, route ambiguous classifications to a stronger model, request missing evidence or send a high-impact case to human review.</p>
+      <div class="code-window">
+        <div class="code-label">Decision-support graph</div>
+        <pre><code>observe
+  → deterministic validation
+  → JEV typed classification
+  → confidence gate
+      ├─ low value → record and stop
+      ├─ uncertain → deeper analysis
+      └─ relevant → LLM evidence summary
+                        → human review</code></pre>
+      </div>
+
+      <h2>Evals are part of the feature</h2>
+      <p>A plausible explanation is not proof of a useful system. I evaluate the decision boundary itself: precision on opportunities worth reviewing, false-positive load, missed cases, calibration by confidence band, stability across repeated inputs, schema validity and the quality of cited evidence.</p>
+      <div class="principle"><strong>Offline:</strong> replay labeled historical cases before changing prompts, thresholds, graph routes or model versions.</div>
+      <div class="principle"><strong>Shadow:</strong> run new policies without changing the operational outcome and compare decisions.</div>
+      <div class="principle"><strong>Production:</strong> capture accepted, rejected and corrected recommendations as feedback—without treating every human action as ground truth.</div>
+
+      <h2>The Harness owns execution discipline</h2>
+      <p>The Harness provides versioned routes, bounded retries, cost and latency telemetry, redaction, validation and auditable human decisions. A cheap typed classifier can handle small routing decisions; a larger LLM is used only where synthesis adds value. That reduces cost and noise while keeping the execution path reproducible.</p>
+
+      <h2>The outcome</h2>
+      <p>The result is not an autonomous trader. It is an attention system: it watches structured evidence throughout the day, finds operational conditions worth reviewing and explains them in a consistent format. Human judgment remains at the final boundary, but it is applied to a smaller, better-prepared set of decisions.</p>
+      <p><em>This is an engineering architecture discussion, not investment advice. Examples are simplified and do not expose private financial data or strategy rules.</em></p>
+    </article>
+  </main>
+  <footer class="footer"><span>© 2026 Rodrigo Morais</span><a href="mailto:morais.rm@gmail.com">Contact</a></footer>
+</body>
+</html>
