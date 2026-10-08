@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="utf-8">
@@ -9,9 +9,31 @@
   <meta property="og:description" content="Plataformas de dados confiáveis, IA em produção e sistemas de software com resultados mensuráveis.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://rodrigo-morais.github.io/pt_BR/">
+  <meta property="og:image" content="https://rodrigo-morais.github.io/images/rodrigo-morais-social.png">
+  <meta property="og:image:alt" content="Sistemas de dados e IA em produção por Rodrigo Morais">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Rodrigo Morais — Engenheiro Sênior de Software, Dados e IA">
+  <meta name="twitter:description" content="Plataformas de dados confiáveis, IA em produção e sistemas de software com resultados mensuráveis.">
+  <meta name="twitter:image" content="https://rodrigo-morais.github.io/images/rodrigo-morais-social.png">
   <link rel="canonical" href="https://rodrigo-morais.github.io/pt_BR/">
   <link rel="alternate" hreflang="en" href="https://rodrigo-morais.github.io/">
   <link rel="stylesheet" href="/css/styles.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Rodrigo Morais",
+    "url": "https://rodrigo-morais.github.io/pt_BR/",
+    "image": "https://rodrigo-morais.github.io/images/rodrigo-morais-headshot.png",
+    "jobTitle": "Engenheiro Sênior de Software, Dados e IA",
+    "homeLocation": {"@type": "Place", "name": "Göttingen, Alemanha"},
+    "sameAs": [
+      "https://www.linkedin.com/in/rodrigo-morais",
+      "https://github.com/rodrigo-morais"
+    ],
+    "knowsAbout": ["Python", "Go", "PySpark", "Streaming", "Snowflake", "dbt", "Plataformas de Dados", "IA em Produção"]
+  }
+  </script>
 </head>
 <body>
   <a class="skip-link" href="#main">Ir para o conteúdo</a>
@@ -34,19 +56,30 @@
 
   <main id="main">
     <section class="hero">
-      <div class="hero-inner">
-        <p class="eyebrow">Engenheiro Sênior de Software, Dados e IA</p>
-        <h1>Eu construo sistemas que tornam dados complexos <em>úteis, confiáveis e rápidos.</em></h1>
-        <p class="lead">Três décadas em engenharia de software, com mais de sete anos focados em plataformas de dados, streaming e IA em produção. Transformo problemas de negócio ambíguos em sistemas duráveis, com resultados mensuráveis.</p>
-        <div class="hero-actions">
-          <a class="button" href="#work">Ver projetos selecionados</a>
-          <a class="button secondary" href="mailto:morais.rm@gmail.com">Iniciar uma conversa</a>
+      <div class="hero-inner hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow">Engenheiro Sênior de Software, Dados e IA</p>
+          <h1>Eu construo sistemas que tornam dados complexos <em>úteis, confiáveis e rápidos.</em></h1>
+          <p class="lead">Três décadas em engenharia de software, com mais de sete anos focados em plataformas de dados, streaming e IA em produção. Transformo problemas de negócio ambíguos em sistemas duráveis, com resultados mensuráveis.</p>
+          <div class="hero-actions">
+            <a class="button" href="#work">Ver projetos selecionados</a>
+            <a class="button secondary" href="mailto:morais.rm@gmail.com">Iniciar uma conversa</a>
+          </div>
+          <div class="resume-actions" role="group" aria-label="Baixar currículos direcionados">
+            <a href="/resume/rodrigo-morais-software-data-platform.pdf">Currículo Software &amp; Data Platform</a>
+            <a href="/resume/rodrigo-morais-data-ai.pdf">Currículo Dados &amp; IA</a>
+          </div>
+          <div class="availability" role="group" aria-label="Disponibilidade">
+            <span>Baseado na Alemanha</span>
+            <span>Oportunidades globais</span>
+            <span>Preferência por remoto</span>
+            <span>Híbrido na região · sem relocação</span>
+          </div>
         </div>
-        <div class="availability" aria-label="Disponibilidade">
-          <span>Baseado na Alemanha</span>
-          <span>Oportunidades globais</span>
-          <span>Remoto ou relocação</span>
-        </div>
+        <aside class="profile-card" aria-label="Perfil de Rodrigo Morais">
+          <img src="/images/rodrigo-morais-headshot.png" alt="Rodrigo Morais" width="1254" height="1254">
+          <p><strong>Engenharia de produção com evidências.</strong><br>Python · Go · Spark · Snowflake · Prefect · IA em produção</p>
+        </aside>
       </div>
     </section>
 
@@ -67,6 +100,21 @@
       </div>
 
       <div class="project-grid">
+        <article class="project-card flagship dark">
+          <div class="card-kicker"><span>Repositório público principal</span><span>Open source</span></div>
+          <h3>Plataforma de Decisão com Dados e IA em Produção</h3>
+          <p>Uma implementação de referência orientada à produção para transformar dados operacionais imperfeitos em decisões tipadas e avaliadas. Serviços em Python e Go, orquestração com Prefect, adaptador opcional para Jev, execução em grafos, roteamento de modelos, gates determinísticos, telemetria anonimizada, Docker, CI e dados sintéticos.</p>
+          <ul class="outcomes">
+            <li>Gates de liberação fail-closed</li>
+            <li>Roteamento de modelos por custo</li>
+            <li>Testes e benchmarks em containers</li>
+          </ul>
+          <div class="architecture-strip" role="img" aria-label="Resumo da arquitetura">
+            <span>Fontes</span><b>→</b><span>Classificador tipado</span><b>→</b><span>Grafo de decisão</span><b>→</b><span>Evals</span><b>→</b><span>Gate</span>
+          </div>
+          <a class="card-link" href="https://github.com/rodrigo-morais/production-data-ai-decision-platform">Explorar o repositório →</a>
+        </article>
+
         <article class="project-card dark">
           <div class="card-kicker"><span>Engenharia de IA</span><span>2026</span></div>
           <h3>Harness Confiável para IA</h3>
@@ -76,7 +124,7 @@
             <li>Traces anonimizados</li>
             <li>Roteamento por políticas</li>
           </ul>
-          <div class="code-window" aria-label="Exemplo simplificado de política de execução">
+          <div class="code-window" role="group" aria-label="Exemplo simplificado de política de execução">
             <div class="code-label">Padrão simplificado e seguro</div>
             <pre><code><span class="kw">class</span> <span class="fn">PoliticaDaEtapa</span>:
     tentativas: int
@@ -100,7 +148,7 @@
             <li>Reconciliação de 90 para &lt;10 min</li>
             <li>Operações auditáveis</li>
           </ul>
-          <div class="code-window" aria-label="Exemplo simplificado de workflow transacional">
+          <div class="code-window" role="group" aria-label="Exemplo simplificado de workflow transacional">
             <div class="code-label">Limite operacional</div>
             <pre><code><span class="kw">with</span> transacao():
     plano = visualizar(comando)
@@ -120,7 +168,7 @@
             <li>Backfills retomáveis</li>
             <li>Validações fail-closed</li>
           </ul>
-          <div class="code-window" aria-label="Exemplo simplificado de orquestração">
+          <div class="code-window" role="group" aria-label="Exemplo simplificado de orquestração">
             <div class="code-label">Padrão de flow resiliente</div>
             <pre><code><span class="kw">@flow</span>(timeout_seconds=politica.limite)
 <span class="kw">def</span> <span class="fn">ingerir_dados</span>(data):
@@ -141,7 +189,7 @@
             <li>34% menos custo</li>
             <li>72% menos incidentes</li>
           </ul>
-          <div class="code-window" aria-label="Exemplo de contrato de produto de dados">
+          <div class="code-window" role="group" aria-label="Exemplo de contrato de produto de dados">
             <div class="code-label">Contrato do produto de dados</div>
             <pre><code>contrato = {
   <span class="str">"atualizacao"</span>: <span class="str">"quase em tempo real"</span>,
@@ -269,11 +317,12 @@
     <section class="contact" id="contact">
       <p class="eyebrow">Vamos construir algo confiável</p>
       <h2>Engenharia sênior para sistemas complexos de software, dados e IA.</h2>
-      <p>Aberto a oportunidades Sênior e Staff em Engenharia de Software, Engenharia de Dados, Plataformas de Dados e Dados &amp; IA—no mundo todo, remotas ou com relocação.</p>
+      <p>Aberto a oportunidades Sênior e Staff em Engenharia de Software, Engenharia de Dados, Plataformas de Dados e Dados &amp; IA no mundo todo. Tenho preferência por remoto; aceito híbrido na região de Göttingen. Sem relocação.</p>
       <div class="contact-links">
         <a href="mailto:morais.rm@gmail.com">morais.rm@gmail.com</a>
         <a href="https://www.linkedin.com/in/rodrigo-morais">LinkedIn</a>
         <a href="https://github.com/rodrigo-morais">GitHub</a>
+        <a href="/resume/rodrigo-morais-data-ai.pdf">Currículo</a>
       </div>
     </section>
   </main>

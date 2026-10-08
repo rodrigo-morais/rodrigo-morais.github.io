@@ -144,6 +144,13 @@ img {
   padding: 7.5rem 0 5.5rem;
 }
 
+.hero-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 270px;
+  align-items: center;
+  gap: clamp(2rem, 6vw, 5rem);
+}
+
 .eyebrow {
   margin: 0 0 1rem;
   color: var(--accent-dark);
@@ -168,11 +175,43 @@ h3 {
 }
 
 .hero h1 {
-  max-width: 980px;
+  max-width: 900px;
   margin-bottom: 1.4rem;
   color: #fff;
   font-size: clamp(3rem, 7vw, 6.7rem);
   font-weight: 500;
+}
+
+.profile-card {
+  align-self: center;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, .16);
+  border-radius: 24px;
+  background: rgba(23, 32, 51, .78);
+  box-shadow: 0 28px 80px rgba(0, 0, 0, .25);
+  backdrop-filter: blur(12px);
+}
+
+.profile-card img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1;
+  object-fit: cover;
+  object-position: center 35%;
+}
+
+.profile-card p {
+  margin: 0;
+  padding: 1rem 1.1rem 1.15rem;
+  color: #bdc7d9;
+  font-size: .78rem;
+  line-height: 1.55;
+}
+
+.profile-card strong {
+  color: #fff;
+  font-size: .9rem;
 }
 
 .hero h1 em {
@@ -192,6 +231,21 @@ h3 {
   flex-wrap: wrap;
   gap: .85rem;
   margin-top: 2rem;
+}
+
+.resume-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .7rem 1.1rem;
+  margin-top: 1.15rem;
+  color: #dfe7f3;
+  font-size: .82rem;
+  font-weight: 750;
+}
+
+.resume-actions a:hover,
+.resume-actions a:focus-visible {
+  color: var(--accent);
 }
 
 .button {
@@ -323,6 +377,39 @@ h3 {
 
 .project-card.dark h3 {
   color: #fff;
+}
+
+.project-card.flagship {
+  min-height: 0;
+  grid-column: 1 / -1;
+}
+
+.project-card.flagship > p {
+  max-width: 900px;
+}
+
+.architecture-strip {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .55rem;
+  margin-top: .45rem;
+  padding: .9rem 1rem;
+  border: 1px solid #2d3950;
+  border-radius: 14px;
+  background: #090f1b;
+  color: #e5edf8;
+  font: 700 .74rem/1.4 ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+.architecture-strip span {
+  padding: .35rem .55rem;
+  border-radius: 8px;
+  background: #172033;
+}
+
+.architecture-strip b {
+  color: var(--accent);
 }
 
 .card-kicker {
@@ -659,6 +746,15 @@ pre {
 }
 
 @media (max-width: 900px) {
+  .hero-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .profile-card {
+    width: min(100%, 330px);
+    justify-self: start;
+  }
+
   .metrics {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -729,6 +825,10 @@ pre {
   .project-card {
     min-height: auto;
     padding: 1.4rem;
+  }
+
+  .profile-card {
+    width: min(100%, 280px);
   }
 
   .code-window {
