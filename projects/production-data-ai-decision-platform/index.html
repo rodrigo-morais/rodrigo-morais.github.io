@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Production Data &amp; AI Decision Platform — Rodrigo Morais</title>
+  <meta name="description" content="A production-oriented Python and Go platform demonstrating Prefect orchestration, typed AI classification, graph decisions, LLM evaluation, fallbacks, observability and fail-closed release gates.">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Production Data &amp; AI Decision Platform">
+  <meta property="og:description" content="Production engineering proof: Python, Go, Prefect, typed AI, graph workflows, LLM evaluation, fallbacks, observability and fail-closed decisions.">
+  <meta property="og:url" content="https://rodrigo-morais.github.io/projects/production-data-ai-decision-platform/">
+  <meta property="og:image" content="https://rodrigo-morais.github.io/images/rodrigo-morais-social.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Production Data &amp; AI Decision Platform">
+  <meta name="twitter:description" content="A production-oriented reference platform for typed, evaluated and observable AI-assisted decisions.">
+  <meta name="twitter:image" content="https://rodrigo-morais.github.io/images/rodrigo-morais-social.png">
+  <link rel="canonical" href="https://rodrigo-morais.github.io/projects/production-data-ai-decision-platform/">
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <nav class="nav" aria-label="Primary navigation">
+      <a class="brand" href="/"><span class="brand-mark">RM</span><span>Rodrigo Morais</span></a>
+      <div class="nav-links"><a href="/#work">Work</a><a href="/#writing">Writing</a><a href="/resume/">Résumé</a></div>
+    </nav>
+  </header>
+  <main>
+    <section class="article-hero">
+      <div class="article-hero-inner">
+        <a class="back-link" href="/#work">← Selected work</a>
+        <p class="eyebrow">Flagship public project · Python · Go · Prefect · Production AI</p>
+        <h1>Production Data &amp; AI Decision Platform</h1>
+        <p class="lead">A production-oriented reference implementation for turning imperfect operational data into typed, evaluated decisions—without hiding engineering policy inside prompts or framework defaults.</p>
+        <div class="hero-actions">
+          <a class="button" href="https://github.com/rodrigo-morais/production-data-ai-decision-platform">Explore the public repository</a>
+          <a class="button secondary" href="mailto:morais.rm@gmail.com?subject=Production%20Data%20and%20AI%20Platform">Discuss the architecture</a>
+        </div>
+      </div>
+    </section>
+    <article class="article-body">
+      <h2>What the project proves</h2>
+      <p>This is a runnable engineering reference, not a collection of disconnected snippets. A Python control plane receives an operational event, validates source coverage, applies primary and fallback data strategies, performs typed classification, routes model work by cost and risk, executes a visible decision graph, evaluates the result and releases it only when deterministic policy allows.</p>
+      <div class="principle"><strong>Python and Prefect:</strong> flexible, low-infrastructure orchestration for dynamic and ad-hoc workloads.</div>
+      <div class="principle"><strong>Go service boundary:</strong> a small scoring service demonstrates where a compiled, latency-sensitive component is useful.</div>
+      <div class="principle"><strong>Typed AI output:</strong> deterministic local classification and an optional Jev adapter normalize into the same contract.</div>
+      <div class="principle"><strong>Fail-closed automation:</strong> low source coverage, confidence, evidence quality or evaluation score produces review—not a silent action.</div>
+
+      <h2>Architecture choices are explicit</h2>
+      <p>The repository documents why Prefect fits this workload and where Airflow would be stronger. It separates fuzzy judgment from operational authority, keeps provider-specific behavior behind contracts and records observable execution facts without retaining private reasoning or sensitive payloads.</p>
+      <blockquote>Models may recommend a decision. Only deterministic contracts and evaluation gates can release it.</blockquote>
+
+      <h2>Production-quality delivery</h2>
+      <p>The project includes synthetic data, source fallbacks, redacted telemetry, Prometheus metrics, Docker, automated tests, strict type checking, linting, continuous integration, architecture notes and reproducible Go benchmarks. It contains no employer code, credentials, private financial data or proprietary decision rules.</p>
+      <div class="code-window">
+        <div class="code-label">Run the complete reference stack</div>
+        <pre><code>docker compose up --build
+
+curl -s http://localhost:8000/v1/decisions \
+  -H 'content-type: application/json' \
+  --data @data/synthetic_opportunity.json</code></pre>
+      </div>
+
+      <h2>Measured engineering outcomes behind the approach</h2>
+      <p>The patterns reflect the systems I build in practice: 10× faster processing through streaming, 34% lower Snowflake cost, 72% fewer data incidents, 99.8% usable market-data coverage and 60% lower AI operating cost through routing, guardrails, evaluations and telemetry.</p>
+      <p><a class="button" href="https://github.com/rodrigo-morais/production-data-ai-decision-platform">Read the code and decision records</a></p>
+    </article>
+  </main>
+  <footer class="footer"><span>© 2026 Rodrigo Morais</span><a href="mailto:morais.rm@gmail.com">Contact</a></footer>
+</body>
+</html>
