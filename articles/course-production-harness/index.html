@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Why I Am Building a Reviewable AI Harness for Course Production — Rodrigo Morais</title>
+  <meta name="description" content="Why detailed standards, specialized agents and judge agents were not enough—and how a reviewable AI harness can make course production more reliable and less expensive.">
+  <link rel="canonical" href="https://rodrigo-morais.github.io/articles/course-production-harness/">
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <nav class="nav" aria-label="Primary navigation">
+      <a class="brand" href="/"><span class="brand-mark">RM</span><span>Rodrigo Morais</span></a>
+      <div class="nav-links">
+        <a href="/#work">Work</a><a href="/#writing">Writing</a>
+        <a class="lang" href="/pt_BR/#writing" lang="pt-BR">PT</a>
+      </div>
+    </nav>
+  </header>
+  <main>
+    <section class="article-hero">
+      <div class="article-hero-inner">
+        <a class="back-link" href="/#writing">← All engineering notes</a>
+        <p class="eyebrow">AI engineering · Course production</p>
+        <h1>Why I am building a reviewable AI harness for course production</h1>
+        <p class="lead">The answer was not more agents. It was a controlled system that knows when to use deterministic code, when to use an LLM and when human judgment is required.</p>
+        <p class="article-meta">Rodrigo Morais · 7 min read · October 2026</p>
+      </div>
+    </section>
+    <article class="article-body">
+      <p>For a client project that needs a dependable way to create and maintain personalized courses, creating the content once is not the hardest part.</p>
+      <p>The hard part is keeping the same quality over time.</p>
+      <p>A course changes. Lessons are reviewed. Exercises are added. Media is produced. The learner finds gaps that were not obvious during development. A discussion with a teacher can reveal that something technically correct was not explained well enough.</p>
+      <p>Every change can affect something else. Without a controlled process, quality starts to drift.</p>
+      <p>Before I was hired, the client already had a serious AI-assisted production process.</p>
+      <p>There were many Markdown files describing what had to be done. Responsibilities were separated. Agents had specific tasks. Other agents reviewed the results. Judge agents were used to catch problems and maintain standards.</p>
+      <p>This was not one big prompt trying to do everything.</p>
+      <p>On paper, it was a good approach.</p>
+      <p>But it did not work well enough.</p>
+
+      <h2>More instructions did not create more control</h2>
+      <p>The problem was not the absence of instructions. The instructions existed, and many of them were detailed.</p>
+      <p>The problem was that instructions are not enforcement.</p>
+      <p>An agent could read a standard and still miss part of it. Two agents could interpret the same rule differently. One judge could approve something that another judge rejected. A problem fixed in one lesson could return in the next one.</p>
+      <p>The process also became repetitive.</p>
+      <p>Agents kept reading the same files, rebuilding the same context, checking the same requirements, and reviewing decisions that had already been made. When one part failed, too much work had to be generated and reviewed again.</p>
+      <p>More agents meant more calls. More judges meant more reviews. More instructions meant more context.</p>
+      <p>The cost increased, but the quality did not increase at the same rate. More importantly, the process could not keep the quality and standards stable.</p>
+      <p>I was hired to understand why.</p>
+
+      <h2>The problem was the division of work</h2>
+      <p>The mistake was not using agents.</p>
+      <p>The mistake was using agents for almost everything.</p>
+      <p>Some work really needs interpretation. Designing a learning sequence, explaining a difficult idea, creating a useful example, identifying a misconception, or understanding learner feedback are good tasks for an LLM.</p>
+      <p>Other tasks have exact answers.</p>
+      <p>A file exists or it does not. A required section is present or missing. A test passes or fails. A reference is valid or broken. An approved artifact changed or remained untouched. A process has the required evidence to continue or it does not.</p>
+      <blockquote>An LLM should not be paid to guess the answer to something that code can verify exactly.</blockquote>
+      <p>Using another LLM as a judge does not solve this. It only adds another probabilistic decision to a deterministic problem.</p>
+      <p>That was the main issue I found: the process had specialized agents, but it did not have a strong deterministic system around them.</p>
+
+      <h2>The solution is a harness</h2>
+      <p>I am building a reviewable AI harness for course production.</p>
+      <p>The harness controls how the work is performed. It brings deterministic tools, LLMs, evaluations, guardrails, evidence, and human decisions into the same system.</p>
+      <p>It can decide when code should perform the work and when an LLM is actually necessary. It can stop an operation that breaks a rule. It can record what happened, control retries and costs, preserve accepted work, and continue from a checkpoint instead of starting everything again.</p>
+      <div class="principle"><strong>Deterministic work:</strong> exact checks, tests, artifact protection and evidence gates belong in code.</div>
+      <div class="principle"><strong>Semantic work:</strong> learning design, explanations and interpretation are where LLMs provide value.</div>
+      <div class="principle"><strong>Human judgment:</strong> important decisions about scope, quality and approval remain with people.</div>
+      <p>The harness also provides guardrails, evaluations, persistent state, checkpoints, observability, cost controls and evidence for important decisions.</p>
+      <p>The goal is not to remove LLMs.</p>
+      <p>The goal is to stop using them for work that should never have depended on them.</p>
+
+      <h2>The graph is part of the product</h2>
+      <p>The harness is not the graph.</p>
+      <p>The harness provides the common controls and infrastructure. The graph coordinates the workflow for a specific product.</p>
+      <p>For the course product, I need three main graphs:</p>
+      <ol>
+        <li>Create a new course.</li>
+        <li>Review and adjust an existing course, block, or lesson.</li>
+        <li>Improve a lesson after I complete it and discuss it with a teacher agent.</li>
+      </ol>
+      <p>These processes have state, dependencies, decisions, failures, retries, validations, and approval points. That is where a graph is useful.</p>
+      <p>But not every graph node is an agent.</p>
+      <p>A node can run a deterministic function, execute a test, validate an artifact, call an LLM, evaluate a result, or wait for a human decision.</p>
+      <p>And not everything needs to be a graph. If a simple function can perform a task reliably, the harness should run that function. There is no reason to make a deterministic operation more complicated just to call it agentic.</p>
+
+      <h2>What I mean by reviewable</h2>
+      <p>Reviewable does not mean stopping after every node and asking a human to approve it.</p>
+      <p>It means I can understand what happened.</p>
+      <p>I can see what was requested, which standards were applied, what changed, which tools and agents were used, what passed, what failed, and why the process made a decision.</p>
+      <p>If something fails, I should not need to restart a large group of agents and hope for a better result.</p>
+      <p>The harness should identify what was affected, return to the correct checkpoint, and repeat only the necessary work. Everything that is still valid should remain valid.</p>
+
+      <h2>This is not about adding more agents</h2>
+      <p>The client already had documentation, specialized agents, and judge agents.</p>
+      <p>Adding more of the same would only make the process larger and more expensive.</p>
+      <p>The real change is moving from a collection of agents to an engineered production system.</p>
+      <p>The system must be deterministic where the answer is exact, agentic where interpretation is valuable, observable throughout, and human-directed where judgment matters.</p>
+      <p>That is what the harness provides.</p>
+      <p>The graphs organize the course-production workflows inside it. Together, they should make the process more consistent, less repetitive, less expensive, and easier to improve after real use.</p>
+    </article>
+  </main>
+  <footer class="footer"><span>© 2026 Rodrigo Morais</span><a href="mailto:morais.rm@gmail.com">Contact</a></footer>
+</body>
+</html>
