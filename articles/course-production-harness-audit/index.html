@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Why Detailed Markdown Rules Did Not Keep Course Quality Stable — Rodrigo Morais</title>
+  <meta name="description" content="Why detailed Markdown standards did not guarantee quality in an AI-assisted course-production process—and why those standards must become enforceable system behavior.">
+  <link rel="canonical" href="https://rodrigo-morais.github.io/articles/course-production-harness-audit/">
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <nav class="nav" aria-label="Primary navigation">
+      <a class="brand" href="/"><span class="brand-mark">RM</span><span>Rodrigo Morais</span></a>
+      <div class="nav-links">
+        <a href="/#work">Work</a><a href="/#writing">Writing</a>
+        <a class="lang" href="/pt_BR/#writing" lang="pt-BR">PT</a>
+      </div>
+    </nav>
+  </header>
+  <main>
+    <section class="article-hero">
+      <div class="article-hero-inner">
+        <a class="back-link" href="/#writing">← All engineering notes</a>
+        <p class="eyebrow">AI engineering · System diagnosis</p>
+        <h1>Why detailed Markdown rules did not keep course quality stable</h1>
+        <p class="lead">The process documented the expected quality in detail. But written rules could describe the standard without proving that every artifact followed it.</p>
+        <p class="article-meta">Rodrigo Morais · 7 min read · October 2026</p>
+      </div>
+    </section>
+    <article class="article-body">
+      <p>For a client project that needed a dependable way to produce and maintain personalized courses, the problem looked familiar at first.</p>
+      <p>The output was inconsistent.</p>
+      <p>One lesson could be strong. The next one could miss a basic requirement. A reviewer could approve an artifact, and another review could later find an important gap. More prompts, more rules, and more correction passes increased the work, but they did not keep the quality stable.</p>
+      <p>The client had already tried the obvious solutions before I was hired.</p>
+      <p>There were many Markdown files describing the standards. Responsibilities were divided by task. Specialized agents produced different parts of the course. Other agents reviewed them. Judge agents checked whether the results should be accepted.</p>
+      <p>This was not a careless process.</p>
+      <p>It was a serious attempt to control AI-assisted production.</p>
+      <p>But after many revisions, it still could not produce one complete block at the expected minimum quality.</p>
+
+      <h2>I stopped treating the symptoms as findings</h2>
+      <p>I already knew that the standards were spread across multiple Markdown files. I already knew that documenting more rules had not guaranteed that those rules would be applied consistently. I already knew that the process was repetitive and expensive.</p>
+      <p>Repeating those facts would not explain anything.</p>
+      <p>I needed to find the mechanisms behind them.</p>
+      <p>I reconstructed the course-creation process, the review-and-adjustment process, and the expected post-lesson improvement process. I inspected the standards, review records, scripts, tests, artifact states, and the existing harness base.</p>
+      <p>I also separated three types of work:</p>
+      <div class="principle"><strong>Deterministic work:</strong> operations where the same input and rule must produce the same answer.</div>
+      <div class="principle"><strong>Semantic work:</strong> operations that require interpretation, teaching judgment, or generation.</div>
+      <div class="principle"><strong>Product decisions:</strong> decisions that change intent, scope, authorization, or an agreed rule.</div>
+      <p>That separation made the real problems visible.</p>
+
+      <h2>The rules documented quality, but they could not guarantee it</h2>
+      <p>The first problem was not missing documentation.</p>
+      <p>The problem was expecting documentation to behave like a control system.</p>
+      <p>A Markdown file can describe what a good lesson requires. It cannot prove that every required explanation exists. It cannot stop an artifact from advancing with missing practice. It cannot invalidate old evidence after a change. It cannot guarantee that the next agent will apply the same interpretation as the previous one.</p>
+      <p>Those rules become effective only when the production system converts them into contracts, gates, evaluations, and state transitions.</p>
+      <p>Every agent had to find the correct Markdown files, decide which rules applied, resolve precedence, remember the relevant constraints, and interpret whether the output complied with them.</p>
+      <p>The written standard could remain unchanged while the effective standard changed from one prompt to another.</p>
+      <p>Context selection changed. Attention changed. Interpretation changed. Recent instructions received more weight than older ones.</p>
+      <p>Adding more detail to the files could even increase the amount of context each agent had to reconstruct without increasing enforcement.</p>
+      <blockquote>Markdown can define the standard. It cannot guarantee the result.</blockquote>
+
+      <h2>Reviewers could not compensate for unenforced rules</h2>
+      <p>The reviewers had different responsibilities, but they still judged prose standards probabilistically.</p>
+      <p>They did not evaluate against a versioned benchmark containing known good outputs, known failures, and expected findings. Their agreement was not measured. Missed defects and false findings were not tracked as evaluation results.</p>
+      <p>A judge could catch a problem. It could also miss another one or interpret the same Markdown differently.</p>
+      <p>The process had review roles, but it did not have calibrated review quality or an enforced connection between a rule, its evidence, and the decision to continue.</p>
+
+      <h2>Deterministic checks were still controlled by LLMs</h2>
+      <p>The existing system already had useful scripts and tests.</p>
+      <p>It could validate schemas, identifiers, paths, hashes, code execution, media metadata, PDF mechanics, progress behavior, and other exact conditions.</p>
+      <p>But an LLM often remained responsible for deciding which checks to run, what scope to use, how to interpret the result, whether a failure should block progress, and what status to record afterward.</p>
+      <p>The check itself was deterministic.</p>
+      <p>The gate around it was not.</p>
+      <p>This created avoidable cost and a simple failure mode: a valid test cannot protect the process if the agent forgets to run it or advances the artifact without complete evidence.</p>
+
+      <h2>The process checked artifacts, but the product failed as a block</h2>
+      <p>A lesson could look good. A script could pass. A PDF could render correctly. A media file could be technically valid.</p>
+      <p>None of those results proved that the complete block was ready.</p>
+      <p>The required success unit was the full block: coherent sequence, complete teaching, practice, assessments, source accuracy, media, PDFs, platform integration, and preserved learner state.</p>
+      <p>The evidence was collected below that level.</p>
+      <p>In one reviewed tranche, the platform tests passed and 44 content steps existed, but 33 of 35 numbered concepts still lacked the required paired practice.</p>
+      <p>That is the difference between artifact validity and product readiness.</p>
+
+      <h2>Readiness was a label, not an enforced state</h2>
+      <p>The process used useful labels: authored, generated, technically checked, visually reviewed, listened to, viewed, approved, and ready.</p>
+      <p>But those labels were distributed across Markdown files, manifests, reports, tests, and learner-facing metadata.</p>
+      <p>There was no single state machine enforcing valid transitions and required evidence.</p>
+      <p>When a standard changed, an artifact changed, or a hash changed, the system could not always invalidate the correct evidence automatically.</p>
+      <p>Agents had to reconstruct readiness from records. Different runs could reach different conclusions about the same artifact.</p>
+
+      <h2>Corrections did not know their real impact</h2>
+      <p>A correction can affect a lesson, its exercises, a PDF, narration, media, platform integration, and the evidence attached to each artifact.</p>
+      <p>The current process did not calculate that impact deterministically.</p>
+      <p>That created two bad options.</p>
+      <p>The process could reuse evidence that was no longer valid, or it could regenerate and review more work than the correction actually affected.</p>
+      <p>One option risks quality. The other increases cost.</p>
+
+      <h2>The history could not explain why quality changed</h2>
+      <p>The project history showed repeated correction, review, regeneration, and validation work.</p>
+      <p>But the process did not preserve complete execution lineage for each artifact.</p>
+      <p>It could not reliably connect the standard version, prompt, model, tool calls, retries, evaluation results, cost, and correction that produced a quality change.</p>
+      <p>I could not reconstruct the exact historical LLM cost or prove which configuration caused each improvement.</p>
+      <p>Without that lineage, the system could observe that quality changed but could not learn why.</p>
+
+      <h2>The learner cannot be the final quality gate</h2>
+      <p>The product also needs a process to improve a lesson after I complete it and discuss it with a teacher agent.</p>
+      <p>That feedback is valuable, but it must improve an already acceptable lesson.</p>
+      <p>If I have to discover missing definitions, absent practice, broken explanations, or incomplete resources in every lesson, the production system has failed.</p>
+      <p>The same applies to full-block review.</p>
+      <p>A useful harness cannot ask one person to inspect and approve dozens of lessons before using the course. It must enforce the agreed quality contract across the entire block, aggregate the evidence, and escalate only a genuinely new exception.</p>
+
+      <h2>This diagnosis changes what I build next</h2>
+      <p>The harness I built is the base.</p>
+      <p>It already provides strict contracts, execution policies, routing, telemetry, an API boundary, and a working smoke graph.</p>
+      <p>The audit showed what the course-production layer is still missing: operational standards, calibrated evaluations, direct deterministic gates, full-block readiness, evidence invalidation, dependency-aware reruns, and complete execution lineage.</p>
+      <p>I have not designed that layer yet.</p>
+      <p>That is deliberate.</p>
+      <p>Designing the graph before understanding the failures would only turn assumptions into architecture.</p>
+      <p>The result of this phase is a bounded engineering diagnosis. It converts a collection of written rules, prompts, agents, and reviews into seven specific system problems that can be designed, implemented, and evaluated.</p>
+      <p>The next step is not to write another Markdown file and expect it to control the process.</p>
+      <p>It is to decide which written standards must become contracts, deterministic gates, evaluations, state transitions, and observable workflow behavior inside the harness.</p>
+    </article>
+  </main>
+  <footer class="footer"><span>© 2026 Rodrigo Morais</span><a href="mailto:morais.rm@gmail.com">Contact</a></footer>
+</body>
+</html>
