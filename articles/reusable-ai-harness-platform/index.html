@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>A Working AI Harness Is Not Yet a Reusable Platform — Rodrigo Morais</title>
+  <meta name="description" content="Why a reliable AI graph still needs versioned packages, inspectable contracts, deliberate activation and independent conformance tests before it becomes reusable infrastructure.">
+  <link rel="canonical" href="https://rodrigo-morais.github.io/articles/reusable-ai-harness-platform/">
+  <link rel="alternate" hreflang="pt-BR" href="https://rodrigo-morais.github.io/pt_BR/artigos/plataforma-de-harness-de-ia-reutilizavel/">
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <nav class="nav" aria-label="Primary navigation">
+      <a class="brand" href="/"><span class="brand-mark">RM</span><span>Rodrigo Morais</span></a>
+      <div class="nav-links">
+        <a href="/#work">Work</a><a href="/#writing">Writing</a>
+        <a class="lang" href="/pt_BR/artigos/plataforma-de-harness-de-ia-reutilizavel/" lang="pt-BR">PT</a>
+      </div>
+    </nav>
+  </header>
+  <main>
+    <section class="article-hero">
+      <div class="article-hero-inner">
+        <a class="back-link" href="/#writing">← All engineering notes</a>
+        <p class="eyebrow">AI engineering · Platform architecture</p>
+        <h1>A working AI harness is not yet a reusable platform</h1>
+        <p class="lead">A graph can run reliably in one codebase and still be impossible to reuse safely. The real platform work begins when another team can install it, inspect its contract, activate it deliberately and test it without borrowing its source tree.</p>
+        <p class="article-meta">Rodrigo Morais · 9 min read · November 2026</p>
+      </div>
+    </section>
+    <article class="article-body">
+      <p>The first version of my AI harness already did useful work. It could register graphs, route model calls, apply bounded retries, validate outputs and emit structured telemetry. For one application, that was enough to prove the execution model.</p>
+      <p>Then I tried to answer a harder question: how should a second product use the same foundation?</p>
+      <p>The easiest answer would have been to copy the code or import modules from a neighboring checkout. Both approaches would make a demo work. Neither would create infrastructure that independent products could trust.</p>
+      <p>A reusable platform needs to know exactly which harness release is installed, which operations it exposes, which schemas they accept, which infrastructure versions they support and which capabilities they require. It also needs to reject a package before execution when those claims do not match reality.</p>
+      <p>That changed the problem from sharing Python files to designing a package boundary.</p>
+
+      <h2>Source reuse creates invisible coupling</h2>
+      <p>Importing another repository by path feels efficient because there is no packaging work. It also hides almost every dependency that matters.</p>
+      <p>The consumer may depend on an uncommitted file, a local directory layout or whatever branch happens to be checked out. Two environments can import different code while reporting the same application version. A change to an internal module can break consumers that were never supposed to know the module existed.</p>
+      <p>Copying the implementation creates the opposite problem. The first copy works, but fixes and policy changes immediately begin to diverge. Each product starts owning its own version of retry logic, provider adaptation, validation and telemetry.</p>
+      <blockquote>Reusing files is not the same as reusing a platform contract.</blockquote>
+      <p>I needed the harness to behave like a real dependency. A consumer should install a versioned artifact, import a small supported SDK and own only its domain models, workflow and adapter code. The platform should be able to validate that package without importing a sibling source checkout.</p>
+
+      <h2>Package the contract before the behavior</h2>
+      <p>I kept the public SDK deliberately small. It exports the types needed to describe a harness, bind typed entry points and register an installed definition. Internal modules can evolve as long as that public boundary remains compatible.</p>
+      <p>Each harness release carries a strict manifest. The manifest identifies the package and release, declares its compatible infrastructure range and describes every public entry point. Each entry point includes its graph and state versions plus closed input and output schemas.</p>
+      <p>A simplified definition looks like this:</p>
+      <div class="code-window">
+        <div class="code-label">Versioned harness manifest</div>
+        <pre><code>manifest = HarnessManifest(
+    harness_id=<span class="str">"document-review"</span>,
+    package_name=<span class="str">"document-review-harness"</span>,
+    version=<span class="str">"1.0.0"</span>,
+    infrastructure_requires=<span class="str">"&gt;=0.2.0,&lt;0.3.0"</span>,
+    required_capabilities=(<span class="str">"model.step"</span>,),
+    entry_points=(
+        HarnessEntryPoint(
+            entry_point_id=<span class="str">"review"</span>,
+            graph_id=<span class="str">"document-review.review"</span>,
+            graph_version=<span class="str">"1.0.0"</span>,
+            state_schema_version=<span class="str">"1.0.0"</span>,
+            input_schema=SchemaDescriptor.from_model(
+                ReviewRequest,
+                schema_id=<span class="str">"document-review.request"</span>,
+                version=<span class="str">"1.0.0"</span>,
+            ),
+            output_schema=SchemaDescriptor.from_model(
+                ReviewResult,
+                schema_id=<span class="str">"document-review.result"</span>,
+                version=<span class="str">"1.0.0"</span>,
+            ),
+        ),
+    ),
+)</code></pre>
+      </div>
+      <p>The manifest contains no import path, credential or executable expression. It is safe to inspect as metadata. It explains what a release claims to provide without deciding which Python object should run.</p>
+      <p>That distinction matters. Metadata can be read and compared. Executable code must be trusted.</p>
+
+      <h2>The manifest describes; the binding executes</h2>
+      <p>The installed package also exposes a factory that returns a definition. The definition binds each declared entry point to its real request model, result model and asynchronous runner.</p>
+      <p>The registry checks the complete definition before publishing any part of it. The installed package version must match the manifest. The infrastructure version must fall inside the declared range. Required capabilities must be available. Binding names must exactly match manifest entry points. The real Pydantic schemas must match the schemas recorded in the manifest.</p>
+      <p>If one check fails, the release does not enter the registry.</p>
+      <p>This prevents a common kind of drift: documentation says an operation accepts one shape while the code accepts another. It also prevents partial registration, where one valid operation becomes visible before another invalid operation causes loading to fail.</p>
+      <p>The registry stores exact release identities. A caller selects a harness ID and version rather than asking for whichever implementation happens to be newest. That is essential for reproducibility and for continuing an execution after a newer release has been installed.</p>
+
+      <h2>Discovery must not become automatic trust</h2>
+      <p>I used standard Python distribution entry points for discovery. A harness package can advertise its factory through normal package metadata, so the host does not need a hard-coded import for every domain.</p>
+      <p>Installation still does not activate the package.</p>
+      <p>The host selects the installed factories it trusts at its composition boundary. Only those selected factories are loaded, and their distribution identity is checked before registration. An HTTP request cannot provide an arbitrary import path or ask the runtime to load any installed code.</p>
+      <p>This is an important security boundary, even though it is not a sandbox. A Python factory can execute Python. Package review and operator trust remain prerequisites.</p>
+      <p>The useful guarantee is narrower and concrete: the runtime does not confuse discoverability with permission to execute.</p>
+
+      <h2>A definition is not a deployment</h2>
+      <p>Another source of ambiguity was the word <em>installed</em>.</p>
+      <p>A harness release can exist as a reusable definition and also be installed on several workers. Those are different facts.</p>
+      <p>The definition says what version <code>1.0.0</code> means: its entry points, schemas, requirements and executable bindings. A deployment record says where that release was observed: the worker identity, installed package version, infrastructure version, capabilities, optional endpoint and last health observation.</p>
+      <p>Keeping these records separate avoids several false conclusions:</p>
+      <ul>
+        <li>Recording an endpoint does not provision a worker.</li>
+        <li>Installing a package does not prove that its process is healthy.</li>
+        <li>One unhealthy worker does not redefine the harness release.</li>
+        <li>A newer health observation must not be overwritten by an older one.</li>
+        <li>Unknown health must remain unknown until something actually observes it.</li>
+      </ul>
+      <p>This separation also prepares the infrastructure for different callers. An interactive frontend, a direct API client or an external scheduler can eventually target the same registered capability without owning its deployment logic.</p>
+
+      <h2>Test the boundary from outside the repository</h2>
+      <p>Unit tests inside the infrastructure package could prove that the registry worked with local classes. They could not prove that an independent team could build a package using only the supported SDK.</p>
+      <p>For that, I created a small synthetic harness as a separate wheel. It owns its request and result schemas, publishes its own factory and imports only the public SDK. Its controlled provider exercises the real model-step executor, including a transient failure followed by a bounded retry.</p>
+      <p>I also built invalid package variants. One requires an incompatible infrastructure version. Another reports a manifest version that differs from the installed distribution. The host must reject both before they can run.</p>
+      <p>This kind of conformance test is more valuable than a mock that simply returns a fabricated success response. It verifies the same installation, discovery, schema comparison, capability checking and execution path that a real consumer uses.</p>
+      <p>It also keeps domain products out of infrastructure acceptance. The platform can prove its contract with neutral packages; each domain can later prove its own behavior against the same public boundary.</p>
+
+      <h2>Reproducible packaging changes what evidence means</h2>
+      <p>Turning the code into a package exposed problems that source-based testing had hidden.</p>
+      <p>The production image now installs the built wheel instead of importing the working directory. Tests run against that installed artifact. Fixtures, drafts and build tools stay out of the runtime package. Dependencies are pinned with hashes, and fresh offline assemblies must produce the same wheel bytes.</p>
+      <p>Strict schema testing found a subtle validation issue too. A field intended to accept an integer schema version could still accept boolean or floating equivalents through Python equality rules. An explicit exact-type check closed that gap.</p>
+      <p>These details may look small, but they change the strength of the evidence. “The tests passed in my checkout” is weaker than “this exact artifact was installed in a clean runtime, rejected incompatible consumers and was reproduced from pinned inputs.”</p>
+
+      <h2>What this boundary does not promise</h2>
+      <p>Packaging solves identity, compatibility, discovery and local typed invocation. It does not turn a local function call into governed execution.</p>
+      <p>The current boundary does not authenticate a caller, create a durable run, persist state, enforce permissions, reserve shared budgets or recover work after a process failure. A declared permission is still metadata until an admission layer verifies and enforces it. A deployment record is still an observation until a worker and health protocol exist.</p>
+      <p>Stating those limits is part of the architecture. If a local SDK call were described as a production execution API, future frontends and schedulers would build against guarantees that do not exist.</p>
+      <p>The package boundary instead creates a stable place to add those guarantees. Authentication can admit an exact harness release and entry point. Durable execution can pin the same schema and graph versions. Workers can activate selected packages. A public API can expose the capability without revealing Python imports or depending on an interactive frontend session.</p>
+
+      <h2>Reuse begins when the boundary survives change</h2>
+      <p>The most important result is not that a second wheel can be loaded. It is that the platform and the domain can now change independently within an explicit contract.</p>
+      <p>Infrastructure owns registration, compatibility checks, shared execution mechanisms and the supported SDK. A domain package owns its schemas, workflow and release decisions. Deployment configuration decides which reviewed packages become active. Callers eventually use one execution contract regardless of whether they are a frontend, an API integration or an external scheduler.</p>
+      <p>That is the difference between a working harness and reusable harness infrastructure. The graph still matters, but the reusable product is the boundary around it: versioned, inspectable, deliberately activated and tested from the consumer's side.</p>
+    </article>
+  </main>
+  <footer class="footer"><span>© 2026 Rodrigo Morais</span><a href="mailto:morais.rm@gmail.com">Contact</a></footer>
+</body>
+</html>

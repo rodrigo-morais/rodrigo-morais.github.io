@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Um Harness de IA Funcional Ainda Não É uma Plataforma Reutilizável — Rodrigo Morais</title>
+  <meta name="description" content="Por que um grafo de IA confiável ainda precisa de pacotes versionados, contratos inspecionáveis, ativação deliberada e testes independentes antes de se tornar infraestrutura reutilizável.">
+  <link rel="canonical" href="https://rodrigo-morais.github.io/pt_BR/artigos/plataforma-de-harness-de-ia-reutilizavel/">
+  <link rel="alternate" hreflang="en" href="https://rodrigo-morais.github.io/articles/reusable-ai-harness-platform/">
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <nav class="nav" aria-label="Navegação principal">
+      <a class="brand" href="/pt_BR/"><span class="brand-mark">RM</span><span>Rodrigo Morais</span></a>
+      <div class="nav-links">
+        <a href="/pt_BR/#work">Trabalho</a><a href="/pt_BR/#writing">Artigos</a>
+        <a class="lang" href="/articles/reusable-ai-harness-platform/" lang="en">EN</a>
+      </div>
+    </nav>
+  </header>
+  <main>
+    <section class="article-hero">
+      <div class="article-hero-inner">
+        <a class="back-link" href="/pt_BR/#writing">← Todas as notas de engenharia</a>
+        <p class="eyebrow">Engenharia de IA · Arquitetura de plataforma</p>
+        <h1>Um harness de IA funcional ainda não é uma plataforma reutilizável</h1>
+        <p class="lead">Um grafo pode funcionar de forma confiável em um único código e ainda ser impossível de reutilizar com segurança. O trabalho de plataforma começa quando outro time consegue instalá-lo, inspecionar seu contrato, ativá-lo de forma deliberada e testá-lo sem tomar emprestada sua árvore de código-fonte.</p>
+        <p class="article-meta">Rodrigo Morais · 9 min de leitura · novembro de 2026</p>
+      </div>
+    </section>
+    <article class="article-body">
+      <p>A primeira versão do meu harness de IA já realizava trabalho útil. Ela registrava grafos, roteava chamadas de modelos, aplicava retentativas limitadas, validava resultados e emitia telemetria estruturada. Para uma aplicação, isso bastava para provar o modelo de execução.</p>
+      <p>Então tentei responder a uma pergunta mais difícil: como um segundo produto deveria usar a mesma base?</p>
+      <p>A resposta mais fácil seria copiar o código ou importar módulos de um checkout vizinho. As duas abordagens fariam uma demonstração funcionar. Nenhuma delas criaria uma infraestrutura em que produtos independentes pudessem confiar.</p>
+      <p>Uma plataforma reutilizável precisa saber exatamente qual release do harness está instalada, quais operações ela expõe, quais schemas essas operações aceitam, quais versões da infraestrutura são compatíveis e quais capacidades são necessárias. Ela também precisa rejeitar um pacote antes da execução quando essas declarações não correspondem à realidade.</p>
+      <p>O problema deixou de ser compartilhar arquivos Python e passou a ser projetar uma fronteira de pacote.</p>
+
+      <h2>Reutilizar código-fonte cria acoplamento invisível</h2>
+      <p>Importar outro repositório pelo caminho local parece eficiente porque elimina o trabalho de empacotamento. Também esconde quase todas as dependências que importam.</p>
+      <p>O consumidor pode depender de um arquivo sem commit, de uma organização específica de diretórios ou do branch que estiver aberto naquele momento. Dois ambientes podem importar códigos diferentes e ainda informar a mesma versão da aplicação. Uma mudança em um módulo interno pode quebrar consumidores que nunca deveriam saber que aquele módulo existia.</p>
+      <p>Copiar a implementação cria o problema oposto. A primeira cópia funciona, mas correções e mudanças de política começam a divergir imediatamente. Cada produto passa a manter sua própria versão de retentativas, adaptação de provedores, validação e telemetria.</p>
+      <blockquote>Reutilizar arquivos não é o mesmo que reutilizar um contrato de plataforma.</blockquote>
+      <p>Eu precisava que o harness se comportasse como uma dependência real. Um consumidor deveria instalar um artefato versionado, importar um SDK público pequeno e possuir apenas seus modelos de domínio, workflow e código de adaptação. A plataforma deveria validar esse pacote sem importar um checkout vizinho.</p>
+
+      <h2>Empacote o contrato antes do comportamento</h2>
+      <p>Mantive o SDK público deliberadamente pequeno. Ele exporta os tipos necessários para descrever um harness, associar pontos de entrada tipados e registrar uma definição instalada. Os módulos internos podem evoluir enquanto essa fronteira pública permanecer compatível.</p>
+      <p>Cada release do harness leva um manifesto estrito. O manifesto identifica o pacote e a release, declara o intervalo de versões compatíveis da infraestrutura e descreve cada ponto de entrada público. Cada ponto de entrada inclui as versões do grafo e do estado, além de schemas fechados de entrada e saída.</p>
+      <p>Uma definição simplificada se parece com esta:</p>
+      <div class="code-window">
+        <div class="code-label">Manifesto versionado do harness</div>
+        <pre><code>manifest = HarnessManifest(
+    harness_id=<span class="str">"document-review"</span>,
+    package_name=<span class="str">"document-review-harness"</span>,
+    version=<span class="str">"1.0.0"</span>,
+    infrastructure_requires=<span class="str">"&gt;=0.2.0,&lt;0.3.0"</span>,
+    required_capabilities=(<span class="str">"model.step"</span>,),
+    entry_points=(
+        HarnessEntryPoint(
+            entry_point_id=<span class="str">"review"</span>,
+            graph_id=<span class="str">"document-review.review"</span>,
+            graph_version=<span class="str">"1.0.0"</span>,
+            state_schema_version=<span class="str">"1.0.0"</span>,
+            input_schema=SchemaDescriptor.from_model(
+                ReviewRequest,
+                schema_id=<span class="str">"document-review.request"</span>,
+                version=<span class="str">"1.0.0"</span>,
+            ),
+            output_schema=SchemaDescriptor.from_model(
+                ReviewResult,
+                schema_id=<span class="str">"document-review.result"</span>,
+                version=<span class="str">"1.0.0"</span>,
+            ),
+        ),
+    ),
+)</code></pre>
+      </div>
+      <p>O manifesto não contém caminho de importação, credencial nem expressão executável. Ele pode ser inspecionado com segurança como metadado. Explica o que uma release declara oferecer sem decidir qual objeto Python deve executar.</p>
+      <p>Essa distinção importa. Metadados podem ser lidos e comparados. Código executável precisa ser confiável.</p>
+
+      <h2>O manifesto descreve; o binding executa</h2>
+      <p>O pacote instalado também expõe uma factory que retorna uma definição. Essa definição associa cada ponto de entrada declarado ao modelo real de requisição, ao modelo de resultado e ao runner assíncrono.</p>
+      <p>O registro verifica a definição completa antes de publicar qualquer parte dela. A versão do pacote instalado precisa corresponder ao manifesto. A versão da infraestrutura deve estar dentro do intervalo declarado. As capacidades exigidas precisam estar disponíveis. Os nomes dos bindings devem corresponder exatamente aos pontos de entrada do manifesto. Os schemas reais do Pydantic devem ser iguais aos schemas registrados no manifesto.</p>
+      <p>Se uma verificação falhar, a release não entra no registro.</p>
+      <p>Isso evita um tipo comum de divergência: a documentação diz que uma operação aceita um formato, enquanto o código aceita outro. Também evita registro parcial, em que uma operação válida se torna visível antes de outra operação inválida provocar a falha do carregamento.</p>
+      <p>O registro armazena identidades exatas de release. Um chamador seleciona o ID e a versão do harness em vez de pedir qualquer implementação que por acaso seja a mais recente. Isso é essencial para reprodutibilidade e para continuar uma execução depois que uma release mais nova for instalada.</p>
+
+      <h2>Descoberta não pode significar confiança automática</h2>
+      <p>Usei os entry points padrão das distribuições Python para descoberta. Um pacote de harness pode anunciar sua factory por metadados normais do pacote, sem obrigar o host a manter um import fixo para cada domínio.</p>
+      <p>Mesmo assim, instalar um pacote não o ativa.</p>
+      <p>O host seleciona as factories instaladas em que confia na sua fronteira de composição. Apenas essas factories são carregadas, e a identidade da distribuição é verificada antes do registro. Uma requisição HTTP não pode fornecer um caminho de importação arbitrário nem pedir que o runtime carregue qualquer código instalado.</p>
+      <p>Essa é uma fronteira de segurança importante, embora não seja um sandbox. Uma factory Python pode executar Python. A revisão do pacote e a confiança do operador continuam sendo pré-requisitos.</p>
+      <p>A garantia útil é mais estreita e concreta: o runtime não confunde a possibilidade de descobrir um pacote com permissão para executá-lo.</p>
+
+      <h2>Uma definição não é um deployment</h2>
+      <p>Outra fonte de ambiguidade era a palavra <em>instalado</em>.</p>
+      <p>Uma release do harness pode existir como definição reutilizável e também estar instalada em vários workers. Esses são fatos diferentes.</p>
+      <p>A definição diz o que a versão <code>1.0.0</code> significa: seus pontos de entrada, schemas, requisitos e bindings executáveis. Um registro de deployment diz onde essa release foi observada: identidade do worker, versão do pacote instalado, versão da infraestrutura, capacidades, endpoint opcional e última observação de saúde.</p>
+      <p>Manter esses registros separados evita várias conclusões falsas:</p>
+      <ul>
+        <li>Registrar um endpoint não provisiona um worker.</li>
+        <li>Instalar um pacote não prova que seu processo está saudável.</li>
+        <li>Um worker com falha não redefine a release do harness.</li>
+        <li>Uma observação de saúde mais nova não pode ser substituída por outra mais antiga.</li>
+        <li>Saúde desconhecida precisa continuar desconhecida até que algo realmente a observe.</li>
+      </ul>
+      <p>Essa separação também prepara a infraestrutura para diferentes chamadores. Uma interface interativa, um cliente direto da API ou um scheduler externo poderão apontar para a mesma capacidade registrada sem assumir sua lógica de deployment.</p>
+
+      <h2>Teste a fronteira de fora do repositório</h2>
+      <p>Testes unitários dentro do pacote de infraestrutura poderiam provar que o registro funcionava com classes locais. Eles não poderiam provar que um time independente conseguiria criar um pacote usando apenas o SDK suportado.</p>
+      <p>Para isso, criei um pequeno harness sintético como um wheel separado. Ele possui seus schemas de requisição e resultado, publica sua própria factory e importa apenas o SDK público. Seu provedor controlado exercita o executor real de etapas de modelo, incluindo uma falha transitória seguida por uma retentativa limitada.</p>
+      <p>Também construí variantes inválidas do pacote. Uma exige uma versão incompatível da infraestrutura. Outra informa no manifesto uma versão diferente da distribuição instalada. O host precisa rejeitar ambas antes que possam executar.</p>
+      <p>Esse tipo de teste de conformidade é mais valioso do que um mock que apenas devolve uma resposta de sucesso fabricada. Ele verifica o mesmo caminho de instalação, descoberta, comparação de schemas, verificação de capacidades e execução usado por um consumidor real.</p>
+      <p>Isso também mantém os produtos de domínio fora da aceitação da infraestrutura. A plataforma pode provar seu contrato com pacotes neutros; cada domínio pode depois provar seu próprio comportamento contra a mesma fronteira pública.</p>
+
+      <h2>Empacotamento reproduzível muda o valor da evidência</h2>
+      <p>Transformar o código em pacote revelou problemas que os testes baseados no código-fonte escondiam.</p>
+      <p>A imagem de produção agora instala o wheel construído em vez de importar o diretório de trabalho. Os testes executam contra esse artefato instalado. Fixtures, rascunhos e ferramentas de build ficam fora do pacote de runtime. As dependências são fixadas com hashes, e novas montagens offline precisam produzir os mesmos bytes do wheel.</p>
+      <p>Os testes estritos de schema também encontraram um problema sutil de validação. Um campo destinado a aceitar uma versão inteira de schema ainda podia aceitar equivalentes booleanos ou decimais por causa das regras de igualdade do Python. Uma verificação explícita do tipo exato eliminou essa brecha.</p>
+      <p>Esses detalhes podem parecer pequenos, mas mudam a força da evidência. “Os testes passaram no meu checkout” é mais fraco do que “este artefato exato foi instalado em um runtime limpo, rejeitou consumidores incompatíveis e foi reproduzido a partir de entradas fixadas”.</p>
+
+      <h2>O que essa fronteira ainda não promete</h2>
+      <p>O empacotamento resolve identidade, compatibilidade, descoberta e invocação local tipada. Ele não transforma uma chamada de função local em uma execução governada.</p>
+      <p>A fronteira atual não autentica um chamador, cria uma execução durável, persiste estado, aplica permissões, reserva orçamentos compartilhados nem recupera trabalho depois da falha de um processo. Uma permissão declarada ainda é metadado até que uma camada de admissão a verifique e aplique. Um registro de deployment ainda é uma observação até que existam um worker e um protocolo de saúde.</p>
+      <p>Declarar esses limites faz parte da arquitetura. Se uma chamada local do SDK fosse apresentada como uma API de execução para produção, interfaces e schedulers futuros seriam construídos sobre garantias que não existem.</p>
+      <p>A fronteira de pacote cria um lugar estável para adicionar essas garantias. A autenticação pode admitir uma release e um ponto de entrada exatos. A execução durável pode fixar as mesmas versões de schema e grafo. Workers podem ativar pacotes selecionados. Uma API pública pode expor a capacidade sem revelar imports Python nem depender de uma sessão de interface interativa.</p>
+
+      <h2>A reutilização começa quando a fronteira sobrevive à mudança</h2>
+      <p>O resultado mais importante não é conseguir carregar um segundo wheel. É permitir que a plataforma e o domínio mudem de forma independente dentro de um contrato explícito.</p>
+      <p>A infraestrutura possui o registro, as verificações de compatibilidade, os mecanismos compartilhados de execução e o SDK suportado. Um pacote de domínio possui seus schemas, workflow e decisões de release. A configuração de deployment decide quais pacotes revisados se tornam ativos. No futuro, os chamadores usarão um único contrato de execução, sejam eles uma interface, uma integração de API ou um scheduler externo.</p>
+      <p>Essa é a diferença entre um harness funcional e uma infraestrutura de harness reutilizável. O grafo continua importante, mas o produto reutilizável é a fronteira ao redor dele: versionada, inspecionável, ativada de forma deliberada e testada pelo ponto de vista do consumidor.</p>
+    </article>
+  </main>
+  <footer class="footer"><span>© 2026 Rodrigo Morais</span><a href="mailto:morais.rm@gmail.com">Contato</a></footer>
+</body>
+</html>
