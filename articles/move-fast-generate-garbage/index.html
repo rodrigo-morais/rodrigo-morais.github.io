@@ -1,0 +1,458 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Move Fast, Generate Garbage, and Call It Innovation — Rodrigo Morais</title>
+  <meta name="description" content="The industry found a faster way to manufacture technical debt and called it innovation. A critical look at AI coding, self-approval, and technical leadership.">
+  <meta property="og:title" content="Move Fast, Generate Garbage, and Call It Innovation">
+  <meta property="og:description" content="The industry found a faster way to manufacture technical debt and called it innovation.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://rodrigo-morais.github.io/articles/move-fast-generate-garbage/">
+  <meta property="og:image" content="https://rodrigo-morais.github.io/images/rodrigo-morais-social.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Move Fast, Generate Garbage, and Call It Innovation">
+  <meta name="twitter:description" content="The industry found a faster way to manufacture technical debt and called it innovation.">
+  <meta name="twitter:image" content="https://rodrigo-morais.github.io/images/rodrigo-morais-social.png">
+  <link rel="canonical" href="https://rodrigo-morais.github.io/articles/move-fast-generate-garbage/">
+  <link rel="alternate" hreflang="pt-BR" href="https://rodrigo-morais.github.io/pt_BR/artigos/mova-se-rapido-gere-lixo/">
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <nav class="nav" aria-label="Primary navigation">
+      <a class="brand" href="/"><span class="brand-mark">RM</span><span>Rodrigo Morais</span></a>
+      <div class="nav-links">
+        <a href="/#work">Work</a><a href="/#writing">Writing</a>
+        <a class="lang" href="/pt_BR/artigos/mova-se-rapido-gere-lixo/" lang="pt-BR">PT</a>
+      </div>
+    </nav>
+  </header>
+  <main>
+    <section class="article-hero">
+      <div class="article-hero-inner">
+        <a class="back-link" href="/#writing">← All engineering notes</a>
+        <p class="eyebrow">AI engineering · Industry criticism</p>
+        <h1>Move Fast, Generate Garbage, and Call It Innovation</h1>
+        <p class="lead">We spent decades learning why software becomes expensive to maintain. Now we can manufacture those problems faster. Naturally, we’re calling it innovation.</p>
+        <p class="article-meta">Rodrigo Morais · 15 min read · November 2026</p>
+      </div>
+    </section>
+    <article class="article-body">
+      <p>There is something fascinating happening in software engineering.</p>
+      <p>For decades, we developed practices to make software more
+      predictable, maintainable, and reliable. Modularity. Separation of
+      concerns. Contracts. Testing. Continuous integration. Code reviews.
+      Architecture.</p>
+      <p>Not because engineers enjoy creating processes. Well, some do.
+      Unfortunately.</p>
+      <p>We developed these practices because we learned, usually the hard
+      way, what happens when we ignore them.</p>
+      <p>Then LLMs arrived, and suddenly the sales pitch became much more
+      convenient.</p>
+      <p>Just write a prompt.</p>
+      <p>Add a few Markdown files explaining how the AI should behave. Maybe
+      some skills. Give the agent access to the repository and let it
+      work.</p>
+      <p>Congratulations. You’re now a software company.</p>
+      <p>Requirements, architecture, verification, maintenance? Somewhere in
+      the middle. The agent will handle it.</p>
+      <p>That is a remarkable amount of responsibility to hide inside the word
+      “handle.”</p>
+      <p>I use LLMs. I believe we can use them throughout software
+      engineering, from requirements and design to testing, implementation,
+      documentation, and maintenance.</p>
+      <p>What I object to is the idea that we can put a prompt into a black
+      box, receive a system, and treat the agent’s confidence as evidence that
+      the engineering has been done.</p>
+      <p>Especially when the people approving that process are supposed to
+      know better.</p>
+      <h2 id="software-engineering-is-not-magic">Software Engineering Is Not
+      Magic</h2>
+      <p>Let’s start with something basic.</p>
+      <p>We can define what a component should do: its inputs, outputs,
+      relevant state, constraints, and permitted side effects. We can
+      establish contracts and check whether an implementation satisfies
+      them.</p>
+      <p>There might be several ways to implement the behavior. An LLM can
+      explore those alternatives and generate candidates.</p>
+      <p>Good. That is useful.</p>
+      <p>But who decides whether the result is acceptable?</p>
+      <p>Who controls the tests? Who determines whether a dependency is
+      permitted? Who decides whether a failing check can be ignored?</p>
+      <p>An agent can run tests, investigate failures, and propose changes. It
+      does not need authority to waive the conditions for accepting its own
+      work.</p>
+      <p>We already have software capable of enforcing required checks and
+      predefined transitions.</p>
+      <p>It’s called software.</p>
+      <p>We do not need to make every decision a conversation with a language
+      model simply because the language model is available.</p>
+      <h2 id="we-gave-the-generator-the-answer-sheet">We Gave the Generator
+      the Answer Sheet</h2>
+      <p>LLMs generate outputs probabilistically. That does not automatically
+      make their code incorrect, any more than determinism makes a program
+      correct.</p>
+      <p>Human engineering has always involved uncertainty too.</p>
+      <p>The serious mistake is building a process whose controls depend on
+      the generator consistently choosing to respect them.</p>
+      <p>Consider this workflow.</p>
+      <p>You describe a feature. The agent interprets the requirements,
+      explores the repository, changes the code, writes tests, runs them,
+      evaluates the results, and announces that everything is ready.</p>
+      <p>Then another LLM reviews the changes.</p>
+      <p>LGTM!</p>
+      <p>Wonderful.</p>
+      <p>The same system that may have misunderstood the requirement has
+      implemented that misunderstanding and produced tests that confirm it. A
+      second system, working from the same incomplete context, can repeat the
+      same assumption.</p>
+      <p>Two opinions. One mistake.</p>
+      <p>The agent might modify unrelated components. Introduce an abstraction
+      because it missed an existing one. Add a dependency because generating
+      an integration was easier than understanding what was already there.</p>
+      <p>Or change a failing test to match its implementation.</p>
+      <p>The implementation fails?</p>
+      <p>No problem. Update the expectation.</p>
+      <p>Green again.</p>
+      <p>Engineering productivity has never looked better.</p>
+      <p>Sometimes a test really is wrong. Sometimes a requirement needs to
+      change. The agent should be able to propose that correction.</p>
+      <p>But changing the acceptance criteria is a separate decision from
+      producing an implementation that satisfies them. A process that cannot
+      distinguish those decisions has an architectural problem.</p>
+      <p>Adding “be careful” to the prompt will not resolve it.</p>
+      <p>Nor will naming the second agent “Principal Engineer.”</p>
+      <h2 id="who-tests-the-tests">Who Tests the Tests?</h2>
+      <p>People frequently answer concerns about generated code with: “We have
+      tests.”</p>
+      <p>Fine. What do they establish?</p>
+      <p>If the tests were generated from the same misunderstanding as the
+      implementation, a passing result tells us that the two agree.</p>
+      <p>Agreement is a rather modest achievement when both sides copied the
+      same mistake.</p>
+      <p>Acceptance tests need expected behavior established independently of
+      whatever implementation the agent happens to produce. Those expectations
+      might come from reviewed requirements, validated examples, or known
+      regression cases.</p>
+      <p>We also need evidence that the tests can detect relevant defects.</p>
+      <p>Suppose the requirement explicitly says that a function returns
+      <code>True</code> when an integer age is at least 18:</p>
+      <div class="sourceCode" id="cb1"><pre
+      class="sourceCode python"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> is_adult(age: <span class="bu">int</span>) <span class="op">-&gt;</span> <span class="bu">bool</span>:</span>
+      <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> age <span class="op">&gt;=</span> <span class="dv">18</span></span></code></pre></div>
+      <p>Now introduce a defect:</p>
+      <div class="sourceCode" id="cb2"><pre
+      class="sourceCode python"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> is_adult(age: <span class="bu">int</span>) <span class="op">-&gt;</span> <span class="bu">bool</span>:</span>
+      <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> age <span class="op">&gt;</span> <span class="dv">18</span></span></code></pre></div>
+      <p>If the tests still pass, they missed an important boundary.</p>
+      <p>This is the idea behind <a href="https://pitest.org/">mutation
+      testing</a>: introduce faults and see whether the tests detect them.</p>
+      <p>No revolutionary agent framework required.</p>
+      <p>Generated tests can be evaluated against approved examples, boundary
+      conditions, known failures, and representative faulty implementations.
+      Correct implementations should pass; the relevant faults should be
+      detected.</p>
+      <p>That provides evidence of test effectiveness. It does not prove that
+      the requirements are complete or that every defect has been
+      eliminated.</p>
+      <p>And an evaluation dataset is only an independent reference if its
+      expected results have an independent basis. Generating the
+      implementation, tests, and evaluation answers from the same assumption
+      simply gives the mistake more paperwork.</p>
+      <p>“Evals” is a useful term. It is not a spell.</p>
+      <p>The implementation agent should not be able to rewrite the approved
+      acceptance criteria because it dislikes the results. Proposed
+      corrections should go through an explicit review path.</p>
+      <p>Otherwise, we could save some time and just ask the model whether its
+      code works.</p>
+      <p>I’m sure it will give us a confident answer.</p>
+      <h2 id="a-few-markdown-files-and-now-everybody-is-a-software-company">A
+      Few Markdown Files and Now Everybody Is a Software Company</h2>
+      <p>Another fascinating idea is that engineering expertise can be
+      replaced with sufficiently detailed instructions.</p>
+      <p>Add an <code>AGENTS.md</code> file. Create some skills. Explain the
+      architecture. Describe the testing strategy.</p>
+      <p>And finally, the most important instruction:</p>
+      <blockquote>
+      <p>You are now a senior software engineer.</p>
+      </blockquote>
+      <p>Perfect.</p>
+      <p>Decades of engineering experience transferred in one sentence.</p>
+      <p>HR will be delighted.</p>
+      <p>Instructions and contextual documentation are useful. But writing
+      “follow the architecture” does not establish that the agent understood
+      it, and writing “only modify what is necessary” does not establish that
+      it did.</p>
+      <p>If an architectural boundary matters, enforce the parts that can be
+      checked. If dependencies are restricted, validate them. If acceptance
+      tests must remain protected, run the approved versions outside the
+      implementation agent’s control.</p>
+      <p>Protect the verification configuration too. A protected test is not
+      much protection if the agent can disable the job that runs it.</p>
+      <p>Documentation communicates the rule. Permissions and executable
+      checks enforce it.</p>
+      <p>When someone presents a directory of Markdown files as a substitute
+      for those controls, the missing engineering has not disappeared.</p>
+      <p>It has been assigned to whoever discovers the problem later.</p>
+      <h2 id="but-lets-assume-the-hype-is-correct">But Let’s Assume the Hype
+      Is Correct</h2>
+      <p>Let’s take the most enthusiastic version of the pitch seriously.</p>
+      <p>Anyone can describe what they need, provide a few files and skills,
+      and receive a reliable, maintainable, production-ready system.</p>
+      <p>No significant engineering knowledge. No difficult architectural
+      decisions. No substantial maintenance burden.</p>
+      <p>Just prompts.</p>
+      <p>Then why buy software?</p>
+      <p>Why pay for a CRM when you can generate your own? Why pay for project
+      management software? Why pay for an analytics platform?</p>
+      <p>And if your competitor creates useful functionality, what stops you
+      generating the same functionality tomorrow?</p>
+      <p>If creating and maintaining the product really became that
+      effortless, what exactly remains difficult to copy?</p>
+      <p>Before announcing that everyone is a software company, perhaps
+      explain what happens to the value proposition of the software company
+      making the announcement.</p>
+      <p>Of course, buyers still pay for convenience, operations, security,
+      integrations, support, domain expertise, and ongoing maintenance. Cheap
+      code generation does not automatically eliminate those reasons to
+      buy.</p>
+      <p>But then put that work back in the sales pitch.</p>
+      <p>It cannot disappear when selling effortless creation and reappear
+      when explaining why the product still costs money.</p>
+      <p>If those responsibilities require expertise, say so. Explain which
+      work became cheaper and which work remains.</p>
+      <p>Generating code and owning a reliable product are different
+      commitments.</p>
+      <p>The demonstration usually ends before the second one becomes
+      inconvenient.</p>
+      <h2 id="move-fast-now-get-slower-than-before">Move Fast Now. Get Slower
+      Than Before.</h2>
+      <p>The technology industry has a remarkable talent for repeating its
+      mistakes with new vocabulary.</p>
+      <p>Remember Agile?</p>
+      <p>Deliver working software frequently. Collaborate with customers.
+      Respond to change. All reasonable ideas.</p>
+      <p>The <a href="https://agilemanifesto.org/principles.html">original
+      principles</a> also explicitly emphasize technical excellence, good
+      design, and simplicity.</p>
+      <p>Those parts became strangely easy to overlook when “being Agile” was
+      used to justify skipping engineering work.</p>
+      <p>Architecture? We’ll figure it out during the sprint.</p>
+      <p>Documentation? We need to deliver.</p>
+      <p>Tests? We’ll add them later.</p>
+      <p>Technical debt? Put it in the backlog.</p>
+      <p>And then the backlog became a cemetery.</p>
+      <p>For a while, the shortcuts can look productive. Features arrive.
+      Activity increases. Management has numbers to present.</p>
+      <p>Then a simple change requires modifications across unrelated
+      components. Nobody remembers why a workaround exists. Tests become
+      unreliable. Deployments need more coordination. Every new feature takes
+      longer.</p>
+      <p>The team that was supposed to move faster becomes slower than
+      before.</p>
+      <p>The proposed solution?</p>
+      <p>Become more Agile.</p>
+      <p>More ceremonies. More metrics. Perhaps a meeting to understand why
+      the previous meetings failed to improve delivery.</p>
+      <p>Anything except admitting that deferred engineering work has become
+      expensive engineering work.</p>
+      <p>This was a misuse of Agile. The lesson is about turning a useful idea
+      into permission to stop thinking.</p>
+      <p>Now the same shortcut has an AI budget.</p>
+      <p>We can replace story points with generated pull requests and call the
+      dashboard a transformation programme.</p>
+      <p>The maintenance bill will remain unimpressed.</p>
+      <h2 id="the-technical-debt-factory">The Technical Debt Factory</h2>
+      <p>Technical debt is not simply bad code. It includes decisions that
+      make future changes more difficult.</p>
+      <p>Sometimes accepting that cost is a reasonable trade-off. But someone
+      should understand the decision, accept responsibility for it, and
+      account for the consequences.</p>
+      <p>What happens when nobody understands the decisions being made?</p>
+      <p>An agent introduces an abstraction. Another builds on it. A third
+      reorganizes the result into a framework nobody requested.</p>
+      <p>A fourth reviews the changes.</p>
+      <p>LGTM!</p>
+      <p>Each change appears small and reasonable. Each passes the available
+      checks. Collectively, they can make the system harder to understand and
+      more expensive to change.</p>
+      <p>At that point, we are generating technical debt without anyone
+      consciously accepting the trade-off.</p>
+      <p>The code exists. The tests are green. The agents are confident.</p>
+      <p>Then production breaks, and the people responsible struggle to
+      explain how the system reached that state.</p>
+      <p>Ask another LLM, presumably.</p>
+      <p>Eventually, someone will have to understand the system well enough to
+      clean it up.</p>
+      <p>Probably an experienced software engineer.</p>
+      <p>Assuming the company has not already concluded that software
+      engineers are unnecessary.</p>
+      <p>The people celebrating the first delivery should also account for the
+      cost of the next change, the next incident, and the eventual
+      cleanup.</p>
+      <p>Otherwise, “productivity” becomes a convenient label for moving work
+      into someone else’s future.</p>
+      <h2 id="and-where-are-the-technical-leaders">And Where Are the Technical
+      Leaders?</h2>
+      <p>This is the part I find particularly disappointing.</p>
+      <p>I understand why executives are excited by demonstrations where an
+      application appears in minutes. Investigating ways to improve delivery
+      and reduce costs is part of their job.</p>
+      <p>But a demonstration should begin an investigation. It should not
+      finish one.</p>
+      <p>Where are the architects, principal engineers, and engineering
+      managers asking what the demonstration left out?</p>
+      <p>The people who spent years explaining why architecture, testing, and
+      maintainability matter should be able to explain why those requirements
+      still apply when code generation becomes cheap.</p>
+      <p>“Everyone else is adopting it” is not an engineering argument.</p>
+      <p>New agent? Integrate it.</p>
+      <p>New benchmark? Reorganize the department.</p>
+      <p>A competitor announced an AI strategy? Announce ours before anyone
+      asks what it does.</p>
+      <p>When copying the next company becomes the decision process, technical
+      leadership has turned into a forwarding service.</p>
+      <p>With a budget.</p>
+      <p>Experiment. Measure. Challenge assumptions. That is part of the
+      work.</p>
+      <p>But if you approve a process, you should be able to explain its
+      controls. If you claim productivity improved, explain the measurement.
+      If you reduce engineering capacity, explain who owns the understanding,
+      verification, and maintenance that remain necessary.</p>
+      <p>How much useful work was delivered? How much rework followed? Which
+      defects escaped? What happened to the cost of changing the system?</p>
+      <p>What evidence would make you reverse the decision?</p>
+      <p>If the answer is another vendor benchmark, the evaluation is still
+      missing.</p>
+      <p>Generated lines of code and completed pull requests describe output.
+      They do not, by themselves, establish improved productivity.</p>
+      <p>More code can also mean more code to understand, secure, operate, and
+      maintain.</p>
+      <p>Counting the output while ignoring those costs is very convenient
+      accounting.</p>
+      <p>An organization can celebrate an impressive demonstration and still
+      demand evidence before scaling the process. What it cannot reasonably do
+      is remove the controls, ignore the downstream costs, and then describe
+      the resulting problems as an unpredictable surprise.</p>
+      <p>If a leadership decision creates the conditions for failure, “the
+      agent did it” is a remarkably weak explanation.</p>
+      <p>The agent did not approve the operating model.</p>
+      <p>Someone with a title did.</p>
+      <h2 id="move-the-code-review-one-step-up">Move the Code Review One Step
+      Up</h2>
+      <p>There is a better direction available.</p>
+      <p>Move more human effort toward specifications, contracts,
+      architectural decisions, and the evidence needed to accept a change.</p>
+      <p>A human and an LLM can define the work together. The model can
+      identify ambiguities, suggest interfaces, explore edge cases, and
+      propose tests.</p>
+      <p>The human reviews the definitions. Are we solving the right problem?
+      Are responsibilities clear? Does this fit the existing system? Are we
+      introducing complexity that the requirement does not justify?</p>
+      <p>And, occasionally:</p>
+      <p>Do we need to build this at all?</p>
+      <p>Once the relevant definitions are approved, implementation becomes a
+      constrained problem. The agent generates candidates. Independent checks
+      evaluate the final candidate against the approved criteria.</p>
+      <p>Every recurring issue found in human review becomes a candidate for a
+      test, constraint, or evaluation.</p>
+      <p>The objective should be to eliminate routine review work where
+      reliable checks can do it, rather than pay another model to repeat the
+      same comments indefinitely.</p>
+      <p>But a complexity score does not decide whether an abstraction belongs
+      in the system. Passing functional tests does not establish that a design
+      will remain easy to change.</p>
+      <p>Automated acceptance should therefore apply to bounded changes where
+      the available evidence is sufficient. Keep targeted human review for
+      important properties outside those checks.</p>
+      <p>Expand automation as its demonstrated coverage improves.</p>
+      <p>Declaring review obsolete before doing that work is simply another
+      shortcut with a better presentation.</p>
+      <h2 id="a-workflow-with-actual-boundaries">A Workflow With Actual
+      Boundaries</h2>
+      <p>The basic control structure is straightforward:</p>
+      <pre class="text"><code>Human + LLM define a small change
+                      |
+                      v
+      Review requirements, contracts, tests, and constraints
+                      |
+                      v
+      Protect approved acceptance criteria and verification settings
+                      |
+                      v
+      LLM proposes implementation
+                      |
+                      v
+      Independent verification of the final candidate
+                      |
+             +--------+--------+
+             |                 |
+            PASS              FAIL
+             |                 |
+             v                 v
+      Acceptance policy   Feedback and bounded retry
+             |                 |
+             v                 v
+      Accept eligible     Verify the next candidate;
+      changes; review     escalate repeated failures
+      exceptions          or specification problems</code></pre>
+      <p>The orchestrator enforces the transitions and required checks. The
+      model can choose how to investigate a failure; it cannot quietly choose
+      that the failed check no longer matters.</p>
+      <p>The approved tests and verification configuration must be enforced
+      outside the implementation agent’s control. Acceptance must apply to the
+      actual candidate being delivered, not an earlier version or a message
+      saying everything passed.</p>
+      <p>If the specification needs to change, return to definition and
+      review. If repeated attempts fail, investigate rather than run an
+      unlimited loop until something looks green.</p>
+      <p>This can happen in small increments. We do not need a frozen
+      specification for an entire product. We need explicit decisions about
+      the change being made and a visible process for revising them.</p>
+      <p>Deployment, observation, and recovery still need owners. Passing
+      acceptance checks does not retire the system’s operational
+      responsibilities.</p>
+      <p>Of course, building this takes more effort than typing a prompt.</p>
+      <p>So does most things worth maintaining.</p>
+      <p>The setup cost is visible immediately. The cost of skipping it has
+      the unfortunate habit of arriving after the celebration.</p>
+      <h2 id="the-real-opportunity-is-bigger-than-code-generation">The Real
+      Opportunity Is Bigger Than Code Generation</h2>
+      <p>If LLMs make implementation cheaper, we have an opportunity to spend
+      more effort on understanding the problem and verifying the result.</p>
+      <p>We can improve specifications. Generate test candidates and evaluate
+      them. Explore alternatives. Maintain documentation. Investigate
+      architectural inconsistencies before building on them.</p>
+      <p>We can make good engineering cheaper and more accessible.</p>
+      <p>That is a much more interesting ambition than filling repositories
+      faster.</p>
+      <p>The difficult part of software engineering was never simply typing
+      code. It was understanding the problem, defining the behavior, choosing
+      boundaries, handling failures, and keeping the system understandable as
+      it changed.</p>
+      <p>Removing those responsibilities from a presentation does not remove
+      them from the product.</p>
+      <p>Use LLMs wherever they provide value. Use deterministic checks
+      wherever the relevant rules can be enforced. Keep specifications
+      explicit, verification independent, and responsibility visible.</p>
+      <p>Let models propose solutions.</p>
+      <p>Don’t let the implementation agent redefine the criteria for
+      accepting them.</p>
+      <p>We don’t need to eliminate uncertainty from generation. We need to
+      control what happens to the generated result.</p>
+      <p>And before adopting the next revolutionary development methodology,
+      ask whether it makes software easier to change or merely easier to
+      produce.</p>
+      <p>We have already used the language of agility to excuse engineering
+      shortcuts. AI gives those shortcuts a faster production line.</p>
+      <p>If we repeat the same mistake, we should at least stop presenting it
+      as a new idea.</p>
+      <p>Moving fast is useful.</p>
+      <p>Moving fast into a wall is not innovation.</p>
+    </article>
+  </main>
+  <footer class="footer"><span>© 2026 Rodrigo Morais</span><a href="mailto:morais.rm@gmail.com">Contact</a></footer>
+</body>
+</html>
+

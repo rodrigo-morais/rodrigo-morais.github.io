@@ -1,0 +1,476 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mova-se Rápido, Gere Lixo e Chame Isso de Inovação — Rodrigo Morais</title>
+  <meta name="description" content="A indústria encontrou uma forma mais rápida de fabricar dívida técnica e chamou isso de inovação. Uma crítica ao código gerado por IA, à autoaprovação e à liderança técnica.">
+  <meta property="og:title" content="Mova-se Rápido, Gere Lixo e Chame Isso de Inovação">
+  <meta property="og:description" content="A indústria encontrou uma forma mais rápida de fabricar dívida técnica e chamou isso de inovação.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://rodrigo-morais.github.io/pt_BR/artigos/mova-se-rapido-gere-lixo/">
+  <meta property="og:image" content="https://rodrigo-morais.github.io/images/rodrigo-morais-social.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Mova-se Rápido, Gere Lixo e Chame Isso de Inovação">
+  <meta name="twitter:description" content="A indústria encontrou uma forma mais rápida de fabricar dívida técnica e chamou isso de inovação.">
+  <meta name="twitter:image" content="https://rodrigo-morais.github.io/images/rodrigo-morais-social.png">
+  <link rel="canonical" href="https://rodrigo-morais.github.io/pt_BR/artigos/mova-se-rapido-gere-lixo/">
+  <link rel="alternate" hreflang="en" href="https://rodrigo-morais.github.io/articles/move-fast-generate-garbage/">
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <nav class="nav" aria-label="Navegação principal">
+      <a class="brand" href="/pt_BR/"><span class="brand-mark">RM</span><span>Rodrigo Morais</span></a>
+      <div class="nav-links">
+        <a href="/pt_BR/#work">Projetos</a><a href="/pt_BR/#writing">Artigos</a>
+        <a class="lang" href="/articles/move-fast-generate-garbage/" lang="en">EN</a>
+      </div>
+    </nav>
+  </header>
+  <main>
+    <section class="article-hero">
+      <div class="article-hero-inner">
+        <a class="back-link" href="/pt_BR/#writing">← Todas as notas de engenharia</a>
+        <p class="eyebrow">Engenharia de IA · Crítica da indústria</p>
+        <h1>Mova-se Rápido, Gere Lixo e Chame Isso de Inovação</h1>
+        <p class="lead">Passamos décadas aprendendo por que software se torna caro de manter. Agora conseguimos fabricar esses problemas mais rápido. Naturalmente, estamos chamando isso de inovação.</p>
+        <p class="article-meta">Rodrigo Morais · 16 min de leitura · Novembro de 2026</p>
+      </div>
+    </section>
+    <article class="article-body">
+      <p>Há algo fascinante acontecendo na engenharia de software.</p>
+      <p>Durante décadas, desenvolvemos práticas para tornar o software mais
+      previsível, sustentável e confiável. Modularidade. Separação de
+      responsabilidades. Contratos. Testes. Integração contínua. Revisão de
+      código. Arquitetura.</p>
+      <p>Não porque engenheiros adoram criar processos. Bem, alguns adoram.
+      Infelizmente.</p>
+      <p>Desenvolvemos essas práticas porque aprendemos, normalmente da forma
+      mais dolorosa, o que acontece quando as ignoramos.</p>
+      <p>Então chegaram os LLMs, e de repente o discurso de vendas ficou muito
+      mais conveniente.</p>
+      <p>Basta escrever um prompt.</p>
+      <p>Adicione alguns arquivos Markdown explicando como a IA deve se
+      comportar. Talvez algumas skills. Dê ao agente acesso ao repositório e
+      deixe-o trabalhar.</p>
+      <p>Parabéns. Agora você é uma empresa de software.</p>
+      <p>Requisitos, arquitetura, verificação, manutenção? Em algum lugar no
+      meio. O agente resolve.</p>
+      <p>É uma quantidade impressionante de responsabilidade escondida dentro
+      da palavra “resolve”.</p>
+      <p>Eu uso LLMs. Acredito que podemos usá-los em toda a engenharia de
+      software, dos requisitos e design aos testes, implementação,
+      documentação e manutenção.</p>
+      <p>O que rejeito é a ideia de que podemos colocar um prompt em uma
+      caixa-preta, receber um sistema e tratar a confiança do agente como
+      evidência de que a engenharia foi feita.</p>
+      <p>Especialmente quando as pessoas aprovando esse processo deveriam
+      saber mais.</p>
+      <h2 id="engenharia-de-software-não-é-magia">Engenharia de Software Não É
+      Magia</h2>
+      <p>Vamos começar com algo básico.</p>
+      <p>Podemos definir o que um componente deve fazer: suas entradas,
+      saídas, estado relevante, restrições e efeitos colaterais permitidos.
+      Podemos estabelecer contratos e verificar se uma implementação os
+      satisfaz.</p>
+      <p>Pode haver várias formas de implementar o comportamento. Um LLM pode
+      explorar essas alternativas e gerar candidatos.</p>
+      <p>Ótimo. Isso é útil.</p>
+      <p>Mas quem decide se o resultado é aceitável?</p>
+      <p>Quem controla os testes? Quem determina se uma dependência é
+      permitida? Quem decide se uma verificação que falhou pode ser
+      ignorada?</p>
+      <p>Um agente pode executar testes, investigar falhas e propor mudanças.
+      Ele não precisa de autoridade para dispensar as condições de aceitação
+      do próprio trabalho.</p>
+      <p>Já temos software capaz de aplicar verificações obrigatórias e
+      transições predefinidas.</p>
+      <p>Chama-se software.</p>
+      <p>Não precisamos transformar cada decisão em uma conversa com um modelo
+      de linguagem só porque o modelo está disponível.</p>
+      <h2 id="entregamos-o-gabarito-ao-gerador">Entregamos o Gabarito ao
+      Gerador</h2>
+      <p>LLMs geram saídas de forma probabilística. Isso não torna
+      automaticamente o código incorreto, assim como o determinismo não torna
+      um programa correto.</p>
+      <p>A engenharia humana também sempre envolveu incerteza.</p>
+      <p>O erro grave é construir um processo cujos controles dependem de o
+      gerador decidir, consistentemente, respeitá-los.</p>
+      <p>Considere este workflow.</p>
+      <p>Você descreve uma funcionalidade. O agente interpreta os requisitos,
+      explora o repositório, altera o código, escreve os testes, executa-os,
+      avalia os resultados e anuncia que tudo está pronto.</p>
+      <p>Então outro LLM revisa as mudanças.</p>
+      <p>LGTM!</p>
+      <p>Maravilhoso.</p>
+      <p>O mesmo sistema que pode ter entendido o requisito de forma errada
+      implementou esse mal-entendido e produziu testes que o confirmam. Um
+      segundo sistema, trabalhando com o mesmo contexto incompleto, pode
+      repetir a mesma suposição.</p>
+      <p>Duas opiniões. Um erro.</p>
+      <p>O agente pode modificar componentes não relacionados. Introduzir uma
+      abstração porque não encontrou uma existente. Adicionar uma dependência
+      porque gerar uma integração foi mais fácil do que entender o que já
+      estava ali.</p>
+      <p>Ou alterar um teste que falhou para combiná-lo com sua
+      implementação.</p>
+      <p>A implementação falhou?</p>
+      <p>Sem problema. Atualize a expectativa.</p>
+      <p>Verde outra vez.</p>
+      <p>A produtividade da engenharia nunca pareceu tão boa.</p>
+      <p>Às vezes um teste está realmente errado. Às vezes um requisito
+      precisa mudar. O agente deve poder propor essa correção.</p>
+      <p>Mas alterar o critério de aceitação é uma decisão separada de
+      produzir uma implementação que o satisfaça. Um processo que não consegue
+      distinguir essas decisões tem um problema de arquitetura.</p>
+      <p>Adicionar “tenha cuidado” ao prompt não vai resolvê-lo.</p>
+      <p>Nem chamar o segundo agente de “Principal Engineer”.</p>
+      <h2 id="quem-testa-os-testes">Quem Testa os Testes?</h2>
+      <p>As pessoas frequentemente respondem às preocupações sobre código
+      gerado com: “Temos testes.”</p>
+      <p>Ótimo. O que eles demonstram?</p>
+      <p>Se os testes foram gerados a partir do mesmo mal-entendido da
+      implementação, um resultado positivo nos diz que os dois concordam.</p>
+      <p>Concordância é uma conquista bastante modesta quando os dois lados
+      copiaram o mesmo erro.</p>
+      <p>Os testes de aceitação precisam de um comportamento esperado
+      estabelecido independentemente de qualquer implementação que o agente
+      produza. Essas expectativas podem vir de requisitos revisados, exemplos
+      validados ou casos de regressão conhecidos.</p>
+      <p>Também precisamos de evidências de que os testes conseguem detectar
+      defeitos relevantes.</p>
+      <p>Suponha que o requisito diga explicitamente que uma função retorna
+      <code>True</code> quando uma idade inteira é pelo menos 18:</p>
+      <div class="sourceCode" id="cb1"><pre
+      class="sourceCode python"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> is_adult(age: <span class="bu">int</span>) <span class="op">-&gt;</span> <span class="bu">bool</span>:</span>
+      <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> age <span class="op">&gt;=</span> <span class="dv">18</span></span></code></pre></div>
+      <p>Agora introduza um defeito:</p>
+      <div class="sourceCode" id="cb2"><pre
+      class="sourceCode python"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> is_adult(age: <span class="bu">int</span>) <span class="op">-&gt;</span> <span class="bu">bool</span>:</span>
+      <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> age <span class="op">&gt;</span> <span class="dv">18</span></span></code></pre></div>
+      <p>Se os testes ainda passam, eles não cobriram um limite
+      importante.</p>
+      <p>Essa é a ideia por trás do <a href="https://pitest.org/">teste de
+      mutação</a>: introduzir falhas e verificar se os testes as detectam.</p>
+      <p>Nenhum framework revolucionário de agentes é necessário.</p>
+      <p>Testes gerados podem ser avaliados contra exemplos aprovados,
+      condições de limite, falhas conhecidas e implementações defeituosas
+      representativas. Implementações corretas devem passar; as falhas
+      relevantes devem ser detectadas.</p>
+      <p>Isso fornece evidências sobre a eficácia dos testes. Não prova que os
+      requisitos estão completos nem que todos os defeitos foram
+      eliminados.</p>
+      <p>E um dataset de avaliação só é uma referência independente se seus
+      resultados esperados tiverem uma base independente. Gerar a
+      implementação, os testes e as respostas de avaliação a partir da mesma
+      suposição apenas dá mais papelada ao erro.</p>
+      <p>“Evals” é um termo útil. Não é um feitiço.</p>
+      <p>O agente de implementação não deve poder reescrever os critérios de
+      aceitação aprovados porque não gostou dos resultados. Correções
+      propostas devem seguir um caminho explícito de revisão.</p>
+      <p>Caso contrário, poderíamos economizar tempo e simplesmente perguntar
+      ao modelo se o código funciona.</p>
+      <p>Tenho certeza de que ele dará uma resposta confiante.</p>
+      <h2
+      id="alguns-arquivos-markdown-e-agora-todo-mundo-é-uma-empresa-de-software">Alguns
+      Arquivos Markdown e Agora Todo Mundo É uma Empresa de Software</h2>
+      <p>Outra ideia fascinante é que experiência em engenharia pode ser
+      substituída por instruções suficientemente detalhadas.</p>
+      <p>Adicione um arquivo <code>AGENTS.md</code>. Crie algumas skills.
+      Explique a arquitetura. Descreva a estratégia de testes.</p>
+      <p>E finalmente, a instrução mais importante:</p>
+      <blockquote>
+      <p>Agora você é um engenheiro de software sênior.</p>
+      </blockquote>
+      <p>Perfeito.</p>
+      <p>Décadas de experiência em engenharia transferidas em uma frase.</p>
+      <p>O RH vai adorar.</p>
+      <p>Instruções e documentação de contexto são úteis. Mas escrever “siga a
+      arquitetura” não demonstra que o agente a entendeu, e escrever
+      “modifique apenas o necessário” não demonstra que ele fez isso.</p>
+      <p>Se uma fronteira arquitetural importa, aplique as partes que podem
+      ser verificadas. Se dependências são restritas, valide-as. Se os testes
+      de aceitação precisam ser protegidos, execute as versões aprovadas fora
+      do controle do agente de implementação.</p>
+      <p>Proteja também a configuração de verificação. Um teste protegido não
+      protege muita coisa se o agente pode desativar o job que o executa.</p>
+      <p>A documentação comunica a regra. Permissões e verificações
+      executáveis a aplicam.</p>
+      <p>Quando alguém apresenta um diretório de arquivos Markdown como
+      substituto desses controles, a engenharia ausente não desapareceu.</p>
+      <p>Ela foi atribuída a quem descobrir o problema mais tarde.</p>
+      <h2 id="mas-vamos-supor-que-o-hype-esteja-certo">Mas Vamos Supor que o
+      Hype Esteja Certo</h2>
+      <p>Vamos levar a sério a versão mais entusiasmada do discurso.</p>
+      <p>Qualquer pessoa pode descrever o que precisa, fornecer alguns
+      arquivos e skills e receber um sistema confiável, sustentável e pronto
+      para produção.</p>
+      <p>Sem conhecimento significativo de engenharia. Sem decisões
+      arquiteturais difíceis. Sem uma carga substancial de manutenção.</p>
+      <p>Apenas prompts.</p>
+      <p>Então por que comprar software?</p>
+      <p>Por que pagar por um CRM se você pode gerar o seu? Por que pagar por
+      software de gestão de projetos? Por que pagar por uma plataforma de
+      analytics?</p>
+      <p>E se seu concorrente cria uma funcionalidade útil, o que impede você
+      de gerar a mesma funcionalidade amanhã?</p>
+      <p>Se criar e manter o produto realmente se tornou tão fácil, o que
+      exatamente continua difícil de copiar?</p>
+      <p>Antes de anunciar que todos são uma empresa de software, talvez seja
+      bom explicar o que acontece com a proposta de valor da empresa de
+      software fazendo o anúncio.</p>
+      <p>É claro que compradores ainda pagam por conveniência, operações,
+      segurança, integrações, suporte, conhecimento de domínio e manutenção
+      contínua. Geração barata de código não elimina automaticamente essas
+      razões para comprar.</p>
+      <p>Mas então coloque esse trabalho de volta no discurso de vendas.</p>
+      <p>Ele não pode desaparecer na hora de vender criação sem esforço e
+      reaparecer na hora de explicar por que o produto ainda custa
+      dinheiro.</p>
+      <p>Se essas responsabilidades exigem experiência, diga isso. Explique
+      qual trabalho ficou mais barato e qual permanece.</p>
+      <p>Gerar código e assumir a responsabilidade por um produto confiável
+      são compromissos diferentes.</p>
+      <p>A demonstração normalmente termina antes que o segundo se torne
+      inconveniente.</p>
+      <h2 id="mova-se-rápido-agora-fique-mais-lento-do-que-antes">Mova-se
+      Rápido Agora. Fique Mais Lento do que Antes.</h2>
+      <p>A indústria de tecnologia tem um talento extraordinário para repetir
+      seus erros com um vocabulário novo.</p>
+      <p>Lembra do Agile?</p>
+      <p>Entregar software funcionando com frequência. Colaborar com clientes.
+      Responder a mudanças. Todas ideias razoáveis.</p>
+      <p>Os <a href="https://agilemanifesto.org/principles.html">princípios
+      originais</a> também enfatizam explicitamente excelência técnica, bom
+      design e simplicidade.</p>
+      <p>Essas partes se tornaram estranhamente fáceis de ignorar quando “ser
+      Agile” foi usado para justificar pular o trabalho de engenharia.</p>
+      <p>Arquitetura? Descobrimos durante o sprint.</p>
+      <p>Documentação? Precisamos entregar.</p>
+      <p>Testes? Adicionamos depois.</p>
+      <p>Dívida técnica? Coloque no backlog.</p>
+      <p>E então o backlog virou um cemitério.</p>
+      <p>Por algum tempo, os atalhos podem parecer produtivos. Funcionalidades
+      chegam. A atividade aumenta. A gestão tem números para apresentar.</p>
+      <p>Então uma mudança simples exige alterações em componentes não
+      relacionados. Ninguém lembra por que um contorno existe. Os testes
+      deixam de ser confiáveis. Deploys exigem mais coordenação. Cada nova
+      funcionalidade leva mais tempo.</p>
+      <p>O time que deveria se mover mais rápido fica mais lento do que
+      antes.</p>
+      <p>A solução proposta?</p>
+      <p>Ser mais Agile.</p>
+      <p>Mais cerimônias. Mais métricas. Talvez uma reunião para entender por
+      que as reuniões anteriores não melhoraram a entrega.</p>
+      <p>Qualquer coisa, menos admitir que o trabalho de engenharia adiado se
+      tornou trabalho de engenharia caro.</p>
+      <p>Isso foi uma distorção do Agile. A lição é sobre transformar uma
+      ideia útil em permissão para parar de pensar.</p>
+      <p>Agora o mesmo atalho tem orçamento de IA.</p>
+      <p>Podemos substituir story points por pull requests gerados e chamar o
+      dashboard de programa de transformação.</p>
+      <p>A conta da manutenção continuará pouco impressionada.</p>
+      <h2 id="a-fábrica-de-dívida-técnica">A Fábrica de Dívida Técnica</h2>
+      <p>Dívida técnica não é simplesmente código ruim. Ela inclui decisões
+      que tornam mudanças futuras mais difíceis.</p>
+      <p>Às vezes aceitar esse custo é uma escolha razoável. Mas alguém deve
+      entender a decisão, assumir a responsabilidade por ela e contabilizar as
+      consequências.</p>
+      <p>O que acontece quando ninguém entende as decisões tomadas?</p>
+      <p>Um agente introduz uma abstração. Outro constrói sobre ela. Um
+      terceiro reorganiza o resultado em um framework que ninguém pediu.</p>
+      <p>Um quarto revisa as mudanças.</p>
+      <p>LGTM!</p>
+      <p>Cada mudança parece pequena e razoável. Cada uma passa pelas
+      verificações disponíveis. Juntas, elas podem tornar o sistema mais
+      difícil de entender e mais caro de alterar.</p>
+      <p>Nesse ponto, estamos gerando dívida técnica sem que ninguém tenha
+      aceitado conscientemente o trade-off.</p>
+      <p>O código existe. Os testes estão verdes. Os agentes estão
+      confiantes.</p>
+      <p>Então a produção quebra, e as pessoas responsáveis não conseguem
+      explicar como o sistema chegou àquele estado.</p>
+      <p>Pergunte a outro LLM, imagino.</p>
+      <p>Em algum momento, alguém terá de entender o sistema o bastante para
+      limpar a bagunça.</p>
+      <p>Provavelmente um engenheiro de software experiente.</p>
+      <p>Supondo que a empresa ainda não tenha concluído que engenheiros de
+      software são desnecessários.</p>
+      <p>As pessoas comemorando a primeira entrega também devem contabilizar o
+      custo da próxima mudança, do próximo incidente e da limpeza futura.</p>
+      <p>Caso contrário, “produtividade” se torna um rótulo conveniente para
+      empurrar trabalho para o futuro de outra pessoa.</p>
+      <h2 id="e-onde-estão-os-líderes-técnicos">E Onde Estão os Líderes
+      Técnicos?</h2>
+      <p>Essa é a parte que considero especialmente decepcionante.</p>
+      <p>Entendo por que executivos ficam entusiasmados com demonstrações em
+      que uma aplicação aparece em minutos. Investigar formas de melhorar a
+      entrega e reduzir custos faz parte do trabalho deles.</p>
+      <p>Mas uma demonstração deveria iniciar uma investigação. Não
+      encerrá-la.</p>
+      <p>Onde estão os arquitetos, principal engineers e engineering managers
+      perguntando o que a demonstração deixou de fora?</p>
+      <p>As pessoas que passaram anos explicando por que arquitetura, testes e
+      manutenibilidade importam deveriam conseguir explicar por que esses
+      requisitos continuam válidos quando gerar código fica barato.</p>
+      <p>“Todo mundo está adotando” não é um argumento de engenharia.</p>
+      <p>Novo agente? Integre.</p>
+      <p>Novo benchmark? Reorganize o departamento.</p>
+      <p>Um concorrente anunciou uma estratégia de IA? Anuncie a nossa antes
+      que alguém pergunte o que ela faz.</p>
+      <p>Quando copiar a próxima empresa se torna o processo de decisão, a
+      liderança técnica virou um serviço de encaminhamento.</p>
+      <p>Com orçamento.</p>
+      <p>Experimente. Meça. Questione suposições. Isso faz parte do
+      trabalho.</p>
+      <p>Mas, se você aprova um processo, deve conseguir explicar seus
+      controles. Se afirma que a produtividade melhorou, explique a medição.
+      Se reduz a capacidade de engenharia, explique quem assume o
+      entendimento, a verificação e a manutenção que continuam
+      necessários.</p>
+      <p>Quanto trabalho útil foi entregue? Quanto retrabalho veio depois?
+      Quais defeitos escaparam? O que aconteceu com o custo de mudar o
+      sistema?</p>
+      <p>Que evidência faria você reverter a decisão?</p>
+      <p>Se a resposta é outro benchmark do fornecedor, a avaliação ainda está
+      faltando.</p>
+      <p>Linhas de código geradas e pull requests concluídos descrevem saída.
+      Sozinhos, não demonstram aumento de produtividade.</p>
+      <p>Mais código também pode significar mais código para entender,
+      proteger, operar e manter.</p>
+      <p>Contar a saída ignorando esses custos é uma contabilidade muito
+      conveniente.</p>
+      <p>Uma organização pode comemorar uma demonstração impressionante e
+      ainda exigir evidências antes de escalar o processo. O que ela não pode
+      fazer de forma razoável é remover os controles, ignorar os custos
+      posteriores e depois descrever os problemas resultantes como uma
+      surpresa imprevisível.</p>
+      <p>Se uma decisão de liderança cria as condições para a falha, “o agente
+      fez isso” é uma explicação extraordinariamente fraca.</p>
+      <p>O agente não aprovou o modelo operacional.</p>
+      <p>Alguém com um cargo aprovou.</p>
+      <h2 id="mova-a-revisão-de-código-uma-etapa-para-cima">Mova a Revisão de
+      Código Uma Etapa para Cima</h2>
+      <p>Há uma direção melhor disponível.</p>
+      <p>Mova mais esforço humano para especificações, contratos, decisões
+      arquiteturais e as evidências necessárias para aceitar uma mudança.</p>
+      <p>Uma pessoa e um LLM podem definir o trabalho juntos. O modelo pode
+      identificar ambiguidades, sugerir interfaces, explorar casos extremos e
+      propor testes.</p>
+      <p>A pessoa revisa as definições. Estamos resolvendo o problema correto?
+      As responsabilidades estão claras? Isso se encaixa no sistema existente?
+      Estamos introduzindo uma complexidade que o requisito não justifica?</p>
+      <p>E, ocasionalmente:</p>
+      <p>Precisamos mesmo construir isso?</p>
+      <p>Depois que as definições relevantes são aprovadas, a implementação se
+      torna um problema restrito. O agente gera candidatos. Verificações
+      independentes avaliam o candidato final contra os critérios
+      aprovados.</p>
+      <p>Cada problema recorrente encontrado em revisão humana se torna
+      candidato a teste, restrição ou avaliação.</p>
+      <p>O objetivo deve ser eliminar o trabalho rotineiro de revisão quando
+      verificações confiáveis podem fazê-lo, em vez de pagar outro modelo para
+      repetir os mesmos comentários indefinidamente.</p>
+      <p>Mas uma pontuação de complexidade não decide se uma abstração
+      pertence ao sistema. Passar em testes funcionais não demonstra que um
+      design continuará fácil de alterar.</p>
+      <p>A aceitação automatizada deve, portanto, se aplicar a mudanças
+      delimitadas em que as evidências disponíveis sejam suficientes. Mantenha
+      revisão humana direcionada para propriedades importantes fora dessas
+      verificações.</p>
+      <p>Expanda a automação conforme sua cobertura demonstrada melhore.</p>
+      <p>Declarar a revisão obsoleta antes de fazer esse trabalho é apenas
+      outro atalho com uma apresentação melhor.</p>
+      <h2 id="um-workflow-com-limites-reais">Um Workflow com Limites
+      Reais</h2>
+      <p>A estrutura básica de controle é simples:</p>
+      <pre class="text"><code>Pessoa + LLM definem uma pequena mudança
+                        |
+                        v
+      Revisão de requisitos, contratos, testes e restrições
+                        |
+                        v
+      Proteção dos critérios de aceitação e da configuração de verificação
+                        |
+                        v
+      LLM propõe uma implementação
+                        |
+                        v
+      Verificação independente do candidato final
+                        |
+               +--------+--------+
+               |                 |
+             PASSA              FALHA
+               |                 |
+               v                 v
+      Política de aceitação   Feedback e nova tentativa limitada
+               |                 |
+               v                 v
+      Aceitar mudanças       Verificar o próximo candidato;
+      elegíveis; revisar     escalar falhas repetidas ou
+      exceções               problemas de especificação</code></pre>
+      <p>O orquestrador aplica as transições e verificações obrigatórias. O
+      modelo pode escolher como investigar uma falha; não pode decidir
+      silenciosamente que a verificação que falhou deixou de importar.</p>
+      <p>Os testes aprovados e a configuração de verificação devem ser
+      aplicados fora do controle do agente de implementação. A aceitação deve
+      avaliar o candidato realmente entregue, não uma versão anterior ou uma
+      mensagem dizendo que tudo passou.</p>
+      <p>Se a especificação precisa mudar, volte à definição e à revisão. Se
+      tentativas repetidas falham, investigue em vez de executar um loop
+      ilimitado até que alguma coisa pareça verde.</p>
+      <p>Isso pode acontecer em pequenos incrementos. Não precisamos de uma
+      especificação congelada para um produto inteiro. Precisamos de decisões
+      explícitas sobre a mudança em andamento e de um processo visível para
+      revisá-las.</p>
+      <p>Deploy, observação e recuperação ainda precisam de responsáveis.
+      Passar nas verificações de aceitação não aposenta as responsabilidades
+      operacionais do sistema.</p>
+      <p>É claro que construir isso exige mais esforço do que digitar um
+      prompt.</p>
+      <p>Assim como quase tudo que vale a pena manter.</p>
+      <p>O custo de preparação é visível imediatamente. O custo de ignorá-lo
+      tem o hábito inconveniente de chegar depois da comemoração.</p>
+      <h2 id="a-oportunidade-real-é-maior-que-geração-de-código">A
+      Oportunidade Real É Maior que Geração de Código</h2>
+      <p>Se os LLMs tornam a implementação mais barata, temos a oportunidade
+      de investir mais esforço em entender o problema e verificar o
+      resultado.</p>
+      <p>Podemos melhorar especificações. Gerar candidatos a testes e
+      avaliá-los. Explorar alternativas. Manter a documentação. Investigar
+      inconsistências arquiteturais antes de construir sobre elas.</p>
+      <p>Podemos tornar a boa engenharia mais barata e acessível.</p>
+      <p>Essa é uma ambição muito mais interessante do que encher repositórios
+      mais rápido.</p>
+      <p>A parte difícil da engenharia de software nunca foi simplesmente
+      digitar código. Era entender o problema, definir o comportamento,
+      escolher limites, lidar com falhas e manter o sistema compreensível
+      enquanto ele mudava.</p>
+      <p>Remover essas responsabilidades de uma apresentação não as remove do
+      produto.</p>
+      <p>Use LLMs onde quer que agreguem valor. Use verificações
+      determinísticas onde as regras relevantes puderem ser aplicadas.
+      Mantenha as especificações explícitas, a verificação independente e a
+      responsabilidade visível.</p>
+      <p>Deixe os modelos proporem soluções.</p>
+      <p>Não deixe o agente de implementação redefinir os critérios para
+      aceitá-las.</p>
+      <p>Não precisamos eliminar a incerteza da geração. Precisamos controlar
+      o que acontece com o resultado gerado.</p>
+      <p>E, antes de adotar a próxima metodologia revolucionária de
+      desenvolvimento, pergunte se ela torna o software mais fácil de mudar ou
+      apenas mais fácil de produzir.</p>
+      <p>Já usamos a linguagem da agilidade para justificar atalhos de
+      engenharia. A IA oferece a esses atalhos uma linha de produção mais
+      rápida.</p>
+      <p>Se vamos repetir o mesmo erro, pelo menos devemos parar de
+      apresentá-lo como uma ideia nova.</p>
+      <p>Mover-se rápido é útil.</p>
+      <p>Mover-se rápido em direção a uma parede não é inovação.</p>
+    </article>
+  </main>
+  <footer class="footer"><span>© 2026 Rodrigo Morais</span><a href="mailto:morais.rm@gmail.com">Contato</a></footer>
+</body>
+</html>
+
